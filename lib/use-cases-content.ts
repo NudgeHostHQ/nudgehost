@@ -150,7 +150,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Presentation files are heavy, and emailing one to a client is clumsy: it strains their inbox, it may not open cleanly on their device, and you never learn whether they looked at it before the call. A link solves all of that and looks more professional besides.",
-      "Export the deck to PDF so it looks identical everywhere; a slide deck rendered on the wrong software is a bad first impression. Then {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, {{host-html}} handles that just as well. Either way the client clicks once and it opens.",
+      "Export the deck to PDF so it looks identical everywhere; a slide deck rendered on the wrong software is a bad first impression. Then {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, {{host-html}} handles that just as well. And if the client wants to lift slides into their own deck rather than just viewing yours, {{host-pptx}} keeps the file editable on their end. Either way the client clicks once and it opens.",
       "The open-tracking is quietly valuable in client work: you'll know whether the deck was reviewed before a meeting, which shapes how you run the call. For sensitive commercial decks, set a password or an expiry. And if you're sending supporting documents alongside the deck, {{host-hub}} each of them or bundle everything into one {{host-zip}}.",
       "Free to start. Custom domains and branding removal are on {{pricing}}, worth it for client-facing links.",
     ],

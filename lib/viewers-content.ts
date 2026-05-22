@@ -67,7 +67,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     body: [
       "Word documents are everywhere, but Microsoft Word is not. You can't count on it being installed on every phone, on every Chromebook, or on a machine you've borrowed for ten minutes. Opening a DOCX online removes that dependency entirely. The document renders in your browser with its formatting intact.",
       "If you want to send the document to someone else, the cleaner path is usually to convert it first: {{converter-docx-to-pdf}} so the recipient sees identical formatting on every device, then {{host-pdf}} so they open it with a single click. PDF travels better than DOCX precisely because it doesn't depend on the reader's software.",
-      "You can also keep the file as a Word doc and {{host-hub}} it in its original format. The recipient lands on a viewer like this one. For other document types, the {{viewer-pdf}} works the same way.",
+      "You can also keep the file as a Word doc and {{host-docx}} in its original format. The recipient lands on a viewer like this one. For other document types, the {{viewer-pdf}} works the same way.",
       "This viewer is free with no limits. Sharing features like custom domains and passwords are on {{pricing}}.",
     ],
     faqs: [
@@ -103,7 +103,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "A CSV is just text, which means opening one in a plain text editor gives you an unreadable wall of commas. A proper viewer parses it into rows and columns so you can actually read it. Drop the file here and it becomes a clean table in seconds.",
-      "If the data is something you need to hand to someone else, you can {{host-hub}} the CSV and send a link. They open it in this same table view, no Excel required. For structured data that's more nested than a flat table, the {{viewer-json}} handles JSON the same way.",
+      "If the data is something you need to hand to someone else, you can {{host-hub}} the CSV and send a link. They open it in this same table view, no Excel required. For native Excel files with multiple sheets or formulas, {{host-xlsx}} keeps the workbook structure intact. For structured data that's more nested than a flat table, the {{viewer-json}} handles JSON the same way.",
       "Developers working with CSV data often need to reshape it; when you need to inspect or tidy the JSON equivalent, {{dev-json-formatter}} pairs naturally with this viewer. And if you just need the file online fast, {{home}}.",
       "Free and unlimited. Sharing extras are on {{pricing}}.",
     ],
