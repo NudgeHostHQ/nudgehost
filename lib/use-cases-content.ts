@@ -32,7 +32,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
       "The email attachment is the default way to send a resume, and it's quietly the worst. It can trip spam filters, it shows the recruiter a download prompt instead of your CV, and it tells you nothing about whether anyone actually opened it. A link fixes all three problems at once.",
       "The mechanics are simple: you {{host-resume}} and get back a clean URL with open-tracking switched on. Put that link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs, and if yours is a Word file, {{converter-docx-to-pdf}} first so the formatting holds on every device.",
       "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as a single link that includes your work. And when you update the CV, the link stays the same: swap the file and everyone who already has the link sees the new version.",
-      "The free plan covers all of this. A custom domain and the removal of NudgeHost branding — worth it when you're applying widely — are on {{pricing}}.",
+      "The free plan covers all of this. A custom domain and the removal of NudgeHost branding are on {{pricing}}. Both are worth it once you're applying widely.",
     ],
     faqs: [
       {
@@ -72,7 +72,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
       "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in. A giant attachment clogs their inbox or gets stripped. A personal site is great but takes time to build. A NudgeHost link is the fast path: your work, one URL, opening instantly.",
       "If your portfolio is a PDF, {{host-pdf}} and you're done. If it's a built site or an interactive piece, {{host-html}} works the same way, and a multi-file project can be zipped so you {{host-zip}} it as one link. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
       "A portfolio usually travels with a CV, so pair this with the flow to {{use-case-resume-link}} and send both as trackable links. The tracking matters here: you'll see whether the recruiter actually opened your work before a call, which is genuinely useful intelligence.",
-      "All free to start. Custom domains — a nice touch when recruiters see the URL — are on {{pricing}}.",
+      "All free to start. Custom domains are on {{pricing}}, which is a nice touch when recruiters see the URL.",
     ],
     faqs: [
       {
@@ -109,7 +109,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-22",
     dateModified: "2026-05-22",
     body: [
-      "Every email provider rejects attachments past roughly 25MB, and a detailed report, a scanned document, or a print-ready file blows past that easily. The usual workarounds — compressing until the file looks bad, splitting it into parts — are worse than the problem. Sharing a link sidesteps the size limit entirely.",
+      "Every email provider rejects attachments past roughly 25MB, and a detailed report, a scanned document, or a print-ready file blows past that easily. The usual workarounds, like compressing until the file looks bad or splitting it into parts, are worse than the problem. Sharing a link sidesteps the size limit entirely.",
       "The fix is to {{host-pdf}} and send the URL instead of the file. The recipient clicks and reads the document in their browser, at full quality, with nothing to download. If you genuinely need a smaller file as well, {{converter-pdf-to-jpg}} can turn heavy pages into images, but for most cases the link is all you need.",
       "This works for any large file, not just PDFs. You can {{host-hub}} of any kind, and a collection of files can be zipped so you {{host-zip}} them as one link. If the document is sensitive, link expiry and password protection turn the share into something you control after sending.",
       "The free plan handles files up to 25MB; larger files are on {{pricing}}.",
@@ -150,9 +150,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Presentation files are heavy, and emailing one to a client is clumsy: it strains their inbox, it may not open cleanly on their device, and you never learn whether they looked at it before the call. A link solves all of that and looks more professional besides.",
-      "Export the deck to PDF so it looks identical everywhere — a slide deck rendered on the wrong software is a bad first impression — then {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, {{host-html}} handles that just as well. Either way the client clicks once and it opens.",
+      "Export the deck to PDF so it looks identical everywhere; a slide deck rendered on the wrong software is a bad first impression. Then {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, {{host-html}} handles that just as well. Either way the client clicks once and it opens.",
       "The open-tracking is quietly valuable in client work: you'll know whether the deck was reviewed before a meeting, which shapes how you run the call. For sensitive commercial decks, set a password or an expiry. And if you're sending supporting documents alongside the deck, {{host-hub}} each of them or bundle everything into one {{host-zip}}.",
-      "Free to start. Custom domains and branding removal — worth it for client-facing links — are on {{pricing}}.",
+      "Free to start. Custom domains and branding removal are on {{pricing}}, worth it for client-facing links.",
     ],
     faqs: [
       {

@@ -30,7 +30,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     body: [
       "There are still moments where you have a PDF and no good way to open it: a locked-down work laptop with no PDF reader, a phone that wants to download the file before showing it, a shared computer where you'd rather not install anything. A browser-based viewer sidesteps all of that. Drop the file here and it renders immediately.",
       "Viewing is only half the story, though. If the document is something you want other people to be able to open as easily as you just did, the natural next step is to {{host-pdf}}. You get a permanent link, and anyone who clicks it lands on this same viewer with your document already loaded.",
-      "If you need the PDF as images rather than a document — for a slide, a thumbnail, a social post — you can {{converter-pdf-to-jpg}} instead. And the same in-browser approach works for other formats too: you can {{viewer-docx}} or any of the other file types NudgeHost handles.",
+      "If you need the PDF as images rather than a document, say for a slide, a thumbnail, or a social post, you can {{converter-pdf-to-jpg}} instead. And the same in-browser approach works for other formats too: you can {{viewer-docx}} or any of the other file types NudgeHost handles.",
       "The viewer is free and unlimited. If you find yourself sharing documents regularly and want custom domains, branded links, or password protection, those live on {{pricing}}.",
     ],
     faqs: [
@@ -140,7 +140,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Raw JSON is readable in theory and painful in practice. A large API response or config file is hundreds of lines of nested braces. A tree viewer lets you collapse what you don't care about and drill into what you do. Drop a file here and it becomes browsable immediately.",
-      "If the JSON is messy — minified, or inconsistently indented — run it through {{dev-json-formatter}} first; it tidies the structure so the tree view is even easier to scan. For tabular data that arrived as JSON but would read better as rows and columns, the {{viewer-csv}} is the companion tool.",
+      "If the JSON is messy (minified, or inconsistently indented), run it through {{dev-json-formatter}} first; it tidies the structure so the tree view is even easier to scan. For tabular data that arrived as JSON but would read better as rows and columns, the {{viewer-csv}} is the companion tool.",
       "When you need to share the file, {{host-hub}} any JSON file and send a link. That's how you hand a teammate an API response without pasting 500 lines into Slack. Developers will also find the rest of NudgeHost's {{dev-tools-hub}} sit naturally alongside this viewer.",
       "The viewer is free with no limits. Account-level features are on {{pricing}}.",
     ],

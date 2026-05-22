@@ -64,7 +64,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     body: [
       "Base64 turns up everywhere in development, from data URIs and API tokens to email attachments and config values. Encoding and decoding it by hand is error-prone, so a quick tool that does it instantly saves a surprising amount of friction. Paste your input here and convert in either direction.",
       "Base64 is often a step inside a bigger task. If you're decoding a token, the {{dev-jwt-decoder}} is purpose-built for JSON web tokens specifically. If you're working with encoded JSON, {{dev-json-formatter}} will tidy the result so it's readable.",
-      "When you need to share the output rather than just read it — a decoded file, a config dump — you can {{host-hub}} it and send a link. The rest of the small utilities live in the {{dev-tools-hub}}.",
+      "When you need to share the output rather than just read it (say, a decoded file or a config dump), you can {{host-hub}} it and send a link. The rest of the small utilities live in the {{dev-tools-hub}}.",
       "Free, browser-only, nothing logged. Hosting plans are on {{pricing}}.",
     ],
     faqs: [

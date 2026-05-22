@@ -26,7 +26,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       "Runs in your browser with no signup.",
     ],
     body: [
-      "A PDF is a great document and an awkward image. When you need a page as a picture — to embed in a presentation, attach where PDFs aren't allowed, or post on social — converting to JPG is the fix. Drop your PDF here and each page comes back as a separate image.",
+      "A PDF is a great document and an awkward image. When you need a page as a picture, converting to JPG is the fix. That covers slide decks, places that don't accept PDFs, and most social platforms. Drop your PDF here and each page comes back as a separate image.",
       "Once you have the images, you often want them online. You can {{host-hub}} the converted files and share a link, or if you'd rather keep the original document intact, {{host-pdf}} and send that instead. Many people do both: the PDF for people who want the real document, the JPGs for everywhere a PDF won't go.",
       "If you only wanted to read the PDF rather than convert it, the {{viewer-pdf}} opens it in your browser with nothing to install. And if your images need to be smaller for the web, {{converter-png-to-webp}} will shrink them further.",
       "This converter is free with no watermark. Higher limits and sharing features are on {{pricing}}.",
@@ -103,7 +103,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "WebP is the modern image format every browser now supports, and it compresses far better than PNG. Swapping a PNG for a WebP often cuts the file size by half or more with no visible quality loss, which means faster pages and lighter shares. Drop your PNG here to convert it.",
-      "Smaller images matter most when they're going on the web. If you're publishing a page — a portfolio, a landing page, an AI-built site — you can {{host-html}} and the lighter WebP assets will load noticeably faster. For photographs straight off an iPhone, {{converter-heic-to-jpg}} is the companion conversion.",
+      "Smaller images matter most when they're going on the web. If you're publishing a page like a portfolio, a landing page, or an AI-built site, you can {{host-html}} and the lighter WebP assets will load noticeably faster. For photographs straight off an iPhone, {{converter-heic-to-jpg}} is the companion conversion.",
       "If the images are part of a larger document you can also {{host-hub}} the whole thing as a link. Developers optimizing assets will find the rest of NudgeHost's {{dev-tools-hub}} useful alongside this converter.",
       "Free with no watermark. Account features live on {{pricing}}.",
     ],
