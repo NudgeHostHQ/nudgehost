@@ -40,7 +40,9 @@ export default function SignInPage() {
           </p>
         </header>
 
-        <SignIn />
+        <div className="flex justify-center">
+          <SignIn />
+        </div>
       </main>
       <Footer />
     </>
