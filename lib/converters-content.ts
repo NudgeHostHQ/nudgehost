@@ -14,7 +14,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     slug: "pdf-to-jpg",
     name: "PDF to JPG",
     filetypeShort: "PDF",
-    title: "PDF to JPG Converter — Turn PDF pages into images, free",
+    title: "PDF to JPG Converter: turn PDF pages into images, free",
     description:
       "Convert a PDF into JPG images, one per page. Free, no signup, no watermark. Works in your browser on any device.",
     h1: "Convert a PDF to JPG.",
@@ -52,11 +52,11 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     slug: "docx-to-pdf",
     name: "DOCX to PDF",
     filetypeShort: "DOCX",
-    title: "DOCX to PDF Converter — Word to PDF online, free",
+    title: "DOCX to PDF Converter: Word to PDF online, free",
     description:
       "Convert a Word document to PDF in seconds. Free, no signup, formatting preserved. Works in your browser.",
     h1: "Convert a Word document to PDF.",
-    lead: "Drop a DOCX file and get a clean PDF back — the format that looks the same on every device.",
+    lead: "Drop a DOCX file and get a clean PDF back. PDF is the format that looks the same on every device.",
     keyPoints: [
       "Drop a Word document and get a faithful PDF back with fonts, tables, and layout preserved.",
       "PDF travels better than DOCX because it doesn't depend on the recipient's software.",
@@ -64,9 +64,9 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       "Batch-convert several DOCX files at once if you have a stack to process.",
     ],
     body: [
-      "Word documents shift around depending on the reader's software, fonts, and version. PDF doesn't — it looks identical everywhere. That's why converting to PDF is the right move before you send anything that matters: a resume, a contract, a proposal. Drop your DOCX here and a faithful PDF comes back.",
+      "Word documents shift around depending on the reader's software, fonts, and version. PDF doesn't; it looks identical everywhere. That's why converting to PDF is the right move before you send anything that matters: a resume, a contract, a proposal. Drop your DOCX here and a faithful PDF comes back.",
       "With the PDF in hand, the natural next step is to {{host-pdf}} and share a link instead of an attachment. The link is cleaner than a 4MB email attachment, it's trackable, and the recipient opens it in one click. If the document is specifically a CV, there's a tailored flow to {{use-case-resume-link}} that adds open-tracking so you know when it's been read.",
-      "Want to check the original Word file first? The {{viewer-docx}} opens it in your browser. And once converted, you can always {{converter-pdf-to-jpg}} if you need image versions of the pages too.",
+      "If you want to check the original Word file first, the {{viewer-docx}} opens it in your browser. And once converted, you can always {{converter-pdf-to-jpg}} if you need image versions of the pages too.",
       "Free, no watermark. Custom domains and passwords are on {{pricing}}.",
     ],
     faqs: [
@@ -76,7 +76,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Can I convert several documents at once?",
-        a: "Yes — upload multiple DOCX files and each comes back as its own PDF.",
+        a: "Yes. Upload multiple DOCX files and each comes back as its own PDF.",
       },
       {
         q: "Is there a file size limit?",
@@ -90,19 +90,19 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     slug: "png-to-webp",
     name: "PNG to WebP",
     filetypeShort: "PNG",
-    title: "PNG to WebP Converter — Shrink images online, free",
+    title: "PNG to WebP Converter: shrink images online, free",
     description:
       "Convert PNG images to WebP and cut file size dramatically with no visible quality loss. Free, no signup.",
     h1: "Convert PNG to WebP.",
-    lead: "Drop a PNG and get a WebP back — usually a fraction of the size, with no visible difference.",
+    lead: "Drop a PNG and get a WebP back. The WebP is usually a fraction of the size, with no visible difference.",
     keyPoints: [
-      "Drop a PNG and get a WebP back — usually half the size or less, with no visible quality loss.",
+      "Drop a PNG and get a WebP back at usually half the size or less, with no visible quality loss.",
       "Lossless WebP available if you need pixel-for-pixel preservation at smaller size.",
       "Transparency is preserved through the conversion.",
       "Free, runs in your browser, no watermark.",
     ],
     body: [
-      "WebP is the modern image format every browser now supports, and it compresses far better than PNG. Swapping a PNG for a WebP often cuts the file size by half or more with no visible quality loss — which means faster pages and lighter shares. Drop your PNG here to convert it.",
+      "WebP is the modern image format every browser now supports, and it compresses far better than PNG. Swapping a PNG for a WebP often cuts the file size by half or more with no visible quality loss, which means faster pages and lighter shares. Drop your PNG here to convert it.",
       "Smaller images matter most when they're going on the web. If you're publishing a page — a portfolio, a landing page, an AI-built site — you can {{host-html}} and the lighter WebP assets will load noticeably faster. For photographs straight off an iPhone, {{converter-heic-to-jpg}} is the companion conversion.",
       "If the images are part of a larger document you can also {{host-hub}} the whole thing as a link. Developers optimizing assets will find the rest of NudgeHost's {{dev-tools-hub}} useful alongside this converter.",
       "Free with no watermark. Account features live on {{pricing}}.",
@@ -110,7 +110,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     faqs: [
       {
         q: "Will I lose image quality?",
-        a: "WebP's compression is very efficient — at normal settings the difference is invisible. You can also choose lossless WebP to keep the PNG's exact pixels at a smaller size.",
+        a: "WebP's compression is very efficient. At normal settings the difference is invisible. You can also choose lossless WebP to keep the PNG's exact pixels at a smaller size.",
       },
       {
         q: "Does WebP work everywhere?",
@@ -128,7 +128,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     slug: "heic-to-jpg",
     name: "HEIC to JPG",
     filetypeShort: "HEIC",
-    title: "HEIC to JPG Converter — iPhone photos to JPG, free",
+    title: "HEIC to JPG Converter: iPhone photos to JPG, free",
     description:
       "Convert HEIC photos from your iPhone into universal JPG images. Free, no signup, works in your browser.",
     h1: "Convert HEIC to JPG.",
@@ -148,7 +148,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     faqs: [
       {
         q: "Why won't my HEIC photo open elsewhere?",
-        a: "HEIC is an Apple-favoured format. Many non-Apple devices and older apps don't support it — JPG is the universal alternative.",
+        a: "HEIC is an Apple-favoured format. Many non-Apple devices and older apps don't support it, so JPG is the universal alternative.",
       },
       {
         q: "Will the photo lose quality?",

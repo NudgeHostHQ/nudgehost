@@ -4,9 +4,9 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "NudgeHost — Share any file as a link in seconds",
+  title: "NudgeHost: share any file as a link in seconds",
   description:
-    "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images and AI-generated outputs. Free forever — 25MB uploads, no credit card.",
+    "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images and AI-generated outputs. Free forever, 25MB uploads, no credit card.",
   alternates: { canonical: "/" },
 };
 
@@ -46,7 +46,7 @@ const homepageJsonLd = {
           name: "What file types can I share?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Any file. PDFs, HTML, ZIPs, images, videos, documents — drop it in and you get a link back.",
+            text: "Any file. PDFs, HTML, ZIPs, images, videos, documents. Drop it in and you get a link back.",
           },
         },
         {
@@ -120,7 +120,7 @@ export default function HomePage() {
               href="/sign-up"
               className="rounded-full bg-coral px-7 py-3.5 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
             >
-              Start nudging — it&apos;s free
+              Start nudging. It&apos;s free.
             </Link>
             <Link
               href="#how-it-works"
@@ -167,7 +167,7 @@ export default function HomePage() {
             style={{ animationDelay: "0.35s", color: "#3A6E3E" }}
           >
             <span className="h-2 w-2 rounded-full bg-sage" aria-hidden="true" />
-            nudgehost.com/your-file — link ready in seconds
+            nudgehost.com/your-file ready in seconds
           </div>
         </section>
 
@@ -484,7 +484,7 @@ export default function HomePage() {
             href="/sign-up"
             className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
           >
-            Start for free — no card needed
+            Start for free. No card needed.
           </Link>
         </section>
       </main>

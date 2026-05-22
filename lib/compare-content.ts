@@ -30,7 +30,7 @@ export const compareContentMap: Record<string, CompareContent> = {
   "nudgehost-vs-tiiny-host": {
     slug: "nudgehost-vs-tiiny-host",
     competitorName: "Tiiny.host",
-    title: "NudgeHost vs Tiiny.host — an honest comparison",
+    title: "NudgeHost vs Tiiny.host: an honest comparison",
     description:
       "A fair, detailed comparison of NudgeHost and Tiiny.host: free plans, pricing, file size limits, and who each tool suits best.",
     h1: "NudgeHost vs Tiiny.host",
@@ -38,7 +38,7 @@ export const compareContentMap: Record<string, CompareContent> = {
     intro: [
       "Tiiny.host is a well-established tool with a genuine strength: it has been around for years, it is reliable, and its developer-facing hosting is solid. If you want to publish a static site or a framework build, it does that job well. This comparison is not an attempt to pretend otherwise.",
       "Where the two tools diverge is the shape of the offer. Tiiny.host has a 3MB free upload limit and five paid tiers; NudgeHost has a 25MB free limit and three. The rest of this page lays out the differences feature by feature, and the verdict is honest about who should pick which.",
-      "If you just want to get started, you can {{home}} right now — or read on for the detail.",
+      "If you just want to get started, you can {{home}} right now, or read on for the detail.",
     ],
     rows: [
       { feature: "Free plan file size", nudgehost: "25MB", competitor: "3MB", nudgehostWins: true },
@@ -76,7 +76,7 @@ export const compareContentMap: Record<string, CompareContent> = {
   "nudgehost-vs-linkyhost": {
     slug: "nudgehost-vs-linkyhost",
     competitorName: "Linkyhost",
-    title: "NudgeHost vs Linkyhost — an honest comparison",
+    title: "NudgeHost vs Linkyhost: an honest comparison",
     description:
       "A fair, detailed comparison of NudgeHost and Linkyhost: free plans, pricing, features, and which file-sharing tool suits you.",
     h1: "NudgeHost vs Linkyhost",
@@ -105,7 +105,7 @@ export const compareContentMap: Record<string, CompareContent> = {
     faqs: [
       {
         q: "Is Linkyhost cheaper than NudgeHost?",
-        a: "Linkyhost's entry plan is $5 versus NudgeHost's $8. NudgeHost's free plan, however, is far more usable — 10 links and 25MB against a single 10MB upload.",
+        a: "Linkyhost's entry plan is $5 versus NudgeHost's $8. NudgeHost's free plan, however, is far more usable: 10 links and 25MB against a single 10MB upload.",
       },
       {
         q: "Do both tools handle PDFs well?",
@@ -113,7 +113,7 @@ export const compareContentMap: Record<string, CompareContent> = {
       },
       {
         q: "Which has the better free plan?",
-        a: "NudgeHost, clearly — ten active links and 25MB per file, versus Linkyhost's single upload capped at 10MB.",
+        a: "NudgeHost, clearly: ten active links and 25MB per file, versus Linkyhost's single upload capped at 10MB.",
       },
     ],
   },
