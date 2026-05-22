@@ -4,7 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "Host any file as a link — PDFs, HTML, ZIPs, images and more",
+  title: "Host any file as a link: PDFs, HTML, ZIPs, images and more",
   description:
     "Drop any file and get a shareable link. Free hosting for PDFs, HTML files, ZIPs, images, and AI-generated outputs. No setup, no signup required.",
   alternates: { canonical: "/host" },

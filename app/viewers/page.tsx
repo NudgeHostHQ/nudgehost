@@ -3,7 +3,7 @@ import { SiloHub } from "@/components/silo-hub";
 import { viewersSilo, viewersContentMap } from "@/lib/viewers-content";
 
 export const metadata: Metadata = {
-  title: "File Viewers — Open PDFs, Word docs, CSVs and JSON online",
+  title: "File Viewers: open PDFs, Word docs, CSVs and JSON online",
   description:
     "Open any file in your browser without installing anything. Free online viewers for PDF, DOCX, CSV, JSON and more.",
   alternates: { canonical: "/viewers" },

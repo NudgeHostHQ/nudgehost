@@ -3,7 +3,7 @@ import { SiloHub } from "@/components/silo-hub";
 import { convertersSilo, convertersContentMap } from "@/lib/converters-content";
 
 export const metadata: Metadata = {
-  title: "Free File Converters — PDF to JPG, DOCX to PDF, and more",
+  title: "Free File Converters: PDF to JPG, DOCX to PDF, and more",
   description:
     "Convert files in your browser, free and without watermarks. PDF to JPG, DOCX to PDF, PNG to WebP, HEIC to JPG and more.",
   alternates: { canonical: "/converters" },

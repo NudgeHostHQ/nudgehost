@@ -38,7 +38,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     name: "PDF",
     title: "PDF Link Generator: share a PDF as a link, free",
     description:
-      "Upload a PDF, get a clean shareable link in seconds. Free, no signup needed. Optional password protection and view analytics. The friendly PDF link generator.",
+      "Upload a PDF, get a clean shareable link in seconds. Free, no signup needed. Optional password protection and view analytics on every link.",
     h1: "Share a PDF as a link.",
     lead: "Drop a PDF here and get a clean, shareable link in seconds. No sign-up required, no expiry, no upload limits on the file you're holding right now.",
     keyPoints: [
@@ -124,7 +124,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "claude-artifact": {
     slug: "claude-artifact",
     name: "Claude artifact",
-    title: "Host a Claude artifact: share Claude-generated HTML as a link",
+    title: "Host a Claude artifact: share Claude HTML as a link",
     description:
       "Publish a Claude artifact to a live URL. Copy the HTML from Claude, paste it into NudgeHost, get a shareable link instantly. Free.",
     h1: "Host a Claude artifact as a live URL.",
@@ -263,7 +263,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "PPTX",
     title: "Host a PowerPoint as a link: free .pptx hosting",
     description:
-      "Drop a PowerPoint file and get a shareable link. The recipient views the deck in their browser, no PowerPoint required. Free, no signup.",
+      "Drop a .pptx file and get a shareable link. The deck renders in any browser at 16:9 or 4:3 with embedded fonts preserved. No PowerPoint required.",
     h1: "Host a PowerPoint as a link.",
     lead: "Drop your .pptx and get a clean URL. The deck opens in the recipient's browser. No PowerPoint, no Keynote, no download dance.",
     keyPoints: [
@@ -309,7 +309,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "XLSX",
     title: "Host an Excel file online: share a spreadsheet as a link",
     description:
-      "Drop a .xlsx file and get a shareable link. The recipient sees the spreadsheet in their browser, no Excel needed. Free, no signup.",
+      "Drop an .xlsx and get a shareable link. Multi-sheet workbooks keep their tab bar; formulas display their last-computed values. No Excel needed.",
     h1: "Host an Excel spreadsheet as a link.",
     lead: "Drop your .xlsx and get a URL. The recipient opens the file in their browser, scrolls the rows, copies what they need. No Excel licence required.",
     keyPoints: [
@@ -355,7 +355,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "TXT",
     title: "Host a TXT file online: share a plain text file as a link",
     description:
-      "Drop a .txt file and get a shareable link in seconds. Plain text rendered cleanly in any browser. Free, no signup.",
+      "Drop a .txt and get a shareable link. The text renders as readable monospaced UTF-8 in any browser; Windows CRLF and Unix LF both display correctly.",
     h1: "Host a plain text file as a link.",
     lead: "Drop a .txt file and get a URL. The text renders in the browser in a readable monospaced layout. Nothing to install.",
     keyPoints: [
@@ -585,7 +585,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "JSON",
     title: "Host a JSON file online: share a JSON file as a link",
     description:
-      "Drop a JSON file and get a shareable link in seconds. The recipient browses the JSON as a collapsible tree in their browser. Free, no signup.",
+      "Drop a JSON file and get a shareable link. The recipient browses it as a collapsible tree; the viewer lazy-loads so multi-MB files stay responsive.",
     h1: "Host a JSON file as a link.",
     lead: "Drop your .json and get a clean URL. The recipient explores it as a collapsible tree rather than a wall of braces.",
     keyPoints: [
@@ -631,7 +631,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "SVG",
     title: "Host an SVG file online: share a vector image as a link",
     description:
-      "Drop a .svg file and get a shareable link in seconds. The vector renders crisply at any size in the recipient's browser. Free, no signup.",
+      "Drop a .svg and get a shareable link. The vector renders crisply at any size; inline scripts are stripped for security, CSS and SMIL animations still work.",
     h1: "Host an SVG file as a link.",
     lead: "Drop your .svg and get a URL. The vector renders crisply at every size, on every screen, with no rasterization step.",
     keyPoints: [
@@ -907,7 +907,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "GIF",
     title: "Host a GIF online: share an animated GIF as a link",
     description:
-      "Drop a GIF and get a shareable link in seconds. The animation plays in the recipient's browser. Free, no signup.",
+      "Drop a GIF and get a shareable link. Animation plays in any modern browser; for clips over 5 seconds, hosting as MP4 is usually 90 percent smaller.",
     h1: "Host a GIF as a link.",
     lead: "Drop an animated GIF and get a URL. The animation plays in the browser the moment they click.",
     keyPoints: [
@@ -999,7 +999,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filetypeShort: "MP3",
     title: "Host an MP3 online: share an audio file as a link",
     description:
-      "Drop an MP3 audio file and get a shareable link in seconds. Plays in the browser with native controls. Free, no signup.",
+      "Drop an MP3 and get a shareable link. Plays inline with native HTML5 audio controls; the free 25MB ceiling fits about 25 minutes at 128kbps.",
     h1: "Host an MP3 audio file as a link.",
     lead: "Drop your MP3 and get a clean URL. The audio plays in the browser with native controls, no embed code, no podcast platform.",
     keyPoints: [
