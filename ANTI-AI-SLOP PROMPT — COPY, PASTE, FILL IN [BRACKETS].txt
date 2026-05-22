@@ -1,0 +1,73 @@
+═══════════════════════════════════════════════════════════════
+ANTI-AI-SLOP PROMPT — COPY, PASTE, FILL IN [BRACKETS]
+═══════════════════════════════════════════════════════════════
+
+TASK: [describe what you want written]
+
+CONTEXT: [audience, tone, length, purpose]
+
+═══════════════════════════════════════════════════════════════
+SECTION 1 — FORBIDDEN VOCABULARY (zero tolerance)
+═══════════════════════════════════════════════════════════════
+
+Never use any of these words or phrases:
+
+delve, crucial, robust, leverage, unlock, navigate, navigate the landscape, realm, in the realm of, tapestry, intricate, nuanced, multifaceted, paradigm, ecosystem (as metaphor), foster, empower, seamless, holistic, journey (as metaphor), dive into, deep dive, at the end of the day, that said, ultimately, furthermore, moreover, additionally (as paragraph-opener), it's worth noting, it's important to note, it's worth mentioning, in today's world, in an era of, fake.
+
+If a banned word fits, rewrite the sentence to remove the need for it. Do not substitute a near-synonym from the same register (e.g. replacing "delve" with "explore in depth" is the same tell in different words).
+
+═══════════════════════════════════════════════════════════════
+SECTION 2 — FORBIDDEN CONSTRUCTIONS
+═══════════════════════════════════════════════════════════════
+
+Never use:
+
+1. Em-dash as a list-introducer. The pattern "X — A, B, C, and D" leading into a 3+ item list is the AI signature. Break into separate sentences instead.
+
+2. The contrast formula: "It's not just X, it's Y" or "X isn't about Y. It's about Z." Replace with a direct statement of what the thing is.
+
+3. Tricolon openers used as section leads: "Fast. Cheap. Reliable." Three-word fragments stacked for emphasis read as AI rhetoric.
+
+4. "Whether you're A or B" sentence openers.
+
+5. Sentences starting with "In today's world" or "In an era of."
+
+6. Rhetorical questions used as section transitions ("But what does this mean for you?").
+
+7. Paragraph-opening "Additionally," "Moreover," or "Furthermore." If the next paragraph needs a connector, the structure is wrong.
+
+8. Closing summaries that restate the article in different words. End on a concrete point, not a recap.
+
+Em-dashes are allowed only as parenthetical clauses inside a sentence (e.g. "The result — published in 2023 — surprised the field"). If em-dashes feel risky for the tone, remove them entirely and rely on commas, colons, and periods.
+
+═══════════════════════════════════════════════════════════════
+SECTION 3 — STYLE RULES
+═══════════════════════════════════════════════════════════════
+
+- Specific over general. Numbers, names, dates, places. Not "many studies" but "the 2007 Phase IIb trial."
+- Short sentences when the point is short. Long sentences when the point requires them. No rhythm-padding.
+- Active voice as the default. Passive only when the actor genuinely does not matter.
+- One idea per sentence. Compound sentences with three clauses joined by semicolons and dashes are a tell.
+- No hedging stacks ("may potentially possibly suggest"). Pick one.
+- No throat-clearing openers ("It's a great question," "Let's break this down").
+- Cut every sentence whose removal would not change the reader's understanding.
+
+═══════════════════════════════════════════════════════════════
+SECTION 4 — FINAL CHECK BEFORE DELIVERY
+═══════════════════════════════════════════════════════════════
+
+Before producing the output, walk through this checklist. If any answer is "no," rewrite.
+
+[ ] I have searched the draft for every banned word in Section 1 and confirmed zero hits.
+[ ] No em-dash list-introducers ("X — A, B, C, and D").
+[ ] No "It's not just X, it's Y" constructions.
+[ ] No tricolon openers used as section leads.
+[ ] No "Whether you're A or B" openers.
+[ ] No "In today's world" or "In an era of" openers.
+[ ] No rhetorical questions as transitions.
+[ ] No paragraph opens with Additionally, Moreover, Furthermore.
+[ ] No closing summary restating the piece.
+[ ] No throat-clearing openers.
+[ ] Every sentence carries weight; nothing is padding.
+
+After the draft is complete, run a literal text search of the output against the Section 1 word list and confirm zero matches. Report any matches found and the rewrites used to remove them.
