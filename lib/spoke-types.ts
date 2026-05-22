@@ -63,10 +63,4 @@ export type SiloConfig = {
   // this flag only controls the visible byline. Set true on use-cases and blog
   // silos — the page types most likely to be cited by AI Overviews.
   showByline?: boolean;
-  // Use-case template enhancements. Each flag toggles one supplemental section
-  // around the body prose (which never changes). Currently used only by the
-  // use-cases silo; flip them on for other silos if the layout fits.
-  showHowItWorks?: boolean; // 3-step "Upload / Get link / Share" card row
-  showFeatureCards?: boolean; // 3-card feature grid between body and FAQs
-  prominentCta?: boolean; // Larger bottom CTA banner
 };
