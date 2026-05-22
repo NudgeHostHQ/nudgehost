@@ -32,7 +32,7 @@ export default async function SignUpPage({
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-3xl px-6 py-16">
+      <main className="mx-auto max-w-5xl px-6 py-16">
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
           <ol className="flex gap-2">
             <li>
@@ -47,9 +47,9 @@ export default async function SignUpPage({
           </ol>
         </nav>
 
-        <div className="rounded-3xl bg-cream px-6 py-12 text-center md:px-12 md:py-16">
+        <header className="mb-10 max-w-2xl">
           {/* Coming-soon pill (same pattern as the blog hub) */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-coral-light px-3.5 py-1.5 text-xs font-medium text-coral-dark">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-coral-light px-3.5 py-1.5 text-xs font-medium text-coral-dark">
             <span
               className="h-1.5 w-1.5 rounded-full bg-coral"
               aria-hidden="true"
@@ -57,22 +57,24 @@ export default async function SignUpPage({
             Coming soon
           </div>
 
-          <h1 className="mb-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
             Sign up for NudgeHost
           </h1>
 
-          <p className="mx-auto mb-8 max-w-xl text-base leading-relaxed text-muted md:text-lg">
+          <p className="text-lg leading-relaxed text-muted">
             We&apos;re putting the finishing touches on accounts. Drop your
             email and we&apos;ll let you know when it&apos;s ready.
           </p>
+        </header>
 
+        <div className="rounded-3xl bg-cream px-6 py-10 md:px-10">
           {planLabel && (
             <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-coral/40 bg-warm px-3.5 py-1.5 text-sm font-medium text-charcoal">
               {planLabel}
             </div>
           )}
 
-          <div className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row">
+          <div className="flex max-w-md flex-col gap-3 sm:flex-row">
             <label htmlFor="signup-email" className="sr-only">
               Email address
             </label>
@@ -90,7 +92,7 @@ export default async function SignUpPage({
             </button>
           </div>
 
-          <p className="mx-auto mt-6 max-w-md text-xs text-muted">
+          <p className="mt-6 max-w-md text-xs text-muted">
             One email when accounts open, then nothing else. No marketing list,
             no spam.
           </p>
