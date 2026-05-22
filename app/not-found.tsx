@@ -12,7 +12,7 @@ export default function NotFound() {
           That page wandered off.
         </h1>
         <p className="mb-8 max-w-md text-lg text-muted">
-          The link you followed doesn&apos;t exist — or it never did. Try one of these instead.
+          The link you followed doesn&apos;t exist, or maybe it never did. Try one of these instead.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link

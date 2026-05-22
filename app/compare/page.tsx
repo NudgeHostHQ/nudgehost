@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const intro = [
-  "Choosing a file-sharing tool is easier with the tradeoffs laid out plainly. These comparisons are written to be fair — each one credits what the competitor does well before explaining where NudgeHost differs.",
+  "Choosing a file-sharing tool is easier with the tradeoffs laid out plainly. These comparisons are written to be fair; each one credits what the competitor does well before explaining where NudgeHost differs.",
   "The two most useful starting points are {{compare-tiiny}} and {{compare-linkyhost}}. If you would rather skip the reading, you can {{home}} and judge for yourself.",
 ];
 

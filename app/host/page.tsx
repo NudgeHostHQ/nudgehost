@@ -74,7 +74,7 @@ export default function HostHub() {
           </h1>
           <p className="max-w-2xl text-lg text-muted">
             Drop a file, get a clean shareable URL. PDFs, HTML pages, ZIPs, images, AI-generated
-            outputs — anything you need to share, NudgeHost will host it for free.
+            outputs: anything you need to share, NudgeHost will host it for free.
           </p>
         </header>
 
