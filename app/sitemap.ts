@@ -8,9 +8,14 @@ import { compareContentMap } from "@/lib/compare-content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
-// The sitemap derives its URLs directly from the silo content maps, so it can
-// never drift out of sync with the pages that actually exist. Add a page to a
-// content map and it appears here automatically on the next build.
+// The sitemap derives its programmatic URLs directly from the silo content
+// maps via Object.keys(), so it can never drift out of sync with the spoke
+// pages that actually exist. Add a slug to any lib/*-content.ts map and it
+// appears in the sitemap automatically on the next build.
+//
+// Standalone pages (homepage, hubs, pricing, sign-up, blog) are listed
+// explicitly below since they aren't in a content map. Add new standalone
+// routes here when you create them.
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -25,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/use-cases`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/compare`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${siteUrl}/sign-up`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   // Helper: turn a content map into sitemap entries for one silo.
