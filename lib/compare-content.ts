@@ -83,7 +83,7 @@ export const compareContentMap: Record<string, CompareContent> = {
     lead: "Two newer tools in the same space. The clearest gap is the free plan: Linkyhost allows a single upload, NudgeHost allows ten.",
     intro: [
       "Linkyhost is a capable file-to-link tool with a clean interface and a sensible $5 entry price. It leans hard into PDF and document sharing, and for a single user with a single file to send, it does the job.",
-      "The two tools are closest in spirit of any in this category — both are newer, both turn files into links, both build programmatic SEO pages. The differences are in the free plan, the breadth of the product, and the positioning. This page goes through them fairly.",
+      "The two tools are closest in spirit of any in this category. Both are newer, both turn files into links, and both build programmatic SEO pages. The differences are in the free plan, the breadth of the product, and the positioning. This page goes through them fairly.",
       "If you would rather just try it, you can {{home}} now.",
     ],
     rows: [

@@ -26,7 +26,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Minified JSON is fine for machines and miserable for humans. A formatter re-indents it into something readable and, just as usefully, tells you immediately if the JSON is broken and where. Paste your JSON here and it's tidied and checked in one step.",
-      "Once your JSON is clean, the {{viewer-json}} is the natural companion — it renders the structure as a collapsible tree so you can navigate a large object without scrolling through it. If you need to hand the file to a teammate, you can {{host-hub}} it and share a link rather than pasting hundreds of lines into chat.",
+      "Once your JSON is clean, the {{viewer-json}} is the natural companion. It renders the structure as a collapsible tree so you can step through a large object without scrolling endlessly. If you need to hand the file to a teammate, you can {{host-hub}} it and share a link rather than pasting hundreds of lines into chat.",
       "Formatting JSON is rarely the only thing you're doing. The {{dev-base64}}, {{dev-url-encoder}} and {{dev-jwt-decoder}} cover the other small jobs that come up constantly in development, and the full {{dev-tools-hub}} collects them in one place.",
       "Every dev tool here is free and runs in your browser. NudgeHost's paid plans on {{pricing}} are about hosting and sharing, not the tools themselves.",
     ],
@@ -62,7 +62,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
       "Free with no signup.",
     ],
     body: [
-      "Base64 turns up everywhere in development — data URIs, API tokens, email attachments, config values. Encoding and decoding it by hand is error-prone, so a quick tool that does it instantly saves a surprising amount of friction. Paste your input here and convert in either direction.",
+      "Base64 turns up everywhere in development, from data URIs and API tokens to email attachments and config values. Encoding and decoding it by hand is error-prone, so a quick tool that does it instantly saves a surprising amount of friction. Paste your input here and convert in either direction.",
       "Base64 is often a step inside a bigger task. If you're decoding a token, the {{dev-jwt-decoder}} is purpose-built for JSON web tokens specifically. If you're working with encoded JSON, {{dev-json-formatter}} will tidy the result so it's readable.",
       "When you need to share the output rather than just read it — a decoded file, a config dump — you can {{host-hub}} it and send a link. The rest of the small utilities live in the {{dev-tools-hub}}.",
       "Free, browser-only, nothing logged. Hosting plans are on {{pricing}}.",

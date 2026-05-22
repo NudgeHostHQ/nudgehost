@@ -65,7 +65,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Word documents shift around depending on the reader's software, fonts, and version. PDF doesn't — it looks identical everywhere. That's why converting to PDF is the right move before you send anything that matters: a resume, a contract, a proposal. Drop your DOCX here and a faithful PDF comes back.",
-      "With the PDF in hand, the natural next step is to {{host-pdf}} and share a link instead of an attachment — cleaner, trackable, and it opens in one click. If the document is specifically a CV, there's a tailored flow to {{use-case-resume-link}} that adds open-tracking so you know when it's been read.",
+      "With the PDF in hand, the natural next step is to {{host-pdf}} and share a link instead of an attachment. The link is cleaner than a 4MB email attachment, it's trackable, and the recipient opens it in one click. If the document is specifically a CV, there's a tailored flow to {{use-case-resume-link}} that adds open-tracking so you know when it's been read.",
       "Want to check the original Word file first? The {{viewer-docx}} opens it in your browser. And once converted, you can always {{converter-pdf-to-jpg}} if you need image versions of the pages too.",
       "Free, no watermark. Custom domains and passwords are on {{pricing}}.",
     ],
@@ -140,7 +140,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       "Batch-convert several HEIC files at once if you're emptying a roll of photos.",
     ],
     body: [
-      "iPhones save photos as HEIC, which is efficient but stubborn — plenty of websites, older software, and non-Apple devices simply won't open it. Converting to JPG makes the photo universal. Drop your HEIC file here and a JPG comes back, ready to use anywhere.",
+      "iPhones save photos as HEIC, which is efficient but stubborn. Plenty of websites, older software, and non-Apple devices simply won't open it. Converting to JPG makes the photo universal. Drop your HEIC file here and a JPG comes back, ready to use anywhere.",
       "Once it's a JPG, you can {{host-hub}} the photo and share a link, which beats sending a heavy attachment that the recipient's phone then refuses to preview. If you're sharing several photos, zipping them together and choosing to {{host-zip}} keeps everything in one tidy link.",
       "If the JPG still needs to be lighter for a website, {{converter-png-to-webp}} will compress it further. And if you simply want to look at the photo without converting, the {{viewer-pdf}} and NudgeHost's other browser viewers handle common formats directly.",
       "Free, no watermark. Sharing extras are on {{pricing}}.",
