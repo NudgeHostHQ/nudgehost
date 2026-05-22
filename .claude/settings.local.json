@@ -6,7 +6,9 @@
       "Bash(git commit -m ' *)",
       "Bash(git commit *)",
       "Bash(git push *)",
-      "Bash(powershell -Command \"Get-Content lib/converters-content.ts -Tail 3\")"
+      "Bash(powershell -Command \"Get-Content lib/converters-content.ts -Tail 3\")",
+      "Bash(git rm *)",
+      "Bash(git check-ignore *)"
     ]
   }
 }
