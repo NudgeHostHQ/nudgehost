@@ -21,11 +21,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nudgehost.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "NudgeHost — Share any file as a link in seconds",
-    template: "%s · NudgeHost",
+    default: "NudgeHost: share any file as a link in seconds",
+    template: "%s | NudgeHost",
   },
   description:
-    "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images and AI-generated outputs. Free forever plan with 25MB uploads.",
+    "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images, AI-generated outputs. Free forever plan with 25MB uploads.",
   keywords: [
     "file sharing",
     "pdf to link",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: siteUrl,
     siteName: "NudgeHost",
-    title: "NudgeHost — Share any file as a link in seconds",
+    title: "NudgeHost: share any file as a link in seconds",
     description:
       "Drop a file, get a shareable link. The friendliest way to share PDFs, HTML, ZIPs and more.",
     images: [
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "NudgeHost — Give your files a nudge",
+        alt: "NudgeHost: give your files a nudge",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NudgeHost — Share any file as a link in seconds",
+    title: "NudgeHost: share any file as a link in seconds",
     description: "Drop a file, get a shareable link.",
     images: ["/og-image.png"],
   },

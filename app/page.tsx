@@ -4,9 +4,9 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "NudgeHost: share any file as a link in seconds",
+  title: { absolute: "NudgeHost: share any file as a link in seconds" },
   description:
-    "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images and AI-generated outputs. Free forever, 25MB uploads, no credit card.",
+    "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images, AI-generated outputs. Free forever, 25MB, no card.",
   alternates: { canonical: "/" },
 };
 

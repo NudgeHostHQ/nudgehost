@@ -54,7 +54,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     filetypeShort: "DOCX",
     title: "DOCX to PDF Converter: Word to PDF online, free",
     description:
-      "Convert a Word document to PDF in seconds. Free, no signup, formatting preserved. Works in your browser.",
+      "Convert a Word document to PDF in seconds. Fonts, tables, and layout survive intact; PDF locks the formatting so it can't shift on the recipient's device.",
     h1: "Convert a Word document to PDF.",
     lead: "Drop a DOCX file and get a clean PDF back. PDF is the format that looks the same on every device.",
     keyPoints: [
@@ -92,7 +92,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     filetypeShort: "PNG",
     title: "PNG to WebP Converter: shrink images online, free",
     description:
-      "Convert PNG images to WebP and cut file size dramatically with no visible quality loss. Free, no signup.",
+      "Convert PNG to WebP and cut file size by half or more with no visible quality loss. Transparency is preserved; lossless mode keeps exact pixels. Free.",
     h1: "Convert PNG to WebP.",
     lead: "Drop a PNG and get a WebP back. The WebP is usually a fraction of the size, with no visible difference.",
     keyPoints: [
@@ -130,7 +130,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     filetypeShort: "HEIC",
     title: "HEIC to JPG Converter: iPhone photos to JPG, free",
     description:
-      "Convert HEIC photos from your iPhone into universal JPG images. Free, no signup, works in your browser.",
+      "Convert HEIC photos from your iPhone into universal JPG. HEIC won't open on non-Apple devices or older software; JPG works everywhere. Free, no watermark.",
     h1: "Convert HEIC to JPG.",
     lead: "Drop a HEIC photo from your iPhone and get a JPG back that opens anywhere.",
     keyPoints: [

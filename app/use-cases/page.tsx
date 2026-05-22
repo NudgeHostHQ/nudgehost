@@ -3,7 +3,7 @@ import { SiloHub } from "@/components/silo-hub";
 import { useCasesSilo, useCasesContentMap } from "@/lib/use-cases-content";
 
 export const metadata: Metadata = {
-  title: "Use Cases — Real ways people share files with NudgeHost",
+  title: "Use Cases: real ways people share files with NudgeHost",
   description:
     "Practical guides for sharing files: send a resume as a link, share a portfolio with a recruiter, send a large PDF without email, and more.",
   alternates: { canonical: "/use-cases" },

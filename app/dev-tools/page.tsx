@@ -3,9 +3,9 @@ import { SiloHub } from "@/components/silo-hub";
 import { devToolsSilo, devToolsContentMap } from "@/lib/dev-tools-content";
 
 export const metadata: Metadata = {
-  title: "Free Developer Tools — JSON formatter, Base64, JWT decoder",
+  title: "Free Developer Tools: JSON formatter, Base64, JWT decoder",
   description:
-    "Small, fast developer utilities that run in your browser. JSON formatter, Base64 encoder, URL encoder, JWT decoder — free, nothing logged.",
+    "Small, fast developer utilities that run in your browser: JSON formatter, Base64 encoder, URL encoder, JWT decoder. All free, nothing logged.",
   alternates: { canonical: "/dev-tools" },
 };
 

@@ -6,7 +6,7 @@ import { ContextualProse } from "@/components/contextual-prose";
 import { compareContentMap } from "@/lib/compare-content";
 
 export const metadata: Metadata = {
-  title: "Compare NudgeHost — honest side-by-side comparisons",
+  title: "Compare NudgeHost: honest side-by-side comparisons",
   description:
     "See how NudgeHost compares to Tiiny.host, Linkyhost and other file-sharing tools. Fair, detailed comparisons of plans, pricing and features.",
   alternates: { canonical: "/compare" },
