@@ -16,21 +16,19 @@ If a banned word fits, rewrite the sentence to remove the need for it. Don't sub
 
 ## Banned constructions
 
-1. **Em-dash as a list-introducer.** The pattern `X — A, B, C` with 3+ items is the AI signature. Break into separate sentences instead.
+1. **Zero em-dashes in user-facing copy.** No exceptions. Not as list-introducers, not as paired parentheticals, not as single dashes mid-sentence. Replace every em-dash with a comma, period, colon, semicolon, parentheses, or a full sentence restructure. Em-dashes in `//` and `{/* */}` code comments are fine because they never reach the rendered output.
 
-2. **Em-dashes are only allowed as paired parentheticals** with an em-dash on BOTH sides of the inserted clause (e.g. `"The result — published in 2023 — surprised the field"`). Any single em-dash in user-facing copy is a defect.
+2. **Contrast formulas** like `"It's not just X, it's Y"` or `"X isn't about Y. It's about Z."` Replace with a direct statement of what the thing is.
 
-3. **Contrast formulas** like `"It's not just X, it's Y"` or `"X isn't about Y. It's about Z."` Replace with a direct statement of what the thing is.
+3. **Tricolon openers** used as section leads, like `"Fast. Cheap. Reliable."` Three short fragments stacked for emphasis read as AI rhetoric. This includes parallel-sentence triplets like `"You don't need a server. You don't need Vercel. You need a URL."`
 
-4. **Tricolon openers** used as section leads, like `"Fast. Cheap. Reliable."` Three short fragments stacked for emphasis read as AI rhetoric. This includes parallel-sentence triplets like `"You don't need a server. You don't need Vercel. You need a URL."`
+4. **"Whether you're A or B" sentence openers.**
 
-5. **"Whether you're A or B" sentence openers.**
+5. **Rhetorical questions as section transitions** (`"But what does this mean for you?"`). Also avoid chained rhetorical Q&A pairs like `"Want X? Y. Want Z? W."`.
 
-6. **Rhetorical questions as section transitions** (`"But what does this mean for you?"`). Also avoid chained rhetorical Q&A pairs like `"Want X? Y. Want Z? W."`.
+6. **Paragraph-opening Additionally, Moreover, or Furthermore.** If the next paragraph needs a connector, the structure is wrong.
 
-7. **Paragraph-opening Additionally, Moreover, or Furthermore.** If the next paragraph needs a connector, the structure is wrong.
-
-8. **Closing summaries that restate the content.** End on a concrete point, not a recap.
+7. **Closing summaries that restate the content.** End on a concrete point, not a recap.
 
 ## Style rules
 
