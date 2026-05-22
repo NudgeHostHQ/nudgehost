@@ -4,7 +4,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-charcoal/10 bg-warm/85 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10">
-        <Link href="/" className="font-display text-xl font-semibold tracking-tight">
+        <Link href="/" className="font-display text-2xl font-bold tracking-tight md:text-3xl">
           nudge<span className="text-coral">host</span>
         </Link>
         <ul className="hidden items-center gap-8 md:flex">
