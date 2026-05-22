@@ -30,6 +30,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/use-cases`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/compare`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${siteUrl}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${siteUrl}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${siteUrl}/dmca`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     // /sign-up is intentionally omitted: it's a noindex placeholder, and
     // including a noindex page in the sitemap sends Google mixed signals.
     // Restore this line once the real account flow ships and noindex is removed.
