@@ -61,6 +61,74 @@ export const internalLinks: Record<string, LinkTarget> = {
     href: "/host/portfolio",
     anchors: ["host your portfolio", "share a portfolio with one link"],
   },
+  "host-docx": {
+    href: "/host/docx",
+    anchors: ["host a Word document", "share a DOCX as a link", "put a Word doc online"],
+  },
+  "host-pptx": {
+    href: "/host/pptx",
+    anchors: ["host a PowerPoint deck", "share a .pptx as a link", "send a presentation as a URL"],
+  },
+  "host-xlsx": {
+    href: "/host/xlsx",
+    anchors: ["host an Excel spreadsheet", "share an .xlsx as a link", "send a spreadsheet by URL"],
+  },
+  "host-txt": {
+    href: "/host/txt",
+    anchors: ["host a plain text file", "share a .txt as a link", "publish a text file"],
+  },
+  "host-md": {
+    href: "/host/md",
+    anchors: ["host a Markdown file", "share a .md as a link", "publish a Markdown document"],
+  },
+  "host-react-app": {
+    href: "/host/react-app",
+    anchors: ["host a React app", "deploy a React build as a link", "publish a Vite or CRA build"],
+  },
+  "host-vue-app": {
+    href: "/host/vue-app",
+    anchors: ["host a Vue app", "deploy a Vue build as a link", "publish a Vite or Nuxt static build"],
+  },
+  "host-json": {
+    href: "/host/json",
+    anchors: ["host a JSON file", "share a JSON file as a link", "put a .json online"],
+  },
+  "host-svg": {
+    href: "/host/svg",
+    anchors: ["host an SVG file", "share a vector image as a link", "publish an SVG"],
+  },
+  "host-chatgpt-html": {
+    href: "/host/chatgpt-html",
+    anchors: ["host ChatGPT-generated HTML", "publish what ChatGPT built", "share a ChatGPT HTML page"],
+  },
+  "host-lovable-export": {
+    href: "/host/lovable-export",
+    anchors: ["host a Lovable export", "publish a Lovable.dev app", "deploy a Lovable build"],
+  },
+  "host-v0-export": {
+    href: "/host/v0-export",
+    anchors: ["host a v0 export", "publish a v0.dev component", "share what v0 generated"],
+  },
+  "host-bolt-export": {
+    href: "/host/bolt-export",
+    anchors: ["host a Bolt.new export", "publish a Bolt app", "deploy a StackBlitz-built project"],
+  },
+  "host-image": {
+    href: "/host/image",
+    anchors: ["host an image", "share a JPG, PNG, or WebP as a link", "put an image online"],
+  },
+  "host-gif": {
+    href: "/host/gif",
+    anchors: ["host an animated GIF", "share a GIF as a link", "put a GIF online"],
+  },
+  "host-mp4": {
+    href: "/host/mp4",
+    anchors: ["host an MP4 video", "share a video file as a link", "put an MP4 online"],
+  },
+  "host-mp3": {
+    href: "/host/mp3",
+    anchors: ["host an MP3 audio file", "share audio as a link", "put an MP3 online"],
+  },
 
   // --- Viewers silo ----------------------------------------------------------
   "viewers-hub": {
