@@ -9,7 +9,7 @@
 // CONTEXTUAL LINKS: body[] paragraphs may contain {{key}} tokens, where `key`
 // is an entry in lib/internal-links.ts. At render time each token becomes a
 // real in-prose <Link> with naturally-varied anchor text. Write each sentence
-// *around* the link so the surrounding words supply topical context — that is
+// *around* the link so the surrounding words supply topical context. That is
 // what makes it a strong contextual link rather than boilerplate. Aim for 3-6
 // tokens per page, including at least one cross-silo link and one money page
 // ({{pricing}} or {{home}}). See STRATEGY.md, "Internal linking strategy".
@@ -209,5 +209,833 @@ export const hostContentMap: Record<string, SpokeContent> = {
     ],
     relatedToolSlugs: ["host-pdf", "host-portfolio", "viewer-pdf"],
     filePillExamples: ["PDF", "DOCX", "1-2 pages", "ATS-friendly", "Up to 25MB"],
+  },
+
+  docx: {
+    slug: "docx",
+    name: "DOCX",
+    filetypeShort: "DOCX",
+    title: "Host a DOCX file online: share a Word document as a link",
+    description:
+      "Drop a Word document and get a shareable link in seconds. The recipient opens it in their browser without Microsoft Word. Free, no signup.",
+    h1: "Host a Word document as a link.",
+    lead: "Drop your .docx and we'll hand back a URL anyone can click. They read the document in their browser. They don't need Word.",
+    keyPoints: [
+      "Upload a Word document, get a public link, share the link. No Microsoft Word needed on the other end.",
+      "Comments and track changes survive the upload, so the file you send is exactly the file the recipient sees.",
+      "Update the .docx in your dashboard and the URL stays the same, useful when you're iterating on a contract.",
+      "Free for 10 active links at 25MB per file. Most Word docs land well under 1MB.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Word documents travel badly. The recipient might be on Word for Mac while you're on Word for Windows, or on Google Docs, or on a Chromebook with neither. Fonts shift, track-changes bubbles drift, embedded images get rescaled. The cleanest fix is not to make them open the file at all. Drop your DOCX here, send the link, and let them read it in their browser through {{viewer-docx}} with the formatting intact.",
+      "If you'd rather lock the formatting completely so nothing can shift on the recipient's end, {{converter-docx-to-pdf}} first and {{host-pdf}} the result. PDF is the only format that genuinely looks the same everywhere. DOCX is the right pick when the recipient still needs to edit it in their own copy of Word later, or when you want to keep iterating on it without re-sending the link.",
+      "The link stays current as you update. Swap the .docx file in your dashboard and the URL doesn't change. Anyone who already has the link sees the new version on their next refresh. Handy when a contract is bouncing back and forth between you and a lawyer three times a day.",
+      "Free with no signup on {{pricing}}. The 25MB free-plan ceiling covers basically every Word document anyone writes; the only docs that exceed it tend to have embedded images that would be better off compressed first. NudgeHost will also {{host-hub}} of any other format alongside your DOCX, so a single project's documents can live under a tidy set of links rather than scattered across email threads.",
+    ],
+    faqs: [
+      {
+        q: "Does the recipient need Microsoft Word?",
+        a: "No. The link opens in any browser. Word is only needed if they want to edit it locally.",
+      },
+      {
+        q: "Will comments and track changes show up?",
+        a: "Yes. The browser viewer renders Word's revision marks. For a clean copy with no marks, accept all changes before uploading, or convert to PDF first.",
+      },
+      {
+        q: "Can I password-protect the link?",
+        a: "Yes, on Pro. Anyone clicking the link will need the password before they can view the document.",
+      },
+      {
+        q: "What if the formatting looks slightly off in the viewer?",
+        a: "Very complex layouts can shift fractionally in the browser-based viewer. Convert to PDF for a pixel-exact match.",
+      },
+    ],
+    relatedToolSlugs: ["host-pdf", "viewer-docx", "converter-docx-to-pdf", "host-resume"],
+    filePillExamples: ["DOCX", "DOC", "Up to 25MB free", "No Word needed"],
+  },
+
+  pptx: {
+    slug: "pptx",
+    name: "PPTX",
+    filetypeShort: "PPTX",
+    title: "Host a PowerPoint as a link: free .pptx hosting",
+    description:
+      "Drop a PowerPoint file and get a shareable link. The recipient views the deck in their browser, no PowerPoint required. Free, no signup.",
+    h1: "Host a PowerPoint as a link.",
+    lead: "Drop your .pptx and get a clean URL. The deck opens in the recipient's browser. No PowerPoint, no Keynote, no download dance.",
+    keyPoints: [
+      "Upload a .pptx file and get a public link in seconds, no signup needed.",
+      "Recipients see the deck rendered as slides in their browser without PowerPoint installed.",
+      "16:9 and 4:3 decks both render correctly, with embedded fonts preserved where the file includes them.",
+      "Free plan handles decks up to 25MB; most decks fit comfortably unless they're image-heavy.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "PowerPoint decks are heavy and finicky. Different versions of PowerPoint render the same file slightly differently. Keynote refuses to open some .pptx files cleanly. Google Slides imports with fonts substituted. Sharing the file as an email attachment guarantees one of these will go wrong on the recipient's end. A NudgeHost link sidesteps all of it: the deck renders in the browser the same way for everyone, the slide order is preserved, and the deck opens in one click rather than five.",
+      "For a client-facing deck where you want zero risk of formatting drift, export to PDF first and {{host-pdf}} that. The PDF version locks the rendering completely, and the file size usually halves because PowerPoint's embedded media gets compressed in the export. The PPTX version is the right pick when you want the deck to remain editable, when you're going to keep updating it, or when the recipient might want to lift a slide into their own deck.",
+      "There's a specific flow under {{use-case-deck}} that walks through doing this for a client presentation, including how the open-tracking lets you know whether the client previewed the deck before the call. The same {{host-hub}} approach works for the supporting docs you might send alongside the deck: a PDF brief, a Word agenda, a CSV of the underlying data.",
+      "Free with no watermark on {{pricing}}. Branded links, custom domains, and password protection live on the Pro plan. If you're sending a single deck to a single client, the free tier covers it; if you're sending decks to dozens of clients each quarter, the paid plan pays for itself in the polish of the link alone.",
+    ],
+    faqs: [
+      {
+        q: "Does the recipient need PowerPoint installed?",
+        a: "No. The deck renders in their browser. PowerPoint is only required if they want to edit or present locally.",
+      },
+      {
+        q: "Will animations and slide transitions work?",
+        a: "Static slide content renders correctly. Built-in transitions and animations don't fire in the browser viewer. If those matter, export to video or PDF.",
+      },
+      {
+        q: "Can I track who opened the deck?",
+        a: "Yes. Open analytics show when the deck was viewed and from where, which is genuinely useful before a client meeting.",
+      },
+      {
+        q: "What about Keynote files?",
+        a: "Export your Keynote deck to .pptx first, then upload. NudgeHost runs the .pptx renderer; Keynote's .key format isn't supported natively yet.",
+      },
+    ],
+    relatedToolSlugs: ["host-pdf", "use-case-deck", "host-zip", "host-html"],
+    filePillExamples: ["PPTX", "PPT", "16:9", "4:3", "Up to 25MB free"],
+  },
+
+  xlsx: {
+    slug: "xlsx",
+    name: "XLSX",
+    filetypeShort: "XLSX",
+    title: "Host an Excel file online: share a spreadsheet as a link",
+    description:
+      "Drop a .xlsx file and get a shareable link. The recipient sees the spreadsheet in their browser, no Excel needed. Free, no signup.",
+    h1: "Host an Excel spreadsheet as a link.",
+    lead: "Drop your .xlsx and get a URL. The recipient opens the file in their browser, scrolls the rows, copies what they need. No Excel licence required.",
+    keyPoints: [
+      "Upload an Excel spreadsheet, get a public link, share it. No Excel install needed on the recipient's machine.",
+      "Multiple sheets in one workbook all render correctly, with the tab bar preserved at the bottom.",
+      "Formulas display as their last-computed values, since the viewer is a viewer rather than a calculation engine.",
+      "Free with no signup; 25MB per file covers spreadsheets up to roughly 200k rows.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Excel files are heavier than they look. A spreadsheet that opens in a second on your machine can take six seconds to render in Numbers on a Mac and fifteen seconds in Google Sheets if the formulas are complicated. Hosting the .xlsx as a link gets around all of that: the recipient sees the values, not the file. They never wait for a calculation engine to load. If they want their own copy to edit, the link offers a download too.",
+      "If the spreadsheet is essentially tabular data without formulas, exporting it to CSV first and opening it in {{viewer-csv}} renders even faster and uses less bandwidth. The trade-off is that CSV strips formatting, formulas, and multiple sheets. Pick XLSX hosting when the spreadsheet's structure matters; pick CSV when only the data matters.",
+      "Hosting matters in a few specific cases. When you're sending a model to a client and don't want them to accidentally edit it. When you're sharing data with a journalist who's on a phone. When you need a permanent URL that doesn't disappear from a Slack DM after the workspace retention window. Each of these is a NudgeHost-shaped problem, and the same {{host-hub}} flow that handles XLSX will handle the PDFs and DOCXes that travel alongside it.",
+      "Free on {{pricing}} for ten active links. Excel files that exceed 25MB usually have embedded images or pivot tables built on millions of rows; for those cases the Pro plan's higher ceiling is the path. If you want the spreadsheet to expire after a deal closes, link expiry is a one-click setting in the dashboard.",
+    ],
+    faqs: [
+      {
+        q: "Will formulas recalculate when the recipient views the file?",
+        a: "No. The viewer shows the last-computed values stored in the .xlsx. For a live recalculating spreadsheet, host the file and tell the recipient to download a copy to edit locally.",
+      },
+      {
+        q: "Can the recipient download the spreadsheet?",
+        a: "Yes, unless you turn downloads off in the link settings. By default the link allows both viewing and downloading.",
+      },
+      {
+        q: "How big a spreadsheet can I upload?",
+        a: "25MB on the free plan. That covers spreadsheets up to roughly 200k rows. Higher on paid plans.",
+      },
+      {
+        q: "Do all sheets in the workbook render?",
+        a: "Yes. The tab bar at the bottom lets the recipient switch between sheets just like they would in Excel.",
+      },
+    ],
+    relatedToolSlugs: ["viewer-csv", "host-pdf", "host-html", "viewer-docx"],
+    filePillExamples: ["XLSX", "XLS", "Multi-sheet", "Up to 25MB free"],
+  },
+
+  txt: {
+    slug: "txt",
+    name: "TXT",
+    filetypeShort: "TXT",
+    title: "Host a TXT file online: share a plain text file as a link",
+    description:
+      "Drop a .txt file and get a shareable link in seconds. Plain text rendered cleanly in any browser. Free, no signup.",
+    h1: "Host a plain text file as a link.",
+    lead: "Drop a .txt file and get a URL. The text renders in the browser in a readable monospaced layout. Nothing to install.",
+    keyPoints: [
+      "Upload a .txt file, get a public link, share it. The text displays in any browser without download.",
+      "Unicode characters render correctly; the viewer treats input as UTF-8 by default and detects other encodings.",
+      "Both Windows CRLF and Unix LF line endings display as expected line breaks.",
+      "Free with no signup; 25MB per file is enough for a novel-length manuscript.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "A .txt file is one of the most portable formats in computing, and one of the most awkward to share. Pasting a long block of text into Slack ruins the formatting and creates a wall of noise. Emailing it as an attachment makes the recipient download a file they could have just read. A NudgeHost link is the middle path: the .txt renders in the browser as readable text, copy-able, scrollable, with no install step on the recipient's end.",
+      "If the file is really structured data dressed as plain text, formats like JSON and CSV have purpose-built viewers. Send JSON through {{viewer-json}} for a collapsible tree view, or use {{dev-json-formatter}} first to tidy it. Send CSV through {{viewer-csv}} for a table view. Plain prose, log files, transcripts, and exported chat history are where .txt hosting is the right answer.",
+      "There are a few rough edges worth knowing about. A .txt exported from Notes or TextEdit on macOS may use Apple's smart quotes and em-dashes, which render fine but copy oddly into code editors. Windows .txt files use CRLF line endings and may display extra blank lines in some browsers; NudgeHost normalises this automatically. Files using ancient encodings like Windows-1252 still get detected, but if you control the source, UTF-8 is always the cleaner choice.",
+      "Free on {{pricing}} for ten active text files, 25MB each. That's enough for a full novel manuscript with margin to spare. Server logs and chat exports are the most common things that push past it; for those, the Pro plan or a quick filter to trim the file is the answer. The same {{host-hub}} flow will pick up any other format you want to send alongside the text.",
+    ],
+    faqs: [
+      {
+        q: "Does the recipient need a text editor?",
+        a: "No. The .txt renders in any browser as readable text.",
+      },
+      {
+        q: "Will the line endings look right?",
+        a: "Yes. Windows CRLF and Unix LF both display as expected. The viewer normalises them on render.",
+      },
+      {
+        q: "Can I share a multi-megabyte log file?",
+        a: "Yes, up to 25MB on the free plan. Above that, either filter the log to the relevant lines or upgrade. The browser viewer streams long files rather than loading them all at once.",
+      },
+      {
+        q: "Will my text wrap to the browser width?",
+        a: "Yes. The viewer wraps lines softly so the text fits without horizontal scrolling. The underlying file is unchanged.",
+      },
+    ],
+    relatedToolSlugs: ["host-md", "viewer-json", "host-zip", "host-html"],
+    filePillExamples: ["TXT", "Log file", "Transcript", "Manuscript", "Up to 25MB free"],
+  },
+
+  md: {
+    slug: "md",
+    name: "Markdown",
+    filetypeShort: "MD",
+    title: "Host a Markdown file online: share a .md file as a link",
+    description:
+      "Drop a Markdown file and get a shareable link. NudgeHost renders the .md as formatted HTML in the browser. Free, no signup.",
+    h1: "Host a Markdown file as a link.",
+    lead: "Drop a .md file and we'll render it as clean HTML at your own URL. Headings, lists, code blocks, and tables all come out the way you wrote them.",
+    keyPoints: [
+      "Upload a .md file, get a public link, share it. The Markdown renders to HTML automatically in the browser.",
+      "GitHub-flavored Markdown is the default flavor, so code fences, tables, and task lists all work.",
+      "Update the .md file in your dashboard and the rendered page updates instantly at the same URL.",
+      "Free with no signup; 25MB per file handles anything short of a book-length manuscript.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Markdown is the writing format of every developer-adjacent tool. README files, documentation, blog drafts, design briefs, AI conversation exports. Most of them never need to be a full website, but they do need to be shareable. Pasting Markdown into Slack or email leaves you sending raw asterisks and pound signs to people who don't want to parse them. Hosting the .md file gives them a clean rendered HTML page at a URL, with the formatting intact.",
+      "NudgeHost renders GitHub-flavored Markdown by default. Code fences with language hints get syntax highlighting. Tables render as tables, not as pipe-separated text. Task lists with `- [ ]` and `- [x]` show as checkboxes. Footnotes work. Embedded HTML in the Markdown is allowed but sanitised, so a `<script>` tag won't execute and a `<style>` tag won't bleed into the page chrome.",
+      "If you want full control over the rendered output rather than relying on the default Markdown styles, convert your .md to HTML locally first and {{host-html}} the result. That's the right path if you've built a custom layout in something like Pandoc or want to ship a specific theme. The hosted .md route is the right path when the default styling is fine and you want to keep editing the source file in your usual editor.",
+      "Markdown pairs naturally with other formats during a project. Use {{host-pdf}} for the polished final draft you send to a client, and host the working .md for everyone who wants to read or comment on the latest version. The same {{host-hub}} flow handles every file in the bundle, all on the same {{pricing}} terms.",
+    ],
+    faqs: [
+      {
+        q: "Which Markdown flavor does NudgeHost render?",
+        a: "GitHub-flavored Markdown by default: code fences, tables, task lists, strikethrough, autolinks, footnotes. CommonMark is fully supported as a subset.",
+      },
+      {
+        q: "Can I embed images in my Markdown?",
+        a: "Yes. Linked images load from their source. If the image lives in your repo, host the image alongside the .md and reference it with a relative path; the link still resolves on NudgeHost.",
+      },
+      {
+        q: "Does the recipient see the rendered page or the raw .md?",
+        a: "The rendered HTML page by default. There's an option in the link settings to serve the raw .md instead, useful if you're sharing a file other tools will fetch.",
+      },
+      {
+        q: "Can I host a multi-file Markdown site (like a docs folder)?",
+        a: "Yes, but bundle it as a ZIP and host that instead, since the index will reference relative paths.",
+      },
+    ],
+    relatedToolSlugs: ["host-html", "host-pdf", "host-txt", "host-zip"],
+    filePillExamples: ["MD", "Markdown", "README", "Blog draft", "Up to 25MB free"],
+  },
+
+  zip: {
+    slug: "zip",
+    name: "ZIP",
+    filetypeShort: "ZIP",
+    title: "Host a ZIP file online: share an archive as a link",
+    description:
+      "Drop a ZIP archive and get a shareable link in seconds. NudgeHost can unpack and serve the contents as a site, or hand back the archive intact. Free.",
+    h1: "Host a ZIP file as a link.",
+    lead: "Drop your .zip and get a URL. NudgeHost can either keep it as a downloadable archive or unpack it and serve the contents as a small site.",
+    keyPoints: [
+      "Upload a .zip, get a public link in seconds, choose whether to serve the archive or its contents as a site.",
+      "Multi-file HTML sites work: an index.html in the archive becomes the entry point at your URL.",
+      "macOS-style __MACOSX folders and .DS_Store files are filtered out automatically during unpack.",
+      "Free with no signup; 25MB per file covers most static sites and project bundles.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "A ZIP file is the universal way to send something that's more than one file. A small static site, the assets for a design project, a bundle of PDFs for a client, an export from a tool that won't give you a single download. The annoying part of sending one is that the recipient has to download it, unzip it, and find the file they actually wanted. NudgeHost cuts that down to one click: drop the .zip, get a URL, the recipient browses the contents in their browser or downloads the archive intact, your choice.",
+      "If the archive contains an `index.html` at the root, NudgeHost serves the unpacked contents as a small static site. That's how you {{host-html}} multi-file projects without setting up Netlify or Vercel. CSS, images, fonts, JavaScript files referenced by relative path all load normally. This is the same pipeline that handles every {{host-claude-artifact}} or AI-builder export that ships as a folder of files rather than a single HTML.",
+      "A small detail worth knowing about: ZIPs made on macOS by right-clicking 'Compress' tend to include a __MACOSX metadata folder and stray .DS_Store files at every directory level. NudgeHost strips these automatically on unpack, so your hosted site doesn't end up serving Apple's filesystem cruft as part of the URL structure. Encrypted ZIPs aren't supported on unpack mode; if the file is sensitive, password-protect the NudgeHost link instead.",
+      "Free for 10 active links on {{pricing}}, 25MB per archive. Project bundles that exceed 25MB are usually packing source code that should be in Git instead, or media that would be lighter as a {{converter-png-to-webp}} pass before zipping. Hosting plans, larger uploads, and custom domains are all on Pro.",
+    ],
+    faqs: [
+      {
+        q: "Does NudgeHost unpack the ZIP automatically?",
+        a: "Yes, when you choose 'serve as site'. If the archive contains an index.html, that becomes the entry point. Otherwise you can keep the ZIP downloadable as a single file.",
+      },
+      {
+        q: "Can the recipient browse files inside the ZIP without downloading?",
+        a: "Yes, in serve-as-site mode. Every file in the archive is reachable at its relative path under the link.",
+      },
+      {
+        q: "What about encrypted ZIPs?",
+        a: "Encrypted archives are hosted as opaque downloads only. The recipient downloads the .zip and unpacks it locally with the password. Use NudgeHost's own link password if you want gating instead.",
+      },
+      {
+        q: "Will Mac-specific files leak into my hosted site?",
+        a: "No. __MACOSX directories and .DS_Store files are filtered out during unpack.",
+      },
+    ],
+    relatedToolSlugs: ["host-html", "host-claude-artifact", "host-pdf", "host-react-app"],
+    filePillExamples: ["ZIP", "Multi-file site", "Project bundle", "Up to 25MB free"],
+  },
+
+  "react-app": {
+    slug: "react-app",
+    name: "React app",
+    filetypeShort: "React build",
+    title: "Host a React app: deploy a Vite or CRA build as a link",
+    description:
+      "Drop your React app's build folder as a ZIP and get a live URL in seconds. Works for Vite, Create React App, and any framework that emits a static build.",
+    h1: "Host a React app as a live URL.",
+    lead: "Zip up your `dist` or `build` folder, drop it here, and your React app goes live at a clean URL. No deploy config, no environment setup.",
+    keyPoints: [
+      "Zip the output folder from `vite build` or `npm run build` and upload; the app goes live at a public URL.",
+      "Client-side routing works via a built-in SPA fallback that rewrites unknown paths to index.html.",
+      "Static assets in the bundle (images, fonts, CSS) load from their hashed filenames as the build emits them.",
+      "Free with no signup; 25MB compressed handles most prototype builds and small production apps.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "React apps built with Vite or Create React App produce a static `dist` or `build` folder once the build step finishes. That folder is the whole app: an index.html, a bundle of JavaScript, a stylesheet, the assets. Any static host can serve it. NudgeHost serves it from a URL after you zip the folder and upload the ZIP. That's the whole deploy step.",
+      "Client-side routing is the one detail that catches people out. A React app using React Router or TanStack Router handles its own URLs in JavaScript, which means a direct request to `/about` would normally 404 on a static host because there's no `/about/index.html`. NudgeHost handles this with an SPA fallback: any path that doesn't match a file in the bundle gets rewritten to `/index.html`, and the router takes it from there. If you'd rather opt out, the fallback is a per-link setting.",
+      "If your build is more than 25MB compressed, the usual culprit is unminified source maps or unused public-folder images shipped with the bundle. Strip source maps from the production build and audit the public folder before zipping. For multi-page projects, the same {{host-zip}} flow handles plain HTML and CSS without a framework, and {{host-claude-artifact}} or {{host-v0-export}} handle AI-builder outputs that share the same shape.",
+      "Free on {{pricing}} for ten active builds. Build sizes for typical prototypes are well under the 25MB ceiling; production apps that ship hundreds of vendored libraries are where the Pro plan's higher limit pays off. Custom domains and password protection live on Pro too, which matter when the URL is going to a client rather than a friend.",
+    ],
+    faqs: [
+      {
+        q: "Which folder do I zip, `src` or `dist`?",
+        a: "The build output folder: `dist` for Vite, `build` for Create React App. The source folder isn't directly servable.",
+      },
+      {
+        q: "Will client-side routes like /about work?",
+        a: "Yes. The SPA fallback rewrites unmatched paths to index.html so your router can pick them up. Switch it off in link settings if you'd rather get a real 404.",
+      },
+      {
+        q: "Can I use environment variables?",
+        a: "Anything inlined at build time (the standard `VITE_` or `REACT_APP_` prefix) ships inside your bundle and works normally. Server-side env vars are not relevant here since there's no server.",
+      },
+      {
+        q: "What about API calls from the app?",
+        a: "Calls to external HTTPS APIs work as long as the API allows the NudgeHost origin via CORS. There's no built-in server, so anything requiring a backend will need one hosted elsewhere.",
+      },
+    ],
+    relatedToolSlugs: ["host-vue-app", "host-zip", "host-html", "host-v0-export"],
+    filePillExamples: ["ZIP", "Vite build", "CRA build", "SPA", "Up to 25MB free"],
+  },
+
+  "vue-app": {
+    slug: "vue-app",
+    name: "Vue app",
+    filetypeShort: "Vue build",
+    title: "Host a Vue app: deploy a Vite or Nuxt static build as a link",
+    description:
+      "Drop your Vue app's build folder as a ZIP and get a live URL in seconds. Works for Vite, Nuxt static, and any Vue setup that emits a static bundle.",
+    h1: "Host a Vue app as a live URL.",
+    lead: "Zip up your `dist` folder, drop it here, and your Vue app goes live at a clean URL. No CLI, no deploy hooks, no config file.",
+    keyPoints: [
+      "Zip the `dist` folder from `vite build` (or `nuxt generate` for Nuxt static) and upload; the app goes live at a public URL.",
+      "Vue Router in history mode works via the built-in SPA fallback that rewrites unknown paths to index.html.",
+      "Pinia, composables, and any client-side state work normally since the runtime is just static files.",
+      "Free with no signup; 25MB compressed covers most Vite prototypes and small Nuxt static builds.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Vue 3 with Vite or Nuxt 3 in static mode produces a `dist` folder that's already the complete app. Drop it in a ZIP, hand the ZIP to NudgeHost, and the app is live at a URL within seconds. There's nothing for you to configure, no deploy command to learn, no Git integration to set up first. The build artifact is the deploy.",
+      "Vue Router's history mode is the one thing to be careful about. A direct visit to `/products/42` would 404 on a plain static host because no such file exists in the bundle. NudgeHost's SPA fallback rewrites those requests to `/index.html` so the router handles them, the same way the {{host-react-app}} flow does it for React Router. Hash mode works without the fallback, since the path is always the index.",
+      "If your project uses Nuxt with full SSR or any server-side feature, the static `nuxt generate` path is what works on NudgeHost. Server routes, API handlers, and `useFetch` against same-origin endpoints aren't available without a Node server backing them. For a fully-rendered Nuxt setup you'd want a host that runs Node; for a prototype, demo, or marketing page, the static build covers it. If your prototype is small enough to live in a single file, {{host-html}} skips the build step entirely.",
+      "Free for ten active links on {{pricing}}, 25MB per upload. Most Vue prototype bundles fit easily. Production builds that vendor a UI library, three icon packs, and a chart library will sometimes push the limit; tree-shaking the unused parts is usually the cheaper fix before paying. The same {{host-hub}} flow handles plain static sites, ZIPs, and AI builder exports if you're shipping a mixed bag.",
+    ],
+    faqs: [
+      {
+        q: "Does this work with Vue 2?",
+        a: "Yes, as long as your build output is a folder of static files (which Vue CLI emits to `dist`). The hosting is framework-agnostic on the runtime side.",
+      },
+      {
+        q: "Will Vue Router work in history mode?",
+        a: "Yes. The SPA fallback rewrites unknown paths to index.html so the router can handle them. Hash mode works without the fallback.",
+      },
+      {
+        q: "Can I host a Nuxt app?",
+        a: "Yes, when built with `nuxt generate` (full static mode). Server-rendered Nuxt needs a Node host instead.",
+      },
+      {
+        q: "What about API calls from the Vue app?",
+        a: "External HTTPS APIs work as long as their CORS allows the NudgeHost origin. There's no backend on NudgeHost, so anything requiring server code needs to live elsewhere.",
+      },
+    ],
+    relatedToolSlugs: ["host-react-app", "host-zip", "host-html", "host-v0-export"],
+    filePillExamples: ["ZIP", "Vite build", "Nuxt static", "SPA", "Up to 25MB free"],
+  },
+
+  json: {
+    slug: "json",
+    name: "JSON",
+    filetypeShort: "JSON",
+    title: "Host a JSON file online: share a JSON file as a link",
+    description:
+      "Drop a JSON file and get a shareable link in seconds. The recipient browses the JSON as a collapsible tree in their browser. Free, no signup.",
+    h1: "Host a JSON file as a link.",
+    lead: "Drop your .json and get a clean URL. The recipient explores it as a collapsible tree rather than a wall of braces.",
+    keyPoints: [
+      "Upload a .json file and get a public link in seconds, no signup.",
+      "Recipients see the JSON rendered as a collapsible tree, with arrays and objects expandable inline.",
+      "Invalid JSON is flagged on upload with a pointer to the line where parsing breaks.",
+      "Free with no signup; 25MB per file is enough for a long API response or a sizeable config dump.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "JSON is the data format every developer hands to every other developer. API responses, config exports, structured logs, anything that wants to be machine-readable and human-skimmable. The annoying part of sharing it is that pasting 800 lines of JSON into Slack turns the channel into static, and emailing it as an attachment makes the recipient open a text editor. A NudgeHost link gives them a clean URL where the JSON renders as a collapsible tree.",
+      "The hosted file pairs naturally with the rest of NudgeHost's JSON tooling. The hosted page is built on the same renderer as {{viewer-json}}, so the recipient gets the same explore-by-clicking experience. If the original file is messy (minified, inconsistently indented, or assembled from multiple sources), running it through {{dev-json-formatter}} first produces a tidy version that's easier to read in either view.",
+      "Big files behave differently from small ones. The viewer lazy-loads nested branches, so a 10MB JSON file with deeply nested arrays still opens quickly because the tree only renders the parts the recipient expands. Files past the 25MB free-plan ceiling are usually log dumps that would compress to a fraction of the size; gzip them and {{host-zip}} the archive instead. For tabular JSON that's really a CSV in disguise, {{viewer-csv}} is the cleaner read.",
+      "Free on {{pricing}} for ten active files. The hosted link includes a Raw JSON button so consumers who want the original file rather than the tree view get it in one click. If the JSON is something you want to keep editable, swapping the source file in your dashboard updates the link without changing the URL, which is convenient for sharing a dev API mock that keeps evolving.",
+    ],
+    faqs: [
+      {
+        q: "Will the JSON be readable to humans, or just to machines?",
+        a: "Both. The page renders the JSON as a collapsible tree for human reading, with a Raw JSON button for tools that want to fetch the original file.",
+      },
+      {
+        q: "What if my JSON is invalid?",
+        a: "The upload step reports the parse error with the line number where it breaks. Fix it locally and re-upload, or paste it into the JSON formatter first.",
+      },
+      {
+        q: "How big a JSON file can I host?",
+        a: "25MB on the free plan. Above that, gzip and host as a ZIP. The viewer lazy-loads nested branches so big files stay responsive in the browser.",
+      },
+      {
+        q: "Can I share a private JSON file?",
+        a: "Yes, password-protect the link on the Pro plan. The viewer respects the password just like every other format.",
+      },
+    ],
+    relatedToolSlugs: ["viewer-json", "dev-json-formatter", "host-txt", "host-zip"],
+    filePillExamples: ["JSON", "API response", "Config", "Log dump", "Up to 25MB free"],
+  },
+
+  svg: {
+    slug: "svg",
+    name: "SVG",
+    filetypeShort: "SVG",
+    title: "Host an SVG file online: share a vector image as a link",
+    description:
+      "Drop a .svg file and get a shareable link in seconds. The vector renders crisply at any size in the recipient's browser. Free, no signup.",
+    h1: "Host an SVG file as a link.",
+    lead: "Drop your .svg and get a URL. The vector renders crisply at every size, on every screen, with no rasterization step.",
+    keyPoints: [
+      "Upload a .svg file, get a public link in seconds, share it. The vector renders in any modern browser.",
+      "Animations inside the SVG (CSS or SMIL) run normally, since SVG is just markup.",
+      "Inline `<script>` tags are stripped on upload for security; static and animated SVGs work, scripted SVGs don't.",
+      "Free with no signup; 25MB is enormous for an SVG (most logo files are under 50KB).",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "SVG is the vector format that won the web. Logos, icons, diagrams, illustrations. Anything that needs to look sharp at any zoom level ends up as SVG. Sharing one as a link rather than an attachment matters because email and Slack often render SVG attachments as a placeholder icon, where a URL renders the actual image inline in a link preview.",
+      "Hosting an SVG on NudgeHost is the same as hosting any other file. Drop it, get a URL. The difference is what the URL points to: instead of a download, the SVG renders directly in the browser at its native vector resolution. Designers handing off icons to engineers, brand teams sending a logo to a partner, illustrators sharing a working version of an artwork all want this.",
+      "There's one security detail worth flagging. SVG is XML, which means it can carry inline JavaScript via `<script>` tags or event handlers. NudgeHost strips these on upload, since hosting a file that executes code on the recipient's machine would be a poor default. Static and animated SVGs (using CSS keyframes or SMIL `<animate>` elements) work exactly as designed; scripted SVGs do not. If you genuinely need scripted SVG behaviour, {{host-html}} the SVG inside an HTML page instead.",
+      "Free on {{pricing}} for ten active files. SVG file sizes are usually small enough that the 25MB ceiling never matters; the exceptions tend to be SVGs exported from Illustrator with every artboard preserved, or SVG sprites containing hundreds of icons. For raster image work, {{converter-png-to-webp}} is the matching tool, and {{host-image}} covers the JPG, PNG, and WebP files that travel alongside vectors in a real project.",
+    ],
+    faqs: [
+      {
+        q: "Will animated SVGs animate when hosted?",
+        a: "Yes, CSS animations and SMIL animations run normally. Scripted animations using JavaScript don't, since `<script>` is stripped on upload.",
+      },
+      {
+        q: "Why are scripts stripped from my SVG?",
+        a: "Hosting executable SVG code on someone else's domain is a security risk. If you need scripted behaviour, embed the SVG inside an HTML page and host that.",
+      },
+      {
+        q: "Can I link directly to the SVG from a CSS background-image?",
+        a: "Yes, the link serves the raw SVG with the correct content-type header, so it can be referenced from external CSS and HTML.",
+      },
+      {
+        q: "What if my SVG references external fonts?",
+        a: "External font requests work from the hosted page, but for guaranteed rendering, convert the text to outlines in your vector editor before exporting.",
+      },
+    ],
+    relatedToolSlugs: ["host-image", "converter-png-to-webp", "host-html", "host-zip"],
+    filePillExamples: ["SVG", "Logo", "Icon", "Diagram", "Up to 25MB free"],
+  },
+
+  "chatgpt-html": {
+    slug: "chatgpt-html",
+    name: "ChatGPT HTML",
+    filetypeShort: "HTML",
+    title: "Host ChatGPT-generated HTML as a link",
+    description:
+      "Copy HTML from a ChatGPT conversation, paste it into NudgeHost, get a live URL. The fastest way to share something ChatGPT just built. Free.",
+    h1: "Host ChatGPT-generated HTML as a live URL.",
+    lead: "ChatGPT built you a working page, a calculator, a quiz, a tool. Paste the HTML here and get a public URL so anyone can see it.",
+    keyPoints: [
+      "Paste HTML from a ChatGPT conversation and get a public link in seconds.",
+      "No ChatGPT account or login needed for the people you share the link with.",
+      "Self-contained pages with inline CSS and JavaScript work without any configuration.",
+      "Free plan handles HTML outputs up to 25MB, which is far more than any ChatGPT response will produce.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "ChatGPT will happily build you a working webpage. A landing page, a small dashboard, a quiz, a colour picker, a meeting cost calculator. The output is usually a single block of HTML with CSS and JavaScript inlined, which ChatGPT shows in a code block in the conversation. The hard part isn't generating it. The hard part is sharing the result with someone who isn't sitting next to you.",
+      "NudgeHost is the missing step. Copy the HTML block out of ChatGPT (the Copy button on the code block does it cleanly), paste it into NudgeHost, and you get a public URL within seconds. Anyone who clicks the link sees the page. They don't need a ChatGPT account, they don't see your conversation, they just see the working page ChatGPT built. The same flow works to {{host-claude-artifact}} for outputs from Claude, and to {{host-html}} for any other AI builder.",
+      "If ChatGPT gave you something split across multiple files (`index.html`, `styles.css`, `script.js`), the easier path is to ask it to inline everything into one HTML file. ChatGPT does this reliably if you ask. If you'd rather keep the structure, zip the files together and {{host-zip}} the archive; NudgeHost will serve them as a small site. Either route ends with the same shareable URL.",
+      "Free on {{pricing}} with no signup. The 25MB free plan ceiling is so far above the size of any ChatGPT HTML response that it's effectively unlimited for this use case. If you're iterating with ChatGPT on the page, updating the source in your dashboard refreshes the live link without changing the URL, which means you can share the link once and keep improving the page behind it.",
+    ],
+    faqs: [
+      {
+        q: "How do I copy the HTML from a ChatGPT conversation?",
+        a: "When ChatGPT outputs code, hover the code block and click the Copy button at the top right. That gives you the raw HTML on your clipboard.",
+      },
+      {
+        q: "Does the recipient need a ChatGPT account?",
+        a: "No. The hosted link is a normal public URL. Your conversation never goes to NudgeHost; only the final HTML block does.",
+      },
+      {
+        q: "Will external scripts and CDN links work?",
+        a: "Yes. If the HTML loads Tailwind, React, or any other library from a CDN, those requests fire as normal from the hosted page.",
+      },
+      {
+        q: "What if ChatGPT gave me multiple files?",
+        a: "Either ask ChatGPT to inline them into one HTML file (it will), or zip the files and host the ZIP.",
+      },
+    ],
+    relatedToolSlugs: ["host-claude-artifact", "host-html", "host-lovable-export", "host-zip"],
+    filePillExamples: ["Paste HTML", "From ChatGPT", "Up to 25MB free", "Live in seconds"],
+  },
+
+  "lovable-export": {
+    slug: "lovable-export",
+    name: "Lovable export",
+    filetypeShort: "Lovable",
+    title: "Host a Lovable export: deploy a Lovable.dev app as a link",
+    description:
+      "Export from Lovable, drop the ZIP into NudgeHost, get a public URL. The simplest path to share what you built. Free.",
+    h1: "Host a Lovable export as a live URL.",
+    lead: "Export your Lovable app, drop the ZIP here, get a clean public URL. Skip the Lovable deploy step entirely.",
+    keyPoints: [
+      "Export your Lovable.dev project as a ZIP and upload it to get a public URL in seconds.",
+      "Multi-file projects are unpacked automatically, with the React Router fallback in place for client-side routes.",
+      "No Lovable account needed for the people you share the link with.",
+      "Free plan handles exports up to 25MB compressed, which covers most prototype builds.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Lovable.dev is one of the cleanest AI-builder experiences right now. You describe what you want, Lovable generates the React app, you iterate in the chat. The catch is the share step. Lovable has its own deploy path, but if you want to put the result on your own domain, or skip the Lovable URL entirely, or just hand someone a link without onboarding them onto another tool, exporting the app and hosting it elsewhere is the cleaner route.",
+      "The export from Lovable is a ZIP of the built React app. Drop the ZIP here and NudgeHost unpacks it, serves the index.html, and rewrites unknown paths to that index so React Router works on direct URL visits. This is the same pipeline that handles every {{host-react-app}} upload; the only difference is that the source happened to be an AI builder rather than a hand-built Vite project. The result is identical: a clean URL anyone can open.",
+      "If Lovable's export gives you the source rather than the build, run `npm install && npm run build` locally first and zip the `dist` folder. Lovable's own export panel has a checkbox to include the built output, which avoids the local build step entirely. The same approach covers other AI builders: {{host-v0-export}} for v0.dev outputs and {{host-bolt-export}} for Bolt.new.",
+      "Free on {{pricing}} for ten active links. Most Lovable exports compress to well under the 25MB free-plan ceiling. Custom domains, password protection, and the removal of NudgeHost branding live on Pro, all of which matter when you're sharing the link with a client rather than testing internally. The same {{host-hub}} flow covers static HTML, ZIPs, and any other artifact you want to share alongside the app.",
+    ],
+    faqs: [
+      {
+        q: "Do I export source code or the built app?",
+        a: "Export the built app where Lovable offers it. If you only have source, run `npm install && npm run build` locally and zip the dist folder.",
+      },
+      {
+        q: "Will React Router work?",
+        a: "Yes. The SPA fallback rewrites unknown paths to index.html so the router can handle them.",
+      },
+      {
+        q: "Can I update the app without changing the URL?",
+        a: "Yes. Re-export from Lovable, upload the new ZIP to your existing link, and the URL stays the same.",
+      },
+      {
+        q: "Does Lovable's `lovable.dev` URL still work after I host on NudgeHost?",
+        a: "Yes. NudgeHost is a separate destination, not a redirect. Both URLs continue to work; you choose which one to share.",
+      },
+    ],
+    relatedToolSlugs: ["host-v0-export", "host-bolt-export", "host-react-app", "host-zip"],
+    filePillExamples: ["ZIP", "Lovable export", "React build", "Up to 25MB free"],
+  },
+
+  "v0-export": {
+    slug: "v0-export",
+    name: "v0 export",
+    filetypeShort: "v0",
+    title: "Host a v0 export: deploy a v0.dev component or app as a link",
+    description:
+      "Export from v0.dev, upload the code or ZIP to NudgeHost, get a public URL. Share what v0 built without a Vercel account. Free.",
+    h1: "Host a v0 export as a live URL.",
+    lead: "v0 built you a component or a full app. Paste the code or drop the ZIP here, get a public URL. No Vercel deploy required.",
+    keyPoints: [
+      "Paste v0.dev's generated code or upload its export ZIP and get a public link in seconds.",
+      "Self-contained components ship as a single HTML file via the paste-HTML route.",
+      "Full React app exports work as a ZIP, with the SPA fallback rewriting unknown paths to index.html.",
+      "Free plan handles exports up to 25MB, comfortably above any v0 output.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "v0.dev is Vercel's design-and-code generator. You describe a UI, v0 generates React + Tailwind code, you iterate. The default path forward is to deploy it on Vercel, which is reasonable if you're already in Vercel-land but heavier than necessary if you just want to share what v0 made.",
+      "NudgeHost is the lightweight alternative. For a single self-contained component, copy v0's HTML output into the paste box and you get a URL in seconds. This is the same flow that handles {{host-claude-artifact}} and {{host-chatgpt-html}}, since the underlying problem is identical: AI builder gave you HTML, you want it on the open web. For a multi-file v0 app, the ZIP export goes through the same pipeline that powers {{host-react-app}}.",
+      "There's one practical detail. v0's exports often reference Tailwind via CDN and shadcn/ui components inlined into the code. Both work out of the box when hosted: Tailwind loads from its CDN, the inlined components ship with the HTML. If v0 split your output across many files (`page.tsx`, `components/*.tsx`), the cleaner path is to run a local build first and zip the result; the alternative is to paste v0's preview HTML, which is enough for static UI demos but loses TypeScript-level component reuse.",
+      "Free on {{pricing}}. Most v0 outputs are small enough that the 25MB ceiling is irrelevant. Custom domains and password protection are on Pro, which matter when you're handing the URL to a client. The full {{host-hub}} catalog covers every other format you might want to share alongside the v0 demo, from PDF briefs to {{host-zip}} project bundles.",
+    ],
+    faqs: [
+      {
+        q: "Should I paste the code or upload a ZIP?",
+        a: "Paste the code for a single-file HTML demo. Upload a ZIP for a multi-file React app where you've built the project locally.",
+      },
+      {
+        q: "Will Tailwind classes work on the hosted page?",
+        a: "Yes, if v0's output loads Tailwind from its CDN (the default). The CDN request fires from your hosted page normally.",
+      },
+      {
+        q: "Can I host v0 components individually for an internal style guide?",
+        a: "Yes. Host each component on its own link, or zip them together as a static gallery and host the bundle.",
+      },
+      {
+        q: "Does this skip the Vercel deploy step entirely?",
+        a: "Yes. The hosted URL is on NudgeHost; you can use it without ever touching Vercel.",
+      },
+    ],
+    relatedToolSlugs: ["host-react-app", "host-claude-artifact", "host-html", "host-zip"],
+    filePillExamples: ["Paste HTML", "ZIP", "v0 export", "Up to 25MB free"],
+  },
+
+  "bolt-export": {
+    slug: "bolt-export",
+    name: "Bolt export",
+    filetypeShort: "Bolt",
+    title: "Host a Bolt.new export: deploy a Bolt app as a link",
+    description:
+      "Export from Bolt.new, drop the ZIP into NudgeHost, get a public URL. Skip the StackBlitz preview and share a real link. Free.",
+    h1: "Host a Bolt.new export as a live URL.",
+    lead: "Bolt built you an app inside StackBlitz. Download the project as a ZIP, drop it here, get a public URL anyone can open.",
+    keyPoints: [
+      "Export from Bolt.new (Download via the StackBlitz menu) and upload the ZIP to get a public URL in seconds.",
+      "Static builds run as-is; for source-only exports, run `npm install && npm run build` locally before zipping the dist folder.",
+      "The recipient sees a normal URL and never sees Bolt or StackBlitz.",
+      "Free plan handles exports up to 25MB compressed, well above the size of most prototypes.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Bolt.new from StackBlitz is the AI builder that runs the whole development environment in your browser. You describe what you want, Bolt builds the project inside an in-browser Node container, and you can preview the result without leaving the tab. The challenge starts when you want to share the result outside StackBlitz. The default options are 'send the StackBlitz preview link', which exposes the project structure, or 'deploy via StackBlitz', which has its own friction.",
+      "Exporting and hosting on NudgeHost is the cleanest middle ground. Bolt lets you download the project as a ZIP through the StackBlitz UI; that ZIP either contains a `dist` folder ready to host, or contains source you'll need to build locally. Either path ends with a folder of static files that {{host-react-app}} or {{host-zip}} can serve. The recipient gets a clean URL on nudgehost.com (or your own domain on Pro), with no StackBlitz chrome anywhere in sight.",
+      "If you're staying inside the Bolt loop and iterating, the deploy-to-NudgeHost step takes about twenty seconds: download the new ZIP, drag-and-drop, the link refreshes. The URL itself doesn't change between uploads, so anyone with the link gets the latest version automatically. That's particularly useful when you're showing progress to a client and want to keep iterating without re-pasting links.",
+      "Free on {{pricing}}. Bolt outputs vary in size depending on what was generated, but most prototypes compress to a few MB. The full set of {{host-hub}} formats is available alongside this if you want to share supporting assets, and {{host-lovable-export}} or {{host-v0-export}} cover the other AI builders that work the same way.",
+    ],
+    faqs: [
+      {
+        q: "Where do I find the export option in Bolt?",
+        a: "In the StackBlitz interface that backs Bolt, look for the Download project option in the file menu. It produces a ZIP of the whole project.",
+      },
+      {
+        q: "Do I host the source or the built app?",
+        a: "The built app. If your export only has source, run `npm install && npm run build` locally and zip the dist or build folder.",
+      },
+      {
+        q: "Will the StackBlitz preview URL still work?",
+        a: "Yes, the StackBlitz preview is unaffected. Your NudgeHost URL is a separate, parallel link you control.",
+      },
+      {
+        q: "Can I update the app without changing the URL?",
+        a: "Yes. Re-export from Bolt, upload the new ZIP to the same NudgeHost link, and the URL stays the same.",
+      },
+    ],
+    relatedToolSlugs: ["host-lovable-export", "host-v0-export", "host-react-app", "host-zip"],
+    filePillExamples: ["ZIP", "Bolt export", "StackBlitz", "Up to 25MB free"],
+  },
+
+  image: {
+    slug: "image",
+    name: "Image",
+    filetypeShort: "image",
+    title: "Host an image online: share a JPG, PNG, or WebP as a link",
+    description:
+      "Drop an image and get a clean shareable link. Works for JPG, PNG, WebP, GIF, and SVG. Free, no signup, no watermark.",
+    h1: "Host an image as a link.",
+    lead: "Drop a JPG, PNG, or WebP and get a clean URL. Perfect for forum posts, design handoffs, and anywhere you'd otherwise paste a screenshot.",
+    keyPoints: [
+      "Upload an image (JPG, PNG, WebP, GIF, or SVG) and get a public link in seconds, no signup.",
+      "EXIF metadata (camera model, location, timestamp) is stripped automatically before publishing for privacy.",
+      "Images serve with appropriate content-type headers, so the link works in image-only fields like forum posts.",
+      "Free plan covers ten active images at 25MB each. Most photographs are well under 5MB.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Hosting an image as a link sounds trivial until you actually try to do it. Imgur compresses photos. Twitter and Reddit auto-crop the preview. iCloud Photo Sharing wants the recipient signed in. Google Photos albums expire when you forget about them. NudgeHost is the boring, reliable middle: drop the file, get a URL, the URL still works two years later.",
+      "There's a small privacy detail that often gets missed. JPGs from a phone carry EXIF metadata including the camera model, the exact date and time, and (if your location services were on) the GPS coordinates of where the photo was taken. NudgeHost strips this on upload by default, so a photo you share publicly doesn't accidentally reveal that you took it inside your house at 3:14am. If you need the metadata preserved (for forensic or archival work), there's a per-upload toggle for it.",
+      "For images that will live on the web, especially in pages you build yourself, file size matters. A 4MB iPhone photo can usually become a 400KB WebP without any visible quality loss; {{converter-png-to-webp}} handles the equivalent for screenshots. Photographs in HEIC (the format iPhones save in by default) won't open on non-Apple devices; {{converter-heic-to-jpg}} fixes that before hosting. If the image is really a vector logo or icon, {{host-svg}} is the cleaner long-term choice.",
+      "Free with no watermark on {{pricing}}. The 25MB free-plan ceiling covers every photograph anyone produces without a medium-format camera. Hosting a whole gallery? Zip the images and {{host-zip}} the archive for a single shareable link, or put them in a {{host-html}} page if you want a layout around them. Custom domains and link expiry are on Pro.",
+    ],
+    faqs: [
+      {
+        q: "Does NudgeHost compress my image?",
+        a: "No. The image is served at the resolution and quality you uploaded. If you want a lighter file, convert it before uploading.",
+      },
+      {
+        q: "Will EXIF metadata be stripped?",
+        a: "Yes by default. GPS, camera model, and timestamp data are removed on upload. Toggle the setting if you specifically need the EXIF preserved.",
+      },
+      {
+        q: "What about animated GIFs?",
+        a: "GIFs work, but for animations longer than a few seconds, hosting as MP4 is dramatically smaller. The MP4 hosting page covers the trade-off.",
+      },
+      {
+        q: "Can I hotlink the image from another site?",
+        a: "Yes. The link serves the image with the correct content-type header, so it works inline anywhere `<img src=\"...\">` would.",
+      },
+    ],
+    relatedToolSlugs: ["host-svg", "host-gif", "converter-png-to-webp", "converter-heic-to-jpg"],
+    filePillExamples: ["JPG", "PNG", "WebP", "GIF", "Up to 25MB free"],
+  },
+
+  gif: {
+    slug: "gif",
+    name: "GIF",
+    filetypeShort: "GIF",
+    title: "Host a GIF online: share an animated GIF as a link",
+    description:
+      "Drop a GIF and get a shareable link in seconds. The animation plays in the recipient's browser. Free, no signup.",
+    h1: "Host a GIF as a link.",
+    lead: "Drop an animated GIF and get a URL. The animation plays in the browser the moment they click.",
+    keyPoints: [
+      "Upload a .gif, get a public link in seconds, share it. The animation plays in any modern browser.",
+      "GIFs serve with the correct content-type so the link works in image fields on forums and chat apps.",
+      "For animations longer than 5 seconds, hosting as MP4 is typically 90 percent smaller with no visible difference.",
+      "Free plan handles GIFs up to 25MB; most short clips fit comfortably.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "GIFs are everywhere despite being technically antique. The format was designed in 1987 for static images, then extended for short animations, then absorbed by the web culture of reaction loops and tutorials. Sharing one as a NudgeHost link is the cleanest way to put a GIF on a forum post, a documentation page, or a bug report where the host doesn't accept GIF uploads natively.",
+      "There's a size trap worth knowing about. A two-second animated GIF can easily be 8MB. The same animation as an MP4 with H.264 encoding is usually under 200KB and looks identical. If your GIF is more than five seconds long, converting to MP4 first is almost always the right call: faster page loads, less bandwidth, no visible quality drop. {{host-mp4}} covers that workflow. GIF hosting is the right pick when you specifically need GIF (forum software that won't accept MP4, Slack reactions, certain Reddit subs).",
+      "Animated GIFs also have a subtle accessibility issue. They auto-play with no pause control. For documentation or onboarding flows where someone might want to slow down or stop a demo, an MP4 (which gets browser-native play/pause controls) is friendlier. For a quick reaction or a five-frame loop, GIF is fine; nobody needs to pause a celebration emoji.",
+      "Free on {{pricing}} for ten active links. The 25MB free-plan ceiling holds most GIFs comfortably. If you're building a documentation site with many embedded demos, host them all from your dashboard and reference each from your {{host-html}} page; that keeps everything under one set of URLs. Static images go through {{host-image}}, and the matching tooling for raster conversion lives in {{converters-hub}}.",
+    ],
+    faqs: [
+      {
+        q: "Will the animation play in any browser?",
+        a: "Yes. GIF animation playback is universally supported across every browser made in the last decade.",
+      },
+      {
+        q: "Should I convert my GIF to MP4 first?",
+        a: "If it's longer than about 5 seconds, yes. MP4 is dramatically smaller for the same animation. For short loops, GIF is fine.",
+      },
+      {
+        q: "Why is my GIF so large?",
+        a: "GIF uses per-pixel palette indexing rather than modern video compression. Hundreds of frames of similar content still each pay the full bitmap cost. MP4 codecs collapse that into a fraction of the size.",
+      },
+      {
+        q: "Can I host a static GIF (single frame)?",
+        a: "Yes, though for static images, PNG or WebP are smaller and sharper. The same NudgeHost flow handles all three.",
+      },
+    ],
+    relatedToolSlugs: ["host-mp4", "host-image", "converter-png-to-webp", "host-html"],
+    filePillExamples: ["GIF", "Animated", "Loop", "Up to 25MB free"],
+  },
+
+  mp4: {
+    slug: "mp4",
+    name: "MP4",
+    filetypeShort: "MP4",
+    title: "Host an MP4 online: share a video file as a link",
+    description:
+      "Drop an MP4 video and get a shareable link in seconds. Plays in the browser with native controls, scrub bar, and HTTP range support. Free.",
+    h1: "Host an MP4 video as a link.",
+    lead: "Drop your MP4 and get a clean URL. The video plays inline with native browser controls. No YouTube account, no upload queue.",
+    keyPoints: [
+      "Upload an .mp4 file, get a public link in seconds, share it. The video plays inline in any modern browser.",
+      "HTTP range requests are supported, so seeking forward in the video doesn't redownload it from the start.",
+      "Native browser controls (play, pause, scrub, volume, fullscreen) appear automatically.",
+      "Free plan handles video files up to 25MB. Short screen recordings and demos fit comfortably.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Putting a video online used to mean YouTube, with all the friction that implied: ads, autoplay of unrelated content, an upload queue, a public profile, copyright algorithms. For a short demo video, a screen recording, or a clip from a meeting, none of that is what you want. You want a URL. You drop the file, you get the URL, you send it.",
+      "NudgeHost serves MP4s with HTTP range request support, which is the protocol detail that makes scrubbing work properly. Without it, jumping to the middle of a video would re-download the whole file. With it, the browser fetches only the bytes it needs for the current play position, exactly the way YouTube does it under the hood. Native browser controls appear automatically: play, pause, scrub, volume, fullscreen. No video player library needed.",
+      "Compression matters more for video than for any other format. A 30-second screen recording from QuickTime can easily be 80MB at H.264 with default settings; the same recording exported with HandBrake's Web preset is usually under 5MB and looks identical at typical viewing sizes. If your file is over 25MB and you're on the free plan, re-encoding before upload is almost always the right move. {{host-gif}} is the matching option for short looped animations where you don't need scrubbable controls.",
+      "Free with no watermark on {{pricing}}. Larger videos and longer clips fit on Pro. For a marketing demo embedded in a landing page, host the MP4 here and reference it directly from your {{host-html}} page with a normal `<video>` tag. The same {{host-hub}} flow covers every other format you might want to share alongside the video, from {{host-pdf}} scripts to {{host-image}} stills.",
+    ],
+    faqs: [
+      {
+        q: "Can the recipient scrub through the video?",
+        a: "Yes. HTTP range requests are supported, so the browser only fetches the part of the video you've jumped to. Seeking works smoothly even on long videos.",
+      },
+      {
+        q: "Will my video autoplay?",
+        a: "No, unless the HTML page embedding it requests autoplay. The hosted page shows the first frame with a play button overlaid.",
+      },
+      {
+        q: "What codec should the MP4 use?",
+        a: "H.264 video with AAC audio is the safest combination. Every modern browser supports it. H.265 (HEVC) plays on Safari but not all Chromium browsers; stick with H.264 unless you have a specific reason.",
+      },
+      {
+        q: "Can I embed the video in another page?",
+        a: "Yes. The link works as the src of a `<video>` tag, with range requests handled correctly so scrubbing works in your custom player too.",
+      },
+    ],
+    relatedToolSlugs: ["host-gif", "host-image", "host-html", "host-mp3"],
+    filePillExamples: ["MP4", "H.264", "Demo", "Screen recording", "Up to 25MB free"],
+  },
+
+  mp3: {
+    slug: "mp3",
+    name: "MP3",
+    filetypeShort: "MP3",
+    title: "Host an MP3 online: share an audio file as a link",
+    description:
+      "Drop an MP3 audio file and get a shareable link in seconds. Plays in the browser with native controls. Free, no signup.",
+    h1: "Host an MP3 audio file as a link.",
+    lead: "Drop your MP3 and get a clean URL. The audio plays in the browser with native controls, no embed code, no podcast platform.",
+    keyPoints: [
+      "Upload an .mp3 file and get a public link in seconds, no signup.",
+      "Plays inline in any modern browser with native play/pause/scrub controls.",
+      "Works for podcast pilots, voiceovers, meeting recordings, and music demos without needing a platform.",
+      "Free plan handles audio files up to 25MB, which is roughly 25 minutes at 128kbps.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Hosting an audio file as a link is the unglamorous middle path between 'send the file as an email attachment' and 'set up a SoundCloud account.' Voiceover demos, podcast pilots, meeting recordings, music sketches, language practice clips, any of it can sit at a NudgeHost URL with a single click of upload. The recipient gets a normal page with a play button. They don't need an account, an app, or even to download the file.",
+      "There's a sizing detail that comes up. MP3 at 128kbps is around 1MB per minute; at 192kbps it's about 1.4MB per minute. The 25MB free-plan ceiling covers roughly 25 minutes at 128kbps, or 15 minutes at 192kbps. For a single demo or a short voiceover that's plenty. For a full podcast episode, either downsample before upload (most audio editors export at 96kbps for spoken-word content without any noticeable quality drop) or use Pro's higher ceiling.",
+      "MP3 is also the format with the broadest decoder support of any audio format. Every browser, every operating system, every car stereo from the last twenty years. If you're sending an audio clip to someone whose device is unknown, MP3 is the safe bet. For higher-quality music sharing where every kilobyte matters less, FLAC is a better master format, though NudgeHost serves both interchangeably.",
+      "Free on {{pricing}} with no signup. The hosted page includes a download button so the recipient can grab the file if they want to keep a copy. Audio for a marketing video pairs naturally with hosting the video itself via {{host-mp4}}, and the rest of NudgeHost's {{host-hub}} catalog covers every other format you'd ship alongside an audio file.",
+    ],
+    faqs: [
+      {
+        q: "Does the recipient need a media player installed?",
+        a: "No. The MP3 plays inline in their browser using native HTML5 audio. Every modern browser supports MP3 playback.",
+      },
+      {
+        q: "Can I host other audio formats?",
+        a: "Yes. WAV, FLAC, OGG, AAC, and M4A all work. MP3 is the most universally compatible format for sharing.",
+      },
+      {
+        q: "Will the audio stream or fully download?",
+        a: "It streams. HTTP range requests let the browser fetch parts of the file on demand, so the audio starts playing before the whole file has loaded.",
+      },
+      {
+        q: "How long an audio clip can I host on the free plan?",
+        a: "About 25 minutes at 128kbps, or 15 minutes at 192kbps. Re-encode to 96kbps for spoken-word content if you need to squeeze in more time.",
+      },
+    ],
+    relatedToolSlugs: ["host-mp4", "host-image", "host-zip", "host-html"],
+    filePillExamples: ["MP3", "Audio", "Voiceover", "Podcast pilot", "Up to 25MB free"],
   },
 };
