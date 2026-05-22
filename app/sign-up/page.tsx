@@ -60,7 +60,9 @@ export default async function SignUpPage({
           </div>
         )}
 
-        <SignUp />
+        <div className="flex justify-center">
+          <SignUp />
+        </div>
       </main>
       <Footer />
     </>
