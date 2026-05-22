@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   description:
     "We're putting the finishing touches on accounts. Drop your email and we'll let you know when sign-up opens.",
   alternates: { canonical: "/sign-up" },
+  // Placeholder page: crawlable so Google sees the inbound CTAs from the
+  // homepage, pricing, and navbar, but kept out of the index until the real
+  // account flow ships.
+  robots: { index: false, follow: true },
 };
 
 const planLabels: Record<string, string> = {
