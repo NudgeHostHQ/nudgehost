@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const intro = [
   "NudgeHost is a general tool, but most people arrive with one specific job in mind. These guides walk through the common ones end to end: the right format, the right settings, and the link at the end of it.",
-  "Job hunters tend to start by learning how to {{use-case-resume-link}} or how to {{use-case-recruiter}}. People sending big files want to {{use-case-large-pdf}}. Whatever the job, the underlying step is the same: {{home}}.",
+  "Job hunters tend to start by learning how to {{use-case-resume-link}} or how to {{use-case-recruiter}}. People sending big files want to {{use-case-large-pdf}}. Couples planning a wedding can {{use-case-wedding}} for free without paying a $30/year subscription. Whatever the job, the underlying step is the same: {{home}}.",
 ];
 
 export default function UseCasesHub() {
