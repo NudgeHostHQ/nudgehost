@@ -12,3 +12,6 @@ dist/
 # Working docs kept locally, never committed
 STRATEGY.md
 ANTI-AI-SLOP PROMPT — COPY, PASTE, FILL IN \[BRACKETS\].txt
+
+.vercel
+.env*.local
