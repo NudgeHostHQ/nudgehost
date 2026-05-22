@@ -239,6 +239,14 @@ export const internalLinks: Record<string, LinkTarget> = {
     href: "/compare/nudgehost-vs-linkyhost",
     anchors: ["how NudgeHost compares to Linkyhost", "NudgeHost vs Linkyhost"],
   },
+  "compare-tiiny-vs-linkyhost": {
+    href: "/compare/tiiny-host-vs-linkyhost",
+    anchors: [
+      "Tiiny.host vs Linkyhost comparison",
+      "how Tiiny and Linkyhost compare",
+      "Tiiny.host and Linkyhost side by side",
+    ],
+  },
 };
 
 // Deterministic anchor picker — given a destination key and a "salt" (usually the

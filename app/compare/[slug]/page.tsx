@@ -45,6 +45,13 @@ export default async function ComparePage({
   const content = compareContentMap[slug];
   if (!content) notFound();
 
+  const leftLabel = content.leftColumnLabel ?? "NudgeHost";
+  const rightLabel = content.rightColumnLabel ?? content.competitorName;
+  const isNeutral = content.leftColumnLabel != null;
+  const fullHeading = `${leftLabel} vs ${rightLabel}`;
+  const breadcrumbCurrent = isNeutral ? fullHeading : `vs ${rightLabel}`;
+  const verdictHeading = content.verdictHeading ?? "The verdict";
+
   // JSON-LD: FAQPage + BreadcrumbList
   const jsonLd = {
     "@context": "https://schema.org",
@@ -70,7 +77,7 @@ export default async function ComparePage({
           {
             "@type": "ListItem",
             position: 3,
-            name: `NudgeHost vs ${content.competitorName}`,
+            name: fullHeading,
             item: `${siteUrl}/compare/${slug}`,
           },
         ],
@@ -108,7 +115,7 @@ export default async function ComparePage({
                 </li>
                 <li aria-hidden="true">/</li>
                 <li aria-current="page" className="text-charcoal">
-                  vs {content.competitorName}
+                  {breadcrumbCurrent}
                 </li>
               </ol>
             </nav>
@@ -135,18 +142,24 @@ export default async function ComparePage({
           <div className="overflow-x-auto rounded-2xl border border-charcoal/10">
             <table className="w-full border-collapse text-sm">
               <caption className="sr-only">
-                Feature comparison of NudgeHost and {content.competitorName}
+                Feature comparison of {leftLabel} and {rightLabel}
               </caption>
               <thead>
                 <tr className="bg-coral-light text-left">
                   <th scope="col" className="px-4 py-3 font-semibold text-charcoal">
                     Feature
                   </th>
-                  <th scope="col" className="px-4 py-3 font-semibold text-coral-dark">
-                    NudgeHost
+                  <th
+                    scope="col"
+                    className={
+                      "px-4 py-3 font-semibold " +
+                      (isNeutral ? "text-charcoal" : "text-coral-dark")
+                    }
+                  >
+                    {leftLabel}
                   </th>
                   <th scope="col" className="px-4 py-3 font-semibold text-charcoal">
-                    {content.competitorName}
+                    {rightLabel}
                   </th>
                 </tr>
               </thead>
@@ -185,7 +198,7 @@ export default async function ComparePage({
         {/* VERDICT */}
         <section className="mx-auto max-w-3xl px-6 py-8">
           <h2 className="mb-6 font-display text-2xl font-semibold tracking-tight">
-            The verdict
+            {verdictHeading}
           </h2>
           <ContextualProse paragraphs={content.verdict} salt={`${slug}-verdict`} />
         </section>
