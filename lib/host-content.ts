@@ -90,7 +90,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     keyPoints: [
       "Drop an HTML file or paste source directly to get a live nudgehost.com URL within seconds.",
       "Works for single-file pages, AI-generated outputs, and multi-file sites bundled as a ZIP.",
-      "Client-side JavaScript runs as expected — useful for prototypes, demos, and AI artifacts.",
+      "Client-side JavaScript runs as expected, which makes this a good fit for prototypes, demos, and AI artifacts.",
       "Free with no signup; custom domains, password protection, and unbranded links are on a paid plan.",
     ],
     body: [
@@ -180,7 +180,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     lead: "Drop your CV here and we'll give you a clean URL to share with recruiters. You'll see when they open it. They don't need to download a thing.",
     keyPoints: [
       "Upload your CV and get a clean shareable link with open-tracking switched on by default.",
-      "Recruiters open the resume directly in their browser — no download, no Dropbox login, no attachment.",
+      "Recruiters open the resume in their browser, with no download, no Dropbox login, and no attachment to wrangle.",
       "Updating the file keeps the same URL, so every employer who already has the link sees the latest version.",
       "Free for one resume; custom domains and the removal of NudgeHost branding are on a paid plan.",
     ],
