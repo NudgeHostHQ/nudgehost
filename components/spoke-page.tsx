@@ -240,10 +240,118 @@ export function SpokePage({
           </div>
         </section>
 
+        {/* HOW IT WORKS — opt-in 3-step card row, currently use-cases only.
+            Sits between the inline CTA and the body prose so it reinforces
+            the "this is how the flow works" promise before the long copy. */}
+        {silo.showHowItWorks && (
+          <section
+            className="mx-auto max-w-5xl px-6 pt-12"
+            aria-labelledby="how-it-works-heading"
+          >
+            <p className="mb-3 text-xs font-medium uppercase tracking-widest text-coral">
+              How it works
+            </p>
+            <h2
+              id="how-it-works-heading"
+              className="mb-10 max-w-lg font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl"
+            >
+              Three steps, then you&apos;re done.
+            </h2>
+            <ol className="grid gap-5 md:grid-cols-3">
+              {[
+                {
+                  num: "01",
+                  title: "Upload your file",
+                  desc: "Drag and drop, or click to browse. Any format, any file up to 25MB on the free plan.",
+                },
+                {
+                  num: "02",
+                  title: "Get your link",
+                  desc: "A clean nudgehost.com URL appears the moment the upload finishes. Copy it in one click.",
+                },
+                {
+                  num: "03",
+                  title: "Share it",
+                  desc: "Paste the link in an email, in Slack, anywhere. The recipient clicks and opens your file.",
+                },
+              ].map((step) => (
+                <li
+                  key={step.num}
+                  className="rounded-3xl border border-charcoal/10 bg-warm p-7 transition-transform hover:-translate-y-1"
+                >
+                  <div className="mb-5 flex h-9 w-9 items-center justify-center rounded-xl bg-coral-light text-sm font-semibold text-coral-dark">
+                    {step.num}
+                  </div>
+                  <h3 className="mb-2 font-display text-lg font-semibold">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted">
+                    {step.desc}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
         {/* BODY COPY — {{token}} markers become in-prose contextual links */}
         <section className="mx-auto max-w-3xl px-6 py-12">
           <ContextualProse paragraphs={content.body} salt={content.slug} />
         </section>
+
+        {/* FEATURE CARDS — opt-in 3-card benefit grid, currently use-cases
+            only. Sits between body prose and FAQs so the visual lift comes
+            after the SEO copy has done its work. */}
+        {silo.showFeatureCards && (
+          <section
+            className="mx-auto max-w-5xl px-6 pb-12 pt-4"
+            aria-labelledby="feature-cards-heading"
+          >
+            <p className="mb-3 text-xs font-medium uppercase tracking-widest text-coral">
+              What every link does
+            </p>
+            <h2
+              id="feature-cards-heading"
+              className="mb-10 max-w-lg font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl"
+            >
+              Designed to be shared.
+            </h2>
+            <ul className="grid gap-5 md:grid-cols-3">
+              {[
+                {
+                  icon: "📊",
+                  title: "Open tracking",
+                  desc: "Know when someone opens your link, how many times, and roughly from where.",
+                },
+                {
+                  icon: "🌐",
+                  title: "No download needed",
+                  desc: "Recipients open your file in the browser. No app, no plugin, no Acrobat install.",
+                },
+                {
+                  icon: "🔄",
+                  title: "Update anytime",
+                  desc: "Replace the file in your dashboard and the URL stays the same. Same link, new content.",
+                },
+              ].map((feature) => (
+                <li
+                  key={feature.title}
+                  className="rounded-3xl bg-cream p-6 transition-transform hover:-translate-y-0.5"
+                >
+                  <div className="mb-4 text-2xl" aria-hidden="true">
+                    {feature.icon}
+                  </div>
+                  <h3 className="mb-1.5 font-display text-base font-semibold text-charcoal">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted">
+                    {feature.desc}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* FAQs */}
         <section className="mx-auto max-w-3xl px-6 py-12">
@@ -306,21 +414,40 @@ export function SpokePage({
         {/* RELATED TOOLS — navigational cross-silo links */}
         <RelatedTools tools={content.relatedToolSlugs as never[]} />
 
-        {/* CTA */}
-        <section className="bg-coral px-6 py-16 text-center text-white">
-          <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
-            Ready to {silo.ctaVerb}?
-          </h2>
-          <p className="mb-8 text-base opacity-90">
-            Free forever, no credit card needed. The whole thing takes a few seconds.
-          </p>
-          <Link
-            href="/sign-up"
-            className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
-          >
-            Get started free
-          </Link>
-        </section>
+        {/* CTA — switches between standard and prominent variants depending
+            on silo.prominentCta. Use-cases silo gets the bigger treatment. */}
+        {silo.prominentCta ? (
+          <section className="bg-coral px-6 py-20 text-center text-white md:py-24">
+            <h2 className="mb-4 font-display text-3xl font-semibold tracking-tight md:text-5xl">
+              Ready to {silo.ctaVerb}?
+            </h2>
+            <p className="mx-auto mb-8 max-w-xl text-base opacity-90 md:text-lg">
+              Free forever, no credit card. The whole thing takes a few
+              seconds, and the link works the moment you have it.
+            </p>
+            <Link
+              href="/sign-up"
+              className="inline-block rounded-full bg-white px-8 py-4 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95 md:text-lg"
+            >
+              Get started free
+            </Link>
+          </section>
+        ) : (
+          <section className="bg-coral px-6 py-16 text-center text-white">
+            <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
+              Ready to {silo.ctaVerb}?
+            </h2>
+            <p className="mb-8 text-base opacity-90">
+              Free forever, no credit card needed. The whole thing takes a few seconds.
+            </p>
+            <Link
+              href="/sign-up"
+              className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
+            >
+              Get started free
+            </Link>
+          </section>
+        )}
       </main>
       <Footer />
     </>
