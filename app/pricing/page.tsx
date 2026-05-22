@@ -165,7 +165,7 @@ export default function PricingPage() {
             className="absolute -right-32 -top-20 -z-0 h-[400px] w-[400px] rounded-full bg-peach opacity-40"
             aria-hidden="true"
           />
-          <div className="relative z-10 mx-auto max-w-3xl">
+          <div className="relative z-10 mx-auto max-w-5xl">
             <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
               <ol className="flex flex-wrap gap-2">
                 <li>
