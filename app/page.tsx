@@ -279,13 +279,13 @@ export default function HomePage() {
                 },
                 {
                   icon: "🔗",
-                  title: "Custom short links",
-                  desc: "Pick a memorable URL slug instead of a random string of characters.",
+                  title: "Branded links that look like yours",
+                  desc: "Pick a slug that makes sense, not a random string. nudgehost.com/your-portfolio reads better than a hash.",
                 },
                 {
                   icon: "♾️",
-                  title: "No time limits",
-                  desc: "Your links stay live for as long as you need. No expiry surprises.",
+                  title: "Links that don't expire. Ever.",
+                  desc: "Tiiny.host kills your free links after 30 days of inactivity. Ours stay live for as long as you need them.",
                 },
               ].map((feature) => (
                 <li
