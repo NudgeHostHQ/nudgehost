@@ -65,7 +65,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       "Convert to PDF first if you need pixel-identical results before sending the file on.",
     ],
     body: [
-      "Word documents are everywhere, but Microsoft Word is not — not on every phone, not on every Chromebook, not on a machine you've borrowed for ten minutes. Opening a DOCX online removes that dependency entirely. The document renders in your browser with its formatting intact.",
+      "Word documents are everywhere, but Microsoft Word is not. You can't count on it being installed on every phone, on every Chromebook, or on a machine you've borrowed for ten minutes. Opening a DOCX online removes that dependency entirely. The document renders in your browser with its formatting intact.",
       "If you want to send the document to someone else, the cleaner path is usually to convert it first: {{converter-docx-to-pdf}} so the recipient sees identical formatting on every device, then {{host-pdf}} so they open it with a single click. PDF travels better than DOCX precisely because it doesn't depend on the reader's software.",
       "Prefer to keep it as a Word file? You can {{host-hub}} in its original format just as easily — the recipient lands on a viewer like this one. For other document types, the {{viewer-pdf}} works the same way.",
       "This viewer is free with no limits. Sharing features like custom domains and passwords are on {{pricing}}.",

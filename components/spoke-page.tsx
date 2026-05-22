@@ -312,7 +312,7 @@ export function SpokePage({
             Ready to {silo.ctaVerb}?
           </h2>
           <p className="mb-8 text-base opacity-90">
-            Free forever. No credit card. It only takes a few seconds.
+            Free forever, no credit card needed. The whole thing takes a few seconds.
           </p>
           <Link
             href="/sign-up"

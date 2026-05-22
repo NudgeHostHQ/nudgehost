@@ -90,7 +90,7 @@ export default function HomePage() {
           {/* Badge */}
           <div className="relative z-10 mb-7 inline-flex animate-fade-up items-center gap-2 rounded-full bg-coral-light px-3.5 py-1.5 text-xs font-medium text-coral-dark">
             <span className="h-1.5 w-1.5 rounded-full bg-coral" aria-hidden="true" />
-            No setup. No fuss. Just share.
+            Drop a file and share it. That simple.
           </div>
 
           {/* H1 */}
@@ -209,7 +209,7 @@ export default function HomePage() {
               {
                 num: "01",
                 title: "Drop your file",
-                desc: "Drag and drop any file — a PDF, a website, an image, a ZIP. No configuration needed.",
+                desc: "Drag and drop whatever you've got. PDFs, websites, images, and ZIPs all work the same way. No configuration needed.",
               },
               {
                 num: "02",
@@ -219,7 +219,7 @@ export default function HomePage() {
               {
                 num: "03",
                 title: "Give the nudge",
-                desc: "Send the link to anyone — clients, teammates, the world. They click, they see it. Done.",
+                desc: "Send the link to whoever needs it. They click and see your file straight away. Done.",
               },
             ].map((step) => (
               <li
