@@ -99,8 +99,6 @@ export function Footer() {
             <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
             <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
             <li><Link href="/dmca" className="hover:text-white">DMCA</Link></li>
-            <li><Link href="/docs" className="hover:text-white">Docs</Link></li>
-            <li><Link href="/changelog" className="hover:text-white">Changelog</Link></li>
           </ul>
         </div>
       </div>
