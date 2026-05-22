@@ -16,7 +16,8 @@
       "Bash(npm install *)",
       "Bash(npx next *)",
       "Bash(npm run *)",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Bash(git revert *)"
     ]
   }
 }
