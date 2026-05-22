@@ -170,4 +170,48 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     ],
     relatedToolSlugs: ["host-pdf", "host-html", "host-zip", "use-case-recruiter"],
   },
+
+  "share-wedding-website": {
+    slug: "share-wedding-website",
+    name: "Host a wedding website",
+    title: "How to host a wedding website for free",
+    description:
+      "Drop a wedding HTML page or PDF into NudgeHost and get a clean link to share with guests. No app, no account, no $30/year site builder.",
+    h1: "Host a wedding website for free.",
+    lead: "Skip the $30/year wedding site builders. Drop a single HTML page or PDF here and get a clean URL with all the details, the RSVP link, and directions.",
+    keyPoints: [
+      "Upload a wedding HTML page or PDF and get a clean shareable link in seconds, no signup.",
+      "Guests open the page in their browser. No app to install, no Knot or Zola account to sign up for.",
+      "Update the file anytime and the URL stays the same. Add a venue change, refresh the schedule, swap the photo.",
+      "Free on the free plan, with no banner ads or upsells on the link your guests see.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-22",
+    dateModified: "2026-05-22",
+    body: [
+      "Most weddings now have a website, and most of those websites only need to do four things: tell guests the date and venue, accept RSVPs, give directions, and mention the dress code. Maybe a photo at the top. That's a one-page HTML or a one-page PDF, not a CMS with a thousand themes. Everything beyond those essentials is decoration that adds work for you and confusion for the guests trying to find the actual address. A guest looking up the start time on the morning of the wedding doesn't need parallax scrolling or a registry carousel; they need the time, in big enough type to read on the phone screen they're holding.",
+      "The big wedding website builders (Zola, The Knot, Joy, Minted) bundle templates, registry tools, and email collection into platforms that cost $20-50 per year and stick ads or upsells on the free tier. Couples shopping for a wedding website rarely need any of that. They have a venue confirmed and a schedule already typed out in Google Docs. They need a URL they can text to their guests, not a marketing funnel asking everyone who opens it to start their own wedding registry.",
+      "NudgeHost is the much smaller, much cheaper middle ground. Build your wedding page however you want (a single HTML file you wrote, an AI-generated layout, a PDF designed in Canva, a Notion export printed to PDF) and {{host-html}} or {{host-pdf}} it. The result is a clean nudgehost.com link with no banner ads, no upsells, and no $30 annual renewal. If you'd rather share a designed image of the invitation, {{host-image}} works the same way. Several files together (a venue map, an RSVP form, a photo) can be bundled and {{host-zip}}-ed into one link. When the venue confirms a final start time or you spot a typo, swap the source file in your dashboard and the URL stays the same, so the version every guest sees updates instantly.",
+      "Guests click the link and read the page. No download, no account, no app from the App Store, no 'sign in with Google to RSVP.' Older relatives who refuse to install another app can still see your wedding details on their phone, on their tablet, or on the desktop computer they use once a month. The link works on every device because it's just a web page. The whole thing costs nothing on {{pricing}} as long as your file is under 25MB, which it almost certainly is for a single wedding page.",
+    ],
+    faqs: [
+      {
+        q: "Can I update the wedding details after sharing the link?",
+        a: "Yes. Replace the file in your dashboard and the URL doesn't change. Anyone who already has the link sees the new version on their next refresh. Useful when the venue confirms a final start time or the dress code shifts.",
+      },
+      {
+        q: "Can I password-protect my wedding page?",
+        a: "Yes, on the Pro plan. Set a password on the link and guests have to enter it before they see the page. Worth it if you'd rather the URL didn't end up indexed in search.",
+      },
+      {
+        q: "How long does the wedding link stay live?",
+        a: "Forever on the free plan, with no expiry unless you set one yourself. After the wedding you can keep the page up as a memento, set it to expire on a date, or just delete the link from your dashboard.",
+      },
+      {
+        q: "Can guests view the page on their phone?",
+        a: "Yes. The link works in any browser on any modern device: iPhones, Androids, iPads, laptops, even the screen on a Smart TV. If your wedding page is responsive, it adapts automatically.",
+      },
+    ],
+    relatedToolSlugs: ["host-html", "host-pdf", "host-image", "host-zip"],
+  },
 };

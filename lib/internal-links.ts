@@ -217,6 +217,14 @@ export const internalLinks: Record<string, LinkTarget> = {
     href: "/use-cases/share-deck-with-client",
     anchors: ["share a deck with a client", "send a presentation as a link"],
   },
+  "use-case-wedding": {
+    href: "/use-cases/share-wedding-website",
+    anchors: [
+      "host a wedding website for free",
+      "share your wedding details as a link",
+      "skip the wedding website builder",
+    ],
+  },
 
   // --- Compare silo ----------------------------------------------------------
   "compare-hub": {
