@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, DM_Sans } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -88,26 +89,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${dmSans.variable}`}>
-      <body className="font-sans">
-        {/* Organization JSON-LD — appears on every page, sitewide entity */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "NudgeHost",
-              url: siteUrl,
-              logo: `${siteUrl}/logo.png`,
-              sameAs: [],
-              description:
-                "Share any file as a link. PDFs, HTML, ZIPs, images and AI-generated outputs.",
-            }),
-          }}
-        />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={`${fraunces.variable} ${dmSans.variable}`}>
+        <body className="font-sans">
+          {/* Organization JSON-LD — appears on every page, sitewide entity */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "NudgeHost",
+                url: siteUrl,
+                logo: `${siteUrl}/logo.png`,
+                sameAs: [],
+                description:
+                  "Share any file as a link. PDFs, HTML, ZIPs, images and AI-generated outputs.",
+              }),
+            }}
+          />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
