@@ -21,7 +21,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nudgehost.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "NudgeHost: share any file as a link in seconds",
+    default: "Share any file as a link in seconds | NudgeHost",
     template: "%s | NudgeHost",
   },
   description:
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: siteUrl,
     siteName: "NudgeHost",
-    title: "NudgeHost: share any file as a link in seconds",
+    title: "Share any file as a link in seconds | NudgeHost",
     description:
       "Drop a file, get a shareable link. The friendliest way to share PDFs, HTML, ZIPs and more.",
     images: [
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NudgeHost: share any file as a link in seconds",
+    title: "Share any file as a link in seconds | NudgeHost",
     description: "Drop a file, get a shareable link.",
     images: ["/og-image.png"],
   },
