@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  BarChart3,
+  Globe,
+  Infinity as InfinityIcon,
+  Link2,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -258,48 +266,48 @@ export default function HomePage() {
             <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  icon: "⚡",
+                  Icon: Zap,
                   title: "Instant publishing",
                   desc: "Files go live the moment you drop them. No waiting, no processing queues.",
                 },
                 {
-                  icon: "🔒",
+                  Icon: ShieldCheck,
                   title: "Password protection",
                   desc: "Keep sensitive files private with optional password locks on any link.",
                 },
                 {
-                  icon: "📊",
+                  Icon: BarChart3,
                   title: "Link analytics",
                   desc: "See who's clicking your links and when. Know your nudge landed.",
                 },
                 {
-                  icon: "🌐",
+                  Icon: Globe,
                   title: "Custom domains",
                   desc: "Use your own domain for a professional touch on every link you share.",
                 },
                 {
-                  icon: "🔗",
+                  Icon: Link2,
                   title: "Branded links that look like yours",
                   desc: "Pick a slug that makes sense, not a random string. nudgehost.com/your-portfolio reads better than a hash.",
                 },
                 {
-                  icon: "♾️",
+                  Icon: InfinityIcon,
                   title: "Links that don't expire. Ever.",
                   desc: "Tiiny.host kills your free links after 30 days of inactivity. Ours stay live for as long as you need them.",
                 },
-              ].map((feature) => (
+              ].map(({ Icon, title, desc }) => (
                 <li
-                  key={feature.title}
+                  key={title}
                   className="rounded-3xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-coral/40"
                 >
-                  <div className="mb-4 text-2xl" aria-hidden="true">
-                    {feature.icon}
+                  <div className="mb-4 text-coral" aria-hidden="true">
+                    <Icon size={24} strokeWidth={2} />
                   </div>
                   <h3 className="mb-1.5 font-display text-base font-semibold text-white">
-                    {feature.title}
+                    {title}
                   </h3>
                   <p className="text-sm leading-relaxed text-white/60">
-                    {feature.desc}
+                    {desc}
                   </p>
                 </li>
               ))}
