@@ -60,7 +60,7 @@ export const compareContentMap: Record<string, CompareContent> = {
     faqs: [
       {
         q: "Is NudgeHost cheaper than Tiiny.host?",
-        a: "The entry paid prices are close. The bigger difference is the free plan — NudgeHost's is far more usable — and that NudgeHost has three tiers rather than five.",
+        a: "The entry paid prices are close. The bigger difference is the free plan: NudgeHost's is far more usable, and NudgeHost has three tiers rather than five.",
       },
       {
         q: "Can NudgeHost host static sites like Tiiny.host?",
@@ -98,7 +98,7 @@ export const compareContentMap: Record<string, CompareContent> = {
       { feature: "Brand personality", nudgehost: "Warm, distinct", competitor: "Utility-style", nudgehostWins: true },
     ],
     verdict: [
-      "Pick Linkyhost if the lowest entry price is the deciding factor — $5 beats $8 — and you are happy to upgrade immediately, since the one-upload free plan is not something you can run on.",
+      "Pick Linkyhost if the lowest entry price is the deciding factor ($5 beats $8), and you are happy to upgrade immediately, since the one-upload free plan is not something you can run on.",
       "Pick NudgeHost if you want a free plan you can genuinely use, QR codes without paying, dedicated support for AI-generated outputs, and a product that does not feel like a faceless utility.",
       "Honestly, these two are close, and Linkyhost's lower price is a real point in its favour. NudgeHost's case is the much more usable free tier and the broader toolset. Try it: {{host-pdf}} on the free plan, or see how NudgeHost stacks up against {{compare-tiiny}} as well.",
     ],

@@ -14,7 +14,8 @@
       "Bash(npm audit *)",
       "Bash(npm ls *)",
       "Bash(npm install *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(npm run *)"
     ]
   }
 }
