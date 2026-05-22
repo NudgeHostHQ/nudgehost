@@ -1,4 +1,7 @@
 import Link from "next/link";
+// Clerk v7 replaces the old <SignedIn>/<SignedOut> control components with a
+// single <Show when="signed-in" | "signed-out"> component. Same behavior.
+import { Show, UserButton } from "@clerk/nextjs";
 
 export function Navbar() {
   return (
@@ -48,22 +51,37 @@ export function Navbar() {
               Blog
             </Link>
           </li>
-          <li>
-            <Link
-              href="/sign-in"
-              className="text-base font-medium text-muted transition-colors hover:text-charcoal"
-            >
-              Sign in
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/sign-up"
-              className="rounded-full bg-coral px-5 py-2 text-base font-medium text-white transition-colors hover:bg-coral-dark"
-            >
-              Get started free
-            </Link>
-          </li>
+          <Show when="signed-out">
+            <li>
+              <Link
+                href="/sign-in"
+                className="text-base font-medium text-muted transition-colors hover:text-charcoal"
+              >
+                Sign in
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/sign-up"
+                className="rounded-full bg-coral px-5 py-2 text-base font-medium text-white transition-colors hover:bg-coral-dark"
+              >
+                Get started free
+              </Link>
+            </li>
+          </Show>
+          <Show when="signed-in">
+            <li>
+              <Link
+                href="/dashboard"
+                className="text-base font-medium text-muted transition-colors hover:text-charcoal"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <UserButton />
+            </li>
+          </Show>
         </ul>
       </div>
     </nav>
