@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nudgehost.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
