@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { SpokePage } from "@/components/spoke-page";
 import { useCasesSilo, useCasesContentMap } from "@/lib/use-cases-content";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nudgehost.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 type Params = { slug: string };
 
