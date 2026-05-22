@@ -46,21 +46,25 @@ export default function CompareHub() {
         </header>
 
         <ul className="grid gap-4 md:grid-cols-2">
-          {comparisons.map((c) => (
-            <li key={c.slug}>
-              <Link
-                href={`/compare/${c.slug}`}
-                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
-              >
-                <h2 className="font-display text-base font-semibold text-charcoal">
-                  NudgeHost vs {c.competitorName}
-                </h2>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                  {c.lead}
-                </p>
-              </Link>
-            </li>
-          ))}
+          {comparisons.map((c) => {
+            const leftLabel = c.leftColumnLabel ?? "NudgeHost";
+            const rightLabel = c.rightColumnLabel ?? c.competitorName;
+            return (
+              <li key={c.slug}>
+                <Link
+                  href={`/compare/${c.slug}`}
+                  className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
+                >
+                  <h2 className="font-display text-base font-semibold text-charcoal">
+                    {leftLabel} vs {rightLabel}
+                  </h2>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                    {c.lead}
+                  </p>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </main>
       <Footer />

@@ -257,6 +257,12 @@ const TOOL_REGISTRY: Record<string, Tool> = {
     description: "An honest side-by-side comparison.",
     href: "/compare/nudgehost-vs-linkyhost",
   },
+  "compare-tiiny-vs-linkyhost": {
+    slug: "compare-tiiny-vs-linkyhost",
+    name: "Tiiny.host vs Linkyhost",
+    description: "A neutral comparison of the two other tools in this category.",
+    href: "/compare/tiiny-host-vs-linkyhost",
+  },
 };
 
 export const APPROVED_TOOL_SLUGS = Object.keys(TOOL_REGISTRY) as Array<
