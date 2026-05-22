@@ -18,7 +18,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     description:
       "Convert a PDF into JPG images, one per page. Free, no signup, no watermark. Works in your browser on any device.",
     h1: "Convert a PDF to JPG.",
-    lead: "Drop a PDF and get back a JPG for every page — ready to drop into a slide, a post, or a message.",
+    lead: "Drop a PDF and get back a JPG for every page. Each one is ready to drop into a slide, a post, or a message.",
     keyPoints: [
       "Drop a PDF and get one JPG per page, ready to drop into slides, posts, or messages.",
       "High-resolution output with no watermark, even on the free plan.",
