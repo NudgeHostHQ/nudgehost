@@ -8,9 +8,6 @@ export const useCasesSilo: SiloConfig = {
   heroVariant: "cta",
   ctaVerb: "share your first file",
   showByline: true,
-  showHowItWorks: true,
-  showFeatureCards: true,
-  prominentCta: true,
 };
 
 export const useCasesContentMap: Record<string, SpokeContent> = {
