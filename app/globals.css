@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #FBF7F0;
+  --warm-white: #FFFDF9;
+  --peach: #F5DCC8;
+  --coral: #E8704A;
+  --coral-dark: #C4522E;
+  --coral-light: #FAE8DF;
+  --sage: #7A9E7E;
+  --sage-light: #E8F0E9;
+  --charcoal: #2C2824;
+  --muted: #7A6F65;
+  --border: rgba(44, 40, 36, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle paper texture on cream — optional but adds warmth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image: radial-gradient(circle at 1px 1px, rgba(44, 40, 36, 0.025) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Selection */
+::selection {
+  background: var(--coral-light);
+  color: var(--coral-dark);
+}
