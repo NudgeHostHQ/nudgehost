@@ -68,11 +68,11 @@ export default function HostHub() {
           </ol>
         </nav>
 
-        <header className="mb-12">
-          <h1 className="mb-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+        <header className="mb-10 max-w-2xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
             Host any file as a link.
           </h1>
-          <p className="max-w-2xl text-lg text-muted">
+          <p className="text-lg leading-relaxed text-muted">
             Drop a file, get a clean shareable URL. PDFs, HTML pages, ZIPs, images, AI-generated
             outputs: anything you need to share, NudgeHost will host it for free.
           </p>

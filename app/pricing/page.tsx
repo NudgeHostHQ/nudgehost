@@ -159,37 +159,33 @@ export default function PricingPage() {
       />
       <Navbar />
       <main>
-        {/* HERO */}
-        <section className="relative overflow-hidden px-6 py-16">
-          <div
-            className="absolute -right-32 -top-20 -z-0 h-[400px] w-[400px] rounded-full bg-peach opacity-40"
-            aria-hidden="true"
-          />
-          <div className="relative z-10 mx-auto max-w-5xl">
-            <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
-              <ol className="flex flex-wrap gap-2">
-                <li>
-                  <Link href="/" className="hover:text-charcoal">
-                    Home
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li aria-current="page" className="text-charcoal">
-                  Pricing
-                </li>
-              </ol>
-            </nav>
+        <div className="mx-auto max-w-5xl px-6 pt-16">
+          <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
+            <ol className="flex gap-2">
+              <li>
+                <Link href="/" className="hover:text-charcoal">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="text-charcoal">
+                Pricing
+              </li>
+            </ol>
+          </nav>
+
+          <header className="mb-10 max-w-2xl">
             <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
               Three plans, no traps.
             </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-muted">
+            <p className="text-lg leading-relaxed text-muted">
               The free plan is genuinely usable on its own. Pro adds custom
               domains, password protection, and bigger file limits when sharing
               becomes daily work. Team layers on shared seats, API access, and
               priority support for the small group of people doing this together.
             </p>
-          </div>
-        </section>
+          </header>
+        </div>
 
         {/* PRICING CARDS */}
         <section
