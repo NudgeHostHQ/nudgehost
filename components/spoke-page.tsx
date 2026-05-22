@@ -26,7 +26,7 @@ export function buildSpokeJsonLd(content: SpokeContent, silo: SiloConfig) {
   const graph: Array<Record<string, unknown>> = [
     {
       "@type": silo.schemaType,
-      name: `NudgeHost — ${content.name}`,
+      name: `NudgeHost ${content.name}`,
       applicationCategory: "WebApplication",
       operatingSystem: "Web",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

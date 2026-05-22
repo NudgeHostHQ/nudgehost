@@ -13,16 +13,16 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
   "json-formatter": {
     slug: "json-formatter",
     name: "JSON formatter",
-    title: "JSON Formatter — Format and validate JSON online, free",
+    title: "JSON Formatter: format and validate JSON online, free",
     description:
-      "Paste messy JSON and get it back cleanly indented and validated. Free online JSON formatter — no signup, runs in your browser.",
+      "Paste messy JSON and get it back cleanly indented and validated. Free online JSON formatter with no signup, runs in your browser.",
     h1: "Format and validate JSON.",
     lead: "Paste minified or messy JSON and get clean, indented, validated output back instantly.",
     keyPoints: [
       "Paste minified or messy JSON and get clean, indented output back instantly.",
       "Catches syntax errors and points to the exact line where the JSON breaks.",
       "Switch between pretty-printed and minified output with a click.",
-      "Runs entirely in your browser — your JSON never leaves your machine.",
+      "Runs entirely in your browser. Your JSON never leaves your machine.",
     ],
     body: [
       "Minified JSON is fine for machines and miserable for humans. A formatter re-indents it into something readable and, just as usefully, tells you immediately if the JSON is broken and where. Paste your JSON here and it's tidied and checked in one step.",
@@ -50,9 +50,9 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
   base64: {
     slug: "base64",
     name: "Base64 encoder",
-    title: "Base64 Encoder & Decoder — Free, runs in your browser",
+    title: "Base64 Encoder & Decoder: free, runs in your browser",
     description:
-      "Encode text to Base64 or decode Base64 back to text instantly. Free online Base64 tool — no signup, nothing leaves your browser.",
+      "Encode text to Base64 or decode Base64 back to text instantly. Free online Base64 tool with no signup, nothing leaves your browser.",
     h1: "Encode and decode Base64.",
     lead: "Paste text or Base64 and convert between the two instantly, entirely in your browser.",
     keyPoints: [
@@ -74,7 +74,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Can it handle files, not just text?",
-        a: "Yes — you can encode small files to Base64, useful for data URIs and inline assets.",
+        a: "Yes. You can encode small files to Base64, useful for data URIs and inline assets.",
       },
       {
         q: "Why is my decoded output garbled?",
@@ -87,19 +87,19 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
   "url-encoder": {
     slug: "url-encoder",
     name: "URL encoder",
-    title: "URL Encoder & Decoder — Free online tool",
+    title: "URL Encoder & Decoder: free online tool",
     description:
-      "Encode or decode URL components instantly. Free online URL encoder — handles query strings and special characters, runs in your browser.",
+      "Encode or decode URL components instantly. Free online URL encoder that handles query strings and special characters, runs in your browser.",
     h1: "Encode and decode URLs.",
     lead: "Paste a URL or component and safely encode or decode special characters in a click.",
     keyPoints: [
       "Paste a URL or component to safely encode or decode special characters.",
       "Handles both component-level and whole-URL encoding correctly.",
       "Unicode characters convert to valid percent-encoded UTF-8.",
-      "Runs entirely in your browser — nothing is sent to a server.",
+      "Runs entirely in your browser. Nothing is sent to a server.",
     ],
     body: [
-      "Spaces, ampersands, and non-ASCII characters all need encoding before they're safe in a URL — and getting that wrong quietly breaks links and query strings. This tool encodes and decodes URL components correctly so you don't have to remember the rules. Paste your input to convert it.",
+      "Spaces, ampersands, and non-ASCII characters all need encoding before they're safe in a URL, and getting that wrong quietly breaks links and query strings. This tool encodes and decodes URL components correctly so you don't have to remember the rules. Paste your input to convert it.",
       "URL encoding tends to come up alongside other small jobs: {{dev-base64}} for encoded values, {{dev-json-formatter}} when a query string carries JSON. The {{dev-tools-hub}} keeps all of them within reach.",
       "If you're building or sharing the page the URL points at, you can {{host-html}} it and get a clean link back, or {{host-hub}} any other file the same way. NudgeHost's job is the link; this tool just makes sure the link is well-formed.",
       "Free and browser-based. Hosting plans are on {{pricing}}.",
@@ -124,22 +124,22 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
   "jwt-decoder": {
     slug: "jwt-decoder",
     name: "JWT decoder",
-    title: "JWT Decoder — Inspect JSON web tokens online, free",
+    title: "JWT Decoder: inspect JSON web tokens online, free",
     description:
-      "Paste a JWT and decode its header and payload instantly. Free online JWT decoder — runs in your browser, nothing logged.",
+      "Paste a JWT and decode its header and payload instantly. Free online JWT decoder that runs in your browser with nothing logged.",
     h1: "Decode a JSON web token.",
     lead: "Paste a JWT and see its header and payload decoded and readable, instantly and privately.",
     keyPoints: [
       "Paste a JWT and see its header and payload decoded and readable.",
       "Inspect claims, expiry, and the signing algorithm at a glance.",
-      "Runs locally in your browser — tokens are never sent or logged.",
+      "Runs locally in your browser. Tokens are never sent or logged.",
       "Decodes only; signature verification still belongs server-side.",
     ],
     body: [
-      "Debugging authentication usually means staring at a JWT — three Base64 segments separated by dots, unreadable until decoded. This tool splits the token and decodes the header and payload so you can see the claims, the expiry, and the signing algorithm at a glance. Paste a token to inspect it.",
+      "Debugging authentication usually means staring at a JWT: three Base64 segments separated by dots, unreadable until decoded. This tool splits the token and decodes the header and payload so you can see the claims, the expiry, and the signing algorithm at a glance. Paste a token to inspect it.",
       "A JWT is Base64 under the hood, so the {{dev-base64}} is the more general tool when you're decoding something that isn't a token. The payload is JSON, and once decoded the {{dev-json-formatter}} will pretty-print it if it's dense.",
       "When you need to share a decoded payload with a teammate while debugging, {{host-hub}} it and send a link rather than pasting it into chat. Everything else is in the {{dev-tools-hub}}.",
-      "The decoder runs locally and logs nothing — important, since tokens are sensitive. Hosting plans, unrelated to the tools, are on {{pricing}}.",
+      "The decoder runs locally and logs nothing, which matters because tokens are sensitive. Hosting plans, unrelated to the tools, are on {{pricing}}.",
     ],
     faqs: [
       {

@@ -36,21 +36,21 @@ export const hostContentMap: Record<string, SpokeContent> = {
   pdf: {
     slug: "pdf",
     name: "PDF",
-    title: "PDF Link Generator — Share a PDF as a link, free",
+    title: "PDF Link Generator: share a PDF as a link, free",
     description:
       "Upload a PDF, get a clean shareable link in seconds. Free, no signup needed. Optional password protection and view analytics. The friendly PDF link generator.",
     h1: "Share a PDF as a link.",
     lead: "Drop a PDF here and get a clean, shareable link in seconds. No sign-up required, no expiry, no upload limits on the file you're holding right now.",
     keyPoints: [
-      "Drop a PDF, get a clean nudgehost.com link in seconds — no signup required.",
+      "Drop a PDF, get a clean nudgehost.com link in seconds. No signup required.",
       "Free plan covers up to 10 active PDFs at 25MB each, with no link expiry by default.",
-      "Recipients open the PDF directly in their browser — nothing to install or download.",
+      "Recipients open the PDF in their browser. There's nothing to install or download.",
       "Built-in open analytics show when each PDF link is viewed and roughly from where.",
     ],
     body: [
-      "Sending a PDF used to mean a cluttered email attachment, a Dropbox share link with a login prompt, or asking the recipient to download something they didn't really want to download. NudgeHost is the friendlier middle ground: you drop the PDF, we give you back a URL, you send the URL. The recipient clicks it and reads the PDF straight away — if you'd rather they see it without downloading anything, every shared file also opens in {{viewer-pdf}}, so there's nothing for them to install.",
+      "Sending a PDF used to mean a cluttered email attachment, a Dropbox share link with a login prompt, or asking the recipient to download something they didn't really want to download. NudgeHost is the friendlier middle ground: you drop the PDF, we give you back a URL, you send the URL. The recipient clicks it and reads the PDF straight away. If you'd rather they see it without downloading anything, every shared file also opens in {{viewer-pdf}}, so there's nothing for them to install.",
       "If you need a flat image of a page instead of a clickable document — to drop into a slide deck, or to post somewhere that won't accept a PDF — you can {{converter-pdf-to-jpg}} and host the result the same way. That's one of many format jobs in NudgeHost's {{converters-hub}}. If your PDF is really a resume, there's a dedicated flow to {{host-resume}} that adds open-tracking so you know when a recruiter has looked at it.",
-      "On {{pricing}} you get 10 active PDFs at up to 25MB each, with no expiry — your link stays live as long as you want it to. Larger files, password protection, custom domains, and branded links are all worth a paid plan once you're sharing PDFs regularly.",
+      "On {{pricing}} you get 10 active PDFs at up to 25MB each, with no expiry, so your link stays live as long as you want it to. Larger files, password protection, custom domains, and branded links are all worth a paid plan once you're sharing PDFs regularly.",
       "Built-in analytics let you see when your PDF was opened and from where. That's particularly useful when you've sent a proposal or a contract and you're wondering whether it's been read yet. If the file is a big one, the guide on how to {{use-case-large-pdf}} covers the email-size-limit problem in full. The same uploader handles every other format too, so once you've sent your first PDF you can {{host-hub}} of any kind without learning anything new.",
     ],
     faqs: [
@@ -82,7 +82,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
   html: {
     slug: "html",
     name: "HTML",
-    title: "Host HTML files online — Free static HTML hosting",
+    title: "Host HTML files online: free static HTML hosting",
     description:
       "Drop an HTML file and get a live URL in seconds. Free static hosting for HTML pages, single-file sites, and AI-generated webpages. No build step, no setup.",
     h1: "Host an HTML file in seconds.",
@@ -96,8 +96,8 @@ export const hostContentMap: Record<string, SpokeContent> = {
     body: [
       "Sometimes you just need to put an HTML file on the internet. Maybe it's a prototype you want to show a client, a single-page landing page for a side project, or an HTML output you just generated from an AI tool and want to share with a friend. You don't need a server or a Vercel deployment for any of that. You just need a URL.",
       "NudgeHost takes any HTML file — a single page or a multi-file site — and puts it on the open web at a clean URL within seconds. If your project is more than one file, the simplest route is to zip everything together and {{host-zip}}; NudgeHost unpacks it and serves it as a site. If you're publishing something a model built for you, there's a purpose-built flow to {{host-claude-artifact}} that handles the copy-paste case directly.",
-      "Want to keep your prototype private? Set a password on the link. Want it on your own domain, or without NudgeHost branding? Those come with {{pricing}}. Want to test how the page loads on a real CDN before publishing? It's already on one.",
-      "HTML isn't the only thing you can put online this way — the same uploader will {{host-hub}} of any format, and a finished PDF export of your page can just as easily {{host-pdf}} for people who'd rather read than browse. If you only need to look at a file rather than publish it, NudgeHost's {{viewers-hub}} open common formats in the browser directly.",
+      "Set a password on the link if you want the prototype private. Custom domains and unbranded links come with {{pricing}}. And the page is already running on a real CDN, so testing load behaviour before publishing isn't a separate step.",
+      "HTML isn't the only thing you can put online this way. The same uploader will {{host-hub}} of any format, and a finished PDF export of your page can just as easily {{host-pdf}} for people who'd rather read than browse. If you only need to look at a file rather than publish it, NudgeHost's {{viewers-hub}} open common formats in the browser directly.",
     ],
     faqs: [
       {
@@ -124,14 +124,14 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "claude-artifact": {
     slug: "claude-artifact",
     name: "Claude artifact",
-    title: "Host a Claude artifact — share Claude-generated HTML as a link",
+    title: "Host a Claude artifact: share Claude-generated HTML as a link",
     description:
       "Publish a Claude artifact to a live URL. Copy the HTML from Claude, paste it into NudgeHost, get a shareable link instantly. Free.",
     h1: "Host a Claude artifact as a live URL.",
     lead: "Claude built you something brilliant. Now share it. Copy the HTML from your Claude conversation, paste it here, and get a live nudgehost.com link in seconds.",
     keyPoints: [
       "Copy the HTML source from your Claude artifact, paste it into NudgeHost, get a public link in seconds.",
-      "No Anthropic account needed for the people you share the link with — the artifact runs directly in their browser.",
+      "No Anthropic account needed for the people you share the link with. The artifact runs directly in their browser.",
       "Free plan handles artifacts up to 25MB. Most artifacts are under 100KB, so this is rarely a constraint.",
       "Works the same way for ChatGPT HTML, v0 exports, Lovable exports, and Bolt exports.",
     ],
@@ -155,7 +155,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Can I update the artifact later?",
-        a: "Yes. Replace the HTML in your NudgeHost dashboard and the link continues to work — same URL, new content.",
+        a: "Yes. Replace the HTML in your NudgeHost dashboard and the link continues to work. Same URL, new content.",
       },
       {
         q: "Is there a size limit?",
@@ -173,7 +173,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
   resume: {
     slug: "resume",
     name: "Resume",
-    title: "Share your resume as a link — Free resume link generator",
+    title: "Share your resume as a link: free resume link generator",
     description:
       "Stop sending PDFs as email attachments. Upload your resume and get a clean shareable link with view tracking, so you know when a recruiter has opened it.",
     h1: "Share your resume as a link.",
@@ -185,9 +185,9 @@ export const hostContentMap: Record<string, SpokeContent> = {
       "Free for one resume; custom domains and the removal of NudgeHost branding are on a paid plan.",
     ],
     body: [
-      "Sending a resume as an email attachment is fine — until you realise the recruiter never told you whether they read it. A NudgeHost link to your resume tells you when it was opened, how many times, and roughly where from. Same email, same recruiter, much more useful to you. Most resumes are PDFs, and everything that's true of hosting one applies here too — this page is really the {{host-pdf}} flow with open-tracking turned on by default.",
+      "Sending a resume as an email attachment is fine, until you realise the recruiter never told you whether they read it. A NudgeHost link to your resume tells you when it was opened, how many times, and roughly where from. Same email, same recruiter, much more useful to you. Most resumes are PDFs, and everything that's true of hosting one applies here too: this page is really the {{host-pdf}} flow with open-tracking turned on by default.",
       "Your link is clean: nudgehost.com/your-name. The recruiter opens it in their browser instantly. There's no download prompt, no Dropbox login, and no 'this file may be unsafe' warning to scare them off. If you're applying for design or front-end roles, a resume is rarely enough on its own; the natural next step is to {{host-portfolio}} and {{use-case-recruiter}} as a single link.",
-      "Job-hunting? Make one resume link and put it in your LinkedIn, your email signature, and your application emails. When you update the resume, the link stays the same — just swap the file out and everyone who's already got the link sees the new version. A custom domain and the removal of NudgeHost branding both come with {{pricing}}, which is worth it if you're sending the link to dozens of employers. If you're still weighing tools, the {{compare-hub}} pages lay out how NudgeHost stacks up against the alternatives.",
+      "If you're job-hunting, make one resume link and put it in your LinkedIn, your email signature, and your application emails. When you update the resume, the link stays the same: just swap the file out and everyone who's already got the link sees the new version. A custom domain and the removal of NudgeHost branding both come with {{pricing}}, which is worth it if you're sending the link to dozens of employers. If you're still weighing tools, the {{compare-hub}} pages lay out how NudgeHost stacks up against the alternatives.",
     ],
     faqs: [
       {
@@ -200,11 +200,11 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Can I have one resume per application?",
-        a: "Yes. You can create unlimited links on Pro, each tracking its own opens — useful if you want to know which company actually opened your resume.",
+        a: "Yes. You can create unlimited links on Pro, each tracking its own opens. That's useful if you want to know which company actually opened your resume.",
       },
       {
         q: "What file format should I upload?",
-        a: "PDF is best — it preserves your formatting on every device. We accept DOCX too, but PDF is the standard.",
+        a: "PDF is best because it preserves your formatting on every device. We accept DOCX too, but PDF is the standard.",
       },
     ],
     relatedToolSlugs: ["host-pdf", "host-portfolio", "viewer-pdf"],
