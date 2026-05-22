@@ -5,7 +5,7 @@ import { RelatedTools } from "@/components/related-tools";
 import { ContextualProse } from "@/components/contextual-prose";
 import type { SpokeContent, SiloConfig } from "@/lib/spoke-types";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nudgehost.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 // Defaults for Article schema and the visible byline when a spoke page doesn't
 // supply its own. Standardizing the author makes spoke pages eligible for the

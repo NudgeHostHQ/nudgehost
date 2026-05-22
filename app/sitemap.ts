@@ -6,7 +6,7 @@ import { devToolsContentMap } from "@/lib/dev-tools-content";
 import { useCasesContentMap } from "@/lib/use-cases-content";
 import { compareContentMap } from "@/lib/compare-content";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nudgehost.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 // The sitemap derives its URLs directly from the silo content maps, so it can
 // never drift out of sync with the pages that actually exist. Add a page to a
