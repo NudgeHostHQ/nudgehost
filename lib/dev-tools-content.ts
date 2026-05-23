@@ -58,7 +58,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     keyPoints: [
       "Paste text or Base64 to convert between the two instantly.",
       "Works for short tokens, data URIs, and small file encoding.",
-      "Browser-only: nothing is uploaded, nothing logged.",
+      "Browser-only. Nothing is uploaded, nothing logged.",
       "Free with no signup.",
     ],
     body: [
@@ -136,7 +136,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
       "Decodes only; signature verification still belongs server-side.",
     ],
     body: [
-      "Debugging authentication usually means staring at a JWT: three Base64 segments separated by dots, unreadable until decoded. This tool splits the token and decodes the header and payload so you can see the claims, the expiry, and the signing algorithm at a glance. Paste a token to inspect it.",
+      "Debugging authentication usually means staring at a JWT. Three Base64 segments separated by dots, unreadable until decoded. This tool splits the token and decodes the header and payload so you can see the claims, the expiry, and the signing algorithm at a glance. Paste a token to inspect it.",
       "A JWT is Base64 under the hood, so when you're decoding something that isn't a token you can {{dev-base64}} more generally. The payload is JSON, and once decoded you can run it through {{dev-json-formatter}} to pretty-print a dense response.",
       "When you need to share a decoded payload with a teammate while debugging, you can {{host-hub}} and send the link rather than pasting JSON into chat. The rest of NudgeHost's {{dev-tools-hub}} sit alongside this decoder.",
       "The decoder runs locally and logs nothing, which matters because tokens are sensitive. Hosting plans, unrelated to the tools, are on {{pricing}}.",

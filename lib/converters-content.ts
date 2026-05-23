@@ -27,7 +27,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "A PDF is a great document and an awkward image. When you need a page as a picture, converting to JPG is the fix. That covers slide decks, places that don't accept PDFs, and most social platforms. Drop your PDF here and each page comes back as a separate image.",
-      "Once you have the images, you often want them online. You can {{host-hub}} from your dashboard and share a link, or if you'd rather keep the original document intact, {{host-pdf}} and send that instead. Many people do both: the PDF for people who want the real document, the JPGs for everywhere a PDF won't go.",
+      "Once you have the images, you often want them online. You can {{host-hub}} from your dashboard and share a link, or if you'd rather keep the original document intact, {{host-pdf}} and send that instead. Many people do both. The PDF goes to people who want the real document, the JPGs go everywhere a PDF won't.",
       "If you only wanted to read the PDF rather than convert it, you can {{viewer-pdf}} with nothing to install. And if your images need to be smaller for the web, you can {{converter-png-to-webp}} to shrink them further.",
       "This converter is free with no watermark. Higher limits and sharing features are on {{pricing}}.",
     ],
