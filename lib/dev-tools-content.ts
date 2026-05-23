@@ -26,8 +26,8 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Minified JSON is fine for machines and miserable for humans. A formatter re-indents it into something readable and, just as usefully, tells you immediately if the JSON is broken and where. Paste your JSON here and it's tidied and checked in one step.",
-      "Once your JSON is clean, the {{viewer-json}} is the natural companion. It renders the structure as a collapsible tree so you can step through a large object without scrolling endlessly. If you need to hand the file to a teammate, you can {{host-json}} and share a link rather than pasting hundreds of lines into chat.",
-      "Formatting JSON is rarely the only thing you're doing. The {{dev-base64}}, {{dev-url-encoder}} and {{dev-jwt-decoder}} cover the other small jobs that come up constantly in development, and the full {{dev-tools-hub}} collects them in one place.",
+      "Once your JSON is clean, you can {{viewer-json}} as a natural companion step. It renders the structure as a collapsible tree so you can step through a large object without scrolling endlessly. If you need to hand the file to a teammate, you can {{host-json}} instead of pasting hundreds of lines into chat.",
+      "Formatting JSON is rarely the only thing you're doing. You'll often need to {{dev-base64}}, {{dev-url-encoder}}, or {{dev-jwt-decoder}} in the same session, and {{dev-tools-hub}} sit next to this formatter in the dashboard.",
       "Every dev tool here is free and runs in your browser. NudgeHost's paid plans on {{pricing}} are about hosting and sharing, not the tools themselves.",
     ],
     faqs: [
@@ -63,9 +63,9 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Base64 turns up everywhere in development, from data URIs and API tokens to email attachments and config values. Encoding and decoding it by hand is error-prone, so a quick tool that does it instantly saves a surprising amount of friction. Paste your input here and convert in either direction.",
-      "Base64 is often a step inside a bigger task. If you're decoding a token, the {{dev-jwt-decoder}} is purpose-built for JSON web tokens specifically. If you're working with encoded JSON, {{dev-json-formatter}} will tidy the result so it's readable.",
-      "When you need to share the output rather than just read it (say, a decoded file or a config dump), you can {{host-hub}} it and send a link. The rest of the small utilities live in the {{dev-tools-hub}}.",
-      "Free, browser-only, nothing logged. Hosting plans are on {{pricing}}.",
+      "Base64 is often a step inside a bigger task. If you're decoding a token, {{dev-jwt-decoder}} is purpose-built for JSON web tokens specifically. If you're working with encoded JSON, {{dev-json-formatter}} will tidy the result so it's readable.",
+      "When you need to share the output rather than just read it (say, a decoded file or a config dump), drop it into {{host-hub}} and send a link. The rest of the small utilities live alongside this one in {{dev-tools-hub}}.",
+      "Free, browser-only, nothing logged. The hosting side lives separately under {{pricing}}.",
     ],
     faqs: [
       {
@@ -100,8 +100,8 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Spaces, ampersands, and non-ASCII characters all need encoding before they're safe in a URL, and getting that wrong quietly breaks links and query strings. This tool encodes and decodes URL components correctly so you don't have to remember the rules. Paste your input to convert it.",
-      "URL encoding tends to come up alongside other small jobs: {{dev-base64}} for encoded values, {{dev-json-formatter}} when a query string carries JSON. The {{dev-tools-hub}} keeps all of them within reach.",
-      "If you're building or sharing the page the URL points at, you can {{host-html}} it and get a clean link back, or {{host-hub}} any other file the same way. NudgeHost's job is the link; this tool just makes sure the link is well-formed.",
+      "URL encoding tends to come up alongside other small jobs: {{dev-base64}} for encoded values, {{dev-json-formatter}} when a query string carries JSON. NudgeHost's {{dev-tools-hub}} keep all of them within reach.",
+      "If you're building or sharing the page the URL points at, you can {{host-html}} from your dashboard and get a clean link back. The same uploader lets you {{host-hub}} the same way. NudgeHost's job is the link; this tool just makes sure the link is well-formed.",
       "Free and browser-based. Hosting plans are on {{pricing}}.",
     ],
     faqs: [
@@ -137,8 +137,8 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Debugging authentication usually means staring at a JWT: three Base64 segments separated by dots, unreadable until decoded. This tool splits the token and decodes the header and payload so you can see the claims, the expiry, and the signing algorithm at a glance. Paste a token to inspect it.",
-      "A JWT is Base64 under the hood, so the {{dev-base64}} is the more general tool when you're decoding something that isn't a token. The payload is JSON, and once decoded the {{dev-json-formatter}} will pretty-print it if it's dense.",
-      "When you need to share a decoded payload with a teammate while debugging, {{host-hub}} it and send a link rather than pasting it into chat. Everything else is in the {{dev-tools-hub}}.",
+      "A JWT is Base64 under the hood, so when you're decoding something that isn't a token you can {{dev-base64}} more generally. The payload is JSON, and once decoded you can run it through {{dev-json-formatter}} to pretty-print a dense response.",
+      "When you need to share a decoded payload with a teammate while debugging, you can {{host-hub}} and send the link rather than pasting JSON into chat. The rest of NudgeHost's {{dev-tools-hub}} sit alongside this decoder.",
       "The decoder runs locally and logs nothing, which matters because tokens are sensitive. Hosting plans, unrelated to the tools, are on {{pricing}}.",
     ],
     faqs: [
