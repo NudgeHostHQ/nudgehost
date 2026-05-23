@@ -39,6 +39,10 @@ If a banned word fits, rewrite the sentence to remove the need for it. Don't sub
 - No throat-clearing openers (`"Let's break this down"`, `"It's a great question"`).
 - Cut every sentence whose removal would not change the reader's understanding.
 
+## Contextual link grammar
+
+When writing body copy with `{{key}}` contextual link tokens, always check `lib/internal-links.ts` for every anchor variant of that key. The sentence must read naturally with ALL variants, not just one. If any variant breaks the grammar, rewrite the sentence so it works with noun phrases, verb phrases, and any other form in the anchors list. Run `node scripts/render-link-sentences.mjs` before committing to verify.
+
 # Build & run
 
 ```
