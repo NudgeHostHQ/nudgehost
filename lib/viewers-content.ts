@@ -30,7 +30,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     body: [
       "There are still moments where you have a PDF and no good way to open it: a locked-down work laptop with no PDF reader, a phone that wants to download the file before showing it, a shared computer where you'd rather not install anything. A browser-based viewer sidesteps all of that. Drop the file here and it renders immediately.",
       "Viewing is only half the story, though. If the document is something you want other people to be able to open as easily as you just did, the natural next step is the {{host-pdf}}. You get a permanent link, and anyone who clicks it lands on this same viewer with your document already loaded.",
-      "If you need the PDF as images rather than a document, say for a slide, a thumbnail, or a social post, send it through {{converter-pdf-to-jpg}} instead. The same in-browser approach works for other formats too: you can {{viewer-docx}} or any of the other file types NudgeHost handles.",
+      "If you need the PDF as images rather than a document, say for a slide, a thumbnail, or a social post, send it through {{converter-pdf-to-jpg}} instead. The same in-browser approach works for other formats too. You can {{viewer-docx}} or any of the other file types NudgeHost handles.",
       "The viewer is free and unlimited. If you find yourself sharing documents regularly and want custom domains, branded links, or password protection, those live on {{pricing}}.",
     ],
     faqs: [
@@ -40,7 +40,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Is my PDF uploaded to a server?",
-        a: "To render and optionally share it, yes: the file is processed by NudgeHost. If you only want to view privately, your browser handles rendering locally.",
+        a: "To render and optionally share it, yes. The file is processed by NudgeHost. If you only want to view privately, your browser handles rendering locally.",
       },
       {
         q: "Can other people view the same PDF?",

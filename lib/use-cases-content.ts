@@ -30,8 +30,8 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "The email attachment is the default way to send a resume, and it's quietly the worst. It can trip spam filters, it shows the recruiter a download prompt instead of your CV, and it tells you nothing about whether anyone actually opened it. A link fixes all three problems at once.",
-      "It's simple: you {{host-resume}} and we hand back a clean URL. Open-tracking is on by default. Put the link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs; if yours is a Word file, run it through {{converter-docx-to-pdf}} first so the formatting holds on every device.",
-      "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as one combined link. When you update the CV, the link stays the same: swap the file and everyone who already has the link sees the new version.",
+      "Here's how it works. You {{host-resume}}, and we hand back a clean URL. Open-tracking is on by default. Put the link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs; if yours is a Word file, run it through {{converter-docx-to-pdf}} first so the formatting holds on every device.",
+      "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as one combined link. When you update the CV, the link stays the same. Swap the file and everyone who already has the link sees the new version.",
       "All of this works on {{pricing}}. Once you start applying widely, the Pro plan adds a custom domain and removes NudgeHost branding from the link, both worth it at that scale.",
     ],
     faqs: [
@@ -69,9 +69,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-22",
     dateModified: "2026-05-22",
     body: [
-      "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in. A giant attachment clogs their inbox or gets stripped. A personal site is great but takes time to build. A NudgeHost link is the fast path: your work, one URL, opening instantly.",
+      "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in. A giant attachment clogs their inbox or gets stripped. A personal site is great but takes time to build. A NudgeHost link is the fast path. Your work, one URL, opening instantly.",
       "If your portfolio is a PDF, you can {{host-pdf}} and you're done. If it's a built site or an interactive piece, you can {{host-html}} the same way, and a multi-file project zips up so you can {{host-zip}} as one link. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
-      "A portfolio usually travels with a CV, so pair this with the flow to {{use-case-resume-link}} and send both as trackable links. The tracking matters here: you'll see whether the recruiter actually opened your work before a call, which is genuinely useful intelligence.",
+      "A portfolio usually travels with a CV, so pair this with the flow to {{use-case-resume-link}} and send both as trackable links. The tracking matters here. You'll see whether the recruiter actually opened your work before a call, which is genuinely useful intelligence.",
       "All free to start. The basics are covered by {{pricing}}; the Pro tier adds custom domains, which is a nice touch when recruiters see the URL.",
     ],
     faqs: [
@@ -149,9 +149,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-22",
     dateModified: "2026-05-22",
     body: [
-      "Presentation files are heavy, and emailing one to a client is clumsy: it strains their inbox, it may not open cleanly on their device, and you never learn whether they looked at it before the call. A link solves all of that and looks more professional besides.",
+      "Presentation files are heavy, and emailing one to a client is clumsy. It strains their inbox, it may not open cleanly on their device, and you never learn whether they looked at it before the call. A link solves all of that and looks more professional besides.",
       "Export the deck to PDF so it looks identical everywhere; a slide deck rendered on the wrong software is a bad first impression. Run it through the {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, you can {{host-html}} the same way. And if the client wants to lift slides into their own deck rather than just viewing yours, you can {{host-pptx}} so the file stays editable on their end. Either way the client clicks once and it opens.",
-      "The open-tracking is quietly valuable in client work: you'll know whether the deck was reviewed before a meeting, which shapes how you run the call. For sensitive commercial decks, set a password or an expiry. If you're sending supporting documents alongside the deck, {{host-hub}} can take each file one at a time, or you can {{host-zip}} and send the bundle as a single link.",
+      "The open-tracking is quietly valuable in client work. You'll know whether the deck was reviewed before a meeting, which shapes how you run the call. For sensitive commercial decks, set a password or an expiry. If you're sending supporting documents alongside the deck, {{host-hub}} can take each file one at a time, or you can {{host-zip}} and send the bundle as a single link.",
       "Free to start. For custom domains and branding removal, {{pricing}}; both are worth it for client-facing links.",
     ],
     faqs: [
