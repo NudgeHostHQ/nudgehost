@@ -30,9 +30,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "The email attachment is the default way to send a resume, and it's quietly the worst. It can trip spam filters, it shows the recruiter a download prompt instead of your CV, and it tells you nothing about whether anyone actually opened it. A link fixes all three problems at once.",
-      "The mechanics are simple: you {{host-resume}} and get back a clean URL with open-tracking switched on. Put that link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs, and if yours is a Word file, {{converter-docx-to-pdf}} first so the formatting holds on every device.",
-      "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as a single link that includes your work. And when you update the CV, the link stays the same: swap the file and everyone who already has the link sees the new version.",
-      "The free plan covers all of this. A custom domain and the removal of NudgeHost branding are on {{pricing}}. Both are worth it once you're applying widely.",
+      "It's simple: you {{host-resume}} and we hand back a clean URL. Open-tracking is on by default. Put the link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs; if yours is a Word file, run it through {{converter-docx-to-pdf}} first so the formatting holds on every device.",
+      "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as one combined link. When you update the CV, the link stays the same: swap the file and everyone who already has the link sees the new version.",
+      "All of this works on {{pricing}}. Once you start applying widely, the Pro plan adds a custom domain and removes NudgeHost branding from the link, both worth it at that scale.",
     ],
     faqs: [
       {
@@ -70,9 +70,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in. A giant attachment clogs their inbox or gets stripped. A personal site is great but takes time to build. A NudgeHost link is the fast path: your work, one URL, opening instantly.",
-      "If your portfolio is a PDF, {{host-pdf}} and you're done. If it's a built site or an interactive piece, {{host-html}} works the same way, and a multi-file project can be zipped so you {{host-zip}} it as one link. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
+      "If your portfolio is a PDF, you can {{host-pdf}} and you're done. If it's a built site or an interactive piece, you can {{host-html}} the same way, and a multi-file project zips up so you can {{host-zip}} as one link. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
       "A portfolio usually travels with a CV, so pair this with the flow to {{use-case-resume-link}} and send both as trackable links. The tracking matters here: you'll see whether the recruiter actually opened your work before a call, which is genuinely useful intelligence.",
-      "All free to start. Custom domains are on {{pricing}}, which is a nice touch when recruiters see the URL.",
+      "All free to start. The basics are covered by {{pricing}}; the Pro tier adds custom domains, which is a nice touch when recruiters see the URL.",
     ],
     faqs: [
       {
@@ -110,9 +110,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Every email provider rejects attachments past roughly 25MB, and a detailed report, a scanned document, or a print-ready file blows past that easily. The usual workarounds, like compressing until the file looks bad or splitting it into parts, are worse than the problem. Sharing a link sidesteps the size limit entirely.",
-      "The fix is to {{host-pdf}} and send the URL instead of the file. The recipient clicks and reads the document in their browser, at full quality, with nothing to download. If you genuinely need a smaller file as well, {{converter-pdf-to-jpg}} can turn heavy pages into images, but for most cases the link is all you need.",
-      "This works for any large file, not just PDFs. You can {{host-hub}} of any kind, and a collection of files can be zipped so you {{host-zip}} them as one link. If the document is sensitive, link expiry and password protection turn the share into something you control after sending.",
-      "The free plan handles files up to 25MB; larger files are on {{pricing}}.",
+      "The fix is to {{host-pdf}} and send the URL instead of the file. The recipient clicks and reads the document in their browser, at full quality, with nothing to download. If you genuinely need a smaller file as well, you can {{converter-pdf-to-jpg}}, but for most cases the link is all you need.",
+      "This works for any large file, not just PDFs. The same dashboard handles {{host-hub}}, and a collection of files zips up so you can {{host-zip}} as one link. If the document is sensitive, link expiry and password protection turn the share into something you control after sending.",
+      "The free plan handles files up to 25MB. For larger files, {{pricing}} sets the Pro ceilings.",
     ],
     faqs: [
       {
@@ -150,9 +150,9 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Presentation files are heavy, and emailing one to a client is clumsy: it strains their inbox, it may not open cleanly on their device, and you never learn whether they looked at it before the call. A link solves all of that and looks more professional besides.",
-      "Export the deck to PDF so it looks identical everywhere; a slide deck rendered on the wrong software is a bad first impression. Then {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, {{host-html}} handles that just as well. And if the client wants to lift slides into their own deck rather than just viewing yours, {{host-pptx}} keeps the file editable on their end. Either way the client clicks once and it opens.",
-      "The open-tracking is quietly valuable in client work: you'll know whether the deck was reviewed before a meeting, which shapes how you run the call. For sensitive commercial decks, set a password or an expiry. And if you're sending supporting documents alongside the deck, {{host-hub}} each of them or bundle everything into one {{host-zip}}.",
-      "Free to start. Custom domains and branding removal are on {{pricing}}, worth it for client-facing links.",
+      "Export the deck to PDF so it looks identical everywhere; a slide deck rendered on the wrong software is a bad first impression. Run it through the {{host-pdf}} and send the link. If your deck is an interactive or web-based presentation, you can {{host-html}} the same way. And if the client wants to lift slides into their own deck rather than just viewing yours, you can {{host-pptx}} so the file stays editable on their end. Either way the client clicks once and it opens.",
+      "The open-tracking is quietly valuable in client work: you'll know whether the deck was reviewed before a meeting, which shapes how you run the call. For sensitive commercial decks, set a password or an expiry. If you're sending supporting documents alongside the deck, {{host-hub}} can take each file one at a time, or you can {{host-zip}} and send the bundle as a single link.",
+      "Free to start. For custom domains and branding removal, {{pricing}}; both are worth it for client-facing links.",
     ],
     faqs: [
       {
@@ -191,8 +191,8 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     body: [
       "Most weddings now have a website, and most of those websites only need to do four things: tell guests the date and venue, accept RSVPs, give directions, and mention the dress code. Maybe a photo at the top. That's a one-page HTML or a one-page PDF, not a CMS with a thousand themes. Everything beyond those essentials is decoration that adds work for you and confusion for the guests trying to find the actual address. A guest looking up the start time on the morning of the wedding doesn't need parallax scrolling or a registry carousel; they need the time, in big enough type to read on the phone screen they're holding.",
       "The big wedding website builders (Zola, The Knot, Joy, Minted) bundle templates, registry tools, and email collection into platforms that cost $20-50 per year and stick ads or upsells on the free tier. Couples shopping for a wedding website rarely need any of that. They have a venue confirmed and a schedule already typed out in Google Docs. They need a URL they can text to their guests, not a marketing funnel asking everyone who opens it to start their own wedding registry.",
-      "NudgeHost is the much smaller, much cheaper middle ground. Build your wedding page however you want (a single HTML file you wrote, an AI-generated layout, a PDF designed in Canva, a Notion export printed to PDF) and {{host-html}} or {{host-pdf}} it. The result is a clean nudgehost.com link with no banner ads, no upsells, and no $30 annual renewal. If you'd rather share a designed image of the invitation, {{host-image}} works the same way. Several files together (a venue map, an RSVP form, a photo) can be bundled and {{host-zip}}-ed into one link. When the venue confirms a final start time or you spot a typo, swap the source file in your dashboard and the URL stays the same, so the version every guest sees updates instantly.",
-      "Guests click the link and read the page. No download, no account, no app from the App Store, no 'sign in with Google to RSVP.' Older relatives who refuse to install another app can still see your wedding details on their phone, on their tablet, or on the desktop computer they use once a month. The link works on every device because it's just a web page. The whole thing costs nothing on {{pricing}} as long as your file is under 25MB, which it almost certainly is for a single wedding page.",
+      "NudgeHost is the much smaller, much cheaper middle ground. Build your wedding page however you want (a single HTML file you wrote, an AI-generated layout, a PDF designed in Canva, a Notion export printed to PDF) and you can {{host-html}}; if you went the PDF route, the {{host-pdf}} handles that the same way. The result is a clean nudgehost.com link with no banner ads, no upsells, and no $30 annual renewal. If you'd rather share a designed image of the invitation, you can {{host-image}} the same way. For multiple files (a venue map, an RSVP form, a photo), compress them into an archive and {{host-zip}}; the whole bundle lives at one URL. When the venue confirms a final start time or you spot a typo, swap the source file in your dashboard and the URL stays the same, so the version every guest sees updates instantly.",
+      "Guests click the link and read the page. No download, no account, no app from the App Store, no 'sign in with Google to RSVP.' Older relatives who refuse to install another app can still see your wedding details on their phone, on their tablet, or on the desktop computer they use once a month. The link works on every device because it's just a web page. The whole thing costs nothing as long as your file is under 25MB, which it almost certainly is for a single wedding page; {{pricing}} only matters if you want to add a custom domain on top.",
     ],
     faqs: [
       {
