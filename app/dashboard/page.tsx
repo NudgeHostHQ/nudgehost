@@ -299,6 +299,12 @@ export default async function DashboardPage() {
                             filename={file.filename}
                             shareUrl={url}
                             qrSvg={qrSvg}
+                            hasPassword={Boolean(file.passwordHash)}
+                            expiresAt={
+                              file.expiresAt
+                                ? file.expiresAt.toISOString().slice(0, 10)
+                                : null
+                            }
                           />
                         )}
                       </td>
