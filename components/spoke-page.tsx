@@ -3,6 +3,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { RelatedTools } from "@/components/related-tools";
 import { ContextualProse } from "@/components/contextual-prose";
+import { UploadWidget } from "@/components/upload-widget";
 import type { SpokeContent, SiloConfig } from "@/lib/spoke-types";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -158,36 +159,7 @@ export function SpokePage({
             )}
 
             {silo.heroVariant === "upload" ? (
-              <div
-                className="cursor-pointer rounded-3xl border-[1.5px] border-dashed border-coral/40 bg-warm px-10 py-10 text-center transition-all hover:bg-[#FFFBF7]"
-                role="button"
-                tabIndex={0}
-                aria-label={`Use the ${content.name} tool`}
-              >
-                <div
-                  className="mx-auto mb-4 flex items-center justify-center rounded-2xl bg-coral-light text-2xl"
-                  style={{ height: "52px", width: "52px" }}
-                  aria-hidden="true"
-                >
-                  📂
-                </div>
-                <strong className="block text-lg font-medium text-charcoal">
-                  Drop your file here
-                </strong>
-                <p className="mt-1 text-sm text-muted">or click to browse</p>
-                {content.filePillExamples && content.filePillExamples.length > 0 && (
-                  <div className="mt-5 flex flex-wrap justify-center gap-2">
-                    {content.filePillExamples.map((pill) => (
-                      <span
-                        key={pill}
-                        className="rounded-full border border-charcoal/10 bg-cream px-3 py-1 text-xs font-medium text-muted"
-                      >
-                        {pill}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <UploadWidget pills={content.filePillExamples} className="w-full" />
             ) : (
               <Link
                 href="/sign-up"
