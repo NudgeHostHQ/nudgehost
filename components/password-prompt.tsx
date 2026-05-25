@@ -78,7 +78,7 @@ export function PasswordPrompt({
           disabled={loading || !password}
           className="w-full rounded-full bg-coral px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-coral-dark disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? "Checking…" : "Unlock file"}
+          {loading ? "Checking…" : "Open file"}
         </button>
       </form>
     </div>
