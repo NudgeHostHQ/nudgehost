@@ -31,8 +31,17 @@ function columnFrom(
 
 const footerSections: { title: string; links: FooterLink[] }[] = [
   {
+    title: "Product",
+    links: [
+      { label: "Home", href: "/" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    // max raised so every host spoke gets a footer link, not just the first six.
     title: "Host files",
-    links: columnFrom(hostContentMap, "/host", "file types", (n) => `${n} hosting`),
+    links: columnFrom(hostContentMap, "/host", "file types", (n) => `${n} hosting`, 99),
   },
   {
     title: "Viewers",
@@ -66,7 +75,7 @@ export function Footer() {
   return (
     <footer className="border-t border-charcoal/10 bg-charcoal text-white/70">
       <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-7">
           {footerSections.map((section) => (
             <div key={section.title}>
               <h3 className="mb-4 text-sm font-semibold text-white">{section.title}</h3>
