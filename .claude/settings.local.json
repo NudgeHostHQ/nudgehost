@@ -19,7 +19,11 @@
       "Bash(npx tsx *)",
       "Bash(git revert *)",
       "Bash(node *)",
-      "Bash(xargs grep -l \"UserButtonProps\")"
+      "Bash(xargs grep -l \"UserButtonProps\")",
+      "Bash(node scripts/render-link-sentences.mjs)",
+      "Read(//tmp/**)",
+      "PowerShell(Test-Path \"node_modules/sharp/package.json\"; if \\(Test-Path \"node_modules/sharp/package.json\"\\) { \\(Get-Content \"node_modules/sharp/package.json\" -Raw | ConvertFrom-Json\\).version })",
+      "PowerShell(Get-Item *)"
     ]
   }
 }
