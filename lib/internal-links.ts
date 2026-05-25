@@ -283,6 +283,96 @@ export const internalLinks: Record<string, LinkTarget> = {
       "Tiiny.host and Linkyhost side by side",
     ],
   },
+
+  // --- Glossary silo ---------------------------------------------------------
+  "glossary-static-site": {
+    href: "/glossary/static-site",
+    anchors: ["what a static site is", "static site hosting", "static sites"],
+  },
+  "glossary-cdn": {
+    href: "/glossary/cdn",
+    anchors: ["what a CDN is", "content delivery networks", "how a CDN speeds up files"],
+  },
+  "glossary-404-error": {
+    href: "/glossary/404-error",
+    anchors: ["what causes a 404 error", "404 errors", "broken-link 404s"],
+  },
+  "glossary-https": {
+    href: "/glossary/https",
+    anchors: ["why links are HTTPS", "what HTTPS means", "HTTPS security"],
+  },
+  "glossary-cors": {
+    href: "/glossary/cors",
+    anchors: ["what CORS is", "cross-origin requests", "CORS errors"],
+  },
+  "glossary-dns": {
+    href: "/glossary/dns",
+    anchors: ["how DNS works", "the domain name system", "what DNS is"],
+  },
+  "glossary-ftp": {
+    href: "/glossary/ftp",
+    anchors: ["what FTP is", "the old FTP workflow", "FTP uploads"],
+  },
+  "glossary-cache": {
+    href: "/glossary/cache",
+    anchors: ["how caching works", "browser and CDN caching", "what a cache is"],
+  },
+  "glossary-seo": {
+    href: "/glossary/seo",
+    anchors: ["SEO basics", "search engine optimization", "what SEO is"],
+  },
+  "glossary-og-image": {
+    href: "/glossary/og-image",
+    anchors: ["how link previews work", "open graph images", "what an og:image is"],
+  },
+  "glossary-qr-code": {
+    href: "/glossary/qr-code",
+    anchors: ["what a QR code is", "QR code sharing", "the free QR code on every link"],
+  },
+  "glossary-file-compression": {
+    href: "/glossary/file-compression",
+    anchors: ["how file compression works", "what file compression is", "compressing files"],
+  },
+  "glossary-mime-type": {
+    href: "/glossary/mime-type",
+    anchors: ["what a MIME type is", "view versus download behaviour", "MIME types"],
+  },
+  "glossary-ssl-certificate": {
+    href: "/glossary/ssl-certificate",
+    anchors: [
+      "what an SSL certificate is",
+      "the certificate behind HTTPS",
+      "SSL certificates",
+    ],
+  },
+  "glossary-bandwidth": {
+    href: "/glossary/bandwidth",
+    anchors: ["what bandwidth means", "bandwidth and visitor caps", "data transfer limits"],
+  },
+  "glossary-drag-and-drop": {
+    href: "/glossary/drag-and-drop",
+    anchors: ["drag-and-drop uploads", "the drag-and-drop pattern", "how drag and drop works"],
+  },
+  "glossary-presigned-url": {
+    href: "/glossary/presigned-url",
+    anchors: ["what a presigned URL is", "how cloud file sharing works", "signed file URLs"],
+  },
+  "glossary-link-expiry": {
+    href: "/glossary/link-expiry",
+    anchors: ["how link expiry works", "self-destructing links", "expiring share links"],
+  },
+  "glossary-password-protection": {
+    href: "/glossary/password-protection",
+    anchors: [
+      "how password protection works",
+      "password-protected links",
+      "locking a link with a password",
+    ],
+  },
+  "glossary-custom-domain": {
+    href: "/glossary/custom-domain",
+    anchors: ["what a custom domain is", "branded share links", "using your own domain"],
+  },
 };
 
 // Deterministic anchor picker — given a destination key and a "salt" (usually the
