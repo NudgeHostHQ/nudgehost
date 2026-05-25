@@ -1,0 +1,10 @@
+{
+  "name": "NudgeHost",
+  "short_name": "NudgeHost",
+  "description": "The friendliest way to share files online",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#FBF7F0",
+  "theme_color": "#E8704A",
+  "icons": []
+}
