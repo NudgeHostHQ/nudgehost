@@ -92,7 +92,7 @@ const tiers: Tier[] = [
     price: "$8",
     period: "per month",
     pitch: "For freelancers and small teams who share files every day.",
-    ctaLabel: "Start free trial",
+    ctaLabel: "Upgrade to Pro",
     featured: true,
     features: [
       "Unlimited active links",
@@ -110,7 +110,7 @@ const tiers: Tier[] = [
     price: "$24",
     period: "per month",
     pitch: "For agencies and small teams sharing on behalf of clients.",
-    ctaLabel: "Try Team free",
+    ctaLabel: "Upgrade to Team",
     featured: false,
     features: [
       "Everything in Pro",
