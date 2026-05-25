@@ -2,44 +2,41 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { blogContentMap } from "@/lib/blog-content";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 export const metadata: Metadata = {
   title: "Blog: file-sharing guides and tips",
   description:
-    "Practical guides to sharing files better: PDF link tricks, hosting AI outputs, skipping email size limits, and more.",
+    "Practical guides to sharing files better. Hosting Claude artifacts, v0 and Lovable exports, sending large PDFs, and turning a resume into a trackable link.",
   alternates: { canonical: "/blog" },
 };
 
-type PlaceholderPost = {
-  slug: string;
-  title: string;
-  excerpt: string;
+const pillarLabel: Record<string, string> = {
+  "ai-publishing": "AI publishing",
+  "sharing-files": "Sharing files",
+  "hosting-vs-cloud": "Hosting",
 };
 
-const upcomingPosts: PlaceholderPost[] = [
-  {
-    slug: "share-pdf-as-link",
-    title: "How to share a PDF as a link",
-    excerpt:
-      "The full walkthrough of replacing an email attachment with a URL, including the open-tracking that tells you when the recipient actually reads it.",
-  },
-  {
-    slug: "host-claude-artifact",
-    title: "How to host a Claude artifact",
-    excerpt:
-      "Copy the HTML out of a Claude conversation, paste it into NudgeHost, and get a public URL anyone can open without an Anthropic account.",
-  },
-  {
-    slug: "send-large-file-without-email",
-    title: "How to send a large file without email",
-    excerpt:
-      "Email caps attachments at around 25MB. Hosting the file and sharing a link sidesteps that limit entirely, with optional expiry and password gating.",
-  },
-];
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
+  ],
+};
+
+const posts = Object.values(blogContentMap);
 
 export default function BlogHub() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main className="mx-auto max-w-5xl px-6 py-16">
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
@@ -61,34 +58,52 @@ export default function BlogHub() {
             File-sharing guides and tips.
           </h1>
           <p className="text-lg leading-relaxed text-muted">
-            Short, practical posts about getting files from your machine to
-            someone else&apos;s without friction. Tracking what was read, hosting
-            AI-generated outputs, working around email size limits. The first
-            posts land soon.
+            Every post here is a walkthrough you can follow start to finish,
+            written from actually doing the thing. The guides lean toward two
+            areas, publishing what AI tools like Claude and v0 generate, and
+            getting documents to people without the usual friction. If you want
+            to skip the reading, you can{" "}
+            <Link
+              href="/"
+              className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral"
+            >
+              drop a file and get a link
+            </Link>{" "}
+            now, browse the full set of{" "}
+            <Link
+              href="/host"
+              className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral"
+            >
+              hosting tools
+            </Link>
+            , or see what each plan includes on{" "}
+            <Link
+              href="/pricing"
+              className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral"
+            >
+              pricing
+            </Link>
+            .
           </p>
         </header>
 
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {upcomingPosts.map((post) => (
+          {posts.map((post) => (
             <li key={post.slug}>
-              <article
-                aria-disabled="true"
-                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 opacity-75"
+              <Link
+                href={`/blog/${post.slug}`}
+                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
               >
-                <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-coral-light px-2.5 py-1 text-xs font-medium text-coral-dark">
-                  <span
-                    className="h-1.5 w-1.5 rounded-full bg-coral"
-                    aria-hidden="true"
-                  />
-                  Coming soon
-                </div>
+                <span className="mb-3 inline-block rounded-full bg-coral-light px-2.5 py-1 text-xs font-medium text-coral-dark">
+                  {pillarLabel[post.pillar] ?? "Guide"}
+                </span>
                 <h2 className="font-display text-base font-semibold text-charcoal">
-                  {post.title}
+                  {post.h1}
                 </h2>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                  {post.excerpt}
+                  {post.metaDescription}
                 </p>
-              </article>
+              </Link>
             </li>
           ))}
         </ul>

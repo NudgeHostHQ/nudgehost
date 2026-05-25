@@ -6,6 +6,7 @@ import { devToolsContentMap } from "@/lib/dev-tools-content";
 import { useCasesContentMap } from "@/lib/use-cases-content";
 import { compareContentMap } from "@/lib/compare-content";
 import { glossaryContentMap } from "@/lib/glossary-content";
+import { blogContentMap } from "@/lib/blog-content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -61,6 +62,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...silo("/use-cases", Object.keys(useCasesContentMap), 0.6),
     ...silo("/compare", Object.keys(compareContentMap), 0.7),
     ...silo("/glossary", Object.keys(glossaryContentMap), 0.6),
+    ...silo("/blog", Object.keys(blogContentMap), 0.6),
   ];
 
   return [...staticPages, ...programmatic];
