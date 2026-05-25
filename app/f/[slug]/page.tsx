@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cache } from "react";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Download, Clock } from "lucide-react";
 import { eq, sql } from "drizzle-orm";
@@ -9,6 +10,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
+import { unlockCookieName, unlockToken } from "@/lib/file-access";
+import { PasswordPrompt } from "@/components/password-prompt";
 
 // These are live user files, not marketing pages. Keep them out of the index.
 export const dynamic = "force-dynamic";
@@ -159,6 +162,23 @@ export default async function FileViewerPage({ params }: { params: Params }) {
         </main>
       </ViewerShell>
     );
+  }
+
+  // Password gate. The unlock cookie is set by the verify-password route once
+  // a visitor enters the correct password, and is tied to the current hash.
+  if (file.passwordHash) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(unlockCookieName(file.id))?.value;
+    if (token !== unlockToken(file.id, file.passwordHash)) {
+      return (
+        <ViewerShell>
+          <ViewerHeader filename={file.filename} />
+          <main className="flex flex-1 flex-col items-center justify-center px-6 py-20">
+            <PasswordPrompt fileId={file.id} filename={file.filename} />
+          </main>
+        </ViewerShell>
+      );
+    }
   }
 
   // Count the view. A failed write should never block showing the file.
