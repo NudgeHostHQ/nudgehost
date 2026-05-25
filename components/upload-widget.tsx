@@ -43,9 +43,20 @@ function putToR2(
   });
 }
 
-export function UploadWidget() {
+export function UploadWidget({
+  pills,
+  className = "relative z-10 mt-14 w-full max-w-xl animate-fade-up",
+}: {
+  // Optional file-type hint pills (e.g. ["PDF"] on /host/pdf). The uploader
+  // still accepts any file; these are purely visual cues.
+  pills?: string[];
+  // Lets callers control the outer wrapper so the widget can sit full-width
+  // inside a spoke hero or capped on the homepage.
+  className?: string;
+} = {}) {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
+  const displayPills = pills && pills.length > 0 ? pills : FILE_TYPES;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [status, setStatus] = useState<Status>("idle");
@@ -169,11 +180,7 @@ export function UploadWidget() {
   }, [shareUrl]);
 
   return (
-    <div
-      id="upload-widget"
-      className="relative z-10 mt-14 w-full max-w-xl animate-fade-up"
-      style={{ animationDelay: "0.2s" }}
-    >
+    <div id="upload-widget" className={className} style={{ animationDelay: "0.2s" }}>
       <input
         ref={inputRef}
         type="file"
@@ -219,7 +226,7 @@ export function UploadWidget() {
           </strong>
           <p className="mt-1 text-sm text-muted">or click to browse</p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {FILE_TYPES.map((type) => (
+            {displayPills.map((type) => (
               <span
                 key={type}
                 className="rounded-full border border-charcoal/10 bg-cream px-3 py-1 text-xs font-medium text-muted"
