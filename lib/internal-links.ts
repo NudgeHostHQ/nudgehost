@@ -23,7 +23,15 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Money pages -----------------------------------------------------------
   pricing: {
     href: "/pricing",
-    anchors: ["the free plan", "upgrade to Pro", "our pricing", "a paid plan"],
+    anchors: [
+      "the free plan",
+      "upgrade to Pro",
+      "our pricing",
+      "a paid plan",
+      "the Pro plan",
+      "the paid tier",
+      "the pricing page",
+    ],
     isMoneyPage: true,
   },
   home: {
@@ -137,7 +145,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Viewers silo ----------------------------------------------------------
   "viewers-hub": {
     href: "/viewers",
-    anchors: ["view any file online", "all of NudgeHost's file viewers"],
+    anchors: ["view any file online", "all of NudgeHost's file viewers", "open files in your browser"],
   },
   "viewer-pdf": {
     href: "/viewers/pdf",
@@ -145,7 +153,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   },
   "viewer-docx": {
     href: "/viewers/docx",
-    anchors: ["open a Word document online", "the DOCX viewer"],
+    anchors: ["open a Word document online", "the DOCX viewer", "read a Word file in your browser"],
   },
   "viewer-csv": {
     href: "/viewers/csv",
@@ -159,7 +167,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Converters silo -------------------------------------------------------
   "converters-hub": {
     href: "/converters",
-    anchors: ["convert a file", "all of NudgeHost's free converters"],
+    anchors: ["convert a file", "all of NudgeHost's free converters", "the free file converters"],
   },
   "converter-pdf-to-jpg": {
     href: "/converters/pdf-to-jpg",
@@ -167,7 +175,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   },
   "converter-docx-to-pdf": {
     href: "/converters/docx-to-pdf",
-    anchors: ["convert a Word document to PDF", "the DOCX to PDF converter"],
+    anchors: ["convert a Word document to PDF", "the DOCX to PDF converter", "turn a Word doc into a PDF"],
   },
   "converter-png-to-webp": {
     href: "/converters/png-to-webp",
@@ -181,7 +189,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Dev tools silo --------------------------------------------------------
   "dev-tools-hub": {
     href: "/dev-tools",
-    anchors: ["free developer tools", "all of NudgeHost's dev tools"],
+    anchors: ["free developer tools", "all of NudgeHost's dev tools", "the dev tools"],
   },
   "dev-json-formatter": {
     href: "/dev-tools/json-formatter",
@@ -189,11 +197,11 @@ export const internalLinks: Record<string, LinkTarget> = {
   },
   "dev-base64": {
     href: "/dev-tools/base64",
-    anchors: ["encode or decode Base64", "the Base64 encoder"],
+    anchors: ["encode or decode Base64", "the Base64 encoder", "convert text to Base64"],
   },
   "dev-url-encoder": {
     href: "/dev-tools/url-encoder",
-    anchors: ["encode a URL", "the URL encoder"],
+    anchors: ["encode a URL", "the URL encoder", "encode a query string"],
   },
   "dev-jwt-decoder": {
     href: "/dev-tools/jwt-decoder",
@@ -203,23 +211,39 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Use cases silo --------------------------------------------------------
   "use-cases-hub": {
     href: "/use-cases",
-    anchors: ["see what people use NudgeHost for", "browse common use cases"],
+    anchors: ["see what people use NudgeHost for", "browse common use cases", "explore more use cases"],
   },
   "use-case-recruiter": {
     href: "/use-cases/send-portfolio-to-recruiter",
-    anchors: ["send a portfolio to a recruiter", "share your work with a recruiter"],
+    anchors: [
+      "send a portfolio to a recruiter",
+      "share your work with a recruiter",
+      "get your portfolio in front of a recruiter",
+    ],
   },
   "use-case-large-pdf": {
     href: "/use-cases/send-large-pdf-without-email",
-    anchors: ["send a large PDF without email", "share a big PDF without an attachment"],
+    anchors: [
+      "send a large PDF without email",
+      "share a big PDF without an attachment",
+      "get around email size limits",
+    ],
   },
   "use-case-resume-link": {
     href: "/use-cases/share-resume-as-link",
-    anchors: ["share your resume as a link", "send your CV without an attachment"],
+    anchors: [
+      "share your resume as a link",
+      "send your CV without an attachment",
+      "turn your resume into a link",
+    ],
   },
   "use-case-deck": {
     href: "/use-cases/share-deck-with-client",
-    anchors: ["share a deck with a client", "send a presentation as a link"],
+    anchors: [
+      "share a deck with a client",
+      "send a presentation as a link",
+      "share a presentation with a client",
+    ],
   },
   "use-case-wedding": {
     href: "/use-cases/share-wedding-website",
@@ -233,15 +257,23 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Compare silo ----------------------------------------------------------
   "compare-hub": {
     href: "/compare",
-    anchors: ["see how NudgeHost compares", "compare file-sharing tools"],
+    anchors: ["see how NudgeHost compares", "compare file-sharing tools", "weigh the alternatives"],
   },
   "compare-tiiny": {
     href: "/compare/nudgehost-vs-tiiny-host",
-    anchors: ["how NudgeHost compares to Tiiny.host", "NudgeHost vs Tiiny.host"],
+    anchors: [
+      "how NudgeHost compares to Tiiny.host",
+      "NudgeHost vs Tiiny.host",
+      "the NudgeHost and Tiiny.host comparison",
+    ],
   },
   "compare-linkyhost": {
     href: "/compare/nudgehost-vs-linkyhost",
-    anchors: ["how NudgeHost compares to Linkyhost", "NudgeHost vs Linkyhost"],
+    anchors: [
+      "how NudgeHost compares to Linkyhost",
+      "NudgeHost vs Linkyhost",
+      "the NudgeHost and Linkyhost comparison",
+    ],
   },
   "compare-tiiny-vs-linkyhost": {
     href: "/compare/tiiny-host-vs-linkyhost",
