@@ -59,7 +59,11 @@ export const internalLinks: Record<string, LinkTarget> = {
   },
   "host-portfolio": {
     href: "/host/portfolio",
-    anchors: ["host your portfolio", "share a portfolio with one link"],
+    anchors: [
+      "host your portfolio",
+      "share a portfolio with one link",
+      "share your portfolio as a link",
+    ],
   },
   "host-docx": {
     href: "/host/docx",

@@ -211,6 +211,51 @@ export const hostContentMap: Record<string, SpokeContent> = {
     filePillExamples: ["PDF", "DOCX", "1-2 pages", "ATS-friendly", "Up to 25MB"],
   },
 
+  portfolio: {
+    slug: "portfolio",
+    name: "Portfolio",
+    title: "Host a portfolio: share your work as one clean link",
+    description:
+      "Put your design, photography, or writing portfolio online as a single shareable link, with no site builder, no login wall, and no heavy attachment.",
+    h1: "Share your portfolio as a link.",
+    lead: "One link to your work, opening in the browser the moment a recruiter or client clicks, with no login wall, no heavy attachment, and no annual site builder fee.",
+    keyPoints: [
+      "Upload a portfolio PDF, a built HTML site, or a ZIP of pages, and get a clean shareable link in seconds.",
+      "Recruiters, clients, and agencies open your work in the browser with no account, no download, and no login wall.",
+      "Open-tracking shows when your portfolio was viewed, which helps before an interview or a pitch call.",
+      "Update the file later and the link stays the same, so everyone who has it sees your latest work.",
+    ],
+    author: "NudgeHost Team",
+    datePublished: "2026-05-25",
+    dateModified: "2026-05-25",
+    body: [
+      "A portfolio only earns you anything if the person you sent it to actually opens it. Behance and Dribbble wrap your work in their own navigation, ads, and a 'suggested creators' rail that pulls attention toward other people. A Google Drive folder makes a recruiter sign in before they see a single piece. A 40MB PDF attachment gets stripped by a corporate mail server, or it sits unopened because nobody downloads files from someone they have not met. A plain link sidesteps all of it. Your work opens directly, on any device, with nothing in front of it.",
+      "Most portfolios are one of three things, and each becomes a link the same way. A designed PDF is the simplest case, and the {{host-pdf}} flow turns it into a URL in seconds. If your portfolio is a built site, a Framer export or a hand-coded page, you {{host-html}} and it goes live at a clean address with the layout and fonts intact. Photographers who want to send a single hero shot or a contact sheet can {{host-image}} instead, and the picture renders full size in the browser rather than forcing a download. A multi-page case study with its own images and index travels best zipped into one archive, which NudgeHost unpacks and serves as a small site at a single URL.",
+      "The single most common thing people do with a portfolio link is {{use-case-recruiter}}, usually attached to a job application. The recruiter clicks once and sees your work in the browser, with no account to create and no download to approve. Agencies and prospective clients get the same friction-free open, which matters when you are one of forty links in someone's inbox that week. Because the link reports opens, you also learn whether your portfolio was reviewed before an interview or whether the application is still unread. That tells you when a follow-up is worth sending and when you are waiting on a decision nobody has made yet.",
+      "Work changes, and the link keeps up. Swap the file in your dashboard and the URL stays the same, so every studio and recruiter who already has it sees your latest pieces on the next refresh, with no need to resend anything. Hosting one portfolio costs nothing, and you can look at {{pricing}} when you want a custom domain on the link or the NudgeHost branding removed, both of which matter once you are sending it to dozens of studios. The same dashboard handles {{host-hub}}, so your portfolio, your CV, and a short cover note all sit under one tidy set of links instead of scattered across email threads.",
+    ],
+    faqs: [
+      {
+        q: "What format should my portfolio be in?",
+        a: "Whatever you already have. A designed PDF, a built HTML site, a set of images, or a ZIP of all of them. Each one becomes a link the same way.",
+      },
+      {
+        q: "Will a recruiter need an account to open it?",
+        a: "No. Anyone with the link opens your portfolio in their browser. There is no sign-in and no download step.",
+      },
+      {
+        q: "Can I tell whether my portfolio was opened?",
+        a: "Yes. The link reports opens, so you can see whether your work was viewed before an interview or a pitch call.",
+      },
+      {
+        q: "Can I update my portfolio without sending a new link?",
+        a: "Yes. Replace the file in your dashboard and the URL stays the same. Everyone who already has the link sees the new version on their next visit.",
+      },
+    ],
+    relatedToolSlugs: ["host-pdf", "host-html", "host-image", "use-case-recruiter", "host-resume"],
+    filePillExamples: ["PDF", "HTML site", "Images", "ZIP", "Up to 25MB free"],
+  },
+
   docx: {
     slug: "docx",
     name: "DOCX",
