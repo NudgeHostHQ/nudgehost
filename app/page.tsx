@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { UploadWidget, HeroUploadCta } from "@/components/upload-widget";
 
 export const metadata: Metadata = {
   title: { absolute: "Share any file as a link in seconds | NudgeHost" },
@@ -124,12 +125,7 @@ export default function HomePage() {
             className="relative z-10 flex animate-fade-up flex-wrap items-center justify-center gap-3"
             style={{ animationDelay: "0.15s" }}
           >
-            <Link
-              href="/sign-up"
-              className="rounded-full bg-coral px-7 py-3.5 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
-            >
-              Start nudging. It&apos;s free.
-            </Link>
+            <HeroUploadCta />
             <Link
               href="#how-it-works"
               className="rounded-full border-[1.5px] border-charcoal/15 bg-transparent px-7 py-3 text-base font-medium text-charcoal transition-all hover:-translate-y-0.5 hover:border-coral"
@@ -138,36 +134,8 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Upload demo */}
-          <div
-            className="relative z-10 mt-14 w-full max-w-xl animate-fade-up cursor-pointer rounded-3xl border-[1.5px] border-dashed border-coral/40 bg-warm px-10 py-10 transition-all hover:bg-[#FFFBF7]"
-            style={{ animationDelay: "0.2s" }}
-            role="button"
-            tabIndex={0}
-            aria-label="Upload your file"
-          >
-            <div
-              className="mx-auto mb-4 flex h-13 w-13 items-center justify-center rounded-2xl bg-coral-light text-2xl"
-              style={{ height: "52px", width: "52px" }}
-              aria-hidden="true"
-            >
-              📂
-            </div>
-            <strong className="block text-lg font-medium text-charcoal">
-              Drop your file here
-            </strong>
-            <p className="mt-1 text-sm text-muted">or click to browse</p>
-            <div className="mt-5 flex flex-wrap justify-center gap-2">
-              {["PDF", "HTML", "ZIP", "Image", "Any file"].map((type) => (
-                <span
-                  key={type}
-                  className="rounded-full border border-charcoal/10 bg-cream px-3 py-1 text-xs font-medium text-muted"
-                >
-                  {type}
-                </span>
-              ))}
-            </div>
-          </div>
+          {/* Upload demo — real uploader client island */}
+          <UploadWidget />
 
           {/* Live link preview */}
           <div
