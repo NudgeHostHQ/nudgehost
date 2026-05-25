@@ -46,6 +46,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["host-pdf", "viewer-pdf", "converter-png-to-webp", "converter-docx-to-pdf"],
+    filePillExamples: ["PDF", "Multi-page", "High-res JPG", "Up to 25MB free"],
   },
 
   "docx-to-pdf": {
@@ -84,6 +85,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["host-pdf", "viewer-docx", "use-case-resume-link", "converter-pdf-to-jpg"],
+    filePillExamples: ["DOCX", "DOC", "Batch convert", "Up to 25MB free"],
   },
 
   "png-to-webp": {
@@ -122,6 +124,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["converter-heic-to-jpg", "host-html", "host-pdf", "dev-json-formatter"],
+    filePillExamples: ["PNG", "Transparent", "Lossless option", "Up to 25MB free"],
   },
 
   "heic-to-jpg": {
@@ -160,6 +163,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["converter-png-to-webp", "host-zip", "host-pdf", "viewer-pdf"],
+    filePillExamples: ["HEIC", "iPhone photo", "Batch convert", "Up to 25MB free"],
   },
 };
 

@@ -48,6 +48,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["host-pdf", "viewer-docx", "converter-pdf-to-jpg", "use-case-large-pdf"],
+    filePillExamples: ["PDF", "Multi-page", "Scanned PDF", "Up to 25MB free"],
   },
 
   docx: {
@@ -85,6 +86,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["converter-docx-to-pdf", "host-pdf", "viewer-pdf", "host-html"],
+    filePillExamples: ["DOCX", "DOC", "No Word needed", "Up to 25MB free"],
   },
 
   csv: {
@@ -122,6 +124,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["viewer-json", "dev-json-formatter", "host-zip", "host-pdf"],
+    filePillExamples: ["CSV", "TSV", "Tab-separated", "Up to 25MB free"],
   },
 
   json: {
@@ -159,5 +162,6 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["dev-json-formatter", "viewer-csv", "dev-base64", "host-html"],
+    filePillExamples: ["JSON", "API response", "Config", "Up to 25MB free"],
   },
 };
