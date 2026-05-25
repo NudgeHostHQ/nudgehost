@@ -28,6 +28,12 @@ export type SpokeContent = {
   // Keys from the TOOL_REGISTRY in components/related-tools.tsx
   relatedToolSlugs: string[];
 
+  // Optional per-page override of the silo's heroVariant. Most pages inherit
+  // their silo default (host/viewers/converters = "upload", use-cases = "cta").
+  // Set this only when a page diverges from its silo, e.g. a file-based tool
+  // inside the otherwise text-input dev-tools silo would set "upload".
+  heroVariant?: "upload" | "cta";
+
   // Optional pills shown inside the upload widget (only used on "upload"
   // hero variant). E.g. ["PDF", "Encrypted PDF", "Up to 25MB free"].
   filePillExamples?: string[];

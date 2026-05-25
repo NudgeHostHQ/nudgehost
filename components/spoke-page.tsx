@@ -89,6 +89,9 @@ export function SpokePage({
   silo: SiloConfig;
 }) {
   const jsonLd = buildSpokeJsonLd(content, silo);
+  // Per-page override wins over the silo default. Lets a single page in a
+  // silo opt into (or out of) the upload widget without changing the silo.
+  const heroVariant = content.heroVariant ?? silo.heroVariant;
 
   return (
     <>
@@ -158,7 +161,7 @@ export function SpokePage({
               <div className="mb-8" />
             )}
 
-            {silo.heroVariant === "upload" ? (
+            {heroVariant === "upload" ? (
               <UploadWidget pills={content.filePillExamples} className="w-full" />
             ) : (
               <Link
@@ -201,7 +204,7 @@ export function SpokePage({
         <section className="mx-auto max-w-3xl px-6 pt-8">
           <div className="flex flex-col items-center gap-4 rounded-2xl bg-cream px-6 py-5 text-center sm:flex-row sm:justify-between sm:text-left">
             <p className="text-base text-charcoal/85">
-              Drop your {content.filetypeShort || content.name} here and get a link in seconds.
+              Drop a file here and get a shareable link in seconds.
             </p>
             <Link
               href="/"
