@@ -57,6 +57,27 @@ export default async function ComparePage({
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "SoftwareApplication",
+        name: "NudgeHost",
+        applicationCategory: "WebApplication",
+        operatingSystem: "Web",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      },
+      {
+        "@type": "Article",
+        headline: content.h1,
+        description: content.description,
+        url: `${siteUrl}/compare/${slug}`,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${siteUrl}/compare/${slug}`,
+        },
+        author: { "@type": "Person", name: "Mark Boreland" },
+        publisher: { "@type": "Organization", name: "NudgeHost", url: siteUrl },
+        datePublished: "2026-05-25",
+        dateModified: "2026-05-25",
+      },
+      {
         "@type": "FAQPage",
         mainEntity: content.faqs.map((f) => ({
           "@type": "Question",
