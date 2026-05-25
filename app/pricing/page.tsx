@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
+import { db } from "@/lib/db";
+import { users } from "@/lib/db/schema";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PlanButton } from "@/components/plan-button";
 
 export const metadata: Metadata = {
   title: "Pricing: free forever, then Pro at $8",
@@ -52,13 +57,25 @@ const pricingJsonLd = {
   ],
 };
 
-const tiers = [
+type Tier = {
+  name: string;
+  plan: "free" | "pro" | "team";
+  price: string;
+  period: string;
+  pitch: string;
+  ctaLabel: string;
+  featured: boolean;
+  features: string[];
+};
+
+const tiers: Tier[] = [
   {
     name: "Free",
+    plan: "free",
     price: "$0",
     period: "forever",
     pitch: "For personal projects, side hustles, and trying things out.",
-    cta: { label: "Get started free", href: "/sign-up" },
+    ctaLabel: "Get started free",
     featured: false,
     features: [
       "10 active links",
@@ -71,10 +88,11 @@ const tiers = [
   },
   {
     name: "Pro",
+    plan: "pro",
     price: "$8",
     period: "per month",
     pitch: "For freelancers and small teams who share files every day.",
-    cta: { label: "Start free trial", href: "/sign-up?plan=pro" },
+    ctaLabel: "Start free trial",
     featured: true,
     features: [
       "Unlimited active links",
@@ -88,10 +106,11 @@ const tiers = [
   },
   {
     name: "Team",
+    plan: "team",
     price: "$24",
     period: "per month",
     pitch: "For agencies and small teams sharing on behalf of clients.",
-    cta: { label: "Try Team free", href: "/sign-up?plan=team" },
+    ctaLabel: "Try Team free",
     featured: false,
     features: [
       "Everything in Pro",
@@ -150,7 +169,24 @@ const faqs = [
   },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  // Auth + current plan drive the CTAs: paid users see "Manage billing",
+  // signed-in free users go to checkout, guests go to sign-up.
+  const { userId } = await auth();
+  const signedIn = Boolean(userId);
+  let currentPlan = "free";
+  if (userId) {
+    const [u] = await db
+      .select({ plan: users.plan })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    if (u) currentPlan = u.plan;
+  }
+
+  const proPriceId = process.env.STRIPE_PRO_PRICE_ID;
+  const teamPriceId = process.env.STRIPE_TEAM_PRICE_ID;
+
   return (
     <>
       <script
@@ -229,17 +265,20 @@ export default function PricingPage() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href={tier.cta.href}
-                  className={
-                    "block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors " +
-                    (tier.featured
-                      ? "bg-coral text-white hover:bg-coral-dark"
-                      : "border-[1.5px] border-charcoal/15 text-charcoal hover:border-coral")
+                <PlanButton
+                  plan={tier.plan}
+                  label={tier.ctaLabel}
+                  featured={tier.featured}
+                  priceId={
+                    tier.plan === "pro"
+                      ? proPriceId
+                      : tier.plan === "team"
+                        ? teamPriceId
+                        : undefined
                   }
-                >
-                  {tier.cta.label}
-                </Link>
+                  signedIn={signedIn}
+                  currentPlan={currentPlan}
+                />
               </article>
             ))}
           </div>

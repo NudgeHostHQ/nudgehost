@@ -8,6 +8,13 @@
       "when": 1779484479563,
       "tag": "0000_special_red_ghost",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779719712754,
+      "tag": "0001_amazing_lester",
+      "breakpoints": true
     }
   ]
 }
