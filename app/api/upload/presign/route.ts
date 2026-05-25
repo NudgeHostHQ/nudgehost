@@ -8,9 +8,19 @@ import { db } from "@/lib/db";
 import { users, files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 
-// Free plan ceilings. Pro/Team raise these but billing gates land later.
-const FREE_MAX_FILE_BYTES = 25 * 1024 * 1024; // 25MB
+// Per-plan upload ceilings, enforced from the user's plan in the database.
+const PLAN_MAX_FILE_BYTES: Record<string, number> = {
+  free: 25 * 1024 * 1024, // 25MB
+  pro: 250 * 1024 * 1024, // 250MB
+  team: 1073741824, // 1GB
+};
 const FREE_MAX_ACTIVE_FILES = 10;
+
+// Human-readable ceiling for error copy, e.g. "25MB" or "1GB".
+function formatLimit(bytes: number): string {
+  if (bytes >= 1073741824) return `${Math.round(bytes / 1073741824)}GB`;
+  return `${Math.round(bytes / (1024 * 1024))}MB`;
+}
 
 // Slug alphabet drops 0/O/l/1 so links are easy to read aloud and retype.
 const makeSlug = customAlphabet("abcdefghjkmnpqrstuvwxyz23456789", 8);
@@ -72,30 +82,41 @@ export async function POST(request: Request) {
     );
   }
 
-  if (fileSize > FREE_MAX_FILE_BYTES) {
+  // Resolve the plan to pick the right ceiling. A user who hasn't uploaded yet
+  // has no row, which counts as the free tier.
+  const [existing] = await db
+    .select({ plan: users.plan })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  const plan = existing?.plan ?? "free";
+  const maxBytes = PLAN_MAX_FILE_BYTES[plan] ?? PLAN_MAX_FILE_BYTES.free;
+
+  if (fileSize > maxBytes) {
     return NextResponse.json(
       {
-        error:
-          "That file is over the 25MB limit on the free plan. Try a smaller file or upgrade for more room.",
+        error: `That file is over the ${formatLimit(maxBytes)} limit on your plan. Try a smaller file or upgrade for more room.`,
       },
       { status: 413 },
     );
   }
 
-  // Free plan caps active (non-deleted) files. Count before we create a row.
-  const [{ value: activeFiles }] = await db
-    .select({ value: count() })
-    .from(files)
-    .where(and(eq(files.userId, userId), eq(files.isDeleted, false)));
+  // The free plan caps active (non-deleted) files; paid plans are uncapped.
+  if (plan === "free") {
+    const [{ value: activeFiles }] = await db
+      .select({ value: count() })
+      .from(files)
+      .where(and(eq(files.userId, userId), eq(files.isDeleted, false)));
 
-  if (activeFiles >= FREE_MAX_ACTIVE_FILES) {
-    return NextResponse.json(
-      {
-        error:
-          "You have reached 10 active files on the free plan. Delete one or upgrade to add more.",
-      },
-      { status: 403 },
-    );
+    if (activeFiles >= FREE_MAX_ACTIVE_FILES) {
+      return NextResponse.json(
+        {
+          error:
+            "You have reached 10 active files on the free plan. Delete one or upgrade to add more.",
+        },
+        { status: 403 },
+      );
+    }
   }
 
   const email =

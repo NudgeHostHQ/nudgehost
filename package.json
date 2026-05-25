@@ -21,7 +21,8 @@
     "nanoid": "^5.1.11",
     "next": "^16.2.6",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "stripe": "^22.1.1"
   },
   "devDependencies": {
     "@types/node": "22.9.0",
