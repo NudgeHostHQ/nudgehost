@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Fraunces, DM_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
@@ -92,6 +93,20 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={`${fraunces.variable} ${dmSans.variable}`}>
         <body className="font-sans">
+          {/* Google Analytics (GA4). afterInteractive keeps it off the
+              critical path so it doesn't hurt Core Web Vitals. */}
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-1KQB3G2M0"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KQB3G2M0');
+  `}
+          </Script>
           {/* Organization JSON-LD — appears on every page, sitewide entity */}
           <script
             type="application/ld+json"
