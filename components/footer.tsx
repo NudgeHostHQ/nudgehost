@@ -69,13 +69,27 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
       { label: "All comparisons →", href: "/compare" },
     ],
   },
+  {
+    title: "Glossary",
+    links: [
+      { label: "Static site", href: "/glossary/static-site" },
+      { label: "CDN", href: "/glossary/cdn" },
+      { label: "HTTPS", href: "/glossary/https" },
+      { label: "CORS", href: "/glossary/cors" },
+      { label: "MIME type", href: "/glossary/mime-type" },
+      { label: "Link expiry", href: "/glossary/link-expiry" },
+      { label: "Password protection", href: "/glossary/password-protection" },
+      { label: "Custom domain", href: "/glossary/custom-domain" },
+      { label: "All terms →", href: "/glossary" },
+    ],
+  },
 ];
 
 export function Footer() {
   return (
     <footer className="border-t border-charcoal/10 bg-charcoal text-white/70">
       <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-7">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4">
           {footerSections.map((section) => (
             <div key={section.title}>
               <h3 className="mb-4 text-sm font-semibold text-white">{section.title}</h3>
