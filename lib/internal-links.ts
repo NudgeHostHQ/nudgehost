@@ -373,6 +373,48 @@ export const internalLinks: Record<string, LinkTarget> = {
     href: "/glossary/custom-domain",
     anchors: ["what a custom domain is", "branded share links", "using your own domain"],
   },
+
+  // --- Blog ------------------------------------------------------------------
+  "blog-how-to-host-a-claude-artifact": {
+    href: "/blog/how-to-host-a-claude-artifact",
+    anchors: [
+      "the full guide to hosting a Claude artifact",
+      "our Claude artifact walkthrough",
+      "how to host a Claude artifact",
+    ],
+  },
+  "blog-how-to-share-a-lovable-site": {
+    href: "/blog/how-to-share-a-lovable-site",
+    anchors: [
+      "the guide to sharing a Lovable site",
+      "our Lovable hosting walkthrough",
+      "how to share a Lovable site",
+    ],
+  },
+  "blog-how-to-send-a-large-pdf-without-email": {
+    href: "/blog/how-to-send-a-large-pdf-without-email",
+    anchors: [
+      "the guide to sending a large PDF without email",
+      "our walkthrough on emailing big PDFs",
+      "how to send a large PDF without email",
+    ],
+  },
+  "blog-how-to-share-a-resume-as-a-link": {
+    href: "/blog/how-to-share-a-resume-as-a-link",
+    anchors: [
+      "the guide to sharing a resume as a link",
+      "our resume link walkthrough",
+      "how to share a resume as a link",
+    ],
+  },
+  "blog-how-to-host-a-v0-export": {
+    href: "/blog/how-to-host-a-v0-export",
+    anchors: [
+      "the guide to hosting a v0 export",
+      "our v0 hosting walkthrough",
+      "how to host a v0 export",
+    ],
+  },
 };
 
 // Deterministic anchor picker — given a destination key and a "salt" (usually the
