@@ -409,7 +409,7 @@ export default function HomePage() {
                 href="/sign-up?plan=pro"
                 className="block w-full rounded-full bg-coral px-5 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-coral-dark"
               >
-                Start free trial
+                Upgrade to Pro
               </Link>
             </article>
 
@@ -442,7 +442,7 @@ export default function HomePage() {
                 href="/sign-up?plan=team"
                 className="block w-full rounded-full border-[1.5px] border-charcoal/15 px-5 py-2.5 text-center text-sm font-medium text-charcoal transition-colors hover:border-coral"
               >
-                Try Team free
+                Upgrade to Team
               </Link>
             </article>
           </div>
