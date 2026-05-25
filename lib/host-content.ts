@@ -214,7 +214,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   docx: {
     slug: "docx",
     name: "DOCX",
-    filetypeShort: "DOCX",
     title: "Host a DOCX file online: share a Word document as a link",
     description:
       "Drop a Word document and get a shareable link in seconds. The recipient opens it in their browser without Microsoft Word. Free, no signup.",
@@ -260,7 +259,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   pptx: {
     slug: "pptx",
     name: "PPTX",
-    filetypeShort: "PPTX",
     title: "Host a PowerPoint as a link: free .pptx hosting",
     description:
       "Drop a .pptx file and get a shareable link. The deck renders in any browser at 16:9 or 4:3 with embedded fonts preserved. No PowerPoint required.",
@@ -306,7 +304,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   xlsx: {
     slug: "xlsx",
     name: "XLSX",
-    filetypeShort: "XLSX",
     title: "Host an Excel file online: share a spreadsheet as a link",
     description:
       "Drop an .xlsx and get a shareable link. Multi-sheet workbooks keep their tab bar; formulas display their last-computed values. No Excel needed.",
@@ -352,7 +349,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   txt: {
     slug: "txt",
     name: "TXT",
-    filetypeShort: "TXT",
     title: "Host a TXT file online: share a plain text file as a link",
     description:
       "Drop a .txt and get a shareable link. The text renders as readable monospaced UTF-8 in any browser; Windows CRLF and Unix LF both display correctly.",
@@ -398,7 +394,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   md: {
     slug: "md",
     name: "Markdown",
-    filetypeShort: "MD",
     title: "Host a Markdown file online: share a .md file as a link",
     description:
       "Drop a Markdown file and get a shareable link. NudgeHost renders the .md as formatted HTML in the browser. Free, no signup.",
@@ -445,7 +440,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   zip: {
     slug: "zip",
     name: "ZIP",
-    filetypeShort: "ZIP",
     title: "Host a ZIP file online: share an archive as a link",
     description:
       "Drop a ZIP archive and get a shareable link in seconds. NudgeHost can unpack and serve the contents as a site, or hand back the archive intact. Free.",
@@ -491,7 +485,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "react-app": {
     slug: "react-app",
     name: "React app",
-    filetypeShort: "React build",
     title: "Host a React app: deploy a Vite or CRA build as a link",
     description:
       "Drop your React app's build folder as a ZIP and get a live URL in seconds. Works for Vite, Create React App, and any framework that emits a static build.",
@@ -537,7 +530,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "vue-app": {
     slug: "vue-app",
     name: "Vue app",
-    filetypeShort: "Vue build",
     title: "Host a Vue app: deploy a Vite or Nuxt static build as a link",
     description:
       "Drop your Vue app's build folder as a ZIP and get a live URL in seconds. Works for Vite, Nuxt static, and any Vue setup that emits a static bundle.",
@@ -583,7 +575,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   json: {
     slug: "json",
     name: "JSON",
-    filetypeShort: "JSON",
     title: "Host a JSON file online: share a JSON file as a link",
     description:
       "Drop a JSON file and get a shareable link. The recipient browses it as a collapsible tree; the viewer lazy-loads so multi-MB files stay responsive.",
@@ -629,7 +620,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   svg: {
     slug: "svg",
     name: "SVG",
-    filetypeShort: "SVG",
     title: "Host an SVG file online: share a vector image as a link",
     description:
       "Drop a .svg and get a shareable link. The vector renders crisply at any size; inline scripts are stripped for security, CSS and SMIL animations still work.",
@@ -675,7 +665,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "chatgpt-html": {
     slug: "chatgpt-html",
     name: "ChatGPT HTML",
-    filetypeShort: "HTML",
     title: "Host ChatGPT-generated HTML as a link",
     description:
       "Copy HTML from a ChatGPT conversation, paste it into NudgeHost, get a live URL. The fastest way to share something ChatGPT just built. Free.",
@@ -721,7 +710,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "lovable-export": {
     slug: "lovable-export",
     name: "Lovable export",
-    filetypeShort: "Lovable",
     title: "Host a Lovable export: deploy a Lovable.dev app as a link",
     description:
       "Export from Lovable, drop the ZIP into NudgeHost, get a public URL. The simplest path to share what you built. Free.",
@@ -767,7 +755,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "v0-export": {
     slug: "v0-export",
     name: "v0 export",
-    filetypeShort: "v0",
     title: "Host a v0 export: deploy a v0.dev component or app as a link",
     description:
       "Export from v0.dev, upload the code or ZIP to NudgeHost, get a public URL. Share what v0 built without a Vercel account. Free.",
@@ -813,7 +800,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   "bolt-export": {
     slug: "bolt-export",
     name: "Bolt export",
-    filetypeShort: "Bolt",
     title: "Host a Bolt.new export: deploy a Bolt app as a link",
     description:
       "Export from Bolt.new, drop the ZIP into NudgeHost, get a public URL. Skip the StackBlitz preview and share a real link. Free.",
@@ -859,7 +845,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   image: {
     slug: "image",
     name: "Image",
-    filetypeShort: "image",
     title: "Host an image online: share a JPG, PNG, or WebP as a link",
     description:
       "Drop an image and get a clean shareable link. Works for JPG, PNG, WebP, GIF, and SVG. Free, no signup, no watermark.",
@@ -905,7 +890,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   gif: {
     slug: "gif",
     name: "GIF",
-    filetypeShort: "GIF",
     title: "Host a GIF online: share an animated GIF as a link",
     description:
       "Drop a GIF and get a shareable link. Animation plays in any modern browser; for clips over 5 seconds, hosting as MP4 is usually 90 percent smaller.",
@@ -951,7 +935,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   mp4: {
     slug: "mp4",
     name: "MP4",
-    filetypeShort: "MP4",
     title: "Host an MP4 online: share a video file as a link",
     description:
       "Drop an MP4 video and get a shareable link in seconds. Plays in the browser with native controls, scrub bar, and HTTP range support. Free.",
@@ -997,7 +980,6 @@ export const hostContentMap: Record<string, SpokeContent> = {
   mp3: {
     slug: "mp3",
     name: "MP3",
-    filetypeShort: "MP3",
     title: "Host an MP3 online: share an audio file as a link",
     description:
       "Drop an MP3 and get a shareable link. Plays inline with native HTML5 audio controls; the free 25MB ceiling fits about 25 minutes at 128kbps.",
