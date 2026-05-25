@@ -1,3 +1,5 @@
+const { withSentryConfig } = require("@sentry/nextjs");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,4 +11,9 @@ const nextConfig = {
   trailingSlash: false,
 };
 
-module.exports = nextConfig;
+// Source map upload is skipped (no SENTRY_AUTH_TOKEN). silent + disableLogger
+// keep the build output and client bundle quiet.
+module.exports = withSentryConfig(nextConfig, {
+  silent: true,
+  disableLogger: true,
+});
