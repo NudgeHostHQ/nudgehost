@@ -1,71 +1,82 @@
 import Link from "next/link";
-import { hostContentMap } from "@/lib/host-content";
-import { viewersContentMap } from "@/lib/viewers-content";
-import { convertersContentMap } from "@/lib/converters-content";
-import { devToolsContentMap } from "@/lib/dev-tools-content";
-import { compareContentMap } from "@/lib/compare-content";
-import { useCasesContentMap } from "@/lib/use-cases-content";
 
-// The footer link wall is generated from the same content maps that drive the
-// pages themselves. This guarantees the footer never links to a page that
-// doesn't exist — internal links to 404s waste crawl budget and dilute the
-// link graph, so the footer must stay in sync with reality automatically.
-//
-// Each column shows up to 6 spokes plus an "All <silo> →" link to the hub.
+// The footer link wall is a curated set of the highest-intent pages per silo,
+// each column capped at 7 links and ending in an "All <silo> →" link to the
+// hub. Curating by hand (rather than listing every spoke from the content maps)
+// keeps the wall tight and scannable. Every href below points at a real page;
+// when a hub or spoke slug changes, update the matching entry here.
 
 type FooterLink = { label: string; href: string };
 
-function columnFrom(
-  contentMap: Record<string, { slug: string; name: string }>,
-  basePath: string,
-  hubLabel: string,
-  labelFor: (name: string) => string,
-  max = 6
-): FooterLink[] {
-  const links: FooterLink[] = Object.values(contentMap)
-    .slice(0, max)
-    .map((c) => ({ label: labelFor(c.name), href: `${basePath}/${c.slug}` }));
-  links.push({ label: `All ${hubLabel} →`, href: basePath });
-  return links;
-}
-
 const footerSections: { title: string; links: FooterLink[] }[] = [
+  // --- Row 1 ---
   {
     title: "Product",
     links: [
       { label: "Home", href: "/" },
       { label: "Pricing", href: "/pricing" },
       { label: "Blog", href: "/blog" },
+      { label: "Sign in", href: "/sign-in" },
     ],
   },
   {
-    // max raised so every host spoke gets a footer link, not just the first six.
     title: "Host files",
-    links: columnFrom(hostContentMap, "/host", "file types", (n) => `${n} hosting`, 99),
+    links: [
+      { label: "PDF hosting", href: "/host/pdf" },
+      { label: "HTML hosting", href: "/host/html" },
+      { label: "ZIP hosting", href: "/host/zip" },
+      { label: "DOCX hosting", href: "/host/docx" },
+      { label: "Claude artifact hosting", href: "/host/claude-artifact" },
+      { label: "ChatGPT HTML hosting", href: "/host/chatgpt-html" },
+      { label: "All file types →", href: "/host" },
+    ],
   },
   {
     title: "Viewers",
-    links: columnFrom(viewersContentMap, "/viewers", "viewers", (n) => `${n} viewer`),
+    links: [
+      { label: "PDF viewer", href: "/viewers/pdf" },
+      { label: "DOCX viewer", href: "/viewers/docx" },
+      { label: "CSV viewer", href: "/viewers/csv" },
+      { label: "JSON viewer", href: "/viewers/json" },
+      { label: "All viewers →", href: "/viewers" },
+    ],
   },
   {
     title: "Converters",
-    links: columnFrom(convertersContentMap, "/converters", "converters", (n) => n),
+    links: [
+      { label: "PDF to JPG", href: "/converters/pdf-to-jpg" },
+      { label: "DOCX to PDF", href: "/converters/docx-to-pdf" },
+      { label: "PNG to WebP", href: "/converters/png-to-webp" },
+      { label: "HEIC to JPG", href: "/converters/heic-to-jpg" },
+      { label: "All converters →", href: "/converters" },
+    ],
   },
+  // --- Row 2 ---
   {
     title: "Dev tools",
-    links: columnFrom(devToolsContentMap, "/dev-tools", "dev tools", (n) => n),
+    links: [
+      { label: "JSON formatter", href: "/dev-tools/json-formatter" },
+      { label: "Base64 encoder", href: "/dev-tools/base64" },
+      { label: "URL encoder", href: "/dev-tools/url-encoder" },
+      { label: "JWT decoder", href: "/dev-tools/jwt-decoder" },
+      { label: "All dev tools →", href: "/dev-tools" },
+    ],
   },
   {
     title: "Use cases",
-    links: columnFrom(useCasesContentMap, "/use-cases", "use cases", (n) => n),
+    links: [
+      { label: "Share a resume as a link", href: "/use-cases/share-resume-as-link" },
+      { label: "Send a portfolio to a recruiter", href: "/use-cases/send-portfolio-to-recruiter" },
+      { label: "Send a large PDF without email", href: "/use-cases/send-large-pdf-without-email" },
+      { label: "Host a wedding website", href: "/use-cases/share-wedding-website" },
+      { label: "All use cases →", href: "/use-cases" },
+    ],
   },
   {
     title: "Compare",
     links: [
-      ...Object.values(compareContentMap).map((c) => ({
-        label: `NudgeHost vs ${c.competitorName}`,
-        href: `/compare/${c.slug}`,
-      })),
+      { label: "NudgeHost vs Tiiny.host", href: "/compare/nudgehost-vs-tiiny-host" },
+      { label: "NudgeHost vs Linkyhost", href: "/compare/nudgehost-vs-linkyhost" },
       { label: "All comparisons →", href: "/compare" },
     ],
   },
@@ -73,10 +84,7 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
     title: "Glossary",
     links: [
       { label: "Static site", href: "/glossary/static-site" },
-      { label: "CDN", href: "/glossary/cdn" },
-      { label: "HTTPS", href: "/glossary/https" },
       { label: "CORS", href: "/glossary/cors" },
-      { label: "MIME type", href: "/glossary/mime-type" },
       { label: "Link expiry", href: "/glossary/link-expiry" },
       { label: "Password protection", href: "/glossary/password-protection" },
       { label: "Custom domain", href: "/glossary/custom-domain" },
