@@ -23,7 +23,9 @@
       "Bash(node scripts/render-link-sentences.mjs)",
       "Read(//tmp/**)",
       "PowerShell(Test-Path \"node_modules/sharp/package.json\"; if \\(Test-Path \"node_modules/sharp/package.json\"\\) { \\(Get-Content \"node_modules/sharp/package.json\" -Raw | ConvertFrom-Json\\).version })",
-      "PowerShell(Get-Item *)"
+      "PowerShell(Get-Item *)",
+      "Bash(mkdir -p \"app/sign-up/[[...sign-up]]\" \"app/sign-in/[[...sign-in]]\")",
+      "Bash(git mv *)"
     ]
   }
 }
