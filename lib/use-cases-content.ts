@@ -32,7 +32,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
       "The email attachment is the default way to send a resume, and it's quietly the worst. It can trip spam filters, it shows the recruiter a download prompt instead of your CV, and it tells you nothing about whether anyone actually opened it. A link fixes all three problems at once.",
       "Here's how it works. You {{host-resume}}, and we hand back a clean URL. Open-tracking is on by default. Put the link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs; if yours is a Word file, run it through {{converter-docx-to-pdf}} first so the formatting holds on every device.",
       "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as one combined link. When you update the CV, the link stays the same. Swap the file and everyone who already has the link sees the new version.",
-      "All of this works on {{pricing}}. Once you start applying widely, the Pro plan adds a custom domain and removes NudgeHost branding from the link, both worth it at that scale.",
+      "All of this works on {{pricing}}. Once you start applying widely, the Pro plan adds a custom domain and removes NudgeHost branding from the link, both worth it at that scale. For the full walkthrough, read {{blog-how-to-share-a-resume-as-a-link}}.",
     ],
     faqs: [
       {
