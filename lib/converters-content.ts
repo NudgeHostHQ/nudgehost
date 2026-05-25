@@ -13,7 +13,6 @@ export const convertersContentMap: Record<string, SpokeContent> = {
   "pdf-to-jpg": {
     slug: "pdf-to-jpg",
     name: "PDF to JPG",
-    filetypeShort: "PDF",
     title: "PDF to JPG Converter: turn PDF pages into images, free",
     description:
       "Convert a PDF into JPG images, one per page. Free, no signup, no watermark. Works in your browser on any device.",
@@ -52,7 +51,6 @@ export const convertersContentMap: Record<string, SpokeContent> = {
   "docx-to-pdf": {
     slug: "docx-to-pdf",
     name: "DOCX to PDF",
-    filetypeShort: "DOCX",
     title: "DOCX to PDF Converter: Word to PDF online, free",
     description:
       "Convert a Word document to PDF in seconds. Fonts, tables, and layout survive intact; PDF locks the formatting so it can't shift on the recipient's device.",
@@ -91,7 +89,6 @@ export const convertersContentMap: Record<string, SpokeContent> = {
   "png-to-webp": {
     slug: "png-to-webp",
     name: "PNG to WebP",
-    filetypeShort: "PNG",
     title: "PNG to WebP Converter: shrink images online, free",
     description:
       "Convert PNG to WebP and cut file size by half or more with no visible quality loss. Transparency is preserved; lossless mode keeps exact pixels. Free.",
@@ -130,7 +127,6 @@ export const convertersContentMap: Record<string, SpokeContent> = {
   "heic-to-jpg": {
     slug: "heic-to-jpg",
     name: "HEIC to JPG",
-    filetypeShort: "HEIC",
     title: "HEIC to JPG Converter: iPhone photos to JPG, free",
     description:
       "Convert HEIC photos from your iPhone into universal JPG. HEIC won't open on non-Apple devices or older software; JPG works everywhere. Free, no watermark.",

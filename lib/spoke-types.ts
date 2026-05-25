@@ -38,12 +38,6 @@ export type SpokeContent = {
   // hero variant). E.g. ["PDF", "Encrypted PDF", "Up to 25MB free"].
   filePillExamples?: string[];
 
-  // Optional short filetype label for inline CTAs that read "Drop your X
-  // here". On converters, name is "PDF to JPG" which doesn't fit that
-  // phrasing — set this to the source format (e.g. "PDF") instead. Falls
-  // back to name when unset.
-  filetypeShort?: string;
-
   // Optional authoring metadata. When set, the page emits Article schema and
   // shows a small byline. Use on pages most likely to be cited by AI Overviews
   // (use cases, blog posts, comparisons). Pure tool pages can leave these
