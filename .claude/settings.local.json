@@ -25,7 +25,8 @@
       "PowerShell(Test-Path \"node_modules/sharp/package.json\"; if \\(Test-Path \"node_modules/sharp/package.json\"\\) { \\(Get-Content \"node_modules/sharp/package.json\" -Raw | ConvertFrom-Json\\).version })",
       "PowerShell(Get-Item *)",
       "Bash(mkdir -p \"app/sign-up/[[...sign-up]]\" \"app/sign-in/[[...sign-in]]\")",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(npx drizzle-kit *)"
     ]
   }
 }
