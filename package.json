@@ -16,6 +16,7 @@
     "@aws-sdk/s3-request-presigner": "^3.1053.0",
     "@clerk/nextjs": "^7.4.1",
     "@neondatabase/serverless": "^1.1.0",
+    "@sentry/nextjs": "^10.53.1",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.16.0",
     "nanoid": "^5.1.11",
