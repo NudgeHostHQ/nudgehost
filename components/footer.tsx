@@ -20,6 +20,18 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
     ],
   },
   {
+    title: "Features",
+    links: [
+      { label: "Update a link in place", href: "/features/link-updating" },
+      { label: "Paste HTML", href: "/features/paste-html" },
+      { label: "Password protection", href: "/features/password-protection" },
+      { label: "Custom domains", href: "/features/custom-domains" },
+      { label: "Link previews", href: "/features/link-previews" },
+      { label: "Public links", href: "/features/public-links" },
+      { label: "All features →", href: "/features" },
+    ],
+  },
+  {
     title: "Host files",
     links: [
       { label: "PDF hosting", href: "/host/pdf" },

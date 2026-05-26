@@ -263,6 +263,66 @@ const TOOL_REGISTRY: Record<string, Tool> = {
     description: "A neutral comparison of the two other tools in this category.",
     href: "/compare/tiiny-host-vs-linkyhost",
   },
+  "features-link-updating": {
+    slug: "features-link-updating",
+    name: "Update a link in place",
+    description: "Swap the file without changing the URL.",
+    href: "/features/link-updating",
+  },
+  "features-zip-upload": {
+    slug: "features-zip-upload",
+    name: "ZIP upload",
+    description: "Host a multi-file project from a single archive.",
+    href: "/features/zip-upload",
+  },
+  "features-paste-html": {
+    slug: "features-paste-html",
+    name: "Paste HTML",
+    description: "Publish a page without saving a file first.",
+    href: "/features/paste-html",
+  },
+  "features-password-protection": {
+    slug: "features-password-protection",
+    name: "Password protection",
+    description: "Lock a shared link behind a password.",
+    href: "/features/password-protection",
+  },
+  "features-custom-domains": {
+    slug: "features-custom-domains",
+    name: "Custom domains",
+    description: "Serve links from your own address.",
+    href: "/features/custom-domains",
+  },
+  "features-full-screen-viewer": {
+    slug: "features-full-screen-viewer",
+    name: "Full-screen viewer",
+    description: "Files open clean, with no UI clutter.",
+    href: "/features/full-screen-viewer",
+  },
+  "features-link-previews": {
+    slug: "features-link-previews",
+    name: "Link previews",
+    description: "Rich unfurls in Slack, iMessage, and LinkedIn.",
+    href: "/features/link-previews",
+  },
+  "features-public-links": {
+    slug: "features-public-links",
+    name: "Public links",
+    description: "No login wall for the people you share with.",
+    href: "/features/public-links",
+  },
+  "features-html-rendering": {
+    slug: "features-html-rendering",
+    name: "HTML rendering",
+    description: "Your HTML runs live, not as a download.",
+    href: "/features/html-rendering",
+  },
+  "features-shareable-links": {
+    slug: "features-shareable-links",
+    name: "Shareable links",
+    description: "Short nudgehost.com URLs for any file.",
+    href: "/features/shareable-links",
+  },
 };
 
 export const APPROVED_TOOL_SLUGS = Object.keys(TOOL_REGISTRY) as Array<
