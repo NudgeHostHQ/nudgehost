@@ -18,7 +18,12 @@ import { internalLinks, pickAnchor } from "@/lib/internal-links";
 // The surrounding words ("flat image", "clickable file") supply the topical
 // context that makes this a strong contextual link rather than boilerplate.
 
-const TOKEN = /\{\{([a-z0-9-]+)\}\}/gi;
+// Two token forms are supported:
+//   {{key}}            — anchor text is auto-picked from the registry, varied per page
+//   {{key|exact text}} — anchor text is exactly "exact text" (overrides the picker)
+// The explicit form is for pages whose copy is approved verbatim (e.g. a design
+// mockup) where the anchor wording must match exactly.
+const TOKEN = /\{\{([a-z0-9-]+)(?:\|([^}]*))?\}\}/gi;
 
 // Renders a single string of body copy, turning each {{key}} token into a real
 // <Link>. Returns an array of React nodes (text fragments + links) suitable for
@@ -37,7 +42,7 @@ export function renderTokens(
 
   TOKEN.lastIndex = 0;
   while ((match = TOKEN.exec(text)) !== null) {
-    const [token, key] = match;
+    const [token, key, explicitAnchor] = match;
     const start = match.index;
 
     // Text before the token
@@ -47,9 +52,12 @@ export function renderTokens(
 
     const target = internalLinks[key];
     if (target) {
-      // Salt the anchor with page + scope + occurrence so the same
-      // destination linked twice on one page still varies its anchor.
-      const anchor = pickAnchor(key, `${salt}:${scope}:${linkCount}`);
+      // Use the exact anchor when one is given; otherwise salt the picker with
+      // page + scope + occurrence so a destination linked twice still varies.
+      const anchor =
+        explicitAnchor !== undefined
+          ? explicitAnchor
+          : pickAnchor(key, `${salt}:${scope}:${linkCount}`);
       nodes.push(
         <Link
           key={`${key}-${start}`}

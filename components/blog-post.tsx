@@ -4,10 +4,12 @@ import { Footer } from "@/components/footer";
 import { RelatedTools, TOOL_REGISTRY } from "@/components/related-tools";
 import { ContextualProse, renderTokens } from "@/components/contextual-prose";
 import { BlogBlocks, BlogFaqList, BottomCta } from "@/components/blog-blocks";
+import { BlogHeroClaude } from "@/components/blog-hero-claude";
 import type {
   BlogPost as BlogPostContent,
   ContentBlock,
   SidebarLink,
+  TocEntry,
 } from "@/lib/blog-content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -120,8 +122,8 @@ function bodyText(body: string | ContentBlock[]): string {
 
 function readTimeMinutes(post: BlogPostContent): number {
   const text = `${post.tldr} ${bodyText(post.body)}`.replace(
-    /\{\{[a-z0-9-]+\}\}/g,
-    " "
+    /\{\{([a-z0-9-]+)(?:\|([^}]*))?\}\}/g,
+    (_, key, anchor) => anchor ?? key
   );
   const words = text.split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 220));
@@ -144,12 +146,15 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
           .filter(Boolean)
       : [];
 
-  // Table of contents from h2 blocks; sidebar shows it when present.
-  const toc = isBlocks
-    ? (post.body as ContentBlock[]).flatMap((b) =>
-        b.type === "h2" ? [{ text: b.text, id: b.id }] : []
-      )
-    : [];
+  // Table of contents: explicit per-post labels when given, else auto-generated
+  // from the h2 blocks.
+  const toc: TocEntry[] =
+    post.sidebar?.toc ??
+    (isBlocks
+      ? (post.body as ContentBlock[]).flatMap((b) =>
+          b.type === "h2" ? [{ label: b.text, id: b.id }] : []
+        )
+      : []);
 
   // A faq block in the body replaces the standalone fallback FAQ section.
   const hasFaqBlock =
@@ -175,8 +180,9 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
     .slice(0, 2)
     .toUpperCase();
 
-  const showUpdated = post.modifiedDate !== post.publishedDate;
-  const readTime = readTimeMinutes(post);
+  const showUpdated =
+    post.showUpdatedBadge ?? post.modifiedDate !== post.publishedDate;
+  const readTime = post.readTime ?? `${readTimeMinutes(post)} min read`;
 
   return (
     <>
@@ -208,12 +214,12 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 </li>
                 <li aria-hidden="true">/</li>
                 <li aria-current="page" className="text-charcoal">
-                  {post.h1}
+                  {post.shortTitle ?? post.h1}
                 </li>
               </ol>
             </nav>
 
-            <span className="mb-4 inline-block rounded-full bg-coral-light px-2.5 py-1 text-xs font-medium text-coral-dark">
+            <span className="mb-3.5 inline-block rounded-full bg-coral-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-coral">
               {pillarLabel[post.pillar] ?? "Guide"}
             </span>
 
@@ -221,58 +227,83 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
               {post.h1}
             </h1>
 
-            <div className="mb-6 flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-muted">
-              <time dateTime={post.publishedDate}>
-                {formatDate(post.publishedDate, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-              <span aria-hidden="true">·</span>
-              <span>{readTime} min read</span>
-              {showUpdated && (
-                <span
-                  title={`Last updated ${formatDate(post.modifiedDate, {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}`}
-                  className="inline-flex items-center gap-1 rounded-full bg-sage-light px-2.5 py-0.5 text-xs font-medium text-sage-dark"
-                >
-                  ✓ Updated{" "}
-                  {formatDate(post.modifiedDate, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
-              )}
-            </div>
-
-            {/* AUTHOR BIO */}
-            <div className="mb-8 flex items-center gap-3">
+            {/* META */}
+            <div className="mb-6 flex items-center gap-2.5">
               <span
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-sm font-semibold text-white"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-[13px] font-semibold text-white"
                 aria-hidden="true"
               >
                 {initials}
               </span>
-              <div className="text-sm">
-                <p className="font-semibold text-charcoal">{post.author}</p>
-                {post.authorBio && (
-                  <p className="leading-relaxed text-muted">{post.authorBio}</p>
-                )}
+              <div className="flex flex-col gap-px text-sm">
+                <Link
+                  href="/about"
+                  className="font-semibold text-charcoal hover:underline"
+                >
+                  {post.author}
+                </Link>
+                <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted">
+                  <time dateTime={post.publishedDate}>
+                    {formatDate(post.publishedDate, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </time>
+                  <span aria-hidden="true">·</span>
+                  <span>{readTime}</span>
+                  {showUpdated && (
+                    <span
+                      title={`Last updated ${formatDate(post.modifiedDate, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}`}
+                      className="inline-flex items-center gap-1 rounded-full bg-sage-light px-2.5 py-0.5 text-xs font-semibold text-sage-dark"
+                    >
+                      ✓ Updated{" "}
+                      {formatDate(post.modifiedDate, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </span>
+                  )}
+                </span>
               </div>
             </div>
 
+            {/* AUTHOR BIO BOX */}
+            {post.authorBio && (
+              <div className="mb-7 flex items-start gap-3.5 rounded-[10px] border border-charcoal/10 bg-warm p-4">
+                <span
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-base font-bold text-white"
+                  aria-hidden="true"
+                >
+                  {initials}
+                </span>
+                <div className="text-[13px] leading-relaxed text-muted">
+                  <strong className="block text-sm text-charcoal">
+                    {post.author}
+                  </strong>
+                  {post.authorBio}
+                </div>
+              </div>
+            )}
+
+            {/* HERO IMAGE */}
+            {post.heroComponent === "claude-artifact" && <BlogHeroClaude />}
+
             {/* TL;DR */}
-            <div className="rounded-2xl border border-sage/30 bg-sage-light/40 p-6">
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-sage-dark">
+            <div className="relative overflow-hidden rounded-xl border border-charcoal/10 bg-white p-6">
+              <div
+                className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-coral to-peach"
+                aria-hidden="true"
+              />
+              <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-muted">
                 In short
-              </h2>
-              <p className="text-sm leading-relaxed text-charcoal/85">
+              </p>
+              <p className="text-[15px] leading-relaxed text-muted">
                 {renderTokens(post.tldr, post.slug, "tldr")}
               </p>
             </div>
@@ -316,7 +347,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                             href={`#${item.id}`}
                             className="text-muted transition-colors hover:text-coral-dark"
                           >
-                            {item.text}
+                            {item.label}
                           </a>
                         </li>
                       ))}
@@ -384,24 +415,19 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
           </div>
         </section>
 
-        {/* RELATED TOOLS */}
-        <RelatedTools tools={post.relatedToolSlugs as never[]} />
-
-        {/* BOTTOM CTA */}
-        {bottomCta && bottomCta.type === "bottom-cta" ? (
-          <BottomCta
-            title={bottomCta.title}
-            text={bottomCta.text}
-            link={bottomCta.link}
-            label={bottomCta.label}
-          />
-        ) : (
-          <BottomCta
-            title="Try it yourself."
-            text="Drop a file and get a shareable link in seconds. Free, no card needed."
-            link="/"
-            label="Share a file now"
-          />
+        {/* A bottom-cta block renders inline in the article column (v5 posts).
+            Posts without one get the templated RelatedTools grid plus a
+            full-width closing CTA. */}
+        {!bottomCta && (
+          <>
+            <RelatedTools tools={post.relatedToolSlugs as never[]} />
+            <BottomCta
+              title="Try it yourself."
+              text="Drop a file and get a shareable link in seconds. Free, no card needed."
+              link="/"
+              label="Share a file now"
+            />
+          </>
         )}
       </main>
       <Footer />

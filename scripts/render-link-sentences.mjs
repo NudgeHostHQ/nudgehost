@@ -40,7 +40,7 @@ function pickAnchor(key, salt) {
   return list[hash % list.length];
 }
 
-const TOKEN = /\{\{([a-z0-9-]+)\}\}/g;
+const TOKEN = /\{\{([a-z0-9-]+)(?:\|([^}]*))?\}\}/g;
 
 // Walk all *-content.ts files, locate body / intro / verdict arrays, extract
 // paragraph strings, and render each {{key}} with its picked anchor.
@@ -81,8 +81,11 @@ for (const file of files) {
         if (!para.includes("{{")) return;
         // Render tokens
         let linkCount = 0;
-        const rendered = para.replace(TOKEN, (_, key) => {
-          const a = pickAnchor(key, `${baseSalt}:${paraIndex}:${linkCount}`);
+        const rendered = para.replace(TOKEN, (_, key, explicitAnchor) => {
+          const a =
+            explicitAnchor !== undefined
+              ? explicitAnchor
+              : pickAnchor(key, `${baseSalt}:${paraIndex}:${linkCount}`);
           linkCount++;
           return `[[${a}]]`;
         });

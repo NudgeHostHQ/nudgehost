@@ -21,7 +21,9 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: post.title,
+    // Titles that already carry a " | ..." suffix are used verbatim (absolute),
+    // bypassing the root layout's "%s | NudgeHost" template so it isn't doubled.
+    title: post.title.includes(" | ") ? { absolute: post.title } : post.title,
     description: post.metaDescription,
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {

@@ -53,7 +53,8 @@ const moneyKeys = new Set();
 // --- Scan content files for {{tokens}} -----------------------------------
 const contentFiles = readdirSync(libDir).filter((f) => f.endsWith("-content.ts"));
 
-const tokenRe = /\{\{([a-z0-9-]+)\}\}/g;
+// Matches {{key}} and {{key|explicit anchor text}}; captures only the key.
+const tokenRe = /\{\{([a-z0-9-]+)(?:\|[^}]*)?\}\}/g;
 
 // Per "page" token counts. We approximate a page as one `slug:` entry in a
 // content file; counting tokens between consecutive slug declarations.
