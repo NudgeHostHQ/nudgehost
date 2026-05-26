@@ -273,24 +273,6 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 </div>
               </div>
 
-              {/* AUTHOR BIO BOX */}
-              {post.authorBio && (
-                <div className="mb-7 flex items-start gap-3.5 rounded-[10px] border border-charcoal/10 bg-warm p-4">
-                  <span
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-base font-bold text-white"
-                    aria-hidden="true"
-                  >
-                    {initials}
-                  </span>
-                  <div className="text-[13px] leading-relaxed text-muted">
-                    <strong className="block text-sm text-charcoal">
-                      {post.author}
-                    </strong>
-                    {post.authorBio}
-                  </div>
-                </div>
-              )}
-
               {/* HERO IMAGE */}
               {post.heroComponent === "claude-artifact" && <BlogHeroClaude />}
 
