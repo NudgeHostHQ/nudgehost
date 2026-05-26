@@ -20,7 +20,16 @@ import { internalLinks, pickAnchor } from "@/lib/internal-links";
 
 const TOKEN = /\{\{([a-z0-9-]+)\}\}/gi;
 
-function renderParagraph(text: string, salt: string, paraIndex: number) {
+// Renders a single string of body copy, turning each {{key}} token into a real
+// <Link>. Returns an array of React nodes (text fragments + links) suitable for
+// dropping inside any element: a <p>, a step description, a table cell, an FAQ
+// answer. The `scope` distinguishes occurrences within a page so the anchor
+// picker varies anchor text even when the same destination is linked twice.
+export function renderTokens(
+  text: string,
+  salt: string,
+  scope: string | number = 0
+): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -38,9 +47,9 @@ function renderParagraph(text: string, salt: string, paraIndex: number) {
 
     const target = internalLinks[key];
     if (target) {
-      // Salt the anchor with page + paragraph + occurrence so the same
+      // Salt the anchor with page + scope + occurrence so the same
       // destination linked twice on one page still varies its anchor.
-      const anchor = pickAnchor(key, `${salt}:${paraIndex}:${linkCount}`);
+      const anchor = pickAnchor(key, `${salt}:${scope}:${linkCount}`);
       nodes.push(
         <Link
           key={`${key}-${start}`}
@@ -81,7 +90,7 @@ export function ContextualProse({
   return (
     <div className="space-y-5 text-base leading-relaxed text-charcoal/85">
       {paragraphs.map((para, i) => (
-        <p key={i}>{renderParagraph(para, salt, i)}</p>
+        <p key={i}>{renderTokens(para, salt, i)}</p>
       ))}
     </div>
   );
