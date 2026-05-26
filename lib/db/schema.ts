@@ -33,6 +33,10 @@ export const files = pgTable(
     fileKey: text("file_key").notNull(),
     fileSize: integer("file_size").notNull(),
     mimeType: text("mime_type").notNull(),
+    // R2 key for the generated 1200x630 og:image thumbnail, or null when one
+    // could not be generated (the public viewer then falls back to the
+    // sitewide og-image.png). See lib/generate-thumbnail.ts.
+    thumbnailKey: text("thumbnail_key"),
     slug: text("slug").notNull().unique(),
     passwordHash: text("password_hash"),
     expiresAt: timestamp("expires_at", { withTimezone: true }),

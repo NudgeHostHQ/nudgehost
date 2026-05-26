@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import {
   PutObjectCommand,
@@ -10,6 +10,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users, files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
+import { storeThumbnail } from "@/lib/thumbnail-store";
 
 export const runtime = "nodejs";
 
@@ -185,6 +186,18 @@ export async function POST(
       // Orphaned old object; the swap already succeeded for the user.
     }
   }
+
+  // Regenerate the og:image thumbnail from the new bytes after the response
+  // flushes. It overwrites the same thumbnails/{fileId}.png object, so the
+  // preview URL stays the same and cached unfurls refresh in their own time.
+  after(async () => {
+    await storeThumbnail({
+      fileId: file.id,
+      mimeType: contentType,
+      filename: upload.name,
+      buffer,
+    });
+  });
 
   return NextResponse.json({
     file: {

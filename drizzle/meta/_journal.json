@@ -15,6 +15,13 @@
       "when": 1779719712754,
       "tag": "0001_amazing_lester",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779805476314,
+      "tag": "0002_talented_betty_brant",
+      "breakpoints": true
     }
   ]
 }

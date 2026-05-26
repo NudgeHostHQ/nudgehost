@@ -1,10 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { HeadObjectCommand } from "@aws-sdk/client-s3";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
+import { fetchAndStoreThumbnail } from "@/lib/thumbnail-store";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -66,6 +67,18 @@ export async function POST(request: Request) {
       { status: 422 },
     );
   }
+
+  // Generate the og:image thumbnail after the response flushes, so the
+  // "link ready" reply is never held up by image work. Best-effort: a failure
+  // leaves the file without a thumbnail and the viewer uses the sitewide card.
+  after(async () => {
+    await fetchAndStoreThumbnail({
+      fileId: file.id,
+      fileKey: file.fileKey,
+      mimeType: file.mimeType,
+      filename: file.filename,
+    });
+  });
 
   return NextResponse.json({
     success: true,
