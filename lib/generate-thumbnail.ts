@@ -11,16 +11,27 @@ import sharp from "sharp";
 //
 // Every path is guarded. generateThumbnail never throws; it returns null when a
 // thumbnail could not be produced, and callers fall back to the sitewide
-// og-image.png. Text is rendered with libvips' Pango support (same approach as
-// scripts/generate-og-image.mjs) using generic font families so it resolves on
-// any host, not just machines that happen to have Georgia installed.
+// og-image.png.
+//
+// All text is drawn by building an SVG string and rasterizing it with
+// sharp(Buffer.from(svg)).png(). We deliberately do NOT use libvips' Pango text
+// API (sharp's `text:` input): on Vercel's serverless runtime the named font
+// families fail to resolve and Pango renders tiny, unreadable glyph boxes. SVG
+// text falls back to a default sans/serif face that is always present, so the
+// cards stay legible on any host.
 
 const WIDTH = 1200;
 const HEIGHT = 630;
 const CREAM = { r: 0xfb, g: 0xf7, b: 0xf0, alpha: 1 };
+const CREAM_HEX = "#FBF7F0";
 const CHARCOAL = "#2C2824";
 const CORAL = "#E8704A";
-const MUTED = "#7A6F65";
+
+// Font stacks. The first name is the brand face we use at build time; the
+// generic family at the end is what actually resolves on Vercel, and that is
+// fine because the card design only depends on the colours and layout.
+const SERIF = "Georgia, 'Times New Roman', serif";
+const SANS = "Helvetica, Arial, sans-serif";
 
 // File types whose bytes we actually need to read to build the thumbnail.
 // Everything else gets a card built from the filename alone, so the caller can
@@ -34,61 +45,67 @@ export function needsFileBytes(mimeType: string): boolean {
   );
 }
 
-// Escape text for inclusion inside Pango markup.
-function escapeMarkup(text: string): string {
+// Escape text for safe inclusion inside SVG/XML markup.
+function escapeXml(text: string): string {
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
-type RenderedText = { data: Buffer; width: number; height: number };
+// Greedy word-wrap into at most `maxLines` lines of roughly `maxChars` each.
+// Single tokens longer than the budget (long filenames with no spaces) are
+// hard-broken; anything past the last line is truncated with an ellipsis.
+function wrapText(text: string, maxChars: number, maxLines: number): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let current = "";
 
-async function renderText(
-  markup: string,
-  font: string,
-  opts: { width?: number; align?: "left" | "centre" } = {},
-): Promise<RenderedText> {
-  const out = await sharp({
-    text: {
-      text: markup,
-      font,
-      rgba: true,
-      dpi: 72,
-      ...(opts.width ? { width: opts.width } : {}),
-      ...(opts.align ? { align: opts.align } : {}),
-    },
-  })
-    .png()
-    .toBuffer({ resolveWithObject: true });
-  return { data: out.data, width: out.info.width, height: out.info.height };
+  const flush = () => {
+    if (current) {
+      lines.push(current);
+      current = "";
+    }
+  };
+
+  for (let word of words) {
+    while (word.length > maxChars) {
+      flush();
+      lines.push(word.slice(0, maxChars));
+      word = word.slice(maxChars);
+    }
+    if (!current) {
+      current = word;
+    } else if (current.length + 1 + word.length <= maxChars) {
+      current += " " + word;
+    } else {
+      flush();
+      current = word;
+    }
+  }
+  flush();
+
+  if (lines.length > maxLines) {
+    const kept = lines.slice(0, maxLines);
+    const last = kept[maxLines - 1];
+    kept[maxLines - 1] =
+      last.slice(0, Math.max(0, maxChars - 1)).trimEnd() + "…";
+    return kept;
+  }
+  return lines;
 }
 
-const wordmarkMarkup = `<span foreground="${CHARCOAL}">nudge</span><span foreground="${CORAL}">host</span>`;
+type RenderedImage = { data: Buffer; width: number; height: number };
 
 // A white pill with the nudgehost wordmark, for overlaying on image and PDF
 // thumbnails where the underlying content would otherwise swallow plain text.
-async function wordmarkBadge(): Promise<RenderedText> {
-  const wm = await renderText(wordmarkMarkup, "serif Bold 30");
-  const padX = 22;
-  const padY = 13;
-  const pillW = wm.width + padX * 2;
-  const pillH = wm.height + padY * 2;
-  const pill = Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${pillW}" height="${pillH}"><rect width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="#FFFFFF" fill-opacity="0.92"/></svg>`,
-  );
-  const out = await sharp({
-    create: {
-      width: pillW,
-      height: pillH,
-      channels: 4,
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
-    },
-  })
-    .composite([
-      { input: pill, top: 0, left: 0 },
-      { input: wm.data, top: padY, left: padX },
-    ])
+async function wordmarkBadge(): Promise<RenderedImage> {
+  const w = 230;
+  const h = 64;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="${h / 2}" fill="#FFFFFF" fill-opacity="0.92"/><text x="${w / 2}" y="42" text-anchor="middle" font-family="${SERIF}" font-size="30" font-weight="700"><tspan fill="${CHARCOAL}">nudge</tspan><tspan fill="${CORAL}">host</tspan></text></svg>`;
+  const out = await sharp(Buffer.from(svg))
     .png()
     .toBuffer({ resolveWithObject: true });
   return { data: out.data, width: out.info.width, height: out.info.height };
@@ -123,40 +140,33 @@ async function placeOnBrandCanvas(imageBuffer: Buffer): Promise<Buffer> {
     .toBuffer();
 }
 
-// A branded card: cream background, wordmark top-left, a coral type label, and
-// the title wrapped beneath it. Used for HTML and all non-previewable types.
+// A branded card: cream background, wordmark top-left, a big coral type label
+// centered, and the title wrapped and centered beneath it. Used for HTML and
+// all non-previewable types. Rendered entirely as an SVG so text stays crisp
+// and readable regardless of which fonts the host happens to have installed.
 async function brandCard(title: string, label: string): Promise<Buffer> {
-  const safeTitle = escapeMarkup(title.slice(0, 120).trim() || "Untitled file");
-  const wordmark = await renderText(wordmarkMarkup, "serif Bold 46");
-  const accent = Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="6"><rect width="96" height="6" rx="3" fill="${CORAL}"/></svg>`,
-  );
-  const labelText = await renderText(
-    `<span foreground="${CORAL}">${escapeMarkup(label.toUpperCase())}</span>`,
-    "sans-serif Bold 26",
-  );
-  const titleText = await renderText(
-    `<span foreground="${CHARCOAL}">${safeTitle}</span>`,
-    "serif 64",
-    { width: WIDTH - 128, align: "left" },
-  );
-  const footer = await renderText(
-    `<span foreground="${MUTED}">Shared via NudgeHost</span>`,
-    "sans-serif 22",
-  );
+  const cleanTitle =
+    title.replace(/\s+/g, " ").trim().slice(0, 140) || "Untitled file";
+  const titleLines = wrapText(cleanTitle, 38, 2);
 
-  return sharp({
-    create: { width: WIDTH, height: HEIGHT, channels: 4, background: CREAM },
-  })
-    .composite([
-      { input: wordmark.data, left: 64, top: 56 },
-      { input: accent, left: 64, top: 56 + wordmark.height + 18 },
-      { input: labelText.data, left: 64, top: 232 },
-      { input: titleText.data, left: 64, top: 232 + labelText.height + 20 },
-      { input: footer.data, left: 64, top: HEIGHT - 56 - footer.height },
-    ])
-    .png({ compressionLevel: 9 })
-    .toBuffer();
+  const titleStartY = 432;
+  const titleLineHeight = 58;
+  const titleEls = titleLines
+    .map(
+      (line, i) =>
+        `<text x="${WIDTH / 2}" y="${titleStartY + i * titleLineHeight}" text-anchor="middle" font-family="${SANS}" font-size="46" font-weight="600" fill="${CHARCOAL}">${escapeXml(line)}</text>`,
+    )
+    .join("");
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="${CREAM_HEX}"/>
+  <text x="64" y="90" font-family="${SERIF}" font-size="46" font-weight="700"><tspan fill="${CHARCOAL}">nudge</tspan><tspan fill="${CORAL}">host</tspan></text>
+  <rect x="64" y="106" width="96" height="6" rx="3" fill="${CORAL}"/>
+  <text x="${WIDTH / 2}" y="320" text-anchor="middle" font-family="${SANS}" font-size="132" font-weight="800" fill="${CORAL}">${escapeXml(label.toUpperCase())}</text>
+  ${titleEls}
+</svg>`;
+
+  return sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
 }
 
 // Resize a user image to fit the card, watermarked. Throws on a corrupt image,
@@ -252,33 +262,21 @@ function extractHtmlTitle(buffer: Buffer): string | null {
   return title.length > 0 ? title : null;
 }
 
-// Map a file to a short, human type label for the branded card.
-function typeLabel(mimeType: string, filename: string): string {
+// A short, uppercase type token used as the big centered label on a brand card
+// ("HTML", "PDF", "DOCX", "ZIP", ...). Kept terse so it reads as a hero label.
+function shortLabel(mimeType: string, filename: string): string {
   const mime = mimeType.toLowerCase();
-  if (mime === "application/pdf") return "PDF document";
-  if (mime === "text/html") return "Web page";
-  if (mime.startsWith("image/")) return "Image";
-  if (mime.startsWith("video/")) return "Video";
-  if (mime.startsWith("audio/")) return "Audio";
+  if (mime === "application/pdf") return "PDF";
+  if (mime === "text/html") return "HTML";
+  if (mime.startsWith("image/")) return "IMAGE";
+  if (mime.startsWith("video/")) return "VIDEO";
+  if (mime.startsWith("audio/")) return "AUDIO";
 
   const ext = (filename.split(".").pop() || "").toLowerCase();
-  const byExt: Record<string, string> = {
-    zip: "ZIP archive",
-    rar: "Archive",
-    "7z": "Archive",
-    doc: "Word document",
-    docx: "Word document",
-    xls: "Spreadsheet",
-    xlsx: "Spreadsheet",
-    csv: "CSV data",
-    ppt: "Presentation",
-    pptx: "Presentation",
-    txt: "Text file",
-    md: "Markdown",
-    json: "JSON file",
-    svg: "SVG image",
-  };
-  return byExt[ext] || (ext ? `${ext.toUpperCase()} file` : "File");
+  if (ext && ext.length <= 5 && /^[a-z0-9]+$/.test(ext)) {
+    return ext.toUpperCase();
+  }
+  return "FILE";
 }
 
 export async function generateThumbnail(opts: {
@@ -294,7 +292,7 @@ export async function generateThumbnail(opts: {
       try {
         return await imageThumbnail(buffer);
       } catch {
-        return await brandCard(filename, typeLabel(mime, filename));
+        return await brandCard(filename, "IMAGE");
       }
     }
 
@@ -307,15 +305,15 @@ export async function generateThumbnail(opts: {
           // fall through to the card
         }
       }
-      return await brandCard(filename, "PDF document");
+      return await brandCard(filename, "PDF");
     }
 
     if (mime === "text/html") {
       const title = (buffer.length > 0 && extractHtmlTitle(buffer)) || filename;
-      return await brandCard(title, "Web page");
+      return await brandCard(title, "HTML");
     }
 
-    return await brandCard(filename, typeLabel(mime, filename));
+    return await brandCard(filename, shortLabel(mime, filename));
   } catch {
     // Total failure: signal the caller to use the sitewide og-image fallback.
     return null;
