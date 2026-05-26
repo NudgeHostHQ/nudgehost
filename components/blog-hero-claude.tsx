@@ -1,6 +1,7 @@
 // Decorative hero illustration for the "host a Claude artifact" post.
-// Two editor-style panels (Claude → NudgeHost) with a "Copy → Paste → Live link"
-// badge. Pure CSS, no real screenshot. Mirrors the v5 mockup .hero-img markup.
+// Two editor-style panels (Claude → NudgeHost). Pure CSS, no real screenshot.
+// The "Copy → Paste → Live link" badge is rendered as a button beneath this
+// illustration by the page shell, so it is not part of the image itself.
 
 function Dots() {
   return (
@@ -15,7 +16,7 @@ function Dots() {
 export function BlogHeroClaude() {
   return (
     <div
-      className="relative mb-8 flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-xl border border-[#E8E2DA]"
+      className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-xl border border-[#E8E2DA]"
       style={{
         background:
           "linear-gradient(135deg, #FAE8DF 0%, #F5DCC8 40%, #FBF7F0 100%)",
@@ -56,10 +57,6 @@ export function BlogHeroClaude() {
             <div className="h-1.5 w-[40%] rounded-[3px] bg-coral-light" />
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-3.5 right-5 rounded-md bg-coral px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white">
-        Copy → Paste → Live link
       </div>
     </div>
   );

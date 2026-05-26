@@ -199,23 +199,25 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
           <div className="grid grid-cols-1 gap-8 min-[900px]:grid-cols-[minmax(0,1fr)_300px] min-[900px]:gap-14">
             {/* ARTICLE COLUMN */}
             <article className="min-[900px]:max-w-[720px]">
-              <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
-                <ol className="flex flex-wrap gap-2">
+              <nav aria-label="Breadcrumb" className="mb-5 text-[13px] text-[#8A8A8A]">
+                <ol className="flex flex-wrap items-center gap-2">
                   <li>
-                    <Link href="/" className="hover:text-charcoal">
+                    <Link href="/" className="hover:text-[#5C5C5C]">
                       Home
                     </Link>
                   </li>
-                  <li aria-hidden="true">/</li>
+                  <li aria-hidden="true" className="text-[11px] text-[#EDE8E2]">
+                    ›
+                  </li>
                   <li>
-                    <Link href="/blog" className="hover:text-charcoal">
+                    <Link href="/blog" className="hover:text-[#5C5C5C]">
                       Blog
                     </Link>
                   </li>
-                  <li aria-hidden="true">/</li>
-                  <li aria-current="page" className="text-charcoal">
-                    {post.shortTitle ?? post.h1}
+                  <li aria-hidden="true" className="text-[11px] text-[#EDE8E2]">
+                    ›
                   </li>
+                  <li aria-current="page">{post.shortTitle ?? post.h1}</li>
                 </ol>
               </nav>
 
@@ -223,12 +225,12 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 {pillarLabel[post.pillar] ?? "Guide"}
               </span>
 
-              <h1 className="mb-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+              <h1 className="mb-4 max-w-[680px] font-display text-[36px] font-semibold leading-[1.15] tracking-[-0.02em] min-[900px]:text-[48px]">
                 {post.h1}
               </h1>
 
               {/* META */}
-              <div className="mb-6 flex items-center gap-2.5">
+              <div className="mb-6 flex items-center gap-2.5 border-b border-[#EDE8E2] pb-8">
                 <span
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-[13px] font-semibold text-white"
                   aria-hidden="true"
@@ -259,9 +261,13 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                           month: "long",
                           day: "numeric",
                         })}`}
-                        className="inline-flex items-center gap-1 rounded-full bg-sage-light px-2.5 py-0.5 text-xs font-semibold text-sage-dark"
+                        className="inline-flex items-center gap-1.5 text-[12px] text-[#5C5C5C]"
                       >
-                        ✓ Updated{" "}
+                        <span
+                          aria-hidden="true"
+                          className="h-1.5 w-1.5 rounded-full bg-[#22C55E]"
+                        />
+                        Updated{" "}
                         {formatDate(post.modifiedDate, {
                           year: "numeric",
                           month: "long",
@@ -274,7 +280,16 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
               </div>
 
               {/* HERO IMAGE */}
-              {post.heroComponent === "claude-artifact" && <BlogHeroClaude />}
+              {post.heroComponent === "claude-artifact" && (
+                <div className="mb-8 rounded-2xl border border-[#EDE8E2] bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+                  <BlogHeroClaude />
+                  <div className="mt-6 flex justify-center">
+                    <span className="inline-flex items-center rounded-full bg-coral px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_4px_12px_rgba(212,101,58,0.25)]">
+                      Copy → Paste → Live link
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {/* TL;DR */}
               <div className="relative overflow-hidden rounded-xl border border-charcoal/10 bg-white p-6">
@@ -320,12 +335,16 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
                       On this page
                     </p>
-                    <ul className="space-y-2 text-sm">
-                      {toc.map((item) => (
+                    <ul className="space-y-2.5">
+                      {toc.map((item, i) => (
                         <li key={item.id}>
                           <a
                             href={`#${item.id}`}
-                            className="text-muted transition-colors hover:text-coral-dark"
+                            className={
+                              i === 0
+                                ? "block border-l-[3px] border-[#D4653A] pl-3 text-sm font-semibold text-[#D4653A]"
+                                : "block border-l-[3px] border-transparent pl-3 text-sm text-[#5C5C5C] transition-colors hover:text-[#D4653A]"
+                            }
                           >
                             {item.label}
                           </a>
@@ -335,17 +354,17 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                   </nav>
                 )}
 
-                <div className="rounded-2xl bg-gradient-to-br from-coral to-coral-dark p-5 text-white">
-                  <p className="font-display text-lg font-semibold">
+                <div className="rounded-xl border border-[#EDE8E2] bg-white p-6">
+                  <p className="text-base font-bold text-[#1F1F1F]">
                     Host any file for free
                   </p>
-                  <p className="mt-1 text-sm leading-relaxed opacity-90">
+                  <p className="mt-2 text-sm leading-relaxed text-[#8A8A8A]">
                     Drop a file and get a shareable link in seconds. No card
                     needed.
                   </p>
                   <Link
                     href="/sign-up"
-                    className="mt-3 inline-block rounded-full bg-white px-4 py-2 text-sm font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
+                    className="mt-4 block w-full rounded-lg border border-[#F7E6DD] bg-[#FFF0E8] px-4 py-2.5 text-center text-sm font-semibold text-[#D4653A] transition-colors hover:bg-[#F7E6DD]"
                   >
                     Get started
                   </Link>
