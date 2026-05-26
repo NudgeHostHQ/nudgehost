@@ -13,12 +13,12 @@ import sharp from "sharp";
 // thumbnail could not be produced, and callers fall back to the sitewide
 // og-image.png.
 //
-// All text is drawn by building an SVG string and rasterizing it with
-// sharp(Buffer.from(svg)).png(). We deliberately do NOT use libvips' Pango text
-// API (sharp's `text:` input): on Vercel's serverless runtime the named font
-// families fail to resolve and Pango renders tiny, unreadable glyph boxes. SVG
-// text falls back to a default sans/serif face that is always present, so the
-// cards stay legible on any host.
+// All text is drawn with @napi-rs/canvas using a font we register explicitly
+// from disk (LiberationSans, shipped inside pdfjs-dist). We deliberately do NOT
+// rely on system fonts here. Both sharp's Pango text API and librsvg's SVG
+// <text> fall back to fontconfig, and on Vercel's serverless runtime there is
+// no usable face, so text renders as tofu boxes or vanishes. Registering the
+// font bytes ourselves means skia draws real glyphs regardless of the host.
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -26,12 +26,6 @@ const CREAM = { r: 0xfb, g: 0xf7, b: 0xf0, alpha: 1 };
 const CREAM_HEX = "#FBF7F0";
 const CHARCOAL = "#2C2824";
 const CORAL = "#E8704A";
-
-// Font stacks. The first name is the brand face we use at build time; the
-// generic family at the end is what actually resolves on Vercel, and that is
-// fine because the card design only depends on the colours and layout.
-const SERIF = "Georgia, 'Times New Roman', serif";
-const SANS = "Helvetica, Arial, sans-serif";
 
 // File types whose bytes we actually need to read to build the thumbnail.
 // Everything else gets a card built from the filename alone, so the caller can
@@ -45,70 +39,146 @@ export function needsFileBytes(mimeType: string): boolean {
   );
 }
 
-// Escape text for safe inclusion inside SVG/XML markup.
-function escapeXml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+type CanvasModule = typeof import("@napi-rs/canvas");
+type Canvas2D = ReturnType<
+  ReturnType<CanvasModule["createCanvas"]>["getContext"]
+>;
+type RenderedImage = { data: Buffer; width: number; height: number };
+
+// Registered font family names, or a generic fallback if the files are missing.
+type Faces = { regular: string; bold: string };
+let registeredFaces: Faces | null = null;
+
+// Register LiberationSans (regular + bold) once, aliased to our own family
+// names so a plain `<size>px NHSans` request resolves to the exact face we
+// loaded. The TTFs live in pdfjs-dist/standard_fonts, which is a server-external
+// package that stays on disk at runtime (the PDF path reads the same dir), so
+// this works on Vercel. Falls back to sans-serif if anything is off.
+async function ensureFaces(canvasMod: CanvasModule): Promise<Faces> {
+  if (registeredFaces) return registeredFaces;
+  const fallback: Faces = { regular: "sans-serif", bold: "sans-serif" };
+  try {
+    const path = await import("node:path");
+    const { existsSync } = await import("node:fs");
+    const dir = path.join(
+      process.cwd(),
+      "node_modules",
+      "pdfjs-dist",
+      "standard_fonts",
+    );
+    const regular = path.join(dir, "LiberationSans-Regular.ttf");
+    const bold = path.join(dir, "LiberationSans-Bold.ttf");
+    if (
+      existsSync(regular) &&
+      existsSync(bold) &&
+      canvasMod.GlobalFonts.registerFromPath(regular, "NHSans") &&
+      canvasMod.GlobalFonts.registerFromPath(bold, "NHSansBold")
+    ) {
+      registeredFaces = { regular: "NHSans", bold: "NHSansBold" };
+      return registeredFaces;
+    }
+  } catch {
+    // fall through to the generic family
+  }
+  return fallback;
 }
 
-// Greedy word-wrap into at most `maxLines` lines of roughly `maxChars` each.
-// Single tokens longer than the budget (long filenames with no spaces) are
-// hard-broken; anything past the last line is truncated with an ellipsis.
-function wrapText(text: string, maxChars: number, maxLines: number): string[] {
-  const words = text.split(/\s+/).filter(Boolean);
+// Greedy word-wrap measured against the actual font metrics. Single tokens
+// wider than the budget (long filenames with no spaces) are hard-broken on a
+// character boundary; overflow past the last line ends with an ellipsis.
+function wrapToWidth(
+  ctx: Canvas2D,
+  text: string,
+  maxWidth: number,
+  maxLines: number,
+): string[] {
+  const fits = (s: string) => ctx.measureText(s).width <= maxWidth;
   const lines: string[] = [];
   let current = "";
 
-  const flush = () => {
-    if (current) {
-      lines.push(current);
-      current = "";
+  for (let word of words(text)) {
+    while (!fits(word) && word.length > 1) {
+      // Binary-search the longest prefix of this word that still fits.
+      let lo = 1;
+      let hi = word.length;
+      let cut = 1;
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        if (fits(word.slice(0, mid))) {
+          cut = mid;
+          lo = mid + 1;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      if (current) {
+        lines.push(current);
+        current = "";
+      }
+      lines.push(word.slice(0, cut));
+      word = word.slice(cut);
     }
-  };
-
-  for (let word of words) {
-    while (word.length > maxChars) {
-      flush();
-      lines.push(word.slice(0, maxChars));
-      word = word.slice(maxChars);
-    }
-    if (!current) {
-      current = word;
-    } else if (current.length + 1 + word.length <= maxChars) {
-      current += " " + word;
+    const candidate = current ? `${current} ${word}` : word;
+    if (fits(candidate)) {
+      current = candidate;
     } else {
-      flush();
+      if (current) lines.push(current);
       current = word;
     }
   }
-  flush();
+  if (current) lines.push(current);
 
   if (lines.length > maxLines) {
     const kept = lines.slice(0, maxLines);
-    const last = kept[maxLines - 1];
-    kept[maxLines - 1] =
-      last.slice(0, Math.max(0, maxChars - 1)).trimEnd() + "…";
+    let last = kept[maxLines - 1];
+    while (last.length > 0 && !fits(`${last}…`)) last = last.slice(0, -1);
+    kept[maxLines - 1] = `${last.replace(/\s+$/, "")}…`;
     return kept;
   }
   return lines;
 }
 
-type RenderedImage = { data: Buffer; width: number; height: number };
+function words(text: string): string[] {
+  return text.split(/\s+/).filter(Boolean);
+}
 
 // A white pill with the nudgehost wordmark, for overlaying on image and PDF
 // thumbnails where the underlying content would otherwise swallow plain text.
 async function wordmarkBadge(): Promise<RenderedImage> {
-  const w = 230;
-  const h = 64;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="${h / 2}" fill="#FFFFFF" fill-opacity="0.92"/><text x="${w / 2}" y="42" text-anchor="middle" font-family="${SERIF}" font-size="30" font-weight="700"><tspan fill="${CHARCOAL}">nudge</tspan><tspan fill="${CORAL}">host</tspan></text></svg>`;
-  const out = await sharp(Buffer.from(svg))
-    .png()
-    .toBuffer({ resolveWithObject: true });
-  return { data: out.data, width: out.info.width, height: out.info.height };
+  const canvasMod = await import("@napi-rs/canvas");
+  const faces = await ensureFaces(canvasMod);
+  const fontSize = 30;
+
+  // Measure the wordmark on a throwaway context to size the pill around it.
+  const probe = canvasMod.createCanvas(8, 8).getContext("2d");
+  probe.font = `${fontSize}px ${faces.bold}`;
+  const textW = probe.measureText("nudgehost").width;
+
+  const padX = 26;
+  const padY = 15;
+  const w = Math.ceil(textW + padX * 2);
+  const h = fontSize + padY * 2;
+
+  const canvas = canvasMod.createCanvas(w, h);
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+  ctx.beginPath();
+  ctx.roundRect(0, 0, w, h, h / 2);
+  ctx.fill();
+
+  ctx.font = `${fontSize}px ${faces.bold}`;
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "left";
+  const baselineY = h / 2 + 1;
+  let x = padX;
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillText("nudge", x, baselineY);
+  x += ctx.measureText("nudge").width;
+  ctx.fillStyle = CORAL;
+  ctx.fillText("host", x, baselineY);
+
+  return { data: canvas.toBuffer("image/png"), width: w, height: h };
 }
 
 // Place an already-rasterized image (a resized photo or a rendered PDF page)
@@ -142,31 +212,57 @@ async function placeOnBrandCanvas(imageBuffer: Buffer): Promise<Buffer> {
 
 // A branded card: cream background, wordmark top-left, a big coral type label
 // centered, and the title wrapped and centered beneath it. Used for HTML and
-// all non-previewable types. Rendered entirely as an SVG so text stays crisp
-// and readable regardless of which fonts the host happens to have installed.
+// all non-previewable types. Drawn entirely with canvas + a registered font, so
+// the text is legible regardless of which fonts the host has installed.
 async function brandCard(title: string, label: string): Promise<Buffer> {
+  const canvasMod = await import("@napi-rs/canvas");
+  const faces = await ensureFaces(canvasMod);
+
+  const canvas = canvasMod.createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = CREAM_HEX;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Wordmark, top-left.
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+  ctx.font = `46px ${faces.bold}`;
+  let x = 64;
+  const wordmarkY = 92;
+  ctx.fillStyle = CHARCOAL;
+  ctx.fillText("nudge", x, wordmarkY);
+  x += ctx.measureText("nudge").width;
+  ctx.fillStyle = CORAL;
+  ctx.fillText("host", x, wordmarkY);
+
+  // Coral accent under the wordmark.
+  ctx.fillStyle = CORAL;
+  ctx.fillRect(64, 104, 96, 6);
+
+  // Big centered type label.
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = `130px ${faces.bold}`;
+  ctx.fillStyle = CORAL;
+  ctx.fillText(label.toUpperCase(), WIDTH / 2, 300);
+
+  // Title / filename, wrapped to at most two centered lines.
+  ctx.font = `46px ${faces.regular}`;
   const cleanTitle =
     title.replace(/\s+/g, " ").trim().slice(0, 140) || "Untitled file";
-  const titleLines = wrapText(cleanTitle, 38, 2);
+  const lines = wrapToWidth(ctx, cleanTitle, WIDTH - 160, 2);
 
-  const titleStartY = 432;
-  const titleLineHeight = 58;
-  const titleEls = titleLines
-    .map(
-      (line, i) =>
-        `<text x="${WIDTH / 2}" y="${titleStartY + i * titleLineHeight}" text-anchor="middle" font-family="${SANS}" font-size="46" font-weight="600" fill="${CHARCOAL}">${escapeXml(line)}</text>`,
-    )
-    .join("");
+  ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = CHARCOAL;
+  const lineHeight = 60;
+  const startY = lines.length > 1 ? 440 : 462;
+  lines.forEach((line, i) => {
+    ctx.fillText(line, WIDTH / 2, startY + i * lineHeight);
+  });
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
-  <rect width="${WIDTH}" height="${HEIGHT}" fill="${CREAM_HEX}"/>
-  <text x="64" y="90" font-family="${SERIF}" font-size="46" font-weight="700"><tspan fill="${CHARCOAL}">nudge</tspan><tspan fill="${CORAL}">host</tspan></text>
-  <rect x="64" y="106" width="96" height="6" rx="3" fill="${CORAL}"/>
-  <text x="${WIDTH / 2}" y="320" text-anchor="middle" font-family="${SANS}" font-size="132" font-weight="800" fill="${CORAL}">${escapeXml(label.toUpperCase())}</text>
-  ${titleEls}
-</svg>`;
-
-  return sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
+  return canvas.toBuffer("image/png");
 }
 
 // Resize a user image to fit the card, watermarked. Throws on a corrupt image,
