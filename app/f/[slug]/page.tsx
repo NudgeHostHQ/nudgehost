@@ -16,6 +16,9 @@ import { PasswordPrompt } from "@/components/password-prompt";
 // These are live user files, not marketing pages. Keep them out of the index.
 export const dynamic = "force-dynamic";
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
+
 type Params = Promise<{ slug: string }>;
 
 // Cached so generateMetadata and the page share a single read per request.
@@ -67,6 +70,11 @@ export async function generateMetadata({
     };
   }
 
+  // Per-file og:image. The route serves the generated thumbnail, or redirects
+  // to the sitewide og-image.png when there isn't one (or the file is gated).
+  // The URL is stable per file, so a replacement reuses it.
+  const thumbnailUrl = `${SITE_URL}/api/files/${file.id}/thumbnail`;
+
   return {
     title: file.filename,
     description: "Shared via NudgeHost",
@@ -74,11 +82,15 @@ export async function generateMetadata({
     openGraph: {
       title: file.filename,
       description: "Shared via NudgeHost",
+      images: [
+        { url: thumbnailUrl, width: 1200, height: 630, alt: file.filename },
+      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: file.filename,
       description: "Shared via NudgeHost",
+      images: [thumbnailUrl],
     },
   };
 }
