@@ -374,6 +374,84 @@ export const internalLinks: Record<string, LinkTarget> = {
     anchors: ["what a custom domain is", "branded share links", "using your own domain"],
   },
 
+  // --- Features silo ---------------------------------------------------------
+  "features-link-updating": {
+    href: "/features/link-updating",
+    anchors: [
+      "update the source later",
+      "swap the file without changing the URL",
+      "replace the file in your dashboard",
+    ],
+  },
+  "features-zip-upload": {
+    href: "/features/zip-upload",
+    anchors: [
+      "zip the files and upload the archive",
+      "upload a ZIP file",
+      "host a multi-file project from a ZIP",
+    ],
+  },
+  "features-paste-html": {
+    href: "/features/paste-html",
+    anchors: ["paste HTML directly", "raw HTML paste", "paste mode for HTML"],
+  },
+  "features-password-protection": {
+    href: "/features/password-protection",
+    anchors: [
+      "password protection",
+      "lock the link with a password",
+      "add a password to your shared link",
+    ],
+  },
+  "features-custom-domains": {
+    href: "/features/custom-domains",
+    anchors: [
+      "custom domains",
+      "use your own domain",
+      "brand your link with a custom domain",
+    ],
+  },
+  "features-full-screen-viewer": {
+    href: "/features/full-screen-viewer",
+    anchors: [
+      "full-screen viewer",
+      "clean, full-screen display",
+      "distraction-free viewer",
+    ],
+  },
+  "features-link-previews": {
+    href: "/features/link-previews",
+    anchors: [
+      "branded link previews",
+      "rich link preview",
+      "link preview in Slack and iMessage",
+    ],
+  },
+  "features-public-links": {
+    href: "/features/public-links",
+    anchors: [
+      "public links",
+      "no account needed to view",
+      "no login wall for recipients",
+    ],
+  },
+  "features-html-rendering": {
+    href: "/features/html-rendering",
+    anchors: [
+      "live HTML rendering",
+      "runs your HTML as a live page",
+      "renders HTML instead of showing code",
+    ],
+  },
+  "features-shareable-links": {
+    href: "/features/shareable-links",
+    anchors: [
+      "shareable link",
+      "short, shareable URL",
+      "get a link for any file",
+    ],
+  },
+
   // --- Blog ------------------------------------------------------------------
   "blog-how-to-host-a-claude-artifact": {
     href: "/blog/how-to-host-a-claude-artifact",

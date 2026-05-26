@@ -7,6 +7,7 @@ import { useCasesContentMap } from "@/lib/use-cases-content";
 import { compareContentMap } from "@/lib/compare-content";
 import { glossaryContentMap } from "@/lib/glossary-content";
 import { blogContentMap } from "@/lib/blog-content";
+import { featuresContentMap } from "@/lib/features-content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -31,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/dev-tools`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/use-cases`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/compare`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/features`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/glossary`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
@@ -63,6 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...silo("/compare", Object.keys(compareContentMap), 0.7),
     ...silo("/glossary", Object.keys(glossaryContentMap), 0.6),
     ...silo("/blog", Object.keys(blogContentMap), 0.6),
+    ...silo("/features", Object.keys(featuresContentMap), 0.7),
   ];
 
   return [...staticPages, ...programmatic];
