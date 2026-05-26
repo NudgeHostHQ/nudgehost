@@ -10,7 +10,7 @@ type Tool = {
 // Canonical map of all tools — keep this in sync as you add pages.
 // When adding a new spoke page, add it here and reference it from
 // adjacent pages via the `tools` prop on <RelatedTools />.
-const TOOL_REGISTRY: Record<string, Tool> = {
+export const TOOL_REGISTRY: Record<string, Tool> = {
   "host-pdf": {
     slug: "host-pdf",
     name: "Host a PDF",

@@ -18,6 +18,7 @@ const config: Config = {
         },
         sage: {
           DEFAULT: "#7A9E7E",
+          dark: "#4F6B53",
           light: "#E8F0E9",
         },
         charcoal: "#2C2824",
