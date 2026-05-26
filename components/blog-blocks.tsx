@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ContextualProse, renderTokens } from "@/components/contextual-prose";
+import { internalLinks } from "@/lib/internal-links";
 import type {
   ContentBlock,
   CompareBlock,
@@ -9,6 +10,7 @@ import type {
   ScreenshotBlock,
   StepsBlock,
   TestimonialBlock,
+  BottomCtaBlock,
   BlogFaqItem,
 } from "@/lib/blog-content";
 
@@ -64,40 +66,50 @@ function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
   );
 }
 
-function CompareCell({
-  value,
-  salt,
-  scope,
-}: {
-  value: string;
-  salt: string;
-  scope: string;
-}) {
-  if (value === "✓") {
-    return (
-      <span className="text-base font-semibold text-sage" aria-label="Yes">
-        ✓
-      </span>
-    );
+// Parses a string that is exactly one {{key}} or {{key|anchor}} token.
+function parseToken(value: string): { key: string; anchor?: string } | null {
+  const m = value.match(/^\{\{([a-z0-9-]+)(?:\|([^}]*))?\}\}$/);
+  return m ? { key: m[1], anchor: m[2] } : null;
+}
+
+// NudgeHost column cell: a checkmark that links to the relevant feature page,
+// styled sage to match the mockup's .nh-col a rule.
+function NhCell({ value }: { value: string }) {
+  const t = parseToken(value);
+  if (t) {
+    const target = internalLinks[t.key];
+    const label = t.anchor ?? "✓";
+    if (target) {
+      return (
+        <Link href={target.href} className="font-semibold text-sage hover:underline">
+          {label}
+        </Link>
+      );
+    }
+    return <span className="font-semibold text-sage">{label}</span>;
   }
-  if (value === "✗") {
-    return (
-      <span className="text-base text-charcoal/25" aria-label="No">
-        ✗
-      </span>
-    );
+  return <span className="font-semibold text-sage">{value}</span>;
+}
+
+// A plain comparison value: a sage ✓ or a muted ✗, keeping any parenthetical.
+function ValueCell({ value }: { value: string }) {
+  if (value.startsWith("✓")) {
+    return <span className="font-semibold text-sage">{value}</span>;
   }
-  return <>{renderTokens(value, salt, scope)}</>;
+  if (value.startsWith("✗")) {
+    return <span className="text-charcoal/30">{value}</span>;
+  }
+  return <>{value}</>;
 }
 
 function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-charcoal/10">
+    <div className="overflow-x-auto rounded-xl border border-charcoal/10">
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="bg-charcoal text-left text-white">
             {block.headers.map((h, i) => (
-              <th key={i} className="px-4 py-3 font-semibold">
+              <th key={i} className="px-4 py-3 text-[13px] font-semibold">
                 {h}
               </th>
             ))}
@@ -113,14 +125,18 @@ function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
                   <td
                     key={ci}
                     className={[
-                      "px-4 py-3",
-                      isNh ? "bg-[rgba(232,112,74,0.06)]" : "",
-                      isFeature
-                        ? "font-medium text-charcoal"
-                        : "text-center text-charcoal/80",
+                      "px-4 py-3 align-top",
+                      isNh ? "bg-[rgba(232,112,74,0.06)] font-semibold" : "",
+                      isFeature ? "font-semibold text-charcoal" : "",
                     ].join(" ")}
                   >
-                    <CompareCell value={cell} salt={salt} scope={`cmp-${ri}-${ci}`} />
+                    {isFeature ? (
+                      renderTokens(cell, salt, `cmp-${ri}`)
+                    ) : isNh ? (
+                      <NhCell value={cell} />
+                    ) : (
+                      <ValueCell value={cell} />
+                    )}
                   </td>
                 );
               })}
@@ -149,24 +165,19 @@ function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string })
 
 function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
   return (
-    <div className="flex items-start gap-4 rounded-2xl bg-gradient-to-br from-coral-light to-peach/60 p-6">
+    <div className="flex items-center gap-[18px] rounded-xl border border-coral/10 bg-gradient-to-br from-coral-light to-warm p-6">
       <span
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-coral text-xl text-white"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-coral text-xl text-white"
         aria-hidden="true"
       >
-        ↗
+        {block.icon ?? "⚡"}
       </span>
-      <div>
-        <p className="font-display text-lg font-semibold text-charcoal">
+      <div className="text-sm leading-relaxed text-charcoal/80">
+        <strong className="mb-0.5 block text-[15px] text-charcoal">
           {block.title}
-        </p>
-        <p className="mt-1 text-sm leading-relaxed text-charcoal/80">
-          {renderTokens(block.text, salt, "cta")}
-        </p>
-        <Link
-          href={block.link}
-          className="mt-3 inline-block font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 transition-colors hover:decoration-coral"
-        >
+        </strong>
+        {renderTokens(block.text, salt, "cta")}{" "}
+        <Link href={block.link} className="font-bold text-coral hover:underline">
           {block.label}
         </Link>
       </div>
@@ -176,19 +187,14 @@ function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
 
 function Screenshot({ block }: { block: ScreenshotBlock }) {
   return (
-    <figure>
-      <div className="flex min-h-[180px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-coral/30 bg-cream px-6 py-10 text-center">
-        <p className="text-sm font-medium text-muted">{block.alt}</p>
-        <p className="mt-2 text-xs font-medium uppercase tracking-wider text-coral">
-          Replace with real screenshot before launch
-        </p>
-      </div>
+    <div className="flex aspect-[16/10] w-full flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-[#E8E2DA] bg-cream px-5 text-center text-sm font-medium text-muted">
+      <span>{block.alt}</span>
       {block.caption && (
-        <figcaption className="mt-2 text-center text-sm text-muted">
+        <span className="mt-1.5 text-xs font-semibold text-coral">
           {block.caption}
-        </figcaption>
+        </span>
       )}
-    </figure>
+    </div>
   );
 }
 
@@ -196,7 +202,7 @@ function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
   return (
     <div className="rounded-2xl border border-charcoal/10 bg-warm p-6">
       <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted">
-        Also useful
+        📖 Also useful
       </p>
       <ul className="space-y-4">
         {block.items.map((item, i) => (
@@ -301,8 +307,29 @@ export function BottomCta({
   );
 }
 
-// Renders the article column: every block except `bottom-cta`, which the page
-// shell pulls out and renders full width.
+// Contained, rounded coral-gradient CTA rendered at the end of the article
+// column (matches the v5 mockup .bottom-cta box).
+function InlineBottomCta({ block }: { block: BottomCtaBlock }) {
+  return (
+    <div className="rounded-2xl bg-gradient-to-br from-coral to-[#D4603A] px-8 py-11 text-center text-white">
+      <h2 className="mb-2.5 font-display text-2xl font-bold tracking-tight md:text-[28px]">
+        {block.title}
+      </h2>
+      <p className="mx-auto mb-5 max-w-md text-[15px] leading-relaxed opacity-90">
+        {block.text}
+      </p>
+      <Link
+        href={block.link}
+        className="inline-block rounded-lg bg-white px-7 py-3 text-[15px] font-bold text-coral transition-all hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        {block.label}
+      </Link>
+    </div>
+  );
+}
+
+// Renders the article column. The `bottom-cta` block renders inline here as a
+// contained box; posts without one fall back to the page shell's full-width CTA.
 export function BlogBlocks({
   blocks,
   salt,
@@ -340,8 +367,7 @@ export function BlogBlocks({
           case "faq":
             return <Faq key={i} block={block} salt={`${salt}:${i}`} />;
           case "bottom-cta":
-            // Rendered full-width by the page shell, not inside the article.
-            return null;
+            return <InlineBottomCta key={i} block={block} />;
           default:
             return null;
         }

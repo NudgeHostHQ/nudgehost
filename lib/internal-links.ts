@@ -267,6 +267,14 @@ export const internalLinks: Record<string, LinkTarget> = {
       "the NudgeHost and Tiiny.host comparison",
     ],
   },
+  "compare-nudgehost-vs-tiiny-host": {
+    href: "/compare/nudgehost-vs-tiiny-host",
+    anchors: [
+      "how NudgeHost compares to Tiiny.host",
+      "NudgeHost vs Tiiny.host",
+      "the NudgeHost and Tiiny.host comparison",
+    ],
+  },
   "compare-linkyhost": {
     href: "/compare/nudgehost-vs-linkyhost",
     anchors: [

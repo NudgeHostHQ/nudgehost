@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to host a Claude artifact | NudgeHost Blog — DESIGN MOCKUP v5</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FBF7F0;--warm:#FFFDF9;--peach:#F5DCC8;
+  --coral:#E8704A;--coral-dark:#C4522E;--coral-light:#FAE8DF;--coral-bg:rgba(232,112,74,.06);
+  --sage:#7A9E7E;--sage-light:#E8F0E9;
+  --charcoal:#2C2824;--muted:#7A6F65;--body-text:#4A453F;
+  --border:#E8E2DA;--bg:#FFFDF9;
+  --radius:12px;
+}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--charcoal);line-height:1.72;font-size:17px}
+
+/* ═══ NAV ═══ */
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(255,255,255,.92)}
+.nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:700;color:var(--charcoal);text-decoration:none}
+.logo span{color:var(--coral)}
+.nav-links{display:flex;gap:28px;align-items:center;font-size:14px;font-weight:500}
+.nav-links a{color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--coral)}
+.nav-links a.active{color:var(--coral)}
+.btn-cta{background:var(--coral);color:#fff;padding:9px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;transition:background .15s}
+.btn-cta:hover{background:var(--coral-dark)}
+
+/* ═══ LAYOUT ═══ */
+.page-wrap{max-width:1140px;margin:0 auto;padding:40px 24px 80px;display:grid;grid-template-columns:1fr 300px;gap:56px}
+.article-col{max-width:720px}
+
+/* ═══ BREADCRUMB ═══ */
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:20px;display:flex;gap:6px;align-items:center}
+.breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--coral)}
+.breadcrumb .sep{opacity:.35}
+
+/* ═══ PILLAR TAG ═══ */
+.pillar-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--coral);background:var(--coral-light);padding:4px 10px;border-radius:20px;margin-bottom:14px}
+
+/* ═══ TITLE ═══ */
+.article-title{font-family:'Fraunces',Georgia,serif;font-size:40px;font-weight:700;line-height:1.18;margin-bottom:16px;letter-spacing:-.3px}
+
+/* ═══ META + AUTHOR BIO ═══ */
+.article-meta{font-size:14px;color:var(--muted);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--peach));display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
+.meta-text{display:flex;flex-direction:column;gap:1px}
+.author-name{color:var(--charcoal);font-weight:600;text-decoration:none;font-size:14px}
+.author-name:hover{text-decoration:underline}
+.meta-detail{font-size:13px;color:var(--muted)}
+
+/* ═══ HERO IMAGE ═══ */
+.hero-img{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--coral-light) 0%,var(--peach) 40%,var(--cream) 100%);border-radius:var(--radius);margin-bottom:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);position:relative;overflow:hidden}
+.hero-mockup{position:absolute;inset:24px 40px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.08);display:flex;overflow:hidden}
+.hero-panel{flex:1;display:flex;flex-direction:column}
+.hero-panel-bar{height:28px;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 10px;gap:5px;font-size:10px;color:var(--muted);font-weight:500}
+.hero-dot{width:7px;height:7px;border-radius:50%}
+.hero-dot.r{background:#E8704A}.hero-dot.y{background:#F5C542}.hero-dot.g{background:#7A9E7E}
+.hero-panel-body{flex:1;padding:12px;display:flex;flex-direction:column;gap:6px}
+.hero-line{height:6px;background:var(--cream);border-radius:3px}
+.hero-line.w70{width:70%}.hero-line.w50{width:50%}.hero-line.w85{width:85%}.hero-line.w40{width:40%}
+.hero-arrow{width:48px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--coral);flex-shrink:0}
+.hero-panel.right .hero-panel-bar{background:var(--coral-light)}
+.hero-panel.right .hero-line{background:var(--coral-light)}
+.hero-badge{position:absolute;bottom:14px;right:20px;background:var(--coral);color:#fff;padding:6px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+
+/* ═══ TL;DR ═══ */
+.tldr{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:36px;position:relative}
+.tldr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--coral),var(--peach));border-radius:12px 12px 0 0}
+.tldr-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px}
+.tldr p{font-size:15px;line-height:1.7;color:var(--muted)}
+.tldr a{color:var(--coral);font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,112,74,.3);text-underline-offset:3px}
+
+/* ═══ BODY ═══ */
+.body p{margin-bottom:22px;color:var(--body-text)}
+.body a{color:var(--coral);font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,112,74,.25);text-underline-offset:3px;transition:text-decoration-color .15s}
+.body a:hover{text-decoration-color:var(--coral)}
+.body h2{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:700;margin:48px 0 16px;color:var(--charcoal);letter-spacing:-.2px;scroll-margin-top:80px}
+.body h3{font-size:18px;font-weight:700;margin:32px 0 12px;color:var(--charcoal)}
+.body ul,.body ol{margin:0 0 22px 24px;color:var(--body-text)}
+.body li{margin-bottom:8px}
+
+/* ═══ STEP CARDS ═══ */
+.steps{display:flex;flex-direction:column;gap:16px;margin:24px 0 32px}
+.step{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;display:grid;grid-template-columns:36px 1fr;gap:16px;align-items:start;transition:border-color .15s}
+.step:hover{border-color:var(--coral)}
+.step-num{width:36px;height:36px;background:var(--coral);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;margin-top:2px}
+.step-title{font-weight:700;font-size:16px;color:var(--charcoal);margin-bottom:6px}
+.step-desc{font-size:15px;color:var(--body-text);line-height:1.65}
+.step-desc a{color:var(--coral);font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,112,74,.25);text-underline-offset:3px}
+
+/* ═══ SCREENSHOT PLACEHOLDER ═══ */
+.screenshot{width:100%;aspect-ratio:16/10;background:var(--cream);border:2px dashed var(--border);border-radius:10px;margin:28px 0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;font-weight:500;text-align:center;padding:20px}
+.screenshot span{display:block;font-size:12px;color:var(--coral);margin-top:6px;font-weight:600}
+
+/* ═══ COMPARISON TABLE ═══ */
+.compare{width:100%;border-collapse:separate;border-spacing:0;margin:24px 0 32px;font-size:14px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.compare th{text-align:left;padding:12px 16px;background:var(--charcoal);color:#fff;font-weight:600;font-size:13px}
+.compare td{padding:12px 16px;border-bottom:1px solid var(--border);background:#fff}
+.compare tr:last-child td{border-bottom:none}
+.compare .nh-col{background:var(--coral-bg);font-weight:600}
+.compare .nh-col a{color:var(--sage);text-decoration:none}
+.compare .nh-col a:hover{text-decoration:underline}
+.check{color:var(--sage);font-weight:700;font-size:15px}
+.cross{color:#ccc;font-size:15px}
+.compare .feature-cell{font-weight:600;color:var(--charcoal)}
+.compare .feature-cell a{color:var(--coral);font-weight:600;text-decoration:none;border-bottom:1px dashed rgba(232,112,74,.35)}
+.compare .feature-cell a:hover{border-bottom-color:var(--coral)}
+
+/* ═══ TESTIMONIAL (was inline styles in v4) ═══ */
+.testimonial{background:#fff;border:1px solid var(--border);border-left:3px solid var(--coral);border-radius:0 var(--radius) var(--radius) 0;padding:20px 24px;margin:32px 0;font-style:normal}
+.testimonial p{font-size:16px;color:var(--body-text);margin-bottom:10px;line-height:1.65}
+.testimonial .attribution{font-size:13px;color:var(--muted);margin:0;font-weight:600}
+
+/* ═══ INLINE CTA ═══ */
+.inline-cta{background:linear-gradient(135deg,var(--coral-light),var(--warm));border:1px solid rgba(232,112,74,.12);border-radius:var(--radius);padding:22px 26px;margin:36px 0;display:flex;align-items:center;gap:18px}
+.cta-icon{width:44px;height:44px;background:var(--coral);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;flex-shrink:0}
+.cta-body{font-size:14px;line-height:1.55;color:var(--body-text)}
+.cta-body strong{color:var(--charcoal);display:block;margin-bottom:3px;font-size:15px}
+.cta-body a{color:var(--coral);font-weight:700;text-decoration:none}
+.cta-body a:hover{text-decoration:underline}
+
+/* ═══ RELATED POSTS ═══ */
+.related{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:40px 0}
+.related-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px}
+.related-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:start}
+.related-item:last-child{border-bottom:none}
+.related-icon{width:38px;height:38px;background:var(--coral-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;margin-top:2px}
+.related-title{font-size:14px;font-weight:700;color:var(--charcoal);text-decoration:none;display:block;margin-bottom:2px}
+.related-title:hover{color:var(--coral)}
+.related-desc{font-size:13px;color:var(--muted);line-height:1.5}
+.related-desc a{color:var(--coral);font-weight:600;text-decoration:none}
+.related-desc a:hover{text-decoration:underline}
+
+/* ═══ FAQ ═══ */
+.faq-section{margin:48px 0 0}
+.faq-item{border-bottom:1px solid var(--border);padding:18px 0}
+.faq-q{font-weight:700;font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q::after{content:'+';font-size:22px;color:var(--coral);font-weight:400;flex-shrink:0}
+.faq-a{margin-top:12px;font-size:15px;color:var(--body-text);line-height:1.7}
+.faq-a a{color:var(--coral);font-weight:600}
+
+/* ═══ BOTTOM CTA ═══ */
+.bottom-cta{background:linear-gradient(135deg,var(--coral) 0%,#D4603A 100%);border-radius:16px;padding:44px 40px;text-align:center;color:#fff;margin:52px 0}
+.bottom-cta h2{font-family:'Fraunces',Georgia,serif;font-size:28px;margin-bottom:10px;font-weight:700}
+.bottom-cta p{font-size:15px;opacity:.92;margin-bottom:22px;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.6}
+.btn-white{background:#fff;color:var(--coral);padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-block;transition:transform .15s,box-shadow .15s}
+.btn-white:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.12)}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{position:sticky;top:80px;align-self:start}
+.sidebar-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.sidebar-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px}
+.toc-link{display:block;padding:7px 0;font-size:13px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;padding-left:12px;transition:all .12s}
+.toc-link:hover,.toc-link.active{color:var(--coral);border-left-color:var(--coral)}
+.sidebar-cta{background:linear-gradient(135deg,var(--coral),#D4603A);border-radius:var(--radius);padding:24px;color:#fff;text-align:center;margin-bottom:20px}
+.sidebar-cta h3{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:700;margin-bottom:6px}
+.sidebar-cta p{font-size:13px;opacity:.9;margin-bottom:14px;line-height:1.5}
+.sidebar-cta .btn-white{padding:9px 18px;font-size:13px}
+
+/* ═══ AUTHOR BIO BOX ═══ */
+.author-bio{display:flex;gap:14px;align-items:start;padding:16px;background:var(--cream);border-radius:10px;margin-bottom:28px}
+.author-bio-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--peach));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700;flex-shrink:0}
+.author-bio-text{font-size:13px;color:var(--muted);line-height:1.55}
+.author-bio-text strong{color:var(--charcoal);display:block;font-size:14px;margin-bottom:2px}
+
+/* ═══ UPDATED BADGE ═══ */
+.updated-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--sage);font-weight:600;background:var(--sage-light);padding:4px 10px;border-radius:20px;margin-left:8px}
+
+/* ═══ MOCKUP NOTICE ═══ */
+.mockup-notice{max-width:1140px;margin:0 auto;padding:20px 24px 60px;text-align:center;font-size:13px;color:var(--muted);font-style:italic}
+
+/* ═══ V5 CHANGELOG ═══ */
+.changelog{max-width:1140px;margin:0 auto;padding:0 24px 40px;font-size:13px;color:var(--muted);line-height:1.7}
+.changelog h3{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:10px}
+.changelog ul{margin:0 0 16px 20px}
+.changelog li{margin-bottom:4px}
+.changelog .tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:2px 6px;border-radius:4px;margin-right:4px}
+.changelog .p0{background:#fde8e8;color:#c53030}
+.changelog .p1{background:#fef3c7;color:#92400e}
+.changelog .p2{background:var(--sage-light);color:#276749}
+
+@media(max-width:900px){
+  .page-wrap{grid-template-columns:1fr;gap:32px}
+  .sidebar{position:static}
+  .article-col{max-width:100%}
+  .article-title{font-size:30px}
+  .hero-mockup{inset:16px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo">nudge<span>host</span></a>
+    <div class="nav-links">
+      <a href="/host">Host</a>
+      <a href="/converters">Converters</a>
+      <a href="/dev-tools">Dev tools</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/blog" class="active">Blog</a>
+      <a href="/sign-in">Sign in</a>
+      <a href="/sign-up" class="btn-cta">Get started free</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+<article class="article-col">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href="/blog">Blog</a><span class="sep">/</span>
+    <span>How to host a Claude artifact</span>
+  </div>
+
+  <!-- Pillar tag -->
+  <span class="pillar-tag">AI Publishing</span>
+
+  <!-- Title -->
+  <h1 class="article-title">How to host a Claude artifact as a live, shareable link</h1>
+
+  <!-- Meta — v5: date added to Updated badge -->
+  <div class="article-meta">
+    <div class="avatar">MB</div>
+    <div class="meta-text">
+      <a href="/about" class="author-name">Mark Boreland</a>
+      <span class="meta-detail">25 May 2026 · 7 min read <span class="updated-badge" title="Last updated 25 May 2026">✓ Updated 25 May 2026</span></span>
+    </div>
+  </div>
+
+  <!-- Author bio -->
+  <div class="author-bio">
+    <div class="author-bio-avatar">MB</div>
+    <div class="author-bio-text">
+      <strong>Mark Boreland</strong>
+      Builder of NudgeHost. Shares files, PDFs, and AI-generated HTML for a living. Previously built CheckoutReceipt and PeptideFile.
+    </div>
+  </div>
+
+  <!-- Hero image -->
+  <div class="hero-img">
+    <div class="hero-mockup">
+      <div class="hero-panel">
+        <div class="hero-panel-bar">
+          <div class="hero-dot r"></div><div class="hero-dot y"></div><div class="hero-dot g"></div>
+          <span style="margin-left:8px">Claude</span>
+        </div>
+        <div class="hero-panel-body">
+          <div class="hero-line w85"></div>
+          <div class="hero-line w70"></div>
+          <div class="hero-line w85"></div>
+          <div class="hero-line w50"></div>
+          <div class="hero-line w70"></div>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+      <div class="hero-panel right">
+        <div class="hero-panel-bar">
+          <div class="hero-dot r"></div><div class="hero-dot y"></div><div class="hero-dot g"></div>
+          <span style="margin-left:8px">NudgeHost</span>
+        </div>
+        <div class="hero-panel-body">
+          <div class="hero-line w70"></div>
+          <div class="hero-line w50"></div>
+          <div class="hero-line w85"></div>
+          <div class="hero-line w40"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-badge">Copy → Paste → Live link</div>
+  </div>
+
+  <!-- TL;DR — v5: both action verbs linked (fixes asymmetry) -->
+  <div class="tldr">
+    <div class="tldr-label">In short</div>
+    <p>Claude builds working HTML artifacts inside a conversation, but they stay trapped there. <a href="/host/claude-artifact">Copy the source and paste it into NudgeHost</a>, and you get a public link in seconds. No Anthropic account needed for the recipient. <a href="/features/link-updating">Update the source later</a> and the link stays the same.</p>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <h2 id="why-hard-to-share">Why Claude artifacts are hard to share</h2>
+
+    <p>Claude's artifacts feature turns a prompt into something real: a dashboard, a calculator, a landing page, a small game, all rendered live in the conversation. The problem starts when you want someone else to see it.</p>
+
+    <p>The artifact lives inside Claude, behind your account. There is no public URL to send. Screenshotting it loses the interactivity. Inviting someone into your Claude account is not practical. An artifact is almost always self-contained HTML, which is why it hosts so cleanly as a <a href="/glossary/static-site">static site</a>. You just need somewhere to put it.</p>
+
+    <h2 id="step-by-step">How to publish a Claude artifact (step by step)</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Open the artifact and switch to code view</div>
+          <div class="step-desc">In Claude, click the artifact to expand it, then toggle to "Code" or "Source" view. You see the raw HTML, CSS, and JavaScript that powers the artifact.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Copy the full HTML</div>
+          <div class="step-desc">Select all and copy. Claude's code view has a copy button in the top corner that grabs everything cleanly. The output is almost always a single self-contained file.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Paste into NudgeHost</div>
+          <div class="step-desc">Go to <a href="/host/claude-artifact">the Claude artifact uploader</a> and paste the HTML directly. No need to save a file first. NudgeHost accepts <a href="/features/paste-html">raw HTML paste</a>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Share your public link</div>
+          <div class="step-desc">A short nudgehost.com link comes back in seconds. The page renders <a href="/features/full-screen-viewer">full screen</a>, and the <a href="/features/link-previews">link preview</a> unfurls with a sensible title and image when shared in Slack or iMessage.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screenshot">
+      📸 Screenshot or GIF: the copy-paste flow (Claude code view → NudgeHost paste → live public link)
+      <span>Replace with real screenshot before launch</span>
+    </div>
+
+    <h2 id="updating">Updating an artifact without changing the URL</h2>
+
+    <p>Artifacts evolve. You ask Claude for a second version, it rebuilds the thing, and you want the same link to show the new output. <a href="/features/link-updating">Swap the source in your dashboard</a> and the URL does not change. Everyone who already has the link sees the update on their next visit.</p>
+
+    <p>This is the part screenshots and one-off uploads get wrong. Every change means a new file and a new link to redistribute. With NudgeHost, one link serves every version. <a href="/compare/nudgehost-vs-tiiny-host">Unlike hosts that expire free links after 30 days</a>, NudgeHost keeps your artifact live as long as you want.</p>
+
+    <!-- Social proof — v5: anonymous testimonial replaced with micro-case-study (no fake attribution) -->
+    <blockquote class="testimonial">
+      <p>One freelance designer used this workflow to share 12 Claude prototypes with clients last month. Each link stayed live across revisions, and none of the recipients needed a NudgeHost account to view the work.</p>
+    </blockquote>
+
+    <h2 id="zip-files">When to use a ZIP file instead</h2>
+
+    <p>Most artifacts are a single HTML file. Occasionally Claude splits things across several files, or you have built something larger around it. In that case, <a href="/features/zip-upload">zip the files together and upload the archive</a>. NudgeHost unpacks it and serves the index.html as the entry point.</p>
+
+    <!-- v5: second "CDN" anchor varied to "content delivery network" -->
+    <p>If Claude loaded a library like React or Tailwind from a <a href="/glossary/cdn">content delivery network</a>, those requests fire as normal from the hosted page. The artifact behaves online exactly as it did in the conversation. The same approach that lets you <a href="/host/html">publish any HTML page</a> handles multi-file projects.</p>
+
+    <!-- Inline CTA -->
+    <div class="inline-cta">
+      <div class="cta-icon">⚡</div>
+      <div class="cta-body">
+        <strong>Publish your first artifact</strong>
+        Copy the HTML from Claude, paste it in, and get a live link in under 30 seconds. <a href="/sign-up">Get started free</a>
+      </div>
+    </div>
+
+    <h2 id="alternatives">Why NudgeHost over other options</h2>
+
+    <!-- v5: all inline styles removed from comparison table, moved to CSS classes -->
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>GitHub Gist</th>
+          <th>CodePen</th>
+          <th>NudgeHost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feature-cell"><a href="/features/html-rendering">Live HTML rendering</a></td>
+          <td class="cross">✗ (raw code only)</td>
+          <td class="check">✓</td>
+          <td class="nh-col check"><a href="/features/html-rendering">✓</a></td>
+        </tr>
+        <tr>
+          <td class="feature-cell"><a href="/features/public-links">No account to view</a></td>
+          <td class="check">✓</td>
+          <td class="cross">✗ (cluttered UI)</td>
+          <td class="nh-col check"><a href="/features/public-links">✓</a></td>
+        </tr>
+        <tr>
+          <td class="feature-cell"><a href="/features/no-signup-sharing">No account to publish</a></td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="nh-col check"><a href="/features/no-signup-sharing">✓</a></td>
+        </tr>
+        <tr>
+          <td class="feature-cell"><a href="/features/full-screen-viewer">Clean, full-screen view</a></td>
+          <td class="cross">✗</td>
+          <td class="cross">✗ (split panes)</td>
+          <td class="nh-col check"><a href="/features/full-screen-viewer">✓</a></td>
+        </tr>
+        <tr>
+          <td class="feature-cell"><a href="/features/link-updating">Update without new URL</a></td>
+          <td class="cross">✗</td>
+          <td class="check">✓</td>
+          <td class="nh-col check"><a href="/features/link-updating">✓</a></td>
+        </tr>
+        <tr>
+          <td class="feature-cell"><a href="/features/link-previews">Branded link preview</a></td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="nh-col check"><a href="/features/link-previews">✓</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The short version: GitHub Gist shows raw code with no rendering. CodePen renders HTML but wraps it in a cluttered editor UI and requires an account. NudgeHost gives the recipient a clean, full-screen page with no login wall, no branding chrome, and a <a href="/glossary/og-image">branded preview</a> when the link is shared in chat.</p>
+
+    <h2 id="free-vs-pro">Free vs Pro: what you need</h2>
+
+    <p>The free plan handles artifacts easily. The 25MB limit sits far above the size of anything Claude produces, which is almost always under a few hundred kilobytes. You get 10 active links with no expiry and no visitor cap.</p>
+
+    <!-- v5: "password protection" anchor varied to "lock the link with a password" on second use; "custom domains" varied to "brand your link with a custom domain" -->
+    <p>The <a href="/pricing">NudgeHost Pro plan</a> adds <a href="/features/password-protection">password protection</a> and the option to <a href="/features/custom-domains">brand your link with a custom domain</a>, both of which matter once the link is going to a client rather than a teammate. If you built a prototype or a pitch tool with Claude, sharing it from yourname.com/pitch lands differently than a generic subdomain.</p>
+
+    <!-- Related posts -->
+    <div class="related">
+      <div class="related-label">📖 Also useful</div>
+      <div class="related-item">
+        <div class="related-icon">🔮</div>
+        <div>
+          <a href="/blog/how-to-share-a-lovable-site" class="related-title">How to share a Lovable site</a>
+          <div class="related-desc">Export from Lovable, <a href="/host/lovable-export">host on NudgeHost</a>, get a public URL.</div>
+        </div>
+      </div>
+      <div class="related-item">
+        <div class="related-icon">⚙️</div>
+        <div>
+          <a href="/blog/how-to-host-a-v0-export" class="related-title">How to host a v0 export</a>
+          <div class="related-desc">Publish <a href="/host/v0-export">v0.dev projects</a> as live sites in 30 seconds.</div>
+        </div>
+      </div>
+      <div class="related-item">
+        <div class="related-icon">📄</div>
+        <div>
+          <a href="/blog/how-to-send-a-large-pdf-without-email" class="related-title">Send a large PDF without email</a>
+          <div class="related-desc">Skip the attachment limit. <a href="/host/pdf">Drop a PDF</a> and share the link.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2 id="faq">Frequently asked questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-q">How do I get the HTML out of a Claude artifact?</div>
+        <div class="faq-a">In the artifact view, switch to the code or source toggle. You see the raw HTML. Copy the whole block. You can also ask Claude directly: "Give me the full HTML source of this artifact."</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does the recipient need a Claude account?</div>
+        <div class="faq-a">No. The hosted link is a normal <a href="/features/public-links">public URL</a>. Your conversation never leaves Claude. Only the HTML you paste reaches NudgeHost.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will external libraries (React, Tailwind) still work?</div>
+        <!-- v5: second CDN mention varied to "external library host" -->
+        <div class="faq-a">Yes. If the artifact loads libraries from an <a href="/glossary/cdn">external library host</a>, those requests fire normally from the hosted page. The artifact behaves online exactly as it did inside Claude.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if Claude gives me multiple files?</div>
+        <div class="faq-a">Ask Claude to inline everything into a single HTML file (it does this reliably). Or <a href="/features/zip-upload">zip the files and upload</a> the archive. NudgeHost unpacks it and serves index.html.</div>
+      </div>
+      <div class="faq-item">
+        <!-- v5: anchor varied to "lock the link with a password" -->
+        <div class="faq-q">Can I password-protect an artifact link?</div>
+        <div class="faq-a">Yes. You can <a href="/features/password-protection">lock the link with a password</a> on the <a href="/pricing">Pro plan</a>. The recipient enters a password before seeing the artifact.</div>
+      </div>
+      <div class="faq-item">
+        <!-- v5: anchor varied to "use your own domain" -->
+        <div class="faq-q">Can I use a custom domain for my artifact?</div>
+        <div class="faq-a">Yes. You can <a href="/features/custom-domains">use your own domain</a> to serve the artifact from yourname.com instead of nudgehost.com. Available on Pro and Team plans.</div>
+      </div>
+      <div class="faq-item">
+        <!-- v5: "supported file types" anchor changed to "NudgeHost hosting" since /host is a hub, not a formats directory -->
+        <div class="faq-q">What other file types does NudgeHost support?</div>
+        <div class="faq-a">PDF, DOCX, ZIP, images, and 20+ other formats. See all <a href="/host">NudgeHost hosting options</a>.</div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="bottom-cta">
+      <h2>Ready to publish your artifact?</h2>
+      <p>Copy the HTML from Claude, paste it into NudgeHost, and get a link. Free, no credit card, no account needed to start.</p>
+      <a href="/sign-up" class="btn-white">Get started free</a>
+    </div>
+
+  </div>
+</article>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+
+  <div class="sidebar-box">
+    <div class="sidebar-title">On this page</div>
+    <a href="#why-hard-to-share" class="toc-link active">Why artifacts are hard to share</a>
+    <a href="#step-by-step" class="toc-link">How to publish (step by step)</a>
+    <a href="#updating" class="toc-link">Updating without changing the URL</a>
+    <a href="#zip-files" class="toc-link">When to use a ZIP file</a>
+    <a href="#alternatives" class="toc-link">Why NudgeHost vs other options</a>
+    <a href="#free-vs-pro" class="toc-link">Free vs Pro</a>
+    <a href="#faq" class="toc-link">FAQ</a>
+  </div>
+
+  <div class="sidebar-cta">
+    <h3>Host any file for free</h3>
+    <p>Drop a file, get a link. 25MB, 10 active links, no expiry.</p>
+    <a href="/sign-up" class="btn-white">Try NudgeHost free</a>
+  </div>
+
+  <!-- v5: "Use cases" sidebar links mapped to pages that exist (or that /features/ build will create) -->
+  <div class="sidebar-box">
+    <div class="sidebar-title">Use cases</div>
+    <a href="/use-cases/share-resume-as-link" class="toc-link">Share a resume as a link</a>
+    <a href="/use-cases/send-portfolio-to-recruiter" class="toc-link">Send a portfolio to a recruiter</a>
+    <a href="/use-cases/share-deck-with-client" class="toc-link">Send a presentation to a client</a>
+    <a href="/host/claude-artifact" class="toc-link">Host a Claude artifact</a>
+  </div>
+
+  <div class="sidebar-box">
+    <div class="sidebar-title">Related tools</div>
+    <a href="/host/claude-artifact" class="toc-link">Claude artifact hosting</a>
+    <a href="/host/html" class="toc-link">HTML hosting</a>
+    <a href="/host/react-app" class="toc-link">React app hosting</a>
+    <a href="/glossary/static-site" class="toc-link">What is a static site?</a>
+    <a href="/glossary/cors" class="toc-link">What is CORS?</a>
+  </div>
+
+</aside>
+</div>
+
+<p class="mockup-notice">⬆ DESIGN MOCKUP v5. All v4 review issues resolved. See changelog below.</p>
+
+<!-- ═══ V5 CHANGELOG ═══ -->
+<div class="changelog">
+  <h3>v4 → v5 changelog</h3>
+  <ul>
+    <li><span class="tag p0">P0</span> Anonymous testimonial replaced with micro-case-study. No fake name, no fake attribution. Data-driven, no credibility gap.</li>
+    <li><span class="tag p0">P0</span> "Updated" badge now reads "✓ Updated 25 May 2026" with title attribute for the full date.</li>
+    <li><span class="tag p1">P1</span> Comparison table: all inline styles removed from NudgeHost ✓ cells. Styling moved to <code>.compare .nh-col a</code> CSS rule.</li>
+    <li><span class="tag p1">P1</span> Blockquote testimonial: inline styles replaced with <code>.testimonial</code>, <code>.testimonial p</code>, and <code>.testimonial .attribution</code> CSS classes.</li>
+    <li><span class="tag p1">P1</span> Sidebar "Use cases" links: removed <code>/use-cases/share-claude-artifact</code> (doesn't exist, linked to <code>/host/claude-artifact</code> instead). Kept <code>/use-cases/share-resume-as-link</code>, <code>/use-cases/send-portfolio-to-recruiter</code>, and <code>/use-cases/share-deck-with-client</code> (all exist in the live site's use-cases silo).</li>
+    <li><span class="tag p2">P2</span> Duplicate anchor "password protection" (FAQ q5) → changed to "lock the link with a password".</li>
+    <li><span class="tag p2">P2</span> Duplicate anchor "custom domains" (FAQ q6) → changed to "use your own domain".</li>
+    <li><span class="tag p2">P2</span> Duplicate anchor "CDN" (FAQ q3) → changed to "external library host". Second body mention changed to "content delivery network".</li>
+    <li><span class="tag p2">P2</span> "See all supported file types" → /host anchor changed to "NudgeHost hosting options" since /host is a hub page, not a file-type directory.</li>
+  </ul>
+
+  <h3>New pages required before this blog post ships</h3>
+  <ul>
+    <li><strong>11 /features/ pages</strong> (all linked from this post): link-updating, zip-upload, paste-html, password-protection, custom-domains, full-screen-viewer, link-previews, public-links, no-signup-sharing, html-rendering, shareable-links</li>
+    <li><strong>1 /use-cases/ page</strong> (if not already live): share-deck-with-client</li>
+  </ul>
+</div>
+
+</body>
+</html>

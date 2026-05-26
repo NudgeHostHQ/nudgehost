@@ -19,7 +19,8 @@ export type BlogFaq = { question: string; answer: string };
 export type BlogFaqItem = { q: string; a: string };
 
 function plain(text: string): string {
-  return text.replace(/\{\{([a-z0-9-]+)\}\}/g, (_, key) => {
+  return text.replace(/\{\{([a-z0-9-]+)(?:\|([^}]*))?\}\}/g, (_, key, anchor) => {
+    if (anchor) return anchor;
     const target = internalLinks[key];
     return target ? target.anchors[0] : key;
   });
@@ -53,6 +54,7 @@ export type CtaBlock = {
   text: string;
   link: string;
   label: string;
+  icon?: string; // emoji shown in the coral icon box; defaults to ⚡
 };
 
 export type ScreenshotBlock = { type: "screenshot"; alt: string; caption?: string };
@@ -91,7 +93,9 @@ export type ContentBlock =
 // --- Sidebar ---------------------------------------------------------------
 
 export type SidebarLink = { label: string; href: string };
+export type TocEntry = { label: string; id: string };
 export type BlogSidebar = {
+  toc?: TocEntry[]; // explicit TOC labels; falls back to auto-generation from h2 blocks
   useCases?: SidebarLink[];
   relatedTools?: SidebarLink[];
 };
@@ -101,10 +105,14 @@ export type BlogPost = {
   title: string; // <title>
   metaDescription: string;
   h1: string;
+  shortTitle?: string; // breadcrumb label; falls back to h1
   author: string;
   authorBio?: string; // one-line bio for the author box
   publishedDate: string; // ISO
   modifiedDate: string; // ISO
+  readTime?: string; // e.g. "7 min read"; falls back to a word-count estimate
+  showUpdatedBadge?: boolean; // force the "Updated" badge; defaults to dates differing
+  heroComponent?: "claude-artifact"; // optional decorative hero illustration
   pillar: "sharing-files" | "ai-publishing" | "hosting-vs-cloud";
   tldr: string; // 3-4 sentence key-points block; supports {{key}} tokens
   body: string | ContentBlock[]; // legacy string OR v5 typed blocks
@@ -114,96 +122,100 @@ export type BlogPost = {
 };
 
 // --- Claude artifact post FAQs ---------------------------------------------
-// Authored once with {{tokens}} for the rich FAQ block; plain() derives the
-// token-free copy used in the FAQPage JSON-LD.
+// Authored with {{key|anchor}} tokens for the rich FAQ block; plain() derives
+// the token-free copy used in the FAQPage JSON-LD. Wording is matched verbatim
+// to the approved v5 design mockup.
 const claudeArtifactFaqs: BlogFaqItem[] = [
   {
     q: "How do I get the HTML out of a Claude artifact?",
-    a: "Open the artifact view and switch to the code or source toggle to see the underlying HTML, then copy the whole block. You can also ask Claude directly for the full source.",
+    a: 'In the artifact view, switch to the code or source toggle. You see the raw HTML. Copy the whole block. You can also ask Claude directly: "Give me the full HTML source of this artifact."',
   },
   {
-    q: "Does the person I share it with need a Claude account?",
-    a: "No. The hosted link is an ordinary public URL. Your conversation never leaves Claude, and only the HTML you paste reaches NudgeHost.",
+    q: "Does the recipient need a Claude account?",
+    a: "No. The hosted link is a normal {{features-public-links|public URL}}. Your conversation never leaves Claude. Only the HTML you paste reaches NudgeHost.",
   },
   {
-    q: "Will external libraries like React or Tailwind still work?",
-    a: "Yes. If the artifact loads them from a CDN, those requests fire from the hosted page exactly as they did in the conversation.",
+    q: "Will external libraries (React, Tailwind) still work?",
+    a: "Yes. If the artifact loads libraries from an {{glossary-cdn|external library host}}, those requests fire normally from the hosted page. The artifact behaves online exactly as it did inside Claude.",
   },
   {
-    q: "Can I update the artifact without changing the link?",
-    a: "Yes. You {{features-link-updating}} and everyone who already has the link sees the new version on their next visit.",
+    q: "What if Claude gives me multiple files?",
+    a: "Ask Claude to inline everything into a single HTML file (it does this reliably). Or {{features-zip-upload|zip the files and upload}} the archive. NudgeHost unpacks it and serves index.html.",
   },
   {
-    q: "What if my artifact is more than one file?",
-    a: "Zip the files and upload the archive. NudgeHost unpacks it and serves the index as the entry point, the same way it handles any multi-file site.",
+    q: "Can I password-protect an artifact link?",
+    a: "Yes. You can {{features-password-protection|lock the link with a password}} on the {{pricing|Pro plan}}. The recipient enters a password before seeing the artifact.",
   },
   {
-    q: "Is there a size limit?",
-    a: "Artifacts are tiny, almost always well under a megabyte, so the 25MB free limit is never the constraint. See {{pricing}} for the higher ceilings if you ever need them.",
+    q: "Can I use a custom domain for my artifact?",
+    a: "Yes. You can {{features-custom-domains|use your own domain}} to serve the artifact from yourname.com instead of nudgehost.com. Available on Pro and Team plans.",
   },
   {
-    q: "Can I password-protect a shared artifact?",
-    a: "Yes, on a paid plan. Add a password and the link asks for it before showing the artifact, which keeps a private prototype out of public view.",
+    q: "What other file types does NudgeHost support?",
+    a: "PDF, DOCX, ZIP, images, and 20+ other formats. See all {{host-hub|NudgeHost hosting options}}.",
   },
 ];
 
 export const blogContentMap: Record<string, BlogPost> = {
   "how-to-host-a-claude-artifact": {
     slug: "how-to-host-a-claude-artifact",
-    title: "How to host a Claude artifact as a live, shareable link",
+    title: "How to host a Claude artifact as a live, shareable link | NudgeHost Blog",
     metaDescription:
       "A step-by-step guide to publishing a Claude artifact. Copy the HTML, paste it into NudgeHost, and get a public link anyone can open with no Anthropic account.",
     h1: "How to host a Claude artifact as a live, shareable link",
+    shortTitle: "How to host a Claude artifact",
     author: "Mark Boreland",
     authorBio:
-      "Mark Boreland is the founder of NudgeHost. He writes about publishing what AI tools build and getting files to people without the usual friction.",
-    publishedDate: "2026-05-20",
+      "Builder of NudgeHost. Shares files, PDFs, and AI-generated HTML for a living. Previously built CheckoutReceipt and PeptideFile.",
+    publishedDate: "2026-05-25",
     modifiedDate: "2026-05-25",
+    readTime: "7 min read",
+    showUpdatedBadge: true,
+    heroComponent: "claude-artifact",
     pillar: "ai-publishing",
-    tldr: "Claude builds a working HTML artifact inside the conversation, then leaves it there with no public address. Copy the source and you can {{host-claude-artifact}} in about thirty seconds, and the recipient opens it in any browser with no Anthropic account. Change the source later and the link stays the same when you {{features-link-updating}}.",
+    tldr: "Claude builds working HTML artifacts inside a conversation, but they stay trapped there. {{host-claude-artifact|Copy the source and paste it into NudgeHost}}, and you get a public link in seconds. No Anthropic account needed for the recipient. {{features-link-updating|Update the source later}} and the link stays the same.",
     body: [
       {
         type: "h2",
         text: "Why Claude artifacts are hard to share",
-        id: "why-hard",
+        id: "why-hard-to-share",
       },
       {
         type: "prose",
-        text: `Claude's artifacts feature turns a prompt into something working in front of you, like a dashboard, a calculator, or a small game rendered live in the conversation. The trouble starts when someone else needs to see it. The artifact lives inside Claude behind your account, and there is no public URL to send.
+        text: `Claude's artifacts feature turns a prompt into something real: a dashboard, a calculator, a landing page, a small game, all rendered live in the conversation. The problem starts when you want someone else to see it.
 
-Screenshotting throws away the interactivity that made the thing worth building, and inviting someone into your Claude account is not an option. What you want is a plain link that opens the working artifact in any browser, and that is the gap this guide closes.`,
+The artifact lives inside Claude, behind your account. There is no public URL to send. Screenshotting it loses the interactivity. Inviting someone into your Claude account is not practical. An artifact is almost always self-contained HTML, which is why it hosts so cleanly as a {{glossary-static-site|static site}}. You just need somewhere to put it.`,
       },
       {
         type: "h2",
         text: "How to publish a Claude artifact (step by step)",
-        id: "how-to-publish",
+        id: "step-by-step",
       },
       {
         type: "steps",
         items: [
           {
-            title: "Open the artifact's source",
-            desc: "In Claude, open the artifact and switch to its code or source view. This shows the underlying HTML that the live preview is built from.",
+            title: "Open the artifact and switch to code view",
+            desc: 'In Claude, click the artifact to expand it, then toggle to "Code" or "Source" view. You see the raw HTML, CSS, and JavaScript that powers the artifact.',
           },
           {
-            title: "Copy the whole block",
-            desc: "Select the entire HTML and copy it. If the toggle is hard to find, ask Claude directly for the artifact's full source.",
+            title: "Copy the full HTML",
+            desc: "Select all and copy. Claude's code view has a copy button in the top corner that grabs everything cleanly. The output is almost always a single self-contained file.",
           },
           {
-            title: "Paste it into NudgeHost",
-            desc: "Drop the HTML straight into the paste box and you {{host-claude-artifact}} with no file to save first.",
+            title: "Paste into NudgeHost",
+            desc: "Go to {{host-claude-artifact|the Claude artifact uploader}} and paste the HTML directly. No need to save a file first. NudgeHost accepts {{features-paste-html|raw HTML paste}}.",
           },
           {
-            title: "Share the link",
-            desc: "A short nudgehost.com URL comes back. Send it anywhere, and anyone who clicks sees the working artifact with no Anthropic account.",
+            title: "Share your public link",
+            desc: "A short nudgehost.com link comes back in seconds. The page renders {{features-full-screen-viewer|full screen}}, and the {{features-link-previews|link preview}} unfurls with a sensible title and image when shared in Slack or iMessage.",
           },
         ],
       },
       {
         type: "screenshot",
-        alt: "The NudgeHost paste box with Claude artifact HTML pasted in, next to the live link it returns",
-        caption:
-          "The paste box accepts raw HTML, so there is no file to export before you publish.",
+        alt: "📸 Screenshot or GIF: the copy-paste flow (Claude code view → NudgeHost paste → live public link)",
+        caption: "Replace with real screenshot before launch",
       },
       {
         type: "h2",
@@ -212,9 +224,9 @@ Screenshotting throws away the interactivity that made the thing worth building,
       },
       {
         type: "prose",
-        text: `Artifacts evolve. You ask Claude for a second version, it rebuilds the thing, and you want the same link to show the new one. Swap the source in your NudgeHost dashboard and the URL stays put, so everyone who already has the link sees the update on their next visit.
+        text: `Artifacts evolve. You ask Claude for a second version, it rebuilds the thing, and you want the same link to show the new output. {{features-link-updating|Swap the source in your dashboard}} and the URL does not change. Everyone who already has the link sees the update on their next visit.
 
-This is the part that one-off uploads get wrong, where every change spawns a new file and a new link to hand out. A hosted artifact keeps one address for its whole life, which matters once you have sent the link to a client or posted it in a channel.`,
+This is the part screenshots and one-off uploads get wrong. Every change means a new file and a new link to redistribute. With NudgeHost, one link serves every version. {{compare-nudgehost-vs-tiiny-host|Unlike hosts that expire free links after 30 days}}, NudgeHost keeps your artifact live as long as you want.`,
       },
       {
         type: "testimonial",
@@ -223,41 +235,81 @@ This is the part that one-off uploads get wrong, where every change spawns a new
       {
         type: "h2",
         text: "When to use a ZIP file instead",
-        id: "when-zip",
+        id: "zip-files",
       },
       {
         type: "prose",
-        text: `Most artifacts are a single self-contained HTML file, which is why pasting works so cleanly. See {{glossary-static-site}} for why files served as they are load fast and need no server behind them.
+        text: `Most artifacts are a single HTML file. Occasionally Claude splits things across several files, or you have built something larger around it. In that case, {{features-zip-upload|zip the files together and upload the archive}}. NudgeHost unpacks it and serves the index.html as the entry point.
 
-Sometimes Claude splits the output across several files, or you have built something larger around the artifact. In that case, zip the files together and the same pipeline that lets you {{host-html}} unpacks the archive and serves the index as the entry point. Either route gives you one clean URL.`,
+If Claude loaded a library like React or Tailwind from a {{glossary-cdn|content delivery network}}, those requests fire as normal from the hosted page. The artifact behaves online exactly as it did in the conversation. The same approach that lets you {{host-html|publish any HTML page}} handles multi-file projects.`,
       },
       {
         type: "cta",
         title: "Publish your first artifact",
-        text: "Paste your Claude HTML and get a public link in about thirty seconds. Free, and no card needed.",
-        link: "/host/claude-artifact",
-        label: "Host a Claude artifact",
+        text: "Copy the HTML from Claude, paste it in, and get a live link in under 30 seconds.",
+        link: "/sign-up",
+        label: "Get started free",
+        icon: "⚡",
       },
       {
         type: "h2",
         text: "Why NudgeHost over other options",
-        id: "why-nudgehost",
+        id: "alternatives",
       },
       {
         type: "compare",
         headers: ["Feature", "GitHub Gist", "CodePen", "NudgeHost"],
         rows: [
-          { cells: ["Renders as a live page", "✗", "✓", "✓"], nhCol: 3 },
-          { cells: ["No editor branding on the page", "✗", "✗", "✓"], nhCol: 3 },
-          { cells: ["{{features-link-updating}}", "✗", "✓", "✓"], nhCol: 3 },
-          { cells: ["Upload a multi-file ZIP", "✗", "✗", "✓"], nhCol: 3 },
-          { cells: ["Custom domain", "✗", "✗", "✓"], nhCol: 3 },
-          { cells: ["Free to start", "✓", "✓", "✓"], nhCol: 3 },
+          {
+            cells: [
+              "{{features-html-rendering|Live HTML rendering}}",
+              "✗ (raw code only)",
+              "✓",
+              "{{features-html-rendering|✓}}",
+            ],
+            nhCol: 3,
+          },
+          {
+            cells: [
+              "{{features-public-links|No account to view}}",
+              "✓",
+              "✗ (cluttered UI)",
+              "{{features-public-links|✓}}",
+            ],
+            nhCol: 3,
+          },
+          {
+            cells: [
+              "{{features-full-screen-viewer|Clean, full-screen view}}",
+              "✗",
+              "✗ (split panes)",
+              "{{features-full-screen-viewer|✓}}",
+            ],
+            nhCol: 3,
+          },
+          {
+            cells: [
+              "{{features-link-updating|Update without new URL}}",
+              "✗",
+              "✓",
+              "{{features-link-updating|✓}}",
+            ],
+            nhCol: 3,
+          },
+          {
+            cells: [
+              "{{features-link-previews|Branded link preview}}",
+              "✗",
+              "✗",
+              "{{features-link-previews|✓}}",
+            ],
+            nhCol: 3,
+          },
         ],
       },
       {
         type: "prose",
-        text: `A Gist stores the code but shows it as code, not as a running page. CodePen runs the page but wraps it in the editor's own chrome. NudgeHost serves the artifact on its own and full screen, on a short link you can hand to anyone. Custom domains and password protection both live a tier up, so see {{pricing}} for what each plan includes once the work is going to a client rather than a friend.`,
+        text: "The short version: GitHub Gist shows raw code with no rendering. CodePen renders HTML but wraps it in a cluttered editor UI and requires an account. NudgeHost gives the recipient a clean, full-screen page with no login wall, no branding chrome, and a {{glossary-og-image|branded preview}} when the link is shared in chat.",
       },
       {
         type: "h2",
@@ -266,9 +318,9 @@ Sometimes Claude splits the output across several files, or you have built somet
       },
       {
         type: "prose",
-        text: `Hosting an artifact is free, and the size limit sits far above anything Claude produces, since artifacts are almost always well under a megabyte. For a single link to a friend or a quick demo, the free tier covers it with room to spare.
+        text: `The free plan handles artifacts easily. The 25MB limit sits far above the size of anything Claude produces, which is almost always under a few hundred kilobytes. You get 10 active links with no expiry and no visitor cap.
 
-Two paid features change the picture once the link goes to a client. A custom domain puts the artifact on your own address, and password protection keeps a private prototype out of public view. Both matter more for client work than for a link you drop in a group chat.`,
+The {{pricing|NudgeHost Pro plan}} adds {{features-password-protection|password protection}} and the option to {{features-custom-domains|brand your link with a custom domain}}, both of which matter once the link is going to a client rather than a teammate. If you built a prototype or a pitch tool with Claude, sharing it from yourname.com/pitch lands differently than a generic subdomain.`,
       },
       {
         type: "related",
@@ -276,19 +328,19 @@ Two paid features change the picture once the link goes to a client. A custom do
           {
             title: "How to share a Lovable site",
             href: "/blog/how-to-share-a-lovable-site",
-            desc: "Export the build, then {{host-lovable-export}} the same way you publish an artifact.",
-            icon: "💜",
+            desc: "Export from Lovable, {{host-lovable-export|host on NudgeHost}}, get a public URL.",
+            icon: "🔮",
           },
           {
             title: "How to host a v0 export",
             href: "/blog/how-to-host-a-v0-export",
-            desc: "Paste one component or upload the whole project to {{host-v0-export}}.",
-            icon: "▲",
+            desc: "Publish {{host-v0-export|v0.dev projects}} as live sites in 30 seconds.",
+            icon: "⚙️",
           },
           {
-            title: "How to send a large PDF without email",
+            title: "Send a large PDF without email",
             href: "/blog/how-to-send-a-large-pdf-without-email",
-            desc: "Skip the attachment limit and {{use-case-large-pdf}}.",
+            desc: "Skip the attachment limit. {{host-pdf|Drop a PDF}} and share the link.",
             icon: "📄",
           },
         ],
@@ -300,34 +352,43 @@ Two paid features change the picture once the link goes to a client. A custom do
       {
         type: "bottom-cta",
         title: "Ready to publish your artifact?",
-        text: "Paste your Claude HTML, get a public link, and send it to anyone. No account needed on the other end.",
-        link: "/host/claude-artifact",
-        label: "Publish an artifact",
+        text: "Copy the HTML from Claude, paste it into NudgeHost, and get a link. Free, no credit card, no account needed to start.",
+        link: "/sign-up",
+        label: "Get started free",
       },
     ],
     faqs: claudeArtifactFaqs.map((f) => ({ question: f.q, answer: plain(f.a) })),
     relatedToolSlugs: [
       "host-claude-artifact",
       "host-html",
-      "host-chatgpt-html",
+      "host-react-app",
       "host-v0-export",
     ],
     sidebar: {
+      toc: [
+        { label: "Why artifacts are hard to share", id: "why-hard-to-share" },
+        { label: "How to publish (step by step)", id: "step-by-step" },
+        { label: "Updating without changing the URL", id: "updating" },
+        { label: "When to use a ZIP file", id: "zip-files" },
+        { label: "Why NudgeHost vs other options", id: "alternatives" },
+        { label: "Free vs Pro", id: "free-vs-pro" },
+        { label: "FAQ", id: "faq" },
+      ],
       useCases: [
         { label: "Share a resume as a link", href: "/use-cases/share-resume-as-link" },
         {
           label: "Send a portfolio to a recruiter",
           href: "/use-cases/send-portfolio-to-recruiter",
         },
-        { label: "Share a deck with a client", href: "/use-cases/share-deck-with-client" },
+        { label: "Send a presentation to a client", href: "/use-cases/share-deck-with-client" },
         { label: "Host a Claude artifact", href: "/host/claude-artifact" },
       ],
       relatedTools: [
-        { label: "Host a Claude artifact", href: "/host/claude-artifact" },
-        { label: "Host an HTML file", href: "/host/html" },
-        { label: "Host a React app", href: "/host/react-app" },
-        { label: "What a static site is", href: "/glossary/static-site" },
-        { label: "What CORS is", href: "/glossary/cors" },
+        { label: "Claude artifact hosting", href: "/host/claude-artifact" },
+        { label: "HTML hosting", href: "/host/html" },
+        { label: "React app hosting", href: "/host/react-app" },
+        { label: "What is a static site?", href: "/glossary/static-site" },
+        { label: "What is CORS?", href: "/glossary/cors" },
       ],
     },
   },
