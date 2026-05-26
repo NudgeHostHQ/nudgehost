@@ -335,21 +335,17 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 {toc.length > 0 && (
                   <nav
                     aria-label="On this page"
-                    className="rounded-xl border border-[#E8E2DA] bg-white p-5"
+                    className="rounded-2xl border border-charcoal/10 bg-warm p-5"
                   >
-                    <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
                       On this page
                     </p>
-                    <ul>
-                      {toc.map((item, i) => (
+                    <ul className="space-y-2 text-sm">
+                      {toc.map((item) => (
                         <li key={item.id}>
                           <a
                             href={`#${item.id}`}
-                            className={
-                              i === 0
-                                ? "block border-l-2 border-coral py-[7px] pl-3 text-[13px] text-coral transition-colors"
-                                : "block border-l-2 border-transparent py-[7px] pl-3 text-[13px] text-muted transition-colors hover:border-coral hover:text-coral"
-                            }
+                            className="text-muted transition-colors hover:text-coral-dark"
                           >
                             {item.label}
                           </a>
@@ -359,32 +355,33 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                   </nav>
                 )}
 
-                <div className="rounded-xl bg-gradient-to-br from-coral to-[#D4603A] p-6 text-center text-white">
-                  <h3 className="font-display text-lg font-bold">
+                <div className="rounded-2xl bg-gradient-to-br from-coral to-coral-dark p-5 text-white">
+                  <p className="font-display text-lg font-semibold">
                     Host any file for free
-                  </h3>
-                  <p className="mt-1.5 text-[13px] leading-relaxed opacity-90">
-                    Drop a file, get a link. 25MB, 10 active links, no expiry.
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed opacity-90">
+                    Drop a file and get a shareable link in seconds. No card
+                    needed.
                   </p>
                   <Link
                     href="/sign-up"
-                    className="mt-3.5 inline-block rounded-lg bg-white px-[18px] py-[9px] text-[13px] font-bold text-coral transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                    className="mt-3 inline-block rounded-full bg-white px-4 py-2 text-sm font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
                   >
-                    Try NudgeHost free
+                    Get started
                   </Link>
                 </div>
 
                 {useCaseLinks.length > 0 && (
-                  <div className="rounded-xl border border-[#E8E2DA] bg-white p-5">
-                    <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                  <div className="rounded-2xl border border-charcoal/10 bg-warm p-5">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
                       Use cases
                     </p>
-                    <ul>
+                    <ul className="space-y-2 text-sm">
                       {useCaseLinks.map((l) => (
                         <li key={l.href}>
                           <Link
                             href={l.href}
-                            className="block border-l-2 border-transparent py-[7px] pl-3 text-[13px] text-muted transition-colors hover:border-coral hover:text-coral"
+                            className="text-muted transition-colors hover:text-coral-dark"
                           >
                             {l.label}
                           </Link>
@@ -395,16 +392,16 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 )}
 
                 {relatedToolLinks.length > 0 && (
-                  <div className="rounded-xl border border-[#E8E2DA] bg-white p-5">
-                    <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                  <div className="rounded-2xl border border-charcoal/10 bg-warm p-5">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
                       Related tools
                     </p>
-                    <ul>
+                    <ul className="space-y-2 text-sm">
                       {relatedToolLinks.map((l) => (
                         <li key={l.href}>
                           <Link
                             href={l.href}
-                            className="block border-l-2 border-transparent py-[7px] pl-3 text-[13px] text-muted transition-colors hover:border-coral hover:text-coral"
+                            className="text-muted transition-colors hover:text-coral-dark"
                           >
                             {l.label}
                           </Link>
