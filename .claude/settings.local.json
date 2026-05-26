@@ -41,7 +41,10 @@
       "Bash(echo \"exit=$?\")",
       "Bash(mkdir -p _thumb-out)",
       "Bash(sed -i 's#/tmp/thumb-#_thumb-out/thumb-#g' ./_thumb-test.mjs)",
-      "Bash(echo \"tsc-exit=$?\")"
+      "Bash(echo \"tsc-exit=$?\")",
+      "Bash(curl *)",
+      "Bash(rm -f _thumb-test2.ts)",
+      "Bash(rm -rf _thumb-out2 _thumb-verify)"
     ]
   }
 }
