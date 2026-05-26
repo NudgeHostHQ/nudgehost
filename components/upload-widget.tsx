@@ -60,6 +60,7 @@ export function UploadWidget({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [status, setStatus] = useState<Status>("idle");
+  const [mode, setMode] = useState<"file" | "paste">("file");
   const [dragActive, setDragActive] = useState(false);
   const [progress, setProgress] = useState(0);
   const [activeName, setActiveName] = useState("");
@@ -67,6 +68,8 @@ export function UploadWidget({
   const [shareUrl, setShareUrl] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [copied, setCopied] = useState(false);
+  const [pasteValue, setPasteValue] = useState("");
+  const [showHtmlWarning, setShowHtmlWarning] = useState(false);
 
   const reset = useCallback(() => {
     setStatus("idle");
@@ -76,6 +79,8 @@ export function UploadWidget({
     setShareUrl("");
     setErrorMessage("");
     setCopied(false);
+    setPasteValue("");
+    setShowHtmlWarning(false);
     if (inputRef.current) inputRef.current.value = "";
   }, []);
 
@@ -131,6 +136,40 @@ export function UploadWidget({
       setStatus("error");
     }
   }, []);
+
+  // Paste path: wrap the textarea content in a Blob, mint a File from it, and
+  // hand that File to the same upload() pipeline a picked file uses. Nothing
+  // downstream knows the bytes came from a textarea. The "text/html" type means
+  // presign stores it as text/html and the viewer renders it live. Size is
+  // enforced server-side against the user's plan, the same as a picked file.
+  const publishPaste = useCallback(
+    (html: string) => {
+      if (!isLoaded) return;
+      if (!isSignedIn) {
+        router.push("/sign-up");
+        return;
+      }
+      setShowHtmlWarning(false);
+      const blob = new Blob([html], { type: "text/html" });
+      const file = new File([blob], `paste-${Date.now()}.html`, {
+        type: "text/html",
+      });
+      void upload(file);
+    },
+    [isLoaded, isSignedIn, router, upload],
+  );
+
+  const handlePublishClick = useCallback(() => {
+    if (pasteValue.trim().length === 0) return;
+    // "<!DOCTYPE ..." also begins with "<", so one leading-"<" check covers
+    // both forms the spec calls out. Anything else gets the soft warning.
+    const looksLikeHtml = pasteValue.trimStart().startsWith("<");
+    if (!looksLikeHtml) {
+      setShowHtmlWarning(true);
+      return;
+    }
+    publishPaste(pasteValue);
+  }, [pasteValue, publishPaste]);
 
   // A click or tap on the drop zone. Send guests to sign-up first.
   const handleActivate = useCallback(() => {
@@ -188,53 +227,146 @@ export function UploadWidget({
         onChange={(event) => handleFiles(event.target.files)}
       />
 
-      {/* IDLE — matches the original dashed drop zone */}
+      {/* IDLE — a tab bar, then either the dashed drop zone or the paste panel */}
       {status === "idle" && (
-        <div
-          id="upload-dropzone"
-          role="button"
-          tabIndex={0}
-          aria-label="Upload your file"
-          onClick={handleActivate}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              handleActivate();
-            }
-          }}
-          onDragOver={(event) => {
-            event.preventDefault();
-            setDragActive(true);
-          }}
-          onDragLeave={() => setDragActive(false)}
-          onDrop={handleDrop}
-          className={`cursor-pointer rounded-3xl border-[1.5px] border-dashed px-10 py-10 text-center transition-all ${
-            dragActive
-              ? "border-coral bg-[#FFFBF7]"
-              : "border-coral/40 bg-warm hover:bg-[#FFFBF7]"
-          }`}
-        >
+        <div>
           <div
-            className="mx-auto mb-4 flex items-center justify-center rounded-2xl bg-coral-light text-2xl"
-            style={{ height: "52px", width: "52px" }}
-            aria-hidden="true"
+            role="tablist"
+            aria-label="Choose how to publish"
+            className="mb-4 flex gap-1 rounded-full bg-cream p-1"
           >
-            📂
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "file"}
+              onClick={() => {
+                setMode("file");
+                setShowHtmlWarning(false);
+              }}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                mode === "file"
+                  ? "bg-white text-charcoal shadow-sm"
+                  : "text-muted hover:text-charcoal"
+              }`}
+            >
+              Upload file
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "paste"}
+              onClick={() => setMode("paste")}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                mode === "paste"
+                  ? "bg-white text-charcoal shadow-sm"
+                  : "text-muted hover:text-charcoal"
+              }`}
+            >
+              Paste HTML
+            </button>
           </div>
-          <strong className="block text-lg font-medium text-charcoal">
-            Drop your file here
-          </strong>
-          <p className="mt-1 text-sm text-muted">or click to browse</p>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {displayPills.map((type) => (
-              <span
-                key={type}
-                className="rounded-full border border-charcoal/10 bg-cream px-3 py-1 text-xs font-medium text-muted"
+
+          {mode === "file" ? (
+            <div
+              id="upload-dropzone"
+              role="button"
+              tabIndex={0}
+              aria-label="Upload your file"
+              onClick={handleActivate}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  handleActivate();
+                }
+              }}
+              onDragOver={(event) => {
+                event.preventDefault();
+                setDragActive(true);
+              }}
+              onDragLeave={() => setDragActive(false)}
+              onDrop={handleDrop}
+              className={`cursor-pointer rounded-3xl border-[1.5px] border-dashed px-10 py-10 text-center transition-all ${
+                dragActive
+                  ? "border-coral bg-[#FFFBF7]"
+                  : "border-coral/40 bg-warm hover:bg-[#FFFBF7]"
+              }`}
+            >
+              <div
+                className="mx-auto mb-4 flex items-center justify-center rounded-2xl bg-coral-light text-2xl"
+                style={{ height: "52px", width: "52px" }}
+                aria-hidden="true"
               >
-                {type}
-              </span>
-            ))}
-          </div>
+                📂
+              </div>
+              <strong className="block text-lg font-medium text-charcoal">
+                Drop your file here
+              </strong>
+              <p className="mt-1 text-sm text-muted">or click to browse</p>
+              <div className="mt-5 flex flex-wrap justify-center gap-2">
+                {displayPills.map((type) => (
+                  <span
+                    key={type}
+                    className="rounded-full border border-charcoal/10 bg-cream px-3 py-1 text-xs font-medium text-muted"
+                  >
+                    {type}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-3xl border-[1.5px] border-coral/40 bg-warm px-6 py-6 text-left">
+              <label htmlFor="paste-html" className="sr-only">
+                Paste your HTML
+              </label>
+              <textarea
+                id="paste-html"
+                value={pasteValue}
+                onChange={(event) => {
+                  setPasteValue(event.target.value);
+                  if (showHtmlWarning) setShowHtmlWarning(false);
+                }}
+                placeholder="Paste your HTML here..."
+                spellCheck={false}
+                className="block min-h-[300px] w-full resize-y rounded-2xl border border-charcoal/10 bg-white px-4 py-3 font-mono text-sm leading-relaxed text-charcoal outline-none transition-colors focus:border-coral"
+              />
+              <p className="mt-2 text-xs tabular-nums text-muted">
+                {pasteValue.length.toLocaleString()} characters
+              </p>
+
+              {showHtmlWarning && (
+                <div className="mt-4 rounded-2xl border border-coral/40 bg-coral-light px-4 py-3">
+                  <p className="text-sm font-medium text-charcoal">
+                    This doesn&apos;t look like HTML. Publish anyway?
+                  </p>
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => publishPaste(pasteValue)}
+                      className="rounded-full bg-coral px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowHtmlWarning(false)}
+                      className="rounded-full border border-charcoal/15 bg-white px-5 py-2 text-sm font-medium text-charcoal transition-colors hover:border-charcoal/30"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={handlePublishClick}
+                disabled={pasteValue.trim().length === 0}
+                className="mt-4 w-full rounded-full bg-coral px-6 py-3 text-sm font-medium text-white transition-all hover:bg-coral-dark disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-coral"
+              >
+                Publish
+              </button>
+            </div>
+          )}
         </div>
       )}
 
