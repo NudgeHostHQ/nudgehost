@@ -40,7 +40,8 @@
       "Bash(cp /tmp/thumb-test.mjs ./_thumb-test.mjs)",
       "Bash(echo \"exit=$?\")",
       "Bash(mkdir -p _thumb-out)",
-      "Bash(sed -i 's#/tmp/thumb-#_thumb-out/thumb-#g' ./_thumb-test.mjs)"
+      "Bash(sed -i 's#/tmp/thumb-#_thumb-out/thumb-#g' ./_thumb-test.mjs)",
+      "Bash(echo \"tsc-exit=$?\")"
     ]
   }
 }
