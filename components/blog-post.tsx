@@ -192,146 +192,144 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
       />
       <Navbar />
       <main>
-        {/* HERO */}
-        <section className="relative overflow-hidden px-6 py-16">
-          <div
-            className="absolute -right-32 -top-20 -z-0 h-[400px] w-[400px] rounded-full bg-peach opacity-40"
-            aria-hidden="true"
-          />
-          <div className="relative z-10 mx-auto max-w-3xl">
-            <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
-              <ol className="flex flex-wrap gap-2">
-                <li>
-                  <Link href="/" className="hover:text-charcoal">
-                    Home
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li>
-                  <Link href="/blog" className="hover:text-charcoal">
-                    Blog
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li aria-current="page" className="text-charcoal">
-                  {post.shortTitle ?? post.h1}
-                </li>
-              </ol>
-            </nav>
+        {/* TWO-COLUMN PAGE: article (left) + sticky sidebar (right). Mirrors the
+            v5 mockup .page-wrap grid, with the breadcrumb at the top of the
+            article column rather than in a separate hero band. */}
+        <section className="mx-auto max-w-[1140px] px-6 pb-20 pt-10">
+          <div className="grid grid-cols-1 gap-8 min-[900px]:grid-cols-[minmax(0,1fr)_300px] min-[900px]:gap-14">
+            {/* ARTICLE COLUMN */}
+            <article className="min-[900px]:max-w-[720px]">
+              <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
+                <ol className="flex flex-wrap gap-2">
+                  <li>
+                    <Link href="/" className="hover:text-charcoal">
+                      Home
+                    </Link>
+                  </li>
+                  <li aria-hidden="true">/</li>
+                  <li>
+                    <Link href="/blog" className="hover:text-charcoal">
+                      Blog
+                    </Link>
+                  </li>
+                  <li aria-hidden="true">/</li>
+                  <li aria-current="page" className="text-charcoal">
+                    {post.shortTitle ?? post.h1}
+                  </li>
+                </ol>
+              </nav>
 
-            <span className="mb-3.5 inline-block rounded-full bg-coral-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-coral">
-              {pillarLabel[post.pillar] ?? "Guide"}
-            </span>
-
-            <h1 className="mb-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-              {post.h1}
-            </h1>
-
-            {/* META */}
-            <div className="mb-6 flex items-center gap-2.5">
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-[13px] font-semibold text-white"
-                aria-hidden="true"
-              >
-                {initials}
+              <span className="mb-3.5 inline-block rounded-full bg-coral-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-coral">
+                {pillarLabel[post.pillar] ?? "Guide"}
               </span>
-              <div className="flex flex-col gap-px text-sm">
-                <Link
-                  href="/about"
-                  className="font-semibold text-charcoal hover:underline"
-                >
-                  {post.author}
-                </Link>
-                <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted">
-                  <time dateTime={post.publishedDate}>
-                    {formatDate(post.publishedDate, {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                  <span aria-hidden="true">·</span>
-                  <span>{readTime}</span>
-                  {showUpdated && (
-                    <span
-                      title={`Last updated ${formatDate(post.modifiedDate, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}`}
-                      className="inline-flex items-center gap-1 rounded-full bg-sage-light px-2.5 py-0.5 text-xs font-semibold text-sage-dark"
-                    >
-                      ✓ Updated{" "}
-                      {formatDate(post.modifiedDate, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </span>
-                  )}
-                </span>
-              </div>
-            </div>
 
-            {/* AUTHOR BIO BOX */}
-            {post.authorBio && (
-              <div className="mb-7 flex items-start gap-3.5 rounded-[10px] border border-charcoal/10 bg-warm p-4">
+              <h1 className="mb-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+                {post.h1}
+              </h1>
+
+              {/* META */}
+              <div className="mb-6 flex items-center gap-2.5">
                 <span
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-base font-bold text-white"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-[13px] font-semibold text-white"
                   aria-hidden="true"
                 >
                   {initials}
                 </span>
-                <div className="text-[13px] leading-relaxed text-muted">
-                  <strong className="block text-sm text-charcoal">
+                <div className="flex flex-col gap-px text-sm">
+                  <Link
+                    href="/about"
+                    className="font-semibold text-charcoal hover:underline"
+                  >
                     {post.author}
-                  </strong>
-                  {post.authorBio}
+                  </Link>
+                  <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted">
+                    <time dateTime={post.publishedDate}>
+                      {formatDate(post.publishedDate, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                    <span aria-hidden="true">·</span>
+                    <span>{readTime}</span>
+                    {showUpdated && (
+                      <span
+                        title={`Last updated ${formatDate(post.modifiedDate, {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}`}
+                        className="inline-flex items-center gap-1 rounded-full bg-sage-light px-2.5 py-0.5 text-xs font-semibold text-sage-dark"
+                      >
+                        ✓ Updated{" "}
+                        {formatDate(post.modifiedDate, {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    )}
+                  </span>
                 </div>
               </div>
-            )}
 
-            {/* HERO IMAGE */}
-            {post.heroComponent === "claude-artifact" && <BlogHeroClaude />}
-
-            {/* TL;DR */}
-            <div className="relative overflow-hidden rounded-xl border border-charcoal/10 bg-white p-6">
-              <div
-                className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-coral to-peach"
-                aria-hidden="true"
-              />
-              <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-muted">
-                In short
-              </p>
-              <p className="text-[15px] leading-relaxed text-muted">
-                {renderTokens(post.tldr, post.slug, "tldr")}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* BODY + SIDEBAR */}
-        <section className="mx-auto max-w-6xl px-6 py-8">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <article>
-              {isBlocks ? (
-                <BlogBlocks blocks={post.body as ContentBlock[]} salt={post.slug} />
-              ) : (
-                <ContextualProse paragraphs={legacyParagraphs} salt={post.slug} />
-              )}
-
-              {!hasFaqBlock && (
-                <div className="mt-10">
-                  <BlogFaqList
-                    items={post.faqs.map((f) => ({ q: f.question, a: f.answer }))}
-                    salt={post.slug}
-                  />
+              {/* AUTHOR BIO BOX */}
+              {post.authorBio && (
+                <div className="mb-7 flex items-start gap-3.5 rounded-[10px] border border-charcoal/10 bg-warm p-4">
+                  <span
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-base font-bold text-white"
+                    aria-hidden="true"
+                  >
+                    {initials}
+                  </span>
+                  <div className="text-[13px] leading-relaxed text-muted">
+                    <strong className="block text-sm text-charcoal">
+                      {post.author}
+                    </strong>
+                    {post.authorBio}
+                  </div>
                 </div>
               )}
+
+              {/* HERO IMAGE */}
+              {post.heroComponent === "claude-artifact" && <BlogHeroClaude />}
+
+              {/* TL;DR */}
+              <div className="relative overflow-hidden rounded-xl border border-charcoal/10 bg-white p-6">
+                <div
+                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-coral to-peach"
+                  aria-hidden="true"
+                />
+                <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-muted">
+                  In short
+                </p>
+                <p className="text-[15px] leading-relaxed text-muted">
+                  {renderTokens(post.tldr, post.slug, "tldr")}
+                </p>
+              </div>
+
+              {/* BODY */}
+              <div className="mt-9">
+                {isBlocks ? (
+                  <BlogBlocks blocks={post.body as ContentBlock[]} salt={post.slug} />
+                ) : (
+                  <ContextualProse paragraphs={legacyParagraphs} salt={post.slug} />
+                )}
+
+                {!hasFaqBlock && (
+                  <div className="mt-10">
+                    <BlogFaqList
+                      items={post.faqs.map((f) => ({ q: f.question, a: f.answer }))}
+                      salt={post.slug}
+                    />
+                  </div>
+                )}
+              </div>
             </article>
 
-            <aside className="lg:self-start">
-              <div className="space-y-5 lg:sticky lg:top-24">
+            {/* SIDEBAR COLUMN */}
+            <aside className="min-[900px]:self-start">
+              <div className="space-y-5 min-[900px]:sticky min-[900px]:top-20">
                 {toc.length > 0 && (
                   <nav
                     aria-label="On this page"
