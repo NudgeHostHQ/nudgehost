@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Copy, QrCode, Settings, Trash2, X } from "lucide-react";
+import { Check, Copy, FileUp, QrCode, Settings, Trash2, X } from "lucide-react";
 
 type Props = {
   fileId: string;
@@ -38,6 +38,13 @@ export function FileActions({
   const [expiryValue, setExpiryValue] = useState(expiresAt ?? "");
   const [saving, setSaving] = useState(false);
   const [settingsError, setSettingsError] = useState("");
+
+  // Replace-file state, scoped to the settings modal.
+  const replaceInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [replacing, setReplacing] = useState(false);
+  const [replaceError, setReplaceError] = useState("");
+  const [replaceSuccess, setReplaceSuccess] = useState(false);
 
   const copyLink = async () => {
     try {
@@ -77,7 +84,48 @@ export function FileActions({
     setPwValue("");
     setExpiryValue(expiresAt ?? "");
     setSettingsError("");
+    setSelectedFile(null);
+    setReplacing(false);
+    setReplaceError("");
+    setReplaceSuccess(false);
+    if (replaceInputRef.current) replaceInputRef.current.value = "";
     setShowSettings(true);
+  };
+
+  // Send the chosen file to the replace route as multipart form data. On
+  // success the link is unchanged, so we show a brief note, then close the
+  // modal and refresh the dashboard to pick up the new filename and size.
+  const replaceFile = async () => {
+    if (!selectedFile) return;
+    setReplacing(true);
+    setReplaceError("");
+    try {
+      const form = new FormData();
+      form.append("file", selectedFile);
+      const res = await fetch(`/api/files/${fileId}/replace`, {
+        method: "POST",
+        body: form,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setReplaceError(
+          data.error || "Could not replace the file. Please try again.",
+        );
+        setReplacing(false);
+        return;
+      }
+      setReplacing(false);
+      setSelectedFile(null);
+      setReplaceSuccess(true);
+      if (replaceInputRef.current) replaceInputRef.current.value = "";
+      setTimeout(() => {
+        setShowSettings(false);
+        router.refresh();
+      }, 1500);
+    } catch {
+      setReplaceError("Could not replace the file. Please try again.");
+      setReplacing(false);
+    }
   };
 
   const saveSettings = async () => {
@@ -242,6 +290,83 @@ export function FileActions({
             <p className="mb-5 truncate text-sm text-muted" title={filename}>
               {filename}
             </p>
+
+            {/* Replace file */}
+            <div className="mb-5 rounded-2xl border border-charcoal/10 bg-cream/60 p-4">
+              <p className="text-sm font-medium text-charcoal">Replace file</p>
+              <p className="text-xs text-muted">
+                Upload a new file. The link stays the same.
+              </p>
+
+              <input
+                ref={replaceInputRef}
+                type="file"
+                className="hidden"
+                onChange={(e) => {
+                  setSelectedFile(e.target.files?.[0] ?? null);
+                  setReplaceError("");
+                  setReplaceSuccess(false);
+                }}
+              />
+
+              {!selectedFile && !replaceSuccess && (
+                <button
+                  type="button"
+                  onClick={() => replaceInputRef.current?.click()}
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-full border-[1.5px] border-charcoal/15 bg-white px-4 py-2 text-sm font-medium text-charcoal transition-colors hover:border-coral"
+                >
+                  <FileUp size={15} strokeWidth={2} />
+                  Choose file
+                </button>
+              )}
+
+              {selectedFile && !replaceSuccess && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between gap-2 rounded-full border border-charcoal/10 bg-white px-4 py-2">
+                    <span
+                      className="truncate text-sm text-charcoal"
+                      title={selectedFile.name}
+                    >
+                      {selectedFile.name}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedFile(null);
+                        if (replaceInputRef.current)
+                          replaceInputRef.current.value = "";
+                      }}
+                      className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-cream hover:text-charcoal"
+                      aria-label="Clear selected file"
+                    >
+                      <X size={15} strokeWidth={2} />
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={replaceFile}
+                    disabled={replacing}
+                    className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-coral px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {replacing ? "Replacing…" : "Replace"}
+                  </button>
+                </div>
+              )}
+
+              {replaceSuccess && (
+                <p
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium"
+                  style={{ color: "#3A6E3E" }}
+                >
+                  <Check size={15} strokeWidth={2.5} />
+                  File replaced. Same link, new content.
+                </p>
+              )}
+
+              {replaceError && (
+                <p className="mt-3 text-sm text-coral-dark">{replaceError}</p>
+              )}
+            </div>
 
             {/* Password protection */}
             <div className="mb-5 rounded-2xl border border-charcoal/10 bg-cream/60 p-4">
