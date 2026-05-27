@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ContextualProse, renderTokens } from "@/components/contextual-prose";
 import { internalLinks } from "@/lib/internal-links";
@@ -6,6 +7,7 @@ import type {
   CompareBlock,
   CtaBlock,
   FaqBlock,
+  ImageBlock,
   RelatedBlock,
   ScreenshotBlock,
   StepsBlock,
@@ -198,6 +200,29 @@ function Screenshot({ block }: { block: ScreenshotBlock }) {
   );
 }
 
+// A real screenshot rendered inside a figure: rounded corners, hairline border,
+// and a subtle shadow, with an optional centered caption below.
+function ContentImage({ block }: { block: ImageBlock }) {
+  return (
+    <figure>
+      <Image
+        src={block.src}
+        alt={block.alt}
+        width={1280}
+        height={800}
+        priority={false}
+        sizes="(max-width: 768px) 100vw, 720px"
+        className="h-auto w-full rounded-[12px] border border-[#EDE8E2] shadow-sm"
+      />
+      {block.caption && (
+        <figcaption className="mt-2.5 text-center text-[13px] text-muted">
+          {block.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
   return (
     <div className="rounded-2xl border border-charcoal/10 bg-warm p-6">
@@ -362,6 +387,8 @@ export function BlogBlocks({
             return <InlineCta key={i} block={block} salt={`${salt}:${i}`} />;
           case "screenshot":
             return <Screenshot key={i} block={block} />;
+          case "image":
+            return <ContentImage key={i} block={block} />;
           case "related":
             return <Related key={i} block={block} salt={`${salt}:${i}`} />;
           case "faq":
