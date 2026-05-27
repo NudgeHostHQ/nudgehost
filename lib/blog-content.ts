@@ -59,6 +59,8 @@ export type CtaBlock = {
 
 export type ScreenshotBlock = { type: "screenshot"; alt: string; caption?: string };
 
+export type ImageBlock = { type: "image"; src: string; alt: string; caption?: string };
+
 export type RelatedItem = {
   title: string;
   href: string;
@@ -86,6 +88,7 @@ export type ContentBlock =
   | TestimonialBlock
   | CtaBlock
   | ScreenshotBlock
+  | ImageBlock
   | RelatedBlock
   | FaqBlock
   | BottomCtaBlock;
@@ -213,9 +216,22 @@ The artifact lives inside Claude, behind your account. There is no public URL to
         ],
       },
       {
-        type: "screenshot",
-        alt: "📸 Screenshot or GIF: the copy-paste flow (Claude code view → NudgeHost paste → live public link)",
-        caption: "Replace with real screenshot before launch",
+        type: "image",
+        src: "/blog/claude-code-view.png",
+        alt: "Claude artifact code view showing raw HTML source",
+        caption: "Step 1: Switch to code view in Claude to see the raw HTML.",
+      },
+      {
+        type: "image",
+        src: "/blog/nudgehost-paste-html.png",
+        alt: "NudgeHost paste HTML box with code pasted in",
+        caption: "Step 2: Paste the HTML into NudgeHost.",
+      },
+      {
+        type: "image",
+        src: "/blog/nudgehost-link-ready.png",
+        alt: "NudgeHost success screen showing the shareable link",
+        caption: "Step 3: Your link is ready to share.",
       },
       {
         type: "h2",

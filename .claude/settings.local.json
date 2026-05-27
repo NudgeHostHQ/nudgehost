@@ -44,7 +44,23 @@
       "Bash(echo \"tsc-exit=$?\")",
       "Bash(curl *)",
       "Bash(rm -f _thumb-test2.ts)",
-      "Bash(rm -rf _thumb-out2 _thumb-verify)"
+      "Bash(rm -rf _thumb-out2 _thumb-verify)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(pkill -f \"next start\")",
+      "Bash(pkill -f \"next-server\")",
+      "Bash(grep -oE \"NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=.{0,12}\" .env.local)",
+      "Bash(awk -F= '/NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY/{print \"prefix:\", substr\\($2,1,8\\); print \"len:\", length\\($2\\)}' .env.local)",
+      "Bash(ls \"C:/Users/Mark Boreland/.claude/projects/C--Users-Mark-Boreland-Documents-NudgeHost-com-nudgehost/memory/\")",
+      "Bash(head -20 \"C:/Users/Mark Boreland/.claude/projects/C--Users-Mark-Boreland-Documents-NudgeHost-com-nudgehost/memory/MEMORY.md\")",
+      "Bash(grep -oE \".{0,30}Updated.{0,40}\" /tmp/claude.html)",
+      "Bash(grep -oE '\"acceptedAnswer\":\\\\{\"@type\":\"Answer\",\"text\":\"[^\"]{0,90}' /tmp/claude.html)",
+      "Bash(grep -oE \"freelance designer.{0,120}\" /tmp/claude.html)",
+      "Bash(curl -s http://localhost:3000/blog/how-to-host-a-claude-artifact)",
+      "Bash(rm -f _check.html)",
+      "Bash(mkdir -p public/blog)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(mv public/screenshots/*.png public/blog/)",
+      "Bash(rmdir public/screenshots)"
     ]
   }
 }
