@@ -165,16 +165,13 @@ function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string })
 
 function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
   return (
-    <div className="flex items-center gap-[18px] rounded-xl border border-charcoal/10 bg-white px-8 py-7">
-      <span className="shrink-0 text-2xl" aria-hidden="true">
-        {block.icon ?? "⚡"}
-      </span>
-      <div className="text-sm leading-relaxed text-charcoal/80">
-        <strong className="mb-0.5 block text-[15px] text-charcoal">
-          {block.title}
-        </strong>
+    <div className="rounded-xl bg-gradient-to-br from-coral to-coral-dark px-7 py-6 text-white">
+      <strong className="mb-0.5 block text-base font-bold text-white">
+        {block.title}
+      </strong>
+      <div className="text-sm leading-relaxed text-white/90">
         {renderTokens(block.text, salt, "cta")}{" "}
-        <Link href={block.link} className="font-bold text-coral hover:underline">
+        <Link href={block.link} className="font-bold text-white underline">
           {block.label}
         </Link>
       </div>
