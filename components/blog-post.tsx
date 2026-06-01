@@ -46,7 +46,11 @@ export function buildBlogJsonLd(post: BlogPostContent) {
         description: post.metaDescription,
         url: pageUrl,
         mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
-        author: { "@type": "Person", name: post.author },
+        author: {
+          "@type": "Person",
+          name: post.author,
+          url: `${siteUrl}/about`,
+        },
         publisher: { "@type": "Organization", name: "NudgeHost", url: siteUrl },
         datePublished: post.publishedDate,
         dateModified: post.modifiedDate,
@@ -237,12 +241,9 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                   {initials}
                 </span>
                 <div className="flex flex-col gap-px text-sm">
-                  <Link
-                    href="/about"
-                    className="text-[15px] font-bold text-charcoal hover:underline"
-                  >
+                  <span className="text-[15px] font-bold text-charcoal">
                     {post.author}
-                  </Link>
+                  </span>
                   <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted">
                     <time dateTime={post.publishedDate}>
                       {formatDate(post.publishedDate, {
