@@ -213,11 +213,6 @@ The artifact lives inside Claude, behind your account. There is no public URL to
         ],
       },
       {
-        type: "screenshot",
-        alt: "📸 Screenshot or GIF: the copy-paste flow (Claude code view → NudgeHost paste → live public link)",
-        caption: "Replace with real screenshot before launch",
-      },
-      {
         type: "h2",
         text: "Updating an artifact without changing the URL",
         id: "updating",

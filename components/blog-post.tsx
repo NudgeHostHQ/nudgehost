@@ -221,7 +221,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 </ol>
               </nav>
 
-              <span className="mb-3.5 inline-block rounded-full bg-coral-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-coral">
+              <span className="mb-3.5 inline-block rounded-full border border-[#F7E6DD] bg-coral-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-coral">
                 {pillarLabel[post.pillar] ?? "Guide"}
               </span>
 
@@ -232,7 +232,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
               {/* META */}
               <div className="mb-6 flex items-center gap-2.5 border-b border-[#EDE8E2] pb-8">
                 <span
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-peach text-[13px] font-semibold text-white"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-coral text-sm font-bold text-white"
                   aria-hidden="true"
                 >
                   {initials}
@@ -240,7 +240,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 <div className="flex flex-col gap-px text-sm">
                   <Link
                     href="/about"
-                    className="font-semibold text-charcoal hover:underline"
+                    className="text-[15px] font-bold text-charcoal hover:underline"
                   >
                     {post.author}
                   </Link>
@@ -261,7 +261,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                           month: "long",
                           day: "numeric",
                         })}`}
-                        className="inline-flex items-center gap-1.5 text-[12px] text-[#5C5C5C]"
+                        className="inline-flex items-center gap-1.5 rounded border border-[#EDE8E2] bg-[#FAF6F1] px-2.5 py-1 text-[12px] text-[#5C5C5C]"
                       >
                         <span
                           aria-hidden="true"
@@ -292,11 +292,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
               )}
 
               {/* TL;DR */}
-              <div className="relative overflow-hidden rounded-xl border border-charcoal/10 bg-white p-6">
-                <div
-                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-coral to-peach"
-                  aria-hidden="true"
-                />
+              <div className="rounded-xl border border-[#EDE8E2] border-l-[3px] border-l-[#D4653A] bg-white p-7">
                 <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-muted">
                   In short
                 </p>

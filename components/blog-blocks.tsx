@@ -23,7 +23,7 @@ function H2({ text, id }: { text: string; id: string }) {
   return (
     <h2
       id={id}
-      className="scroll-mt-28 font-display text-2xl font-semibold tracking-tight text-charcoal md:text-3xl"
+      className="scroll-mt-28 font-display text-2xl font-semibold leading-[1.2] tracking-tight text-charcoal md:!mt-14 md:text-[32px]"
     >
       {text}
     </h2>
@@ -44,7 +44,7 @@ function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
       {block.items.map((step, i) => (
         <li
           key={i}
-          className="group flex gap-4 rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/50"
+          className="group flex gap-4 rounded-2xl border border-charcoal/10 bg-warm px-8 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
         >
           <span
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-coral text-sm font-semibold text-white"
@@ -53,10 +53,10 @@ function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
             {i + 1}
           </span>
           <div>
-            <p className="font-display text-base font-semibold text-charcoal">
+            <p className="font-display text-[17px] font-semibold text-charcoal">
               {step.title}
             </p>
-            <p className="mt-1 text-sm leading-relaxed text-muted">
+            <p className="mt-1 text-[15px] leading-relaxed text-muted">
               {renderTokens(step.desc, salt, `step-${i}`)}
             </p>
           </div>
@@ -81,20 +81,20 @@ function NhCell({ value }: { value: string }) {
     const label = t.anchor ?? "✓";
     if (target) {
       return (
-        <Link href={target.href} className="font-semibold text-sage hover:underline">
+        <Link href={target.href} className="font-semibold text-[#16A34A] hover:underline">
           {label}
         </Link>
       );
     }
-    return <span className="font-semibold text-sage">{label}</span>;
+    return <span className="font-semibold text-[#16A34A]">{label}</span>;
   }
-  return <span className="font-semibold text-sage">{value}</span>;
+  return <span className="font-semibold text-[#16A34A]">{value}</span>;
 }
 
-// A plain comparison value: a sage ✓ or a muted ✗, keeping any parenthetical.
+// A plain comparison value: a green ✓ or a muted ✗, keeping any parenthetical.
 function ValueCell({ value }: { value: string }) {
   if (value.startsWith("✓")) {
-    return <span className="font-semibold text-sage">{value}</span>;
+    return <span className="font-semibold text-[#16A34A]">{value}</span>;
   }
   if (value.startsWith("✗")) {
     return <span className="text-charcoal/30">{value}</span>;
@@ -104,10 +104,10 @@ function ValueCell({ value }: { value: string }) {
 
 function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-charcoal/10">
+    <div className="overflow-x-auto rounded-xl border border-[#EDE8E2] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="bg-charcoal text-left text-white">
+          <tr className="bg-[#2D2D2D] text-left text-white">
             {block.headers.map((h, i) => (
               <th key={i} className="px-4 py-3 text-[13px] font-semibold">
                 {h}
@@ -117,7 +117,7 @@ function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
         </thead>
         <tbody>
           {block.rows.map((row, ri) => (
-            <tr key={ri} className="border-t border-charcoal/10">
+            <tr key={ri} className="border-t border-charcoal/10 transition-colors hover:bg-[#FDF8F3]">
               {row.cells.map((cell, ci) => {
                 const isNh = ci === row.nhCol;
                 const isFeature = ci === 0;
@@ -127,7 +127,7 @@ function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
                     className={[
                       "px-4 py-3 align-top",
                       isNh ? "bg-[rgba(232,112,74,0.06)] font-semibold" : "",
-                      isFeature ? "font-semibold text-charcoal" : "",
+                      isFeature ? "font-semibold text-coral" : "",
                     ].join(" ")}
                   >
                     {isFeature ? (
@@ -150,8 +150,8 @@ function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
 
 function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string }) {
   return (
-    <blockquote className="rounded-2xl border border-charcoal/10 border-l-[3px] border-l-coral bg-warm p-6">
-      <p className="text-base leading-relaxed text-charcoal/90">
+    <blockquote className="relative rounded-2xl border border-charcoal/10 border-l-[3px] border-l-coral bg-warm p-6 before:absolute before:left-5 before:top-4 before:font-display before:text-5xl before:leading-none before:text-[rgba(247,230,221,0.5)] before:content-['“']">
+      <p className="relative text-base leading-relaxed text-charcoal/90">
         {renderTokens(block.text, salt, "testimonial")}
       </p>
       {block.attribution && (
@@ -165,9 +165,9 @@ function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string })
 
 function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
   return (
-    <div className="flex items-center gap-[18px] rounded-xl border border-coral/10 bg-gradient-to-br from-coral-light to-warm p-6">
+    <div className="flex items-center gap-[18px] rounded-xl border border-[#EDE8E2] bg-white px-8 py-7">
       <span
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-coral text-xl text-white"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#FFF0E8] text-xl"
         aria-hidden="true"
       >
         {block.icon ?? "⚡"}
@@ -208,7 +208,7 @@ function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
         {block.items.map((item, i) => (
           <li key={i} className="flex gap-3">
             <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-coral-light text-lg"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FDF8F3] text-lg"
               aria-hidden="true"
             >
               {item.icon}
@@ -216,7 +216,7 @@ function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
             <div>
               <Link
                 href={item.href}
-                className="font-display text-base font-semibold text-charcoal underline decoration-coral/30 underline-offset-2 transition-colors hover:decoration-coral"
+                className="font-display text-[15px] font-bold text-charcoal underline decoration-coral/30 underline-offset-2 transition-colors hover:decoration-coral"
               >
                 {item.title}
               </Link>
@@ -244,26 +244,26 @@ export function BlogFaqList({
     <div>
       <h2
         id="faq"
-        className="scroll-mt-28 mb-6 font-display text-2xl font-semibold tracking-tight text-charcoal md:text-3xl"
+        className="scroll-mt-28 mb-6 font-display text-2xl font-semibold leading-[1.2] tracking-tight text-charcoal md:text-[32px]"
       >
         Frequently asked questions
       </h2>
       <ul className="space-y-3">
         {items.map((faq, i) => (
           <li key={i}>
-            <details className="group rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/30">
-              <summary className="cursor-pointer list-none font-display text-base font-semibold text-charcoal">
+            <details className="group overflow-hidden rounded-xl border border-[#EDE8E2] bg-white transition-shadow hover:shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <summary className="cursor-pointer list-none px-6 py-5 font-display text-base font-semibold text-charcoal transition-colors hover:bg-[#FAF6F1]">
                 <span className="flex items-center justify-between">
                   {faq.q}
                   <span
-                    className="ml-3 text-coral transition-transform group-open:rotate-45"
+                    className="ml-3 text-muted transition-transform group-open:rotate-45"
                     aria-hidden="true"
                   >
                     +
                   </span>
                 </span>
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
+              <p className="px-6 pb-5 text-[15px] leading-relaxed text-muted">
                 {renderTokens(faq.a, salt, `faq-${i}`)}
               </p>
             </details>
@@ -292,14 +292,14 @@ export function BottomCta({
   label: string;
 }) {
   return (
-    <section className="bg-gradient-to-br from-coral to-coral-dark px-6 py-16 text-center text-white">
-      <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
+    <section className="relative overflow-hidden bg-gradient-to-br from-coral to-coral-dark px-6 py-16 text-center text-white before:pointer-events-none before:absolute before:-left-1/2 before:-top-1/2 before:h-[200%] before:w-[200%] before:bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] before:content-['']">
+      <h2 className="relative mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
         {title}
       </h2>
-      <p className="mx-auto mb-8 max-w-xl text-base opacity-90">{text}</p>
+      <p className="relative mx-auto mb-8 max-w-xl text-base opacity-90">{text}</p>
       <Link
         href={link}
-        className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
+        className="relative inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
       >
         {label}
       </Link>
@@ -311,16 +311,16 @@ export function BottomCta({
 // column (matches the v5 mockup .bottom-cta box).
 function InlineBottomCta({ block }: { block: BottomCtaBlock }) {
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-coral to-[#D4603A] px-8 py-11 text-center text-white">
-      <h2 className="mb-2.5 font-display text-2xl font-bold tracking-tight md:text-[28px]">
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-coral to-[#D4603A] px-8 py-11 text-center text-white before:pointer-events-none before:absolute before:-left-1/2 before:-top-1/2 before:h-[200%] before:w-[200%] before:bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] before:content-['']">
+      <h2 className="relative mb-2.5 font-display text-2xl font-bold tracking-tight md:text-[28px]">
         {block.title}
       </h2>
-      <p className="mx-auto mb-5 max-w-md text-[15px] leading-relaxed opacity-90">
+      <p className="relative mx-auto mb-5 max-w-md text-[15px] leading-relaxed opacity-90">
         {block.text}
       </p>
       <Link
         href={block.link}
-        className="inline-block rounded-lg bg-white px-7 py-3 text-[15px] font-bold text-coral transition-all hover:-translate-y-0.5 hover:shadow-lg"
+        className="relative inline-block rounded-lg bg-white px-7 py-3 text-[15px] font-bold text-coral transition-all hover:-translate-y-0.5 hover:shadow-lg"
       >
         {block.label}
       </Link>
