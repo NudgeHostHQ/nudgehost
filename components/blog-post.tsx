@@ -4,7 +4,6 @@ import { Footer } from "@/components/footer";
 import { RelatedTools, TOOL_REGISTRY } from "@/components/related-tools";
 import { ContextualProse, renderTokens } from "@/components/contextual-prose";
 import { BlogBlocks, BlogFaqList, BottomCta } from "@/components/blog-blocks";
-import { BlogHeroClaude } from "@/components/blog-hero-claude";
 import type {
   BlogPost as BlogPostContent,
   ContentBlock,
@@ -278,18 +277,6 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                   </span>
                 </div>
               </div>
-
-              {/* HERO IMAGE */}
-              {post.heroComponent === "claude-artifact" && (
-                <div className="mb-8 rounded-2xl border border-[#EDE8E2] bg-white p-8 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                  <BlogHeroClaude />
-                  <div className="mt-6 flex justify-center">
-                    <span className="inline-flex items-center rounded-full bg-coral px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_4px_12px_rgba(212,101,58,0.25)]">
-                      Copy → Paste → Live link
-                    </span>
-                  </div>
-                </div>
-              )}
 
               {/* TL;DR */}
               <div className="rounded-xl border border-[#EDE8E2] border-l-[3px] border-l-[#D4653A] bg-white p-7">

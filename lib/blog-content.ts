@@ -112,7 +112,6 @@ export type BlogPost = {
   modifiedDate: string; // ISO
   readTime?: string; // e.g. "7 min read"; falls back to a word-count estimate
   showUpdatedBadge?: boolean; // force the "Updated" badge; defaults to dates differing
-  heroComponent?: "claude-artifact"; // optional decorative hero illustration
   pillar: "sharing-files" | "ai-publishing" | "hosting-vs-cloud";
   tldr: string; // 3-4 sentence key-points block; supports {{key}} tokens
   body: string | ContentBlock[]; // legacy string OR v5 typed blocks
@@ -171,7 +170,6 @@ export const blogContentMap: Record<string, BlogPost> = {
     modifiedDate: "2026-05-25",
     readTime: "7 min read",
     showUpdatedBadge: true,
-    heroComponent: "claude-artifact",
     pillar: "ai-publishing",
     tldr: "Claude builds working HTML artifacts inside a conversation, but they stay trapped there. {{host-claude-artifact|Copy the source and paste it into NudgeHost}}, and you get a public link in seconds. No Anthropic account needed for the recipient. {{features-link-updating|Update the source later}} and the link stays the same.",
     body: [
