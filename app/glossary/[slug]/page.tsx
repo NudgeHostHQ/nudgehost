@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GlossaryPage } from "@/components/glossary-page";
 import { glossaryContentMap } from "@/lib/glossary-content";
+import { OG_IMAGE } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -29,6 +30,7 @@ export async function generateMetadata({
       description: content.metaDescription,
       url: `${siteUrl}/glossary/${slug}`,
       type: "article",
+      images: OG_IMAGE,
     },
   };
 }

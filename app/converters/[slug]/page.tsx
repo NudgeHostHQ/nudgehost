@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SpokePage } from "@/components/spoke-page";
 import { convertersSilo, convertersContentMap } from "@/lib/converters-content";
+import { OG_IMAGE } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -29,6 +30,7 @@ export async function generateMetadata({
       description: content.description,
       url: `${siteUrl}/converters/${slug}`,
       type: "website",
+      images: OG_IMAGE,
     },
   };
 }

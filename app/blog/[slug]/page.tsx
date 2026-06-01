@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogPostPage } from "@/components/blog-post";
 import { blogContentMap } from "@/lib/blog-content";
+import { OG_IMAGE } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -34,6 +35,7 @@ export async function generateMetadata({
       publishedTime: post.publishedDate,
       modifiedTime: post.modifiedDate,
       authors: [post.author],
+      images: OG_IMAGE,
     },
   };
 }

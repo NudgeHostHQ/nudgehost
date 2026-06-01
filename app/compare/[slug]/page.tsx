@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ContextualProse } from "@/components/contextual-prose";
 import { compareContentMap } from "@/lib/compare-content";
+import { OG_IMAGE } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -32,6 +33,7 @@ export async function generateMetadata({
       description: content.description,
       url: `${siteUrl}/compare/${slug}`,
       type: "website",
+      images: OG_IMAGE,
     },
   };
 }
