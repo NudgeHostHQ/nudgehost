@@ -115,8 +115,7 @@ export default function HomePage() {
             className="relative z-10 mb-7 max-w-lg animate-fade-up text-lg leading-relaxed text-muted"
             style={{ animationDelay: "0.1s" }}
           >
-            Drop a file, get a link, share it instantly. The simplest way to host
-            and share anything online.
+            Drop a file, get a link. Share anything in seconds.
           </p>
 
           {/* Upload widget — the visual hero */}
