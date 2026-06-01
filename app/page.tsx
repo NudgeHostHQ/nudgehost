@@ -83,7 +83,7 @@ export default function HomePage() {
       <main>
         {/* HERO */}
         <section
-          className="relative flex flex-col items-center overflow-hidden px-6 pb-16 pt-10 text-center"
+          className="relative flex flex-col items-center overflow-hidden px-6 pb-16 pt-20 text-center"
           aria-labelledby="hero-heading"
         >
           {/* Decorative background blobs */}
@@ -99,14 +99,14 @@ export default function HomePage() {
           {/* H1 */}
           <h1
             id="hero-heading"
-            className="relative z-10 mb-4 max-w-4xl animate-fade-up text-balance font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl"
+            className="relative z-10 mb-6 max-w-4xl animate-fade-up text-balance font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl"
             style={{ animationDelay: "0.05s" }}
           >
             Give your files a gentle <em className="font-display italic text-coral">nudge.</em>
           </h1>
 
           <p
-            className="relative z-10 mb-7 max-w-lg animate-fade-up text-lg font-semibold leading-relaxed text-muted"
+            className="relative z-10 mb-8 max-w-lg animate-fade-up text-lg font-semibold leading-relaxed text-muted"
             style={{ animationDelay: "0.1s" }}
           >
             Drop a file, get a link. Share anything in seconds.

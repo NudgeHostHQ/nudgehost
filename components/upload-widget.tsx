@@ -233,7 +233,7 @@ export function UploadWidget({
           <div
             role="tablist"
             aria-label="Choose how to publish"
-            className="mb-4 flex gap-1 rounded-full bg-cream p-1"
+            className="mb-6 flex gap-1 rounded-full bg-cream p-1"
           >
             <button
               type="button"
