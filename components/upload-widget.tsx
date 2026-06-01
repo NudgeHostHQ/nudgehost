@@ -301,7 +301,6 @@ export function UploadWidget({
               <strong className="block text-lg font-medium text-charcoal">
                 Drop your file here
               </strong>
-              <p className="mt-1 text-sm text-muted">or click to browse</p>
               <button
                 type="button"
                 onClick={(event) => {

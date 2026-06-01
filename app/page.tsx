@@ -105,7 +105,7 @@ export default function HomePage() {
           {/* H1 */}
           <h1
             id="hero-heading"
-            className="relative z-10 mb-4 max-w-3xl animate-fade-up font-display text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl"
+            className="relative z-10 mb-4 max-w-3xl animate-fade-up font-display text-5xl font-semibold leading-[1.05] tracking-tight md:text-5xl"
             style={{ animationDelay: "0.05s" }}
           >
             Give your files <br className="hidden md:inline" />
