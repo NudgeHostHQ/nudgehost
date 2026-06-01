@@ -7,14 +7,14 @@ import { OG_IMAGE } from "@/lib/og";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 export const metadata: Metadata = {
-  title: "About Mark Boreland",
+  title: "About",
   description:
-    "NudgeHost is a file-sharing tool built by Mark Boreland. Drop a file, get a public link, and share it with anyone in seconds.",
+    "NudgeHost is a file-sharing tool. Drop a file, get a public link, and share it with anyone in seconds.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About Mark Boreland and NudgeHost",
+    title: "About NudgeHost",
     description:
-      "NudgeHost is a file-sharing tool built by Mark Boreland. Drop a file, get a public link, and share it with anyone in seconds.",
+      "NudgeHost is a file-sharing tool. Drop a file, get a public link, and share it with anyone in seconds.",
     url: `${siteUrl}/about`,
     type: "profile",
     images: OG_IMAGE,
