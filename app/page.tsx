@@ -21,26 +21,15 @@ export const metadata: Metadata = {
   openGraph: pageOpenGraph("/"),
 };
 
-// JSON-LD for the homepage — SoftwareApplication + FAQPage
+// JSON-LD for the homepage: FAQPage only. A SoftwareApplication block used to
+// lead this graph, but it carried an aggregateRating we cannot substantiate
+// with real reviews. Fabricated ratings violate Google's structured-data
+// policy, and a SoftwareApplication without a rating fails Software App
+// rich-result validation, so it is removed until genuine reviews exist. It can
+// be re-added with a real aggregateRating then.
 const homepageJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      name: "NudgeHost",
-      applicationCategory: "WebApplication",
-      operatingSystem: "Web",
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-      },
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.9",
-        ratingCount: "127",
-      },
-    },
     {
       "@type": "FAQPage",
       mainEntity: [

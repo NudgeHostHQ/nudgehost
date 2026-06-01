@@ -57,14 +57,11 @@ export default async function ComparePage({
   // JSON-LD: FAQPage + BreadcrumbList
   const jsonLd = {
     "@context": "https://schema.org",
+    // A SoftwareApplication entry was removed from this graph: Google requires
+    // aggregateRating or review for that rich result and NudgeHost has no
+    // genuine reviews yet, so it only produced a validation error. Re-add it
+    // with a real rating once authentic reviews exist.
     "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        name: "NudgeHost",
-        applicationCategory: "WebApplication",
-        operatingSystem: "Web",
-        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-      },
       {
         "@type": "Article",
         headline: content.h1,

@@ -24,14 +24,14 @@ export function buildSpokeJsonLd(content: SpokeContent, silo: SiloConfig) {
   const datePublished = content.datePublished || DEFAULT_PUBLISHED;
   const dateModified = content.dateModified || datePublished;
 
+  // A SoftwareApplication entry used to lead this graph (per silo.schemaType),
+  // but Google requires aggregateRating or review for the Software App rich
+  // result and NudgeHost has no genuine reviews yet. Emitting it without a
+  // rating only produced a validation error and no rich result, so it is
+  // removed. Re-add a SoftwareApplication block with a real aggregateRating
+  // once authentic reviews exist. Article, FAQPage, and BreadcrumbList below
+  // already validate on their own.
   const graph: Array<Record<string, unknown>> = [
-    {
-      "@type": silo.schemaType,
-      name: `NudgeHost ${content.name}`,
-      applicationCategory: "WebApplication",
-      operatingSystem: "Web",
-      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    },
     {
       "@type": "FAQPage",
       mainEntity: content.faqs.map((f) => ({

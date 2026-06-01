@@ -17,47 +17,11 @@ export const metadata: Metadata = {
   openGraph: pageOpenGraph("/pricing"),
 };
 
-// JSON-LD: SoftwareApplication with a multi-tier Offer list. Helps Google
-// render pricing-aware SERP cards and gives AI Overviews structured price data.
-const pricingJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "NudgeHost",
-  applicationCategory: "WebApplication",
-  operatingSystem: "Web",
-  offers: [
-    {
-      "@type": "Offer",
-      name: "Free",
-      price: "0",
-      priceCurrency: "USD",
-    },
-    {
-      "@type": "Offer",
-      name: "Pro",
-      price: "8",
-      priceCurrency: "USD",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "8",
-        priceCurrency: "USD",
-        unitText: "month",
-      },
-    },
-    {
-      "@type": "Offer",
-      name: "Team",
-      price: "24",
-      priceCurrency: "USD",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "24",
-        priceCurrency: "USD",
-        unitText: "month",
-      },
-    },
-  ],
-};
+// SoftwareApplication JSON-LD was removed from this page. Google requires
+// aggregateRating or review for the Software App rich result, and NudgeHost has
+// no genuine reviews yet, so the markup only produced a validation error rather
+// than a pricing-aware SERP card. Re-add a SoftwareApplication (with the Offer
+// list and a real aggregateRating) once authentic reviews exist.
 
 type Tier = {
   name: string;
@@ -191,10 +155,6 @@ export default async function PricingPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}
-      />
       <Navbar />
       <main>
         <div className="mx-auto max-w-5xl px-6 pt-16">
