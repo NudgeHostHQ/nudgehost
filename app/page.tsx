@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { UploadWidget, HeroUploadCta } from "@/components/upload-widget";
+import { UploadWidget } from "@/components/upload-widget";
 
 export const metadata: Metadata = {
   title: { absolute: "Share any file as a link in seconds | NudgeHost" },
@@ -83,7 +83,7 @@ export default function HomePage() {
       <main>
         {/* HERO */}
         <section
-          className="relative flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-6 py-16 text-center"
+          className="relative flex flex-col items-center overflow-hidden px-6 pb-16 pt-10 text-center"
           aria-labelledby="hero-heading"
         >
           {/* Decorative background blobs */}
@@ -97,7 +97,7 @@ export default function HomePage() {
           />
 
           {/* Badge */}
-          <div className="relative z-10 mb-7 inline-flex animate-fade-up items-center gap-2 rounded-full bg-coral-light px-3.5 py-1.5 text-xs font-medium text-coral-dark">
+          <div className="relative z-10 mb-5 inline-flex animate-fade-up items-center gap-2 rounded-full bg-coral-light px-3.5 py-1.5 text-xs font-medium text-coral-dark">
             <span className="h-1.5 w-1.5 rounded-full bg-coral" aria-hidden="true" />
             Drop a file and share it. That simple.
           </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
           {/* H1 */}
           <h1
             id="hero-heading"
-            className="relative z-10 mb-5 max-w-3xl animate-fade-up font-display text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl"
+            className="relative z-10 mb-4 max-w-3xl animate-fade-up font-display text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl"
             style={{ animationDelay: "0.05s" }}
           >
             Give your files <br className="hidden md:inline" />
@@ -113,29 +113,15 @@ export default function HomePage() {
           </h1>
 
           <p
-            className="relative z-10 mb-9 max-w-lg animate-fade-up text-lg leading-relaxed text-muted"
+            className="relative z-10 mb-7 max-w-lg animate-fade-up text-lg leading-relaxed text-muted"
             style={{ animationDelay: "0.1s" }}
           >
             Drop a file, get a link, share it instantly. The simplest way to host
             and share anything online.
           </p>
 
-          {/* CTAs */}
-          <div
-            className="relative z-10 flex animate-fade-up flex-wrap items-center justify-center gap-3"
-            style={{ animationDelay: "0.15s" }}
-          >
-            <HeroUploadCta />
-            <Link
-              href="#how-it-works"
-              className="rounded-full border-[1.5px] border-charcoal/15 bg-transparent px-7 py-3 text-base font-medium text-charcoal transition-all hover:-translate-y-0.5 hover:border-coral"
-            >
-              See how it works →
-            </Link>
-          </div>
-
-          {/* Upload demo — real uploader client island */}
-          <UploadWidget />
+          {/* Upload widget — the visual hero */}
+          <UploadWidget className="relative z-10 w-full max-w-xl animate-fade-up" />
 
           {/* Live link preview */}
           <div
@@ -145,6 +131,15 @@ export default function HomePage() {
             <span className="h-2 w-2 rounded-full bg-sage" aria-hidden="true" />
             nudgehost.com/your-file ready in seconds
           </div>
+
+          {/* Quiet secondary link — does not compete with the uploader */}
+          <Link
+            href="#how-it-works"
+            className="relative z-10 mt-6 animate-fade-up text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-charcoal hover:underline"
+            style={{ animationDelay: "0.4s" }}
+          >
+            See how it works
+          </Link>
         </section>
 
         {/* SOCIAL PROOF STRIP — trust signal competitors lack */}

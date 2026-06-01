@@ -285,10 +285,10 @@ export function UploadWidget({
               }}
               onDragLeave={() => setDragActive(false)}
               onDrop={handleDrop}
-              className={`cursor-pointer rounded-3xl border-[1.5px] border-dashed px-10 py-10 text-center transition-all ${
+              className={`cursor-pointer rounded-3xl border-2 border-dashed px-10 py-10 text-center shadow-[0_18px_40px_-16px_rgba(232,112,74,0.25)] transition-all ${
                 dragActive
-                  ? "border-coral bg-[#FFFBF7]"
-                  : "border-coral/40 bg-warm hover:bg-[#FFFBF7]"
+                  ? "border-coral bg-coral-light/40"
+                  : "border-coral/60 bg-white hover:border-coral hover:bg-[#FFFBF7]"
               }`}
             >
               <div
@@ -302,6 +302,17 @@ export function UploadWidget({
                 Drop your file here
               </strong>
               <p className="mt-1 text-sm text-muted">or click to browse</p>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleActivate();
+                }}
+                onKeyDown={(event) => event.stopPropagation()}
+                className="mt-5 inline-flex items-center justify-center rounded-full bg-coral px-7 py-3 text-sm font-medium text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
+              >
+                Choose a file
+              </button>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 {displayPills.map((type) => (
                   <span
@@ -486,32 +497,5 @@ export function UploadWidget({
         </div>
       )}
     </div>
-  );
-}
-
-// Hero CTA. Signed-in visitors jump to the uploader; guests go to sign-up.
-export function HeroUploadCta() {
-  const router = useRouter();
-  const { isLoaded, isSignedIn } = useAuth();
-
-  const handleClick = useCallback(() => {
-    if (isLoaded && isSignedIn) {
-      const zone = document.getElementById("upload-dropzone");
-      const widget = document.getElementById("upload-widget");
-      (zone ?? widget)?.scrollIntoView({ behavior: "smooth", block: "center" });
-      zone?.focus({ preventScroll: true });
-      return;
-    }
-    router.push("/sign-up");
-  }, [isLoaded, isSignedIn, router]);
-
-  return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="rounded-full bg-coral px-7 py-3.5 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
-    >
-      Start nudging. It&apos;s free.
-    </button>
   );
 }
