@@ -16,3 +16,20 @@ export const OG_IMAGE: NonNullable<
     alt: "NudgeHost: share any file as a link",
   },
 ];
+
+// Open Graph defaults for a hub/index or standalone marketing page. Pass the
+// page's own canonical path so og:url matches the canonical (the root layout no
+// longer hardcodes a sitewide og:url, which used to leak the homepage URL onto
+// every inheriting page). The path is resolved to an absolute URL against
+// metadataBase. og:title and og:description fall back to the page's own title
+// and description, so they don't need to be repeated here.
+export function pageOpenGraph(
+  path: string,
+): NonNullable<Metadata["openGraph"]> {
+  return {
+    type: "website",
+    url: path,
+    siteName: "NudgeHost",
+    images: OG_IMAGE,
+  };
+}

@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "DMCA Takedown Policy",
   description:
     "How to submit a copyright takedown notice for content hosted on NudgeHost, plus counter-notification process and repeat infringer policy.",
   alternates: { canonical: "/dmca" },
+  openGraph: pageOpenGraph("/dmca"),
 };
 
 const h2 =

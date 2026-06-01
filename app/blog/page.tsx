@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { blogContentMap } from "@/lib/blog-content";
+import { pageOpenGraph } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   description:
     "Practical guides to sharing files better. Hosting Claude artifacts, v0 and Lovable exports, sending large PDFs, and turning a resume into a trackable link.",
   alternates: { canonical: "/blog" },
+  openGraph: pageOpenGraph("/blog"),
 };
 
 const pillarLabel: Record<string, string> = {

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { SiloHub } from "@/components/silo-hub";
 import { devToolsSilo, devToolsContentMap } from "@/lib/dev-tools-content";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "Free Developer Tools: JSON formatter, Base64, JWT decoder",
   description:
     "Small, fast developer utilities that run in your browser: JSON formatter, Base64 encoder, URL encoder, JWT decoder. All free, nothing logged.",
   alternates: { canonical: "/dev-tools" },
+  openGraph: pageOpenGraph("/dev-tools"),
 };
 
 const intro = [

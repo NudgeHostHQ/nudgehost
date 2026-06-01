@@ -11,12 +11,14 @@ import {
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { UploadWidget } from "@/components/upload-widget";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: { absolute: "Share any file as a link in seconds | NudgeHost" },
   description:
     "Drop a file, get a shareable link. The friendliest way to host PDFs, HTML, ZIPs, images, AI-generated outputs. Free forever, 25MB, no card.",
   alternates: { canonical: "/" },
+  openGraph: pageOpenGraph("/"),
 };
 
 // JSON-LD for the homepage — SoftwareApplication + FAQPage

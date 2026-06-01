@@ -3,12 +3,14 @@ import Link from "next/link";
 import { SignUp } from "@clerk/nextjs";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "Sign up",
   description:
     "Create your free NudgeHost account. 10 active links, 25MB per file, no credit card required.",
   alternates: { canonical: "/sign-up" },
+  openGraph: pageOpenGraph("/sign-up"),
 };
 
 const planLabels: Record<string, string> = {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { glossaryContentMap } from "@/lib/glossary-content";
+import { pageOpenGraph } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   description:
     "Plain definitions of the terms behind file sharing and hosting: static sites, CDNs, MIME types, presigned URLs, link expiry, and more. Each one tied to practice.",
   alternates: { canonical: "/glossary" },
+  openGraph: pageOpenGraph("/glossary"),
 };
 
 const hubFaqs = [

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { SiloHub } from "@/components/silo-hub";
 import { viewersSilo, viewersContentMap } from "@/lib/viewers-content";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "File Viewers: open PDFs, Word docs, CSVs and JSON online",
   description:
     "Open any file in your browser without installing anything. Free online viewers for PDF, DOCX, CSV, JSON and more.",
   alternates: { canonical: "/viewers" },
+  openGraph: pageOpenGraph("/viewers"),
 };
 
 const intro = [

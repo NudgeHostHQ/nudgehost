@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "What data NudgeHost collects, how we use it, and your rights under UK GDPR. No selling, no ad tracking, no AI model training.",
   alternates: { canonical: "/privacy" },
+  openGraph: pageOpenGraph("/privacy"),
 };
 
 const h2 =

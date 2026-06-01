@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { featuresContentMap } from "@/lib/features-content";
+import { pageOpenGraph } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   description:
     "The full NudgeHost feature set: update a file without changing the URL, paste HTML to publish, password-protect links, use a custom domain, get rich previews, and more.",
   alternates: { canonical: "/features" },
+  openGraph: pageOpenGraph("/features"),
 };
 
 const hubFaqs = [

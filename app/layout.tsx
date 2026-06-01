@@ -41,7 +41,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: siteUrl,
     siteName: "NudgeHost",
     title: "Share any file as a link in seconds | NudgeHost",
     description:

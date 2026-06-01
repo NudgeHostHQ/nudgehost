@@ -7,12 +7,14 @@ import { users } from "@/lib/db/schema";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PlanButton } from "@/components/plan-button";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "Pricing: free forever, then Pro at $8",
   description:
     "Three simple plans. Free forever for 10 active links at 25MB each. Pro at $8/month adds unlimited links, custom domains, and password protection.",
   alternates: { canonical: "/pricing" },
+  openGraph: pageOpenGraph("/pricing"),
 };
 
 // JSON-LD: SoftwareApplication with a multi-tier Offer list. Helps Google

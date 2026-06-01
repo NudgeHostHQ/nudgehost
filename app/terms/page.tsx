@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "The rules for using NudgeHost. Acceptable use, account responsibilities, billing, and termination, in plain English.",
   alternates: { canonical: "/terms" },
+  openGraph: pageOpenGraph("/terms"),
 };
 
 // Shared Tailwind classes for the legal pages. Kept inline rather than

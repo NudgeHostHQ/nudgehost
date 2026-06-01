@@ -3,12 +3,14 @@ import Link from "next/link";
 import { SignIn } from "@clerk/nextjs";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
   title: "Sign in",
   description:
     "Sign in to NudgeHost to manage your links, see open analytics, and update files.",
   alternates: { canonical: "/sign-in" },
+  openGraph: pageOpenGraph("/sign-in"),
 };
 
 export default function SignInPage() {
