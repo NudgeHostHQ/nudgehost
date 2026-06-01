@@ -16,6 +16,7 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
       { label: "Home", href: "/" },
       { label: "Pricing", href: "/pricing" },
       { label: "Blog", href: "/blog" },
+      { label: "About", href: "/about" },
       { label: "Sign in", href: "/sign-in" },
     ],
   },
