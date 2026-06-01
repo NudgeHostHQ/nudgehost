@@ -96,12 +96,6 @@ export default function HomePage() {
             aria-hidden="true"
           />
 
-          {/* Badge */}
-          <div className="relative z-10 mb-5 inline-flex animate-fade-up items-center gap-2 rounded-full bg-coral-light px-3.5 py-1.5 text-xs font-medium text-coral-dark">
-            <span className="h-1.5 w-1.5 rounded-full bg-coral" aria-hidden="true" />
-            Drop a file and share it. That simple.
-          </div>
-
           {/* H1 */}
           <h1
             id="hero-heading"
@@ -112,7 +106,7 @@ export default function HomePage() {
           </h1>
 
           <p
-            className="relative z-10 mb-7 max-w-lg animate-fade-up text-lg leading-relaxed text-muted"
+            className="relative z-10 mb-7 max-w-lg animate-fade-up text-lg font-semibold leading-relaxed text-muted"
             style={{ animationDelay: "0.1s" }}
           >
             Drop a file, get a link. Share anything in seconds.
