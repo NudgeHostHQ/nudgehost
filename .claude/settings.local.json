@@ -49,7 +49,9 @@
       "Bash(git --no-pager diff .claude/settings.local.json)",
       "Bash(echo \"exit: $?\")",
       "Bash(git --no-pager diff --stat components/)",
-      "Bash(git --no-pager diff app/page.tsx components/upload-widget.tsx)"
+      "Bash(git --no-pager diff app/page.tsx components/upload-widget.tsx)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(mv -f .env.local.bak .env.local)"
     ]
   }
 }

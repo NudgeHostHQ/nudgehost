@@ -105,11 +105,10 @@ export default function HomePage() {
           {/* H1 */}
           <h1
             id="hero-heading"
-            className="relative z-10 mb-4 max-w-3xl animate-fade-up font-display text-5xl font-semibold leading-[1.05] tracking-tight md:text-5xl"
+            className="relative z-10 mb-4 max-w-3xl animate-fade-up font-display text-5xl font-semibold leading-[1.05] tracking-tight md:whitespace-nowrap md:text-4xl"
             style={{ animationDelay: "0.05s" }}
           >
-            Give your files <br className="hidden md:inline" />
-            a gentle <em className="font-display italic text-coral">nudge.</em>
+            Give your files a gentle <em className="font-display italic text-coral">nudge.</em>
           </h1>
 
           <p
