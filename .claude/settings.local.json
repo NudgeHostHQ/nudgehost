@@ -47,7 +47,8 @@
       "Bash(rm -rf _thumb-out2 _thumb-verify)",
       "Bash(git --no-pager diff --stat)",
       "Bash(git --no-pager diff .claude/settings.local.json)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(git --no-pager diff --stat components/)"
     ]
   }
 }

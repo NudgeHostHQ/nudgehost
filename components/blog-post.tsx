@@ -350,19 +350,16 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                   </nav>
                 )}
 
-                <div className="rounded-xl border border-[#EDE8E2] bg-white p-6">
-                  <p className="text-base font-bold text-[#1F1F1F]">
-                    Host any file for free
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-[#8A8A8A]">
-                    Drop a file and get a shareable link in seconds. No card
-                    needed.
+                <div className="rounded-2xl bg-gradient-to-br from-coral to-coral-dark p-6 text-white">
+                  <p className="text-base font-bold">Host any file for free</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/90">
+                    Drop a file, get a link. 25MB, 10 active links, no expiry.
                   </p>
                   <Link
                     href="/sign-up"
-                    className="mt-4 block w-full rounded-lg border border-[#F7E6DD] bg-[#FFF0E8] px-4 py-2.5 text-center text-sm font-semibold text-[#D4653A] transition-colors hover:bg-[#F7E6DD]"
+                    className="mt-4 block w-full rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
                   >
-                    Get started
+                    Try NudgeHost free
                   </Link>
                 </div>
 

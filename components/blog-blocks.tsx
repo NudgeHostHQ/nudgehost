@@ -44,7 +44,7 @@ function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
       {block.items.map((step, i) => (
         <li
           key={i}
-          className="group flex gap-4 rounded-2xl border border-charcoal/10 bg-warm px-8 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+          className="group flex gap-4 rounded-2xl border border-charcoal/10 bg-white px-8 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
         >
           <span
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-coral text-sm font-semibold text-white"
@@ -81,20 +81,20 @@ function NhCell({ value }: { value: string }) {
     const label = t.anchor ?? "✓";
     if (target) {
       return (
-        <Link href={target.href} className="font-semibold text-[#16A34A] hover:underline">
+        <Link href={target.href} className="font-semibold text-sage hover:underline">
           {label}
         </Link>
       );
     }
-    return <span className="font-semibold text-[#16A34A]">{label}</span>;
+    return <span className="font-semibold text-sage">{label}</span>;
   }
-  return <span className="font-semibold text-[#16A34A]">{value}</span>;
+  return <span className="font-semibold text-sage">{value}</span>;
 }
 
-// A plain comparison value: a green ✓ or a muted ✗, keeping any parenthetical.
+// A plain comparison value: a sage ✓ or a muted ✗, keeping any parenthetical.
 function ValueCell({ value }: { value: string }) {
   if (value.startsWith("✓")) {
-    return <span className="font-semibold text-[#16A34A]">{value}</span>;
+    return <span className="font-semibold text-sage">{value}</span>;
   }
   if (value.startsWith("✗")) {
     return <span className="text-charcoal/30">{value}</span>;
@@ -150,8 +150,8 @@ function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
 
 function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string }) {
   return (
-    <blockquote className="relative rounded-2xl border border-charcoal/10 border-l-[3px] border-l-coral bg-warm p-6 before:absolute before:left-5 before:top-4 before:font-display before:text-5xl before:leading-none before:text-[rgba(247,230,221,0.5)] before:content-['“']">
-      <p className="relative text-base leading-relaxed text-charcoal/90">
+    <blockquote className="rounded-2xl border border-charcoal/10 border-l-[3px] border-l-coral bg-warm p-6">
+      <p className="text-base leading-relaxed text-charcoal/90">
         {renderTokens(block.text, salt, "testimonial")}
       </p>
       {block.attribution && (
@@ -165,11 +165,8 @@ function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string })
 
 function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
   return (
-    <div className="flex items-center gap-[18px] rounded-xl border border-[#EDE8E2] bg-white px-8 py-7">
-      <span
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#FFF0E8] text-xl"
-        aria-hidden="true"
-      >
+    <div className="flex items-center gap-[18px] rounded-xl border border-charcoal/10 bg-white px-8 py-7">
+      <span className="shrink-0 text-2xl" aria-hidden="true">
         {block.icon ?? "⚡"}
       </span>
       <div className="text-sm leading-relaxed text-charcoal/80">
@@ -208,7 +205,7 @@ function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
         {block.items.map((item, i) => (
           <li key={i} className="flex gap-3">
             <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FDF8F3] text-lg"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-coral-light text-lg"
               aria-hidden="true"
             >
               {item.icon}
@@ -251,7 +248,7 @@ export function BlogFaqList({
       <ul className="space-y-3">
         {items.map((faq, i) => (
           <li key={i}>
-            <details className="group overflow-hidden rounded-xl border border-[#EDE8E2] bg-white transition-shadow hover:shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <details className="group overflow-hidden rounded-xl border border-charcoal/10 bg-white transition-shadow hover:shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
               <summary className="cursor-pointer list-none px-6 py-5 font-display text-base font-semibold text-charcoal transition-colors hover:bg-[#FAF6F1]">
                 <span className="flex items-center justify-between">
                   {faq.q}
