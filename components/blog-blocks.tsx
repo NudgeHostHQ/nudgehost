@@ -170,14 +170,11 @@ function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
         {block.title}
       </strong>
       <div className="text-sm leading-relaxed text-white/90">
-        {renderTokens(block.text, salt, "cta")}
+        {renderTokens(block.text, salt, "cta")}{" "}
+        <Link href={block.link} className="font-bold text-white underline">
+          {block.label}
+        </Link>
       </div>
-      <Link
-        href={block.link}
-        className="mt-3 inline-block rounded-lg bg-white px-6 py-2.5 text-sm font-bold text-coral no-underline"
-      >
-        {block.label}
-      </Link>
     </div>
   );
 }
