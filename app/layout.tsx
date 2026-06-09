@@ -58,7 +58,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Share any file as a link in seconds | NudgeHost",
     description: "Drop a file, get a shareable link.",
-    images: ["/og-image.png"],
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "NudgeHost: give your files a nudge",
+      },
+    ],
   },
   robots: {
     index: true,
