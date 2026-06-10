@@ -10,3 +10,8 @@ export const btnPrimary =
 // White button that sits on top of a coral gradient CTA band.
 export const btnOnGradient =
   "inline-flex items-center justify-center rounded-full bg-white font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-cream";
+
+// Quieter outline action: white fill, line border, coral.dark text, coral.light
+// on hover. Used for the non-emphasized plan cards alongside btnPrimary.
+export const btnOutline =
+  "inline-flex items-center justify-center rounded-full border border-line bg-white font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-coral-light";

@@ -54,7 +54,9 @@
       "Bash(mv -f .env.local.bak .env.local)",
       "Bash(git --no-pager diff)",
       "Bash(grep -ivE 'className|import|^\\\\+\\\\+\\\\+|^---|//|aria-|scope=|htmlFor|dateTime|type=|placeholder=|role=|@/components|key=|href=|datetime')",
-      "Bash(git --no-pager diff components/spoke-page.tsx components/glossary-page.tsx)"
+      "Bash(git --no-pager diff components/spoke-page.tsx components/glossary-page.tsx)",
+      "Bash(git --no-pager diff app/page.tsx app/pricing/page.tsx)",
+      "Bash(grep -ivE 'className|^\\\\+\\\\+\\\\+|^---|//|aria-|href=|key=|<span|<li|<div|<p|</|<h[0-9]|<section|<Link|<article|<ul|<td|<th|<tr|<thead|<tbody|<table|<caption|<details|<summary|map\\\\\\(|=>|^\\\\+\\\\s*$|^-\\\\s*$|id=|scope=|featured|items=|tier\\\\.|step\\\\.|row\\\\.|\\\\{\" \"\\\\}')"
     ]
   }
 }

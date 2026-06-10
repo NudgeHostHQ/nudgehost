@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { btnPrimary, btnOutline } from "@/components/ui/button";
 
 type Props = {
   plan: "free" | "pro" | "team";
@@ -14,10 +15,8 @@ type Props = {
 
 function buttonClass(featured: boolean): string {
   return (
-    "block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 " +
-    (featured
-      ? "bg-coral text-white hover:bg-coral-dark"
-      : "border-[1.5px] border-charcoal/15 text-charcoal hover:border-coral")
+    (featured ? btnPrimary : btnOutline) +
+    " w-full px-5 py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
   );
 }
 

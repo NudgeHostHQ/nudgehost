@@ -7,6 +7,9 @@ import { users } from "@/lib/db/schema";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PlanButton } from "@/components/plan-button";
+import { cardClass } from "@/components/ui/card";
+import { FaqAccordions } from "@/components/ui/faq";
+import { CtaSection } from "@/components/ui/cta-section";
 import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
@@ -173,7 +176,7 @@ export default async function PricingPage() {
           </nav>
 
           <header className="mb-10 max-w-2xl">
-            <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+            <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
               Three plans, no traps.
             </h1>
             <p className="text-lg leading-relaxed text-muted">
@@ -198,8 +201,9 @@ export default async function PricingPage() {
               <article
                 key={tier.name}
                 className={
-                  "relative rounded-3xl border-[1.5px] bg-warm p-7 transition-transform hover:-translate-y-1 " +
-                  (tier.featured ? "border-coral" : "border-charcoal/10")
+                  tier.featured
+                    ? "relative rounded-xl border border-coral bg-white p-7 shadow-md"
+                    : `relative p-7 ${cardClass}`
                 }
               >
                 {tier.featured && (
@@ -217,10 +221,10 @@ export default async function PricingPage() {
                   </span>
                 </p>
                 <p className="mb-5 text-sm text-muted">{tier.pitch}</p>
-                <ul className="mb-6 space-y-2 text-sm">
+                <ul className="mb-6 space-y-2 text-sm text-muted">
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-start gap-2">
-                      <span className="text-sage" aria-hidden="true">
+                      <span className="text-coral" aria-hidden="true">
                         ✓
                       </span>{" "}
                       {f}
@@ -261,48 +265,51 @@ export default async function PricingPage() {
             The differences laid out side by side. No asterisks, no hidden
             visitor caps, no plans that change shape next year.
           </p>
-          <div className="overflow-x-auto rounded-2xl border border-charcoal/10">
-            <table className="w-full border-collapse text-sm">
-              <caption className="sr-only">
-                NudgeHost plan feature comparison
-              </caption>
-              <thead>
-                <tr className="bg-coral-light text-left">
-                  <th scope="col" className="px-4 py-3 font-semibold text-charcoal">
-                    Feature
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-semibold text-charcoal">
-                    Free
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-semibold text-coral-dark">
-                    Pro
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-semibold text-charcoal">
-                    Team
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.map((row, i) => (
-                  <tr
-                    key={row.feature}
-                    className={i % 2 === 0 ? "bg-warm" : "bg-cream"}
-                  >
-                    <th
-                      scope="row"
-                      className="px-4 py-3 text-left font-medium text-charcoal"
-                    >
-                      {row.feature}
+          <div className="overflow-hidden rounded-xl border border-line shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-sm">
+                <caption className="sr-only">
+                  NudgeHost plan feature comparison
+                </caption>
+                <thead>
+                  <tr className="text-left text-white">
+                    <th scope="col" className="bg-charcoal px-4 py-3.5 font-semibold">
+                      Feature
                     </th>
-                    <td className="px-4 py-3 text-charcoal/80">{row.free}</td>
-                    <td className="px-4 py-3 font-semibold text-coral-dark">
-                      {row.pro}
-                    </td>
-                    <td className="px-4 py-3 text-charcoal/80">{row.team}</td>
+                    <th scope="col" className="bg-charcoal px-4 py-3.5 font-semibold">
+                      Free
+                    </th>
+                    <th scope="col" className="bg-coral px-4 py-3.5 font-semibold">
+                      Pro
+                    </th>
+                    <th scope="col" className="bg-charcoal px-4 py-3.5 font-semibold">
+                      Team
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {comparison.map((row) => (
+                    <tr key={row.feature} className="group border-t border-line">
+                      <th
+                        scope="row"
+                        className="bg-white px-4 py-3 text-left font-semibold text-charcoal transition-colors group-hover:bg-cream"
+                      >
+                        {row.feature}
+                      </th>
+                      <td className="bg-white px-4 py-3 text-charcoal/80 transition-colors group-hover:bg-cream">
+                        {row.free}
+                      </td>
+                      <td className="bg-coral-light px-4 py-3 font-semibold text-coral-dark transition-colors group-hover:bg-[#F6DCCF]">
+                        {row.pro}
+                      </td>
+                      <td className="bg-white px-4 py-3 text-charcoal/80 transition-colors group-hover:bg-cream">
+                        {row.team}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 
@@ -331,46 +338,18 @@ export default async function PricingPage() {
           >
             Pricing questions
           </h2>
-          <ul className="space-y-3">
-            {faqs.map((faq, i) => (
-              <li key={i}>
-                <details className="group rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/30">
-                  <summary className="cursor-pointer list-none font-display text-base font-semibold text-charcoal">
-                    <span className="flex items-center justify-between">
-                      {faq.q}
-                      <span
-                        className="ml-3 text-coral transition-transform group-open:rotate-45"
-                        aria-hidden="true"
-                      >
-                        +
-                      </span>
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    {faq.a}
-                  </p>
-                </details>
-              </li>
-            ))}
-          </ul>
+          <FaqAccordions
+            items={faqs.map((f) => ({ question: f.q, answer: f.a }))}
+          />
         </section>
 
         {/* CTA */}
-        <section className="bg-coral px-6 py-16 text-center text-white">
-          <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
-            Start on the free plan.
-          </h2>
-          <p className="mb-8 text-base opacity-90">
-            No card, no expiry, no surprises. Upgrade when (and if) you outgrow
-            it.
-          </p>
-          <Link
-            href="/sign-up"
-            className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
-          >
-            Get started free
-          </Link>
-        </section>
+        <CtaSection
+          heading="Start on the free plan."
+          text="No card, no expiry, no surprises. Upgrade when (and if) you outgrow it."
+          href="/sign-up"
+          label="Get started free"
+        />
       </main>
       <Footer />
     </>

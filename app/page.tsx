@@ -11,6 +11,10 @@ import {
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { UploadWidget } from "@/components/upload-widget";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { CtaSection } from "@/components/ui/cta-section";
+import { cardClass, interactiveCardClass } from "@/components/ui/card";
+import { btnPrimary, btnOutline } from "@/components/ui/button";
 import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
@@ -90,7 +94,7 @@ export default function HomePage() {
           {/* H1 */}
           <h1
             id="hero-heading"
-            className="relative z-10 mb-6 max-w-4xl animate-fade-up text-balance font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl"
+            className="relative z-10 mb-6 max-w-4xl animate-fade-up text-balance font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl"
             style={{ animationDelay: "0.05s" }}
           >
             Give your files a gentle <em className="font-display italic text-coral">nudge.</em>
@@ -126,7 +130,7 @@ export default function HomePage() {
         </section>
 
         {/* SOCIAL PROOF STRIP — trust signal competitors lack */}
-        <section className="border-y border-charcoal/5 bg-warm/50 py-10">
+        <section className="border-y border-line bg-warm/50 py-10">
           <div className="mx-auto max-w-5xl px-6">
             <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-muted">
               Trusted by people sharing files for
@@ -148,12 +152,12 @@ export default function HomePage() {
           className="mx-auto max-w-5xl px-6 py-20"
           aria-labelledby="how-heading"
         >
-          <p className="mb-3 text-xs font-medium uppercase tracking-widest text-coral">
-            How it works
-          </p>
+          <div className="mb-4">
+            <Eyebrow>How it works</Eyebrow>
+          </div>
           <h2
             id="how-heading"
-            className="mb-12 max-w-lg font-display text-3xl font-semibold leading-tight tracking-tight md:text-5xl"
+            className="mb-12 max-w-lg font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-5xl"
           >
             Three steps, then you&apos;re done.
           </h2>
@@ -176,17 +180,19 @@ export default function HomePage() {
                 desc: "Send the link to whoever needs it. They click and see your file straight away. Done.",
               },
             ].map((step) => (
-              <li
-                key={step.num}
-                className="rounded-3xl border border-charcoal/10 bg-warm p-7 transition-transform hover:-translate-y-1"
-              >
-                <div className="mb-5 flex h-9 w-9 items-center justify-center rounded-xl bg-coral-light text-sm font-semibold text-coral-dark">
-                  {step.num}
+              <li key={step.num} className={`p-7 ${cardClass}`}>
+                <div className="flex items-start gap-3">
+                  <span
+                    className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full bg-coral text-sm font-semibold text-white"
+                    aria-hidden="true"
+                  >
+                    {step.num}
+                  </span>
+                  <h3 className="font-display text-lg font-semibold">
+                    {step.title}
+                  </h3>
                 </div>
-                <h3 className="mb-2 font-display text-lg font-semibold">
-                  {step.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted">{step.desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{step.desc}</p>
               </li>
             ))}
           </ol>
@@ -198,12 +204,12 @@ export default function HomePage() {
           aria-labelledby="features-heading"
         >
           <div className="mx-auto max-w-5xl">
-            <p className="mb-3 text-xs font-medium uppercase tracking-widest text-coral">
-              Features
-            </p>
+            <div className="mb-4">
+              <Eyebrow>Features</Eyebrow>
+            </div>
             <h2
               id="features-heading"
-              className="mb-12 max-w-lg font-display text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl"
+              className="mb-12 max-w-lg font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] text-white md:text-5xl"
             >
               Everything you need,
               <br />
@@ -244,7 +250,7 @@ export default function HomePage() {
               ].map(({ Icon, title, desc }) => (
                 <li
                   key={title}
-                  className="rounded-3xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-coral/40"
+                  className="rounded-xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-coral/40"
                 >
                   <div className="mb-4 text-coral" aria-hidden="true">
                     <Icon size={24} strokeWidth={2} />
@@ -263,10 +269,10 @@ export default function HomePage() {
 
         {/* USE CASE LINKS — internal linking to JTBD pages */}
         <section className="mx-auto max-w-5xl px-6 py-20">
-          <p className="mb-3 text-xs font-medium uppercase tracking-widest text-coral">
-            Use cases
-          </p>
-          <h2 className="mb-3 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
+          <div className="mb-4">
+            <Eyebrow>Use cases</Eyebrow>
+          </div>
+          <h2 className="mb-3 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-4xl">
             For every kind of share.
           </h2>
           <p className="mb-10 max-w-xl text-base text-muted">
@@ -287,7 +293,7 @@ export default function HomePage() {
               <li key={uc.href}>
                 <Link
                   href={uc.href}
-                  className="flex items-center justify-between rounded-2xl border border-charcoal/10 bg-warm px-5 py-4 text-sm font-medium text-charcoal transition-all hover:-translate-y-0.5 hover:border-coral/40"
+                  className={`flex items-center justify-between px-5 py-4 text-sm font-medium text-charcoal ${interactiveCardClass}`}
                 >
                   {uc.title}
                   <span className="text-coral" aria-hidden="true">→</span>
@@ -303,12 +309,12 @@ export default function HomePage() {
           className="mx-auto max-w-5xl px-6 py-20"
           aria-labelledby="pricing-heading"
         >
-          <p className="mb-3 text-xs font-medium uppercase tracking-widest text-coral">
-            Pricing
-          </p>
+          <div className="mb-4">
+            <Eyebrow>Pricing</Eyebrow>
+          </div>
           <h2
             id="pricing-heading"
-            className="mb-3 max-w-lg font-display text-3xl font-semibold leading-tight tracking-tight md:text-5xl"
+            className="mb-3 max-w-lg font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-5xl"
           >
             Honest pricing,
             <br />
@@ -319,7 +325,7 @@ export default function HomePage() {
           </p>
 
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="rounded-3xl border-[1.5px] border-charcoal/10 bg-warm p-7 transition-transform hover:-translate-y-1">
+            <article className={`p-7 ${cardClass}`}>
               <h3 className="mb-1 font-display text-lg font-semibold">Free</h3>
               <p className="mb-1 font-display text-4xl font-semibold tracking-tight">
                 $0 <span className="text-base font-normal text-muted">/ forever</span>
@@ -327,32 +333,29 @@ export default function HomePage() {
               <p className="mb-5 text-sm text-muted">
                 Perfect for personal projects and trying things out.
               </p>
-              <ul className="mb-6 space-y-2 text-sm">
+              <ul className="mb-6 space-y-2 text-sm text-muted">
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> 10 active links
+                  <span className="text-coral" aria-hidden="true">✓</span> 10 active links
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> 25MB per file
+                  <span className="text-coral" aria-hidden="true">✓</span> 25MB per file
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Basic analytics
+                  <span className="text-coral" aria-hidden="true">✓</span> Basic analytics
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> QR code on every link
+                  <span className="text-coral" aria-hidden="true">✓</span> QR code on every link
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> nudgehost.com subdomain
+                  <span className="text-coral" aria-hidden="true">✓</span> nudgehost.com subdomain
                 </li>
               </ul>
-              <Link
-                href="/sign-up"
-                className="block w-full rounded-full border-[1.5px] border-charcoal/15 px-5 py-2.5 text-center text-sm font-medium text-charcoal transition-colors hover:border-coral"
-              >
+              <Link href="/sign-up" className={`w-full ${btnOutline} px-5 py-2.5 text-sm`}>
                 Get started free
               </Link>
             </article>
 
-            <article className="relative rounded-3xl border-[1.5px] border-coral bg-warm p-7 transition-transform hover:-translate-y-1">
+            <article className={`relative rounded-xl border border-coral bg-white p-7 shadow-md`}>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-coral px-3 py-1 text-xs font-medium text-white">
                 Most popular
               </div>
@@ -363,35 +366,35 @@ export default function HomePage() {
               <p className="mb-5 text-sm text-muted">
                 For freelancers and teams who share files every day.
               </p>
-              <ul className="mb-6 space-y-2 text-sm">
+              <ul className="mb-6 space-y-2 text-sm text-muted">
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Unlimited links
+                  <span className="text-coral" aria-hidden="true">✓</span> Unlimited links
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> 250MB per file
+                  <span className="text-coral" aria-hidden="true">✓</span> 250MB per file
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Full analytics + exports
+                  <span className="text-coral" aria-hidden="true">✓</span> Full analytics + exports
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Password protection
+                  <span className="text-coral" aria-hidden="true">✓</span> Password protection
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Custom domain support
+                  <span className="text-coral" aria-hidden="true">✓</span> Custom domain support
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> No NudgeHost branding
+                  <span className="text-coral" aria-hidden="true">✓</span> No NudgeHost branding
                 </li>
               </ul>
               <Link
                 href="/sign-up?plan=pro"
-                className="block w-full rounded-full bg-coral px-5 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                className={`w-full ${btnPrimary} px-5 py-2.5 text-sm`}
               >
                 Upgrade to Pro
               </Link>
             </article>
 
-            <article className="rounded-3xl border-[1.5px] border-charcoal/10 bg-warm p-7 transition-transform hover:-translate-y-1">
+            <article className={`p-7 ${cardClass}`}>
               <h3 className="mb-1 font-display text-lg font-semibold">Team</h3>
               <p className="mb-1 font-display text-4xl font-semibold tracking-tight">
                 $24 <span className="text-base font-normal text-muted">/ month</span>
@@ -399,26 +402,26 @@ export default function HomePage() {
               <p className="mb-5 text-sm text-muted">
                 For agencies and small teams sharing on behalf of clients.
               </p>
-              <ul className="mb-6 space-y-2 text-sm">
+              <ul className="mb-6 space-y-2 text-sm text-muted">
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Everything in Pro
+                  <span className="text-coral" aria-hidden="true">✓</span> Everything in Pro
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> 1GB per file
+                  <span className="text-coral" aria-hidden="true">✓</span> 1GB per file
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> 5 team seats
+                  <span className="text-coral" aria-hidden="true">✓</span> 5 team seats
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> API access
+                  <span className="text-coral" aria-hidden="true">✓</span> API access
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-sage" aria-hidden="true">✓</span> Priority support
+                  <span className="text-coral" aria-hidden="true">✓</span> Priority support
                 </li>
               </ul>
               <Link
                 href="/sign-up?plan=team"
-                className="block w-full rounded-full border-[1.5px] border-charcoal/15 px-5 py-2.5 text-center text-sm font-medium text-charcoal transition-colors hover:border-coral"
+                className={`w-full ${btnOutline} px-5 py-2.5 text-sm`}
               >
                 Upgrade to Team
               </Link>
@@ -427,20 +430,12 @@ export default function HomePage() {
         </section>
 
         {/* CTA STRIP */}
-        <section className="bg-coral px-6 py-20 text-center text-white">
-          <h2 className="mb-3 font-display text-3xl font-semibold tracking-tight md:text-5xl">
-            Ready to give your files a nudge?
-          </h2>
-          <p className="mb-8 text-base opacity-90">
-            Join thousands of creators, freelancers, and teams sharing smarter.
-          </p>
-          <Link
-            href="/sign-up"
-            className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
-          >
-            Start for free. No card needed.
-          </Link>
-        </section>
+        <CtaSection
+          heading="Ready to give your files a nudge?"
+          text="Join thousands of creators, freelancers, and teams sharing smarter."
+          href="/sign-up"
+          label="Start for free. No card needed."
+        />
       </main>
 
       <Footer />
