@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { interactiveCardClass } from "@/components/ui/card";
+import { bodyLinkClass } from "@/components/ui/prose";
+import { getReadTime } from "@/components/blog-post";
 import { blogContentMap } from "@/lib/blog-content";
 import { pageOpenGraph } from "@/lib/og";
 
@@ -32,6 +36,23 @@ const jsonLd = {
 
 const posts = Object.values(blogContentMap);
 
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function initialsOf(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
 export default function BlogHub() {
   return (
     <>
@@ -56,55 +77,51 @@ export default function BlogHub() {
         </nav>
 
         <header className="mb-10 max-w-2xl">
-          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
             File-sharing guides and tips.
           </h1>
-          <p className="text-lg leading-relaxed text-muted">
+          <p className={`text-lg leading-relaxed text-muted ${bodyLinkClass}`}>
             Every post here is a walkthrough you can follow start to finish,
             written from actually doing the thing. The guides lean toward two
             areas, publishing what AI tools like Claude and v0 generate, and
             getting documents to people without the usual friction. If you want
-            to skip the reading, you can{" "}
-            <Link
-              href="/"
-              className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral"
-            >
-              drop a file and get a link
-            </Link>{" "}
-            now, browse the full set of{" "}
-            <Link
-              href="/host"
-              className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral"
-            >
-              hosting tools
-            </Link>
-            , or see what each plan includes on{" "}
-            <Link
-              href="/pricing"
-              className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral"
-            >
-              pricing
-            </Link>
-            .
+            to skip the reading, you can <Link href="/">drop a file and get a link</Link>{" "}
+            now, browse the full set of <Link href="/host">hosting tools</Link>, or
+            see what each plan includes on <Link href="/pricing">pricing</Link>.
           </p>
         </header>
 
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <li key={post.slug}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
+                className={`group flex h-full flex-col p-6 ${interactiveCardClass}`}
               >
-                <span className="mb-3 inline-block rounded-full bg-coral-light px-2.5 py-1 text-xs font-medium text-coral-dark">
-                  {pillarLabel[post.pillar] ?? "Guide"}
-                </span>
-                <h2 className="font-display text-base font-semibold text-charcoal">
+                <div className="mb-3">
+                  <Eyebrow>{pillarLabel[post.pillar] ?? "Guide"}</Eyebrow>
+                </div>
+                <h2 className="font-display text-lg font-semibold text-charcoal transition-colors group-hover:text-coral-dark">
                   {post.h1}
                 </h2>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
                   {post.metaDescription}
                 </p>
+                <div className="mt-auto flex flex-wrap items-center gap-x-2 gap-y-1 pt-5 text-sm text-muted">
+                  <span
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-coral-dark text-[11px] font-bold text-white"
+                    aria-hidden="true"
+                  >
+                    {initialsOf(post.author)}
+                  </span>
+                  <span className="font-medium text-charcoal">{post.author}</span>
+                  <span aria-hidden="true">·</span>
+                  <time dateTime={post.publishedDate}>
+                    {formatDate(post.publishedDate)}
+                  </time>
+                  <span aria-hidden="true">·</span>
+                  <span>{getReadTime(post)}</span>
+                </div>
               </Link>
             </li>
           ))}

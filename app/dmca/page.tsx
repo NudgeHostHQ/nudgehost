@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { bodyLinkClass } from "@/components/ui/prose";
 import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
@@ -37,13 +38,13 @@ export default function DmcaPage() {
         </nav>
 
         <header className="mb-10">
-          <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+          <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-5xl">
             DMCA Takedown Policy
           </h1>
           <p className="mt-3 text-sm text-muted">Last updated: 22 May 2026</p>
         </header>
 
-        <article className="rounded-3xl bg-cream p-8 md:p-12">
+        <article className={`rounded-2xl border border-line bg-white p-8 shadow-sm md:p-12 ${bodyLinkClass}`}>
           <p className={p}>
             NudgeHost respects the intellectual property rights of others. If
             you believe content hosted on NudgeHost infringes your copyright,

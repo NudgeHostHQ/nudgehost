@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { interactiveCardClass } from "@/components/ui/card";
 import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
@@ -71,7 +72,7 @@ export default function HostHub() {
         </nav>
 
         <header className="mb-10 max-w-2xl">
-          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
             Host any file as a link.
           </h1>
           <p className="text-lg leading-relaxed text-muted">
@@ -89,7 +90,7 @@ export default function HostHub() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="flex items-baseline justify-between gap-4 rounded-xl border border-charcoal/10 bg-warm px-4 py-3 transition-all hover:-translate-y-0.5 hover:border-coral/40"
+                      className={`flex items-baseline justify-between gap-4 px-4 py-3 ${interactiveCardClass}`}
                     >
                       <span className="text-sm font-medium text-charcoal">{item.name}</span>
                       <span className="text-xs text-muted">{item.desc}</span>

@@ -57,7 +57,9 @@
       "Bash(git --no-pager diff components/spoke-page.tsx components/glossary-page.tsx)",
       "Bash(git --no-pager diff app/page.tsx app/pricing/page.tsx)",
       "Bash(grep -ivE 'className|^\\\\+\\\\+\\\\+|^---|//|aria-|href=|key=|<span|<li|<div|<p|</|<h[0-9]|<section|<Link|<article|<ul|<td|<th|<tr|<thead|<tbody|<table|<caption|<details|<summary|map\\\\\\(|=>|^\\\\+\\\\s*$|^-\\\\s*$|id=|scope=|featured|items=|tier\\\\.|step\\\\.|row\\\\.|\\\\{\" \"\\\\}')",
-      "Bash(grep -ivE 'className|^---|//|aria-|href=|key=|<span|<li|<div|<p\\\\b|</|<h[0-9]|<section|<Link|<article|<ul|<ol|<svg|<path|<line|Icon|strokeW|stroke=|x1=|y1=|x2=|y2=|d=|size=|map\\\\\\(|=>|^-\\\\s*$|id=|^-import|featured|tier\\\\.|priceId|signedIn|currentPlan|plan=|proPrice|teamPrice')"
+      "Bash(grep -ivE 'className|^---|//|aria-|href=|key=|<span|<li|<div|<p\\\\b|</|<h[0-9]|<section|<Link|<article|<ul|<ol|<svg|<path|<line|Icon|strokeW|stroke=|x1=|y1=|x2=|y2=|d=|size=|map\\\\\\(|=>|^-\\\\s*$|id=|^-import|featured|tier\\\\.|priceId|signedIn|currentPlan|plan=|proPrice|teamPrice')",
+      "Bash(git --no-pager diff app/ components/blog-post.tsx)",
+      "Bash(grep -ivE 'className|^---|//|import|aria-|href=|key=|<span|<li|<div|<p\\\\b|</|<h[0-9]|<section|<Link|<article|<ul|<ol|<details|<summary|<a |<time|map\\\\\\(|=>|^-\\\\s*$|id=|rel=|const |dateTime|scope=|style=')"
     ]
   }
 }

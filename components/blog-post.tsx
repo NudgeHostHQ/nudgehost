@@ -134,6 +134,12 @@ function readTimeMinutes(post: BlogPostContent): number {
   return Math.max(1, Math.round(words / 220));
 }
 
+// Read-time label for a post: an explicit content.readTime if set, otherwise a
+// word-count estimate. Exported so the blog index meta rows match the post page.
+export function getReadTime(post: BlogPostContent): string {
+  return post.readTime ?? `${readTimeMinutes(post)} min read`;
+}
+
 function formatDate(iso: string, opts: Intl.DateTimeFormatOptions): string {
   return new Date(iso).toLocaleDateString("en-GB", opts);
 }
@@ -187,7 +193,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
 
   const showUpdated =
     post.showUpdatedBadge ?? post.modifiedDate !== post.publishedDate;
-  const readTime = post.readTime ?? `${readTimeMinutes(post)} min read`;
+  const readTime = getReadTime(post);
 
   return (
     <>

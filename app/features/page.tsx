@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { bodyLinkClass } from "@/components/ui/prose";
+import { interactiveCardClass } from "@/components/ui/card";
+import { FaqAccordions } from "@/components/ui/faq";
 import { featuresContentMap } from "@/lib/features-content";
 import { pageOpenGraph } from "@/lib/og";
 
@@ -61,9 +64,6 @@ const jsonLd = {
 
 const features = Object.values(featuresContentMap);
 
-const linkClass =
-  "font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral";
-
 export default function FeaturesHub() {
   return (
     <>
@@ -88,20 +88,18 @@ export default function FeaturesHub() {
         </nav>
 
         <header className="mb-10 max-w-2xl">
-          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
             NudgeHost Features
           </h1>
-          <p className="text-lg leading-relaxed text-muted">
+          <p className={`text-lg leading-relaxed text-muted ${bodyLinkClass}`}>
             A NudgeHost link is more than a place a file sits. You can{" "}
-            <Link href="/features/link-updating" className={linkClass}>
+            <Link href="/features/link-updating">
               swap the file without changing the URL
             </Link>
             , skip the file dialog entirely and{" "}
-            <Link href="/features/paste-html" className={linkClass}>
-              paste HTML directly
-            </Link>{" "}
-            to publish, and{" "}
-            <Link href="/features/password-protection" className={linkClass}>
+            <Link href="/features/paste-html">paste HTML directly</Link> to
+            publish, and{" "}
+            <Link href="/features/password-protection">
               lock a link with a password
             </Link>{" "}
             when it is not for everyone. Each feature below has its own page with
@@ -109,14 +107,14 @@ export default function FeaturesHub() {
           </p>
         </header>
 
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
             <li key={f.slug}>
               <Link
                 href={`/features/${f.slug}`}
-                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
+                className={`group block h-full p-6 ${interactiveCardClass}`}
               >
-                <h2 className="font-display text-base font-semibold text-charcoal">
+                <h2 className="font-display text-base font-semibold text-charcoal transition-colors group-hover:text-coral-dark">
                   {f.name}
                 </h2>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted">
@@ -134,28 +132,7 @@ export default function FeaturesHub() {
           >
             About these features
           </h2>
-          <ul className="space-y-3">
-            {hubFaqs.map((faq, i) => (
-              <li key={i}>
-                <details className="group rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/30">
-                  <summary className="cursor-pointer list-none font-display text-base font-semibold text-charcoal">
-                    <span className="flex items-center justify-between">
-                      {faq.question}
-                      <span
-                        className="ml-3 text-coral transition-transform group-open:rotate-45"
-                        aria-hidden="true"
-                      >
-                        +
-                      </span>
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    {faq.answer}
-                  </p>
-                </details>
-              </li>
-            ))}
-          </ul>
+          <FaqAccordions items={hubFaqs} />
         </section>
       </main>
       <Footer />

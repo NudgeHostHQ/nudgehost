@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { bodyLinkClass } from "@/components/ui/prose";
 import { pageOpenGraph } from "@/lib/og";
 
 export const metadata: Metadata = {
@@ -39,13 +40,13 @@ export default function TermsPage() {
         </nav>
 
         <header className="mb-10">
-          <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+          <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-5xl">
             Terms of Service
           </h1>
           <p className="mt-3 text-sm text-muted">Last updated: 22 May 2026</p>
         </header>
 
-        <article className="rounded-3xl bg-cream p-8 md:p-12">
+        <article className={`rounded-2xl border border-line bg-white p-8 shadow-sm md:p-12 ${bodyLinkClass}`}>
           <section>
             <h2 className={h2}>1. Acceptance of terms</h2>
             <p className={p}>
@@ -114,9 +115,7 @@ export default function TermsPage() {
             <p className={p}>
               If you believe someone has uploaded your copyrighted work without
               permission, see our{" "}
-              <Link href="/dmca" className="text-coral hover:underline">
-                DMCA Takedown Policy
-              </Link>
+              <Link href="/dmca">DMCA Takedown Policy</Link>
               .
             </p>
           </section>
@@ -147,9 +146,7 @@ export default function TermsPage() {
             </p>
             <p className={p}>
               Prices listed on{" "}
-              <Link href="/pricing" className="text-coral hover:underline">
-                /pricing
-              </Link>{" "}
+              <Link href="/pricing">/pricing</Link>{" "}
               are exclusive of any applicable VAT or sales tax, which
               we&apos;ll add at checkout where required.
             </p>

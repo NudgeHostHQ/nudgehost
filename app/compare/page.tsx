@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { ContextualProse } from "@/components/contextual-prose";
+import { BodyProse } from "@/components/ui/prose";
+import { interactiveCardClass } from "@/components/ui/card";
 import { compareContentMap } from "@/lib/compare-content";
 import { pageOpenGraph } from "@/lib/og";
 
@@ -41,13 +42,13 @@ export default function CompareHub() {
         </nav>
 
         <header className="mb-10 max-w-2xl">
-          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
             Compare NudgeHost
           </h1>
-          <ContextualProse paragraphs={intro} salt="compare-hub" />
+          <BodyProse paragraphs={intro} salt="compare-hub" />
         </header>
 
-        <ul className="grid gap-4 md:grid-cols-2">
+        <ul className="grid gap-5 md:grid-cols-2">
           {comparisons.map((c) => {
             const leftLabel = c.leftColumnLabel ?? "NudgeHost";
             const rightLabel = c.rightColumnLabel ?? c.competitorName;
@@ -55,9 +56,9 @@ export default function CompareHub() {
               <li key={c.slug}>
                 <Link
                   href={`/compare/${c.slug}`}
-                  className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
+                  className={`group block h-full p-6 ${interactiveCardClass}`}
                 >
-                  <h2 className="font-display text-base font-semibold text-charcoal">
+                  <h2 className="font-display text-base font-semibold text-charcoal transition-colors group-hover:text-coral-dark">
                     {leftLabel} vs {rightLabel}
                   </h2>
                   <p className="mt-1.5 text-sm leading-relaxed text-muted">

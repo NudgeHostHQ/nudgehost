@@ -6,32 +6,9 @@ import { Footer } from "@/components/footer";
 import { UploadWidget } from "@/components/upload-widget";
 import { CtaSection } from "@/components/ui/cta-section";
 import { PlanCard } from "@/components/ui/plan-card";
+import { Overline } from "@/components/ui/overline";
 import { btnPrimary, btnOutline } from "@/components/ui/button";
 import { pageOpenGraph } from "@/lib/og";
-
-// Section overline: a short coral rule followed by an uppercase label, replacing
-// the pill badge below the hero. `onDark` brightens the label to plain coral so
-// it stays legible on the charcoal Features band.
-function Overline({
-  children,
-  onDark = false,
-}: {
-  children: React.ReactNode;
-  onDark?: boolean;
-}) {
-  return (
-    <div className="mb-5 flex items-center gap-3">
-      <span aria-hidden="true" className="h-0.5 w-[34px] bg-coral" />
-      <span
-        className={`text-[12px] font-bold uppercase tracking-widest ${
-          onDark ? "text-coral" : "text-coral-dark"
-        }`}
-      >
-        {children}
-      </span>
-    </div>
-  );
-}
 
 // Dashed coral connector arrow drawn between the "how it works" steps on wide
 // screens. Hidden below 980px, where the steps stack vertically.

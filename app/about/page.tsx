@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { bodyLinkClass } from "@/components/ui/prose";
+import { btnPrimary } from "@/components/ui/button";
 import { OG_IMAGE } from "@/lib/og";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -68,7 +70,7 @@ export default function AboutPage() {
             className="absolute -right-32 -top-20 -z-0 h-[400px] w-[400px] rounded-full bg-peach opacity-40"
             aria-hidden="true"
           />
-          <div className="relative z-10 mx-auto max-w-3xl">
+          <div className="relative z-10 mx-auto max-w-[720px]">
             <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
               <ol className="flex flex-wrap gap-2">
                 <li>
@@ -83,7 +85,7 @@ export default function AboutPage() {
               </ol>
             </nav>
 
-            <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+            <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
               About NudgeHost
             </h1>
             <p className="max-w-2xl text-lg leading-relaxed text-muted">
@@ -94,8 +96,8 @@ export default function AboutPage() {
         </section>
 
         {/* BODY */}
-        <section className="mx-auto max-w-3xl px-6 pb-20">
-          <div className="space-y-10">
+        <section className="mx-auto max-w-[720px] px-6 pb-20">
+          <div className={`space-y-10 ${bodyLinkClass}`}>
             <div>
               <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight">
                 Who builds this
@@ -137,15 +139,12 @@ export default function AboutPage() {
                 share for work.
               </p>
             </div>
+          </div>
 
-            <div>
-              <Link
-                href="/"
-                className="inline-block rounded-full bg-coral px-7 py-3.5 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
-              >
-                Try NudgeHost
-              </Link>
-            </div>
+          <div className="mt-10">
+            <Link href="/" className={`${btnPrimary} px-7 py-3.5 text-base`}>
+              Try NudgeHost
+            </Link>
           </div>
         </section>
       </main>

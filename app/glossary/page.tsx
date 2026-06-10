@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { bodyLinkClass } from "@/components/ui/prose";
+import { interactiveCardClass } from "@/components/ui/card";
+import { FaqAccordions } from "@/components/ui/faq";
 import { glossaryContentMap } from "@/lib/glossary-content";
 import { pageOpenGraph } from "@/lib/og";
 
@@ -85,38 +88,30 @@ export default function GlossaryHub() {
         </nav>
 
         <header className="mb-10 max-w-2xl">
-          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
             File Sharing Glossary
           </h1>
-          <p className="text-lg leading-relaxed text-muted">
+          <p className={`text-lg leading-relaxed text-muted ${bodyLinkClass}`}>
             Plain definitions of the words that come up when you share files
             online, covering the formats, the security, and the plumbing that
             makes a link work. Each entry stays short and ties back to something
             practical, like why a page you{" "}
-            <Link href="/host/html" className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral">
-              host as an HTML file
-            </Link>{" "}
-            loads fast, or why every link is secure by default. If you would
-            rather just get going, you can{" "}
-            <Link href="/" className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral">
-              drop a file and get a link
-            </Link>
-            , and the{" "}
-            <Link href="/pricing" className="font-medium text-coral-dark underline decoration-coral/30 underline-offset-2 hover:decoration-coral">
-              paid plans
-            </Link>{" "}
-            add custom domains and larger files when you need them.
+            <Link href="/host/html">host as an HTML file</Link> loads fast, or
+            why every link is secure by default. If you would rather just get
+            going, you can <Link href="/">drop a file and get a link</Link>, and
+            the <Link href="/pricing">paid plans</Link> add custom domains and
+            larger files when you need them.
           </p>
         </header>
 
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {terms.map((t) => (
             <li key={t.slug}>
               <Link
                 href={`/glossary/${t.slug}`}
-                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
+                className={`group block h-full p-6 ${interactiveCardClass}`}
               >
-                <h2 className="font-display text-base font-semibold text-charcoal">
+                <h2 className="font-display text-base font-semibold text-charcoal transition-colors group-hover:text-coral-dark">
                   {t.term}
                 </h2>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted">
@@ -134,28 +129,7 @@ export default function GlossaryHub() {
           >
             About this glossary
           </h2>
-          <ul className="space-y-3">
-            {hubFaqs.map((faq, i) => (
-              <li key={i}>
-                <details className="group rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/30">
-                  <summary className="cursor-pointer list-none font-display text-base font-semibold text-charcoal">
-                    <span className="flex items-center justify-between">
-                      {faq.question}
-                      <span
-                        className="ml-3 text-coral transition-transform group-open:rotate-45"
-                        aria-hidden="true"
-                      >
-                        +
-                      </span>
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    {faq.answer}
-                  </p>
-                </details>
-              </li>
-            ))}
-          </ul>
+          <FaqAccordions items={hubFaqs} />
         </section>
       </main>
       <Footer />
