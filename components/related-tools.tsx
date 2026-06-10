@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { interactiveCardClass } from "@/components/ui/card";
 
 type Tool = {
   slug: string;
@@ -350,10 +351,7 @@ export function RelatedTools({
       <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {resolved.map((tool) => (
           <li key={tool.slug}>
-            <Link
-              href={tool.href}
-              className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
-            >
+            <Link href={tool.href} className={`block h-full p-5 ${interactiveCardClass}`}>
               <h3 className="font-display text-base font-semibold text-charcoal">
                 {tool.name}
               </h3>

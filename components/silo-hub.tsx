@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { ContextualProse } from "@/components/contextual-prose";
+import { BodyProse } from "@/components/ui/prose";
+import { interactiveCardClass } from "@/components/ui/card";
 import type { SpokeContent, SiloConfig } from "@/lib/spoke-types";
 
 // Renders a silo hub page (e.g. /viewers): an intro with contextual links,
@@ -40,11 +41,11 @@ export function SiloHub({
         </nav>
 
         <header className="mb-10 max-w-2xl">
-          <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+          <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
             {silo.hubLabel}
           </h1>
           {/* Intro prose carries contextual links into the top spokes */}
-          <ContextualProse paragraphs={introParagraphs} salt={`${silo.key}-hub`} />
+          <BodyProse paragraphs={introParagraphs} salt={`${silo.key}-hub`} />
         </header>
 
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -52,7 +53,7 @@ export function SiloHub({
             <li key={spoke.slug}>
               <Link
                 href={`${silo.basePath}/${spoke.slug}`}
-                className="block h-full rounded-2xl border border-charcoal/10 bg-warm p-5 transition-all hover:-translate-y-0.5 hover:border-coral/40 hover:shadow-sm"
+                className={`block h-full p-5 ${interactiveCardClass}`}
               >
                 <h2 className="font-display text-base font-semibold text-charcoal">
                   {spoke.name}

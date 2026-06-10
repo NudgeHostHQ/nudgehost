@@ -2,8 +2,12 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { RelatedTools } from "@/components/related-tools";
-import { ContextualProse } from "@/components/contextual-prose";
 import { UploadWidget } from "@/components/upload-widget";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { BodyProse } from "@/components/ui/prose";
+import { FaqAccordions } from "@/components/ui/faq";
+import { CtaSection } from "@/components/ui/cta-section";
+import { btnPrimary } from "@/components/ui/button";
 import type { SpokeContent, SiloConfig } from "@/lib/spoke-types";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -128,7 +132,10 @@ export function SpokePage({
               </ol>
             </nav>
 
-            <h1 className="mb-5 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+            <div className="mb-4">
+              <Eyebrow>{silo.hubLabel}</Eyebrow>
+            </div>
+            <h1 className="mb-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-6xl">
               {content.h1}
             </h1>
             <p className="mb-3 max-w-2xl text-lg leading-relaxed text-muted">
@@ -164,10 +171,7 @@ export function SpokePage({
             {heroVariant === "upload" ? (
               <UploadWidget pills={content.filePillExamples} className="w-full" />
             ) : (
-              <Link
-                href="/sign-up"
-                className="inline-block rounded-full bg-coral px-7 py-3.5 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
-              >
+              <Link href="/sign-up" className={`${btnPrimary} px-7 py-3.5 text-base`}>
                 Get started free
               </Link>
             )}
@@ -206,10 +210,7 @@ export function SpokePage({
             <p className="text-base text-charcoal/85">
               Drop a file here and get a shareable link in seconds.
             </p>
-            <Link
-              href="/"
-              className="inline-block flex-shrink-0 rounded-full bg-coral px-5 py-2.5 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
-            >
+            <Link href="/" className={`flex-shrink-0 ${btnPrimary} px-5 py-2.5 text-sm`}>
               Try it free
             </Link>
           </div>
@@ -217,7 +218,7 @@ export function SpokePage({
 
         {/* BODY COPY — {{token}} markers become in-prose contextual links */}
         <section className="mx-auto max-w-3xl px-6 py-12">
-          <ContextualProse paragraphs={content.body} salt={content.slug} />
+          <BodyProse paragraphs={content.body} salt={content.slug} />
         </section>
 
         {/* FAQs */}
@@ -225,28 +226,9 @@ export function SpokePage({
           <h2 className="mb-8 font-display text-3xl font-semibold tracking-tight">
             Frequently asked questions
           </h2>
-          <ul className="space-y-3">
-            {content.faqs.map((faq, i) => (
-              <li key={i}>
-                <details className="group rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/30">
-                  <summary className="cursor-pointer list-none font-display text-base font-semibold text-charcoal">
-                    <span className="flex items-center justify-between">
-                      {faq.q}
-                      <span
-                        className="ml-3 text-coral transition-transform group-open:rotate-45"
-                        aria-hidden="true"
-                      >
-                        +
-                      </span>
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    {faq.a}
-                  </p>
-                </details>
-              </li>
-            ))}
-          </ul>
+          <FaqAccordions
+            items={content.faqs.map((f) => ({ question: f.q, answer: f.a }))}
+          />
         </section>
 
         {/* NEWSLETTER — lightweight email capture, UI only (no backend wired) */}
@@ -266,12 +248,9 @@ export function SpokePage({
                 id="newsletter-email"
                 type="email"
                 placeholder="you@example.com"
-                className="flex-1 rounded-full border border-charcoal/10 bg-white px-5 py-3 text-sm text-charcoal placeholder:text-muted focus:border-coral focus:outline-none"
+                className="flex-1 rounded-full border border-line bg-white px-5 py-3 text-sm text-charcoal placeholder:text-muted focus:border-coral focus:outline-none"
               />
-              <button
-                type="button"
-                className="rounded-full bg-coral px-6 py-3 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
-              >
+              <button type="button" className={`${btnPrimary} px-6 py-3 text-sm`}>
                 Subscribe
               </button>
             </div>
@@ -282,20 +261,12 @@ export function SpokePage({
         <RelatedTools tools={content.relatedToolSlugs as never[]} />
 
         {/* CTA */}
-        <section className="bg-coral px-6 py-16 text-center text-white">
-          <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
-            Ready to {silo.ctaVerb}?
-          </h2>
-          <p className="mb-8 text-base opacity-90">
-            Free forever, no credit card needed. The whole thing takes a few seconds.
-          </p>
-          <Link
-            href="/sign-up"
-            className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
-          >
-            Get started free
-          </Link>
-        </section>
+        <CtaSection
+          heading={`Ready to ${silo.ctaVerb}?`}
+          text="Free forever, no credit card needed. The whole thing takes a few seconds."
+          href="/sign-up"
+          label="Get started free"
+        />
       </main>
       <Footer />
     </>

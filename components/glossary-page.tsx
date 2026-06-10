@@ -2,7 +2,11 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { RelatedTools } from "@/components/related-tools";
-import { ContextualProse } from "@/components/contextual-prose";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { BodyProse } from "@/components/ui/prose";
+import { FaqAccordions } from "@/components/ui/faq";
+import { CtaSection } from "@/components/ui/cta-section";
+import { interactiveCardClass } from "@/components/ui/card";
 import { glossaryContentMap, type GlossaryContent } from "@/lib/glossary-content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -102,7 +106,10 @@ export function GlossaryPage({ content }: { content: GlossaryContent }) {
               </ol>
             </nav>
 
-            <h1 className="mb-4 font-display text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+            <div className="mb-4">
+              <Eyebrow>Glossary</Eyebrow>
+            </div>
+            <h1 className="mb-4 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] md:text-5xl">
               {content.h1}
             </h1>
             <p className="mb-8 text-sm text-muted">
@@ -142,7 +149,7 @@ export function GlossaryPage({ content }: { content: GlossaryContent }) {
 
         {/* BODY */}
         <section className="mx-auto max-w-3xl px-6 py-8">
-          <ContextualProse paragraphs={content.body} salt={content.slug} />
+          <BodyProse paragraphs={content.body} salt={content.slug} />
         </section>
 
         {/* RELATED TERMS */}
@@ -156,7 +163,7 @@ export function GlossaryPage({ content }: { content: GlossaryContent }) {
                 <li key={t.slug}>
                   <Link
                     href={`/glossary/${t.slug}`}
-                    className="flex h-full items-center justify-between gap-3 rounded-2xl border border-charcoal/10 bg-warm px-4 py-3 text-sm font-medium text-charcoal transition-all hover:-translate-y-0.5 hover:border-coral/40"
+                    className={`flex h-full items-center justify-between gap-3 px-4 py-3 text-sm font-medium text-charcoal ${interactiveCardClass}`}
                   >
                     {t.term}
                     <span className="text-coral" aria-hidden="true">
@@ -174,48 +181,24 @@ export function GlossaryPage({ content }: { content: GlossaryContent }) {
           <h2 className="mb-8 font-display text-3xl font-semibold tracking-tight">
             Frequently asked questions
           </h2>
-          <ul className="space-y-3">
-            {content.faqs.map((faq, i) => (
-              <li key={i}>
-                <details className="group rounded-2xl border border-charcoal/10 bg-warm p-5 transition-colors hover:border-coral/30">
-                  <summary className="cursor-pointer list-none font-display text-base font-semibold text-charcoal">
-                    <span className="flex items-center justify-between">
-                      {faq.question}
-                      <span
-                        className="ml-3 text-coral transition-transform group-open:rotate-45"
-                        aria-hidden="true"
-                      >
-                        +
-                      </span>
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    {faq.answer}
-                  </p>
-                </details>
-              </li>
-            ))}
-          </ul>
+          <FaqAccordions
+            items={content.faqs.map((f) => ({
+              question: f.question,
+              answer: f.answer,
+            }))}
+          />
         </section>
 
         {/* RELATED TOOLS */}
         <RelatedTools tools={content.relatedToolSlugs as never[]} />
 
         {/* CTA */}
-        <section className="bg-coral px-6 py-16 text-center text-white">
-          <h2 className="mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
-            Put it into practice.
-          </h2>
-          <p className="mb-8 text-base opacity-90">
-            Drop a file and get a shareable link in seconds. Free, no card needed.
-          </p>
-          <Link
-            href="/"
-            className="inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
-          >
-            Share a file now
-          </Link>
-        </section>
+        <CtaSection
+          heading="Put it into practice."
+          text="Drop a file and get a shareable link in seconds. Free, no card needed."
+          href="/"
+          label="Share a file now"
+        />
       </main>
       <Footer />
     </>

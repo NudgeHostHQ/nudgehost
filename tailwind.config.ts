@@ -23,6 +23,7 @@ const config: Config = {
         },
         charcoal: "#2C2824",
         muted: "#7A6F65",
+        line: "#E7DFD2",
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "Georgia", "serif"],

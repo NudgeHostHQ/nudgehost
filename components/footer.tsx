@@ -108,7 +108,7 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-charcoal/10 bg-charcoal text-white/70">
+    <footer className="border-t border-line bg-charcoal text-white/70">
       <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4">
           {footerSections.map((section) => (
@@ -119,7 +119,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/55 transition-colors hover:text-white"
+                      className="text-sm text-white/55 transition-colors hover:text-coral"
                     >
                       {link.label}
                     </Link>
@@ -140,9 +140,9 @@ export function Footer() {
             </p>
           </div>
           <ul className="flex flex-wrap gap-6 text-xs text-white/55">
-            <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
-            <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
-            <li><Link href="/dmca" className="hover:text-white">DMCA</Link></li>
+            <li><Link href="/terms" className="transition-colors hover:text-coral">Terms</Link></li>
+            <li><Link href="/privacy" className="transition-colors hover:text-coral">Privacy</Link></li>
+            <li><Link href="/dmca" className="transition-colors hover:text-coral">DMCA</Link></li>
           </ul>
         </div>
       </div>
