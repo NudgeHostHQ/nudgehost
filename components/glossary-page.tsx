@@ -125,18 +125,22 @@ export function GlossaryPage({ content }: { content: GlossaryContent }) {
             </p>
 
             {/* TL;DR */}
-            <div className="rounded-2xl border border-sage/30 bg-sage-light/40 p-6">
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-sage-dark">
+            <div className="relative overflow-hidden rounded-xl border border-line bg-white p-7 shadow-sm">
+              <span
+                aria-hidden="true"
+                className="absolute inset-y-0 left-0 w-1 bg-coral"
+              />
+              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-coral-dark">
                 In short
               </h2>
               <ul className="space-y-2">
                 {content.tldr.map((point, i) => (
                   <li
                     key={i}
-                    className="flex gap-2 text-sm leading-relaxed text-charcoal/85"
+                    className="flex gap-2.5 text-[15px] leading-relaxed text-muted"
                   >
                     <span
-                      className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sage"
+                      className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-coral"
                       aria-hidden="true"
                     />
                     <span>{point}</span>

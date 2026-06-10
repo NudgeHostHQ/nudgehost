@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { BodyProse } from "@/components/ui/prose";
 import { FaqAccordions } from "@/components/ui/faq";
 import { CtaSection } from "@/components/ui/cta-section";
-import { btnPrimary } from "@/components/ui/button";
+import { btnPrimary, btnOnGradient } from "@/components/ui/button";
 import type { SpokeContent, SiloConfig } from "@/lib/spoke-types";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -188,14 +188,18 @@ export function SpokePage({
             className="mx-auto max-w-3xl px-6 pb-4 pt-8"
             aria-label="Key points"
           >
-            <div className="rounded-2xl border border-sage/30 bg-sage-light/40 p-6">
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-sage-dark">
+            <div className="relative overflow-hidden rounded-xl border border-line bg-white p-7 shadow-sm">
+              <span
+                aria-hidden="true"
+                className="absolute inset-y-0 left-0 w-1 bg-coral"
+              />
+              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-coral-dark">
                 Key points
               </h2>
               <ul className="space-y-2">
                 {content.keyPoints.map((point, i) => (
-                  <li key={i} className="flex gap-2 text-sm leading-relaxed text-charcoal/85">
-                    <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sage" aria-hidden="true" />
+                  <li key={i} className="flex gap-2.5 text-[15px] leading-relaxed text-muted">
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-coral" aria-hidden="true" />
                     <span>{point}</span>
                   </li>
                 ))}
@@ -206,11 +210,11 @@ export function SpokePage({
 
         {/* INLINE CTA — subtle nudge inside the article flow, not an ad block */}
         <section className="mx-auto max-w-3xl px-6 pt-8">
-          <div className="flex flex-col items-center gap-4 rounded-2xl bg-cream px-6 py-5 text-center sm:flex-row sm:justify-between sm:text-left">
-            <p className="text-base text-charcoal/85">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-2xl bg-[linear-gradient(120deg,#E8704A,#C4522E)] px-8 py-7 text-white shadow-[0_14px_36px_rgba(196,82,46,0.25)]">
+            <p className="text-base text-white">
               Drop a file here and get a shareable link in seconds.
             </p>
-            <Link href="/" className={`flex-shrink-0 ${btnPrimary} px-5 py-2.5 text-sm`}>
+            <Link href="/" className={`ml-auto shrink-0 ${btnOnGradient} px-5 py-2.5 text-sm`}>
               Try it free
             </Link>
           </div>

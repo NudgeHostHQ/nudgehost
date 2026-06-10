@@ -53,7 +53,8 @@
       "Bash(taskkill //F //IM node.exe)",
       "Bash(mv -f .env.local.bak .env.local)",
       "Bash(git --no-pager diff)",
-      "Bash(grep -ivE 'className|import|^\\\\+\\\\+\\\\+|^---|//|aria-|scope=|htmlFor|dateTime|type=|placeholder=|role=|@/components|key=|href=|datetime')"
+      "Bash(grep -ivE 'className|import|^\\\\+\\\\+\\\\+|^---|//|aria-|scope=|htmlFor|dateTime|type=|placeholder=|role=|@/components|key=|href=|datetime')",
+      "Bash(git --no-pager diff components/spoke-page.tsx components/glossary-page.tsx)"
     ]
   }
 }
