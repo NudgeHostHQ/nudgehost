@@ -50,21 +50,17 @@ function H3({ text }: { text: string }) {
 // Numbered steps rendered as a connected vertical timeline. A 2px coral.light
 // rail runs down the left behind the number circles; each circle carries a 5px
 // cream ring (box-shadow) so the rail reads as passing behind it. On mobile the
-// rail is hidden and the number stacks above the text.
+// number sits as a simple inline marker aligned with the heading's first line.
 function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
   return (
-    <ol className="relative space-y-5">
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[25px] top-[46px] bottom-[46px] hidden w-0.5 bg-coral-light sm:block"
-      />
+    <ol className="space-y-5">
       {block.items.map((step, i) => (
         <li
           key={i}
-          className="group relative z-10 flex flex-col gap-3 rounded-xl border border-[#E7DFD2] bg-white p-6 shadow-sm transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-md sm:flex-row sm:items-start sm:gap-6 sm:pl-1"
+          className="group flex items-start gap-4 rounded-xl border border-[#E7DFD2] bg-white p-6 shadow-sm transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-md"
         >
           <span
-            className="relative z-10 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-coral font-display text-[17px] font-semibold text-white shadow-[0_0_0_5px_#FBF7F0]"
+            className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full bg-coral text-sm font-semibold leading-none text-white"
             aria-hidden="true"
           >
             {i + 1}
