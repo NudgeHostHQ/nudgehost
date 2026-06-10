@@ -19,6 +19,15 @@ import type {
 // text, related-post descriptions, and FAQ answers all flow through
 // renderTokens() so {{key}} contextual links resolve inside them.
 
+// In-article link treatment (#12): coral.dark text with a soft peach underline
+// drawn as a bottom border (so descenders stay clean) that darkens on hover.
+// Applied via an `[&_a]` arbitrary variant on prose-bearing containers, whose
+// descendant selector outweighs the default anchor utilities from renderTokens.
+// Kept off the comparison table and "Also useful" titles, which carry their own
+// link styles.
+export const bodyLinkClass =
+  "[&_a]:font-medium [&_a]:text-coral-dark [&_a]:no-underline [&_a]:border-b [&_a]:border-[#F6DCCF] [&_a]:transition-colors [&_a:hover]:border-coral-dark";
+
 function H2({ text, id }: { text: string; id: string }) {
   return (
     <h2
@@ -38,16 +47,24 @@ function H3({ text }: { text: string }) {
   );
 }
 
+// Numbered steps rendered as a connected vertical timeline. A 2px coral.light
+// rail runs down the left behind the number circles; each circle carries a 5px
+// cream ring (box-shadow) so the rail reads as passing behind it. On mobile the
+// rail is hidden and the number stacks above the text.
 function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
   return (
-    <ol className="space-y-4">
+    <ol className="relative space-y-5">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[25px] top-[46px] bottom-[46px] hidden w-0.5 bg-coral-light sm:block"
+      />
       {block.items.map((step, i) => (
         <li
           key={i}
-          className="group flex gap-4 rounded-2xl border border-charcoal/10 bg-white px-8 py-7 transition hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+          className="group relative z-10 flex flex-col gap-3 rounded-xl border border-[#E7DFD2] bg-white p-6 shadow-sm transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-md sm:flex-row sm:items-start sm:gap-6 sm:pl-1"
         >
           <span
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-coral text-sm font-semibold text-white"
+            className="relative z-10 flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-coral font-display text-[17px] font-semibold text-white shadow-[0_0_0_5px_#FBF7F0]"
             aria-hidden="true"
           >
             {i + 1}
@@ -56,7 +73,7 @@ function Steps({ block, salt }: { block: StepsBlock; salt: string }) {
             <p className="font-display text-[17px] font-semibold text-charcoal">
               {step.title}
             </p>
-            <p className="mt-1 text-[15px] leading-relaxed text-muted">
+            <p className={`mt-1 text-[15px] leading-relaxed text-muted ${bodyLinkClass}`}>
               {renderTokens(step.desc, salt, `step-${i}`)}
             </p>
           </div>
@@ -72,8 +89,19 @@ function parseToken(value: string): { key: string; anchor?: string } | null {
   return m ? { key: m[1], anchor: m[2] } : null;
 }
 
+// Splits a trailing parenthetical note off a cell value so it can be rendered
+// smaller, e.g. "✓ (50MB)" → ["✓ ", "(50MB)"].
+function splitNote(value: string): [string, string | null] {
+  const m = value.match(/^(.*?)(\([^)]*\))\s*$/);
+  return m ? [m[1], m[2]] : [value, null];
+}
+
+function CellNote({ note }: { note: string }) {
+  return <span className="text-xs opacity-80"> {note}</span>;
+}
+
 // NudgeHost column cell: a checkmark that links to the relevant feature page,
-// styled sage to match the mockup's .nh-col a rule.
+// styled coral.dark to read as the highlighted column.
 function NhCell({ value }: { value: string }) {
   const t = parseToken(value);
   if (t) {
@@ -81,81 +109,131 @@ function NhCell({ value }: { value: string }) {
     const label = t.anchor ?? "✓";
     if (target) {
       return (
-        <Link href={target.href} className="font-semibold text-sage hover:underline">
+        <Link
+          href={target.href}
+          className="font-semibold text-coral-dark hover:underline"
+        >
           {label}
         </Link>
       );
     }
-    return <span className="font-semibold text-sage">{label}</span>;
+    return <span className="font-semibold text-coral-dark">{label}</span>;
   }
-  return <span className="font-semibold text-sage">{value}</span>;
+  const [main, note] = splitNote(value);
+  return (
+    <span className="font-semibold text-coral-dark">
+      {main}
+      {note && <CellNote note={note} />}
+    </span>
+  );
 }
 
 // A plain comparison value: a sage ✓ or a muted ✗, keeping any parenthetical.
 function ValueCell({ value }: { value: string }) {
+  const [main, note] = splitNote(value);
   if (value.startsWith("✓")) {
-    return <span className="font-semibold text-sage">{value}</span>;
+    return (
+      <span className="font-semibold text-sage">
+        {main}
+        {note && <CellNote note={note} />}
+      </span>
+    );
   }
   if (value.startsWith("✗")) {
-    return <span className="text-charcoal/30">{value}</span>;
+    return (
+      <span className="text-muted/75">
+        {main}
+        {note && <CellNote note={note} />}
+      </span>
+    );
   }
-  return <>{value}</>;
+  return (
+    <>
+      {main}
+      {note && <CellNote note={note} />}
+    </>
+  );
 }
 
+// Comparison table with the NudgeHost column highlighted: charcoal header row
+// except the NudgeHost header (coral), coral.light body cells in that column,
+// cream row hover elsewhere.
 function Compare({ block, salt }: { block: CompareBlock; salt: string }) {
+  const nhCol = block.rows[0]?.nhCol;
   return (
-    <div className="overflow-x-auto rounded-xl border border-[#EDE8E2] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-      <table className="w-full border-collapse text-sm">
-        <thead>
-          <tr className="bg-[#2D2D2D] text-left text-white">
-            {block.headers.map((h, i) => (
-              <th key={i} className="px-4 py-3 text-[13px] font-semibold">
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {block.rows.map((row, ri) => (
-            <tr key={ri} className="border-t border-charcoal/10 transition-colors hover:bg-[#FDF8F3]">
-              {row.cells.map((cell, ci) => {
-                const isNh = ci === row.nhCol;
-                const isFeature = ci === 0;
-                return (
-                  <td
-                    key={ci}
-                    className={[
-                      "px-4 py-3 align-top",
-                      isNh ? "bg-[rgba(232,112,74,0.06)] font-semibold" : "",
-                      isFeature ? "font-semibold text-coral" : "",
-                    ].join(" ")}
-                  >
-                    {isFeature ? (
-                      renderTokens(cell, salt, `cmp-${ri}`)
-                    ) : isNh ? (
-                      <NhCell value={cell} />
-                    ) : (
-                      <ValueCell value={cell} />
-                    )}
-                  </td>
-                );
-              })}
+    <div className="overflow-hidden rounded-xl border border-[#E7DFD2] shadow-sm">
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="text-left text-white">
+              {block.headers.map((h, i) => (
+                <th
+                  key={i}
+                  className={[
+                    "px-4 py-3.5 text-[13px] font-semibold",
+                    i === nhCol ? "bg-coral" : "bg-charcoal",
+                  ].join(" ")}
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {block.rows.map((row, ri) => (
+              <tr key={ri} className="group border-t border-[#E7DFD2]">
+                {row.cells.map((cell, ci) => {
+                  const isNh = ci === row.nhCol;
+                  const isFeature = ci === 0;
+                  return (
+                    <td
+                      key={ci}
+                      className={[
+                        "px-4 py-3 align-top transition-colors",
+                        isNh
+                          ? "bg-coral-light font-semibold text-coral-dark group-hover:bg-[#F6DCCF]"
+                          : isFeature
+                          ? "bg-white font-semibold text-charcoal group-hover:bg-cream"
+                          : "bg-white text-muted group-hover:bg-cream",
+                      ].join(" ")}
+                    >
+                      {isFeature ? (
+                        renderTokens(cell, salt, `cmp-${ri}`)
+                      ) : isNh ? (
+                        <NhCell value={cell} />
+                      ) : (
+                        <ValueCell value={cell} />
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
+// Pull-quote callout on a coral.light field with a large decorative opening
+// quotation mark anchored to the top-left corner.
 function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string }) {
   return (
-    <blockquote className="rounded-2xl border border-charcoal/10 border-l-[3px] border-l-coral bg-warm p-6">
-      <p className="text-base leading-relaxed text-charcoal/90">
+    <blockquote className="relative rounded-xl border border-[#F6DCCF] bg-coral-light p-7 pt-11">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-5 top-3 font-display text-[72px] leading-none text-coral/35"
+      >
+        &ldquo;
+      </span>
+      <p
+        className={`relative font-display text-[18.5px] leading-relaxed text-charcoal ${bodyLinkClass}`}
+      >
         {renderTokens(block.text, salt, "testimonial")}
       </p>
       {block.attribution && (
-        <footer className="mt-3 text-sm font-semibold text-muted">
+        <footer className="relative mt-3 text-sm font-semibold text-muted">
           {block.attribution}
         </footer>
       )}
@@ -163,18 +241,25 @@ function Testimonial({ block, salt }: { block: TestimonialBlock; salt: string })
   );
 }
 
+// Mid-page CTA band: heading + sub on the left, white pill button pushed to the
+// right, wrapping on narrow screens.
 function InlineCta({ block, salt }: { block: CtaBlock; salt: string }) {
   return (
-    <div className="rounded-xl bg-gradient-to-br from-coral to-coral-dark px-7 py-6 text-white">
-      <strong className="mb-0.5 block text-base font-bold text-white">
-        {block.title}
-      </strong>
-      <div className="text-sm leading-relaxed text-white/90">
-        {renderTokens(block.text, salt, "cta")}{" "}
-        <Link href={block.link} className="font-bold text-white underline">
-          {block.label}
-        </Link>
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-2xl bg-[linear-gradient(120deg,#E8704A,#C4522E)] px-8 py-7 text-white shadow-[0_14px_36px_rgba(196,82,46,0.25)]">
+      <div className="min-w-0">
+        <strong className="block text-lg font-bold text-white">
+          {block.title}
+        </strong>
+        <div className="mt-1 text-sm leading-relaxed text-white/90">
+          {renderTokens(block.text, salt, "cta")}
+        </div>
       </div>
+      <Link
+        href={block.link}
+        className="ml-auto shrink-0 rounded-full bg-white px-6 py-3 text-sm font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-cream"
+      >
+        {block.label}
+      </Link>
     </div>
   );
 }
@@ -192,17 +277,24 @@ function Screenshot({ block }: { block: ScreenshotBlock }) {
   );
 }
 
+// "Also useful" block: a white card listing related reads, each with a coral
+// icon tile and a divider between items.
 function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
   return (
-    <div className="rounded-2xl border border-charcoal/10 bg-warm p-6">
-      <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted">
+    <div className="rounded-xl border border-[#E7DFD2] bg-white p-6 shadow-sm">
+      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-coral-dark">
         📖 Also useful
       </p>
-      <ul className="space-y-4">
+      <ul>
         {block.items.map((item, i) => (
-          <li key={i} className="flex gap-3">
+          <li
+            key={i}
+            className={`flex gap-4 py-4 ${
+              i > 0 ? "border-t border-[#E7DFD2]" : ""
+            }`}
+          >
             <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-coral-light text-lg"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-coral-light text-lg"
               aria-hidden="true"
             >
               {item.icon}
@@ -210,11 +302,11 @@ function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
             <div>
               <Link
                 href={item.href}
-                className="font-display text-[15px] font-bold text-charcoal underline decoration-coral/30 underline-offset-2 transition-colors hover:decoration-coral"
+                className="font-display text-[17px] font-semibold text-charcoal transition-colors hover:text-coral-dark"
               >
                 {item.title}
               </Link>
-              <p className="mt-0.5 text-sm leading-relaxed text-muted">
+              <p className={`mt-0.5 text-sm leading-relaxed text-muted ${bodyLinkClass}`}>
                 {renderTokens(item.desc, salt, `related-${i}`)}
               </p>
             </div>
@@ -226,7 +318,8 @@ function Related({ block, salt }: { block: RelatedBlock; salt: string }) {
 }
 
 // Shared FAQ renderer. Used by the in-body `faq` block and, as a fallback, by
-// the page shell for posts that carry no faq block of their own.
+// the page shell for posts that carry no faq block of their own. Each item is a
+// card whose round +/× toggle rotates and fills coral when opened.
 export function BlogFaqList({
   items,
   salt,
@@ -245,19 +338,17 @@ export function BlogFaqList({
       <ul className="space-y-3">
         {items.map((faq, i) => (
           <li key={i}>
-            <details className="group overflow-hidden rounded-xl border border-charcoal/10 bg-white transition-shadow hover:shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-              <summary className="cursor-pointer list-none px-6 py-5 font-display text-base font-semibold text-charcoal transition-colors hover:bg-[#FAF6F1]">
-                <span className="flex items-center justify-between">
-                  {faq.q}
-                  <span
-                    className="ml-3 text-muted transition-transform group-open:rotate-45"
-                    aria-hidden="true"
-                  >
-                    +
-                  </span>
+            <details className="group overflow-hidden rounded-xl border border-[#E7DFD2] bg-white shadow-sm transition-colors open:border-[#F6DCCF]">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-[18px] font-semibold text-charcoal">
+                <span>{faq.q}</span>
+                <span
+                  className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full bg-coral-light text-coral-dark transition-all duration-200 group-open:rotate-45 group-open:bg-coral group-open:text-white"
+                  aria-hidden="true"
+                >
+                  +
                 </span>
               </summary>
-              <p className="px-6 pb-5 text-[15px] leading-relaxed text-muted">
+              <p className={`px-6 pb-5 text-[15px] leading-relaxed text-muted ${bodyLinkClass}`}>
                 {renderTokens(faq.a, salt, `faq-${i}`)}
               </p>
             </details>
@@ -270,6 +361,22 @@ export function BlogFaqList({
 
 function Faq({ block, salt }: { block: FaqBlock; salt: string }) {
   return <BlogFaqList items={block.items} salt={salt} />;
+}
+
+// Decorative translucent circles overflowing two corners of a CTA block.
+function CtaGlowCircles() {
+  return (
+    <>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/[0.07]"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-white/[0.07]"
+      />
+    </>
+  );
 }
 
 // Full-width coral-gradient CTA. Rendered by the page shell (outside the
@@ -286,14 +393,17 @@ export function BottomCta({
   label: string;
 }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-coral to-coral-dark px-6 py-16 text-center text-white before:pointer-events-none before:absolute before:-left-1/2 before:-top-1/2 before:h-[200%] before:w-[200%] before:bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] before:content-['']">
+    <section className="relative overflow-hidden bg-[linear-gradient(150deg,#E8704A,#C4522E)] px-6 py-16 text-center text-white">
+      <CtaGlowCircles />
       <h2 className="relative mb-3 font-display text-2xl font-semibold tracking-tight md:text-4xl">
         {title}
       </h2>
-      <p className="relative mx-auto mb-8 max-w-xl text-base opacity-90">{text}</p>
+      <p className="relative mx-auto mb-8 max-w-xl text-base text-white/90">
+        {text}
+      </p>
       <Link
         href={link}
-        className="relative inline-block rounded-full bg-white px-7 py-3.5 text-base font-medium text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
+        className="relative inline-block rounded-full bg-white px-7 py-3.5 text-base font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-cream"
       >
         {label}
       </Link>
@@ -305,16 +415,17 @@ export function BottomCta({
 // column (matches the v5 mockup .bottom-cta box).
 function InlineBottomCta({ block }: { block: BottomCtaBlock }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-coral to-[#D4603A] px-8 py-11 text-center text-white before:pointer-events-none before:absolute before:-left-1/2 before:-top-1/2 before:h-[200%] before:w-[200%] before:bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] before:content-['']">
-      <h2 className="relative mb-2.5 font-display text-2xl font-bold tracking-tight md:text-[28px]">
+    <div className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(150deg,#E8704A,#C4522E)] px-8 py-16 text-center text-white shadow-[0_20px_50px_rgba(196,82,46,0.32)]">
+      <CtaGlowCircles />
+      <h2 className="relative mb-3 font-display text-2xl font-semibold tracking-tight md:text-[30px]">
         {block.title}
       </h2>
-      <p className="relative mx-auto mb-5 max-w-md text-[15px] leading-relaxed opacity-90">
+      <p className="relative mx-auto mb-7 max-w-md text-[15px] leading-relaxed text-white/90">
         {block.text}
       </p>
       <Link
         href={block.link}
-        className="relative inline-block rounded-lg bg-white px-7 py-3 text-[15px] font-bold text-coral transition-all hover:-translate-y-0.5 hover:shadow-lg"
+        className="relative inline-block rounded-full bg-white px-7 py-3.5 text-[15px] font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-cream"
       >
         {block.label}
       </Link>
@@ -340,7 +451,11 @@ export function BlogBlocks({
               .split(/\n\s*\n/)
               .map((p) => p.trim())
               .filter(Boolean);
-            return <ContextualProse key={i} paragraphs={paras} salt={`${salt}:${i}`} />;
+            return (
+              <div key={i} className={bodyLinkClass}>
+                <ContextualProse paragraphs={paras} salt={`${salt}:${i}`} />
+              </div>
+            );
           }
           case "h2":
             return <H2 key={i} text={block.text} id={block.id} />;

@@ -3,7 +3,9 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { RelatedTools, TOOL_REGISTRY } from "@/components/related-tools";
 import { ContextualProse, renderTokens } from "@/components/contextual-prose";
-import { BlogBlocks, BlogFaqList, BottomCta } from "@/components/blog-blocks";
+import { BlogBlocks, BlogFaqList, BottomCta, bodyLinkClass } from "@/components/blog-blocks";
+import { ReadingProgress } from "@/components/reading-progress";
+import { ScrollspyToc } from "@/components/scrollspy-toc";
 import type {
   BlogPost as BlogPostContent,
   ContentBlock,
@@ -193,6 +195,7 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <ReadingProgress />
       <Navbar />
       <main>
         {/* TWO-COLUMN PAGE: article (left) + sticky sidebar (right). Mirrors the
@@ -224,27 +227,27 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 </ol>
               </nav>
 
-              <span className="mb-3.5 inline-block rounded-full border border-[#F7E6DD] bg-coral-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-coral">
+              <span className="mb-3.5 inline-flex rounded-full bg-coral-light px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-coral-dark">
                 {pillarLabel[post.pillar] ?? "Guide"}
               </span>
 
-              <h1 className="mb-4 max-w-[680px] font-display text-[36px] font-semibold leading-[1.15] tracking-[-0.02em] min-[900px]:text-[48px]">
+              <h1 className="mb-5 max-w-[680px] font-display text-4xl font-semibold leading-[1.08] tracking-[-0.02em] md:text-5xl">
                 {post.h1}
               </h1>
 
               {/* META */}
-              <div className="mb-6 flex items-center gap-2.5 border-b border-[#EDE8E2] pb-8">
+              <div className="mb-8 flex items-center gap-3 border-b border-[#E7DFD2] pb-7">
                 <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-coral text-sm font-bold text-white"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-coral-dark text-sm font-bold text-white"
                   aria-hidden="true"
                 >
                   {initials}
                 </span>
-                <div className="flex flex-col gap-px text-sm">
-                  <span className="text-[15px] font-bold text-charcoal">
+                <div className="flex flex-col">
+                  <span className="text-[15px] font-semibold text-charcoal">
                     {post.author}
                   </span>
-                  <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted">
+                  <span className="flex flex-wrap items-center gap-x-2 text-sm text-muted">
                     <time dateTime={post.publishedDate}>
                       {formatDate(post.publishedDate, {
                         year: "numeric",
@@ -254,37 +257,41 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                     </time>
                     <span aria-hidden="true">·</span>
                     <span>{readTime}</span>
-                    {showUpdated && (
-                      <span
-                        title={`Last updated ${formatDate(post.modifiedDate, {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}`}
-                        className="inline-flex items-center gap-1.5 rounded border border-[#EDE8E2] bg-[#FAF6F1] px-2.5 py-1 text-[12px] text-[#5C5C5C]"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="h-1.5 w-1.5 rounded-full bg-[#22C55E]"
-                        />
-                        Updated{" "}
-                        {formatDate(post.modifiedDate, {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </span>
-                    )}
                   </span>
                 </div>
+                {showUpdated && (
+                  <span
+                    title={`Last updated ${formatDate(post.modifiedDate, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}`}
+                    className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-sage/30 bg-sage-light px-3 py-1 text-[12px] font-medium text-sage-dark"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="h-[7px] w-[7px] rounded-full bg-sage"
+                    />
+                    Updated{" "}
+                    {formatDate(post.modifiedDate, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                )}
               </div>
 
               {/* TL;DR */}
-              <div className="rounded-xl border border-[#EDE8E2] border-l-[3px] border-l-[#D4653A] bg-white p-7">
-                <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-muted">
+              <div className="relative overflow-hidden rounded-xl border border-[#E7DFD2] bg-white p-7 shadow-sm">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-y-0 left-0 w-1 bg-coral"
+                />
+                <p className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-coral-dark">
                   In short
                 </p>
-                <p className="text-[15px] leading-relaxed text-muted">
+                <p className={`text-[15px] leading-relaxed text-muted ${bodyLinkClass}`}>
                   {renderTokens(post.tldr, post.slug, "tldr")}
                 </p>
               </div>
@@ -294,7 +301,9 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 {isBlocks ? (
                   <BlogBlocks blocks={post.body as ContentBlock[]} salt={post.slug} />
                 ) : (
-                  <ContextualProse paragraphs={legacyParagraphs} salt={post.slug} />
+                  <div className={bodyLinkClass}>
+                    <ContextualProse paragraphs={legacyParagraphs} salt={post.slug} />
+                  </div>
                 )}
 
                 {!hasFaqBlock && (
@@ -311,59 +320,37 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
             {/* SIDEBAR COLUMN */}
             <aside className="min-[900px]:self-start">
               <div className="space-y-5 min-[900px]:sticky min-[900px]:top-20">
-                {toc.length > 0 && (
-                  <nav
-                    aria-label="On this page"
-                    className="rounded-2xl border border-charcoal/10 bg-warm p-5"
-                  >
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
-                      On this page
-                    </p>
-                    <ul className="space-y-2.5">
-                      {toc.map((item, i) => (
-                        <li key={item.id}>
-                          <a
-                            href={`#${item.id}`}
-                            className={
-                              i === 0
-                                ? "block border-l-[3px] border-[#D4653A] pl-3 text-sm font-semibold text-[#D4653A]"
-                                : "block border-l-[3px] border-transparent pl-3 text-sm text-[#5C5C5C] transition-colors hover:text-[#D4653A]"
-                            }
-                          >
-                            {item.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
-                )}
+                {toc.length > 0 && <ScrollspyToc items={toc} />}
 
-                <div className="rounded-2xl bg-gradient-to-br from-coral to-coral-dark p-6 text-white">
+                <div className="rounded-xl bg-gradient-to-br from-coral to-coral-dark p-6 text-white shadow-[0_14px_36px_rgba(196,82,46,0.25)]">
                   <p className="text-base font-bold">Host any file for free</p>
                   <p className="mt-2 text-sm leading-relaxed text-white/90">
                     Drop a file, get a link. 25MB, 10 active links, no expiry.
                   </p>
                   <Link
                     href="/sign-up"
-                    className="mt-4 block w-full rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:opacity-95"
+                    className="mt-4 block w-full rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-cream"
                   >
                     Try NudgeHost free
                   </Link>
                 </div>
 
                 {useCaseLinks.length > 0 && (
-                  <div className="rounded-2xl border border-charcoal/10 bg-warm p-5">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
+                  <div className="rounded-xl border border-[#E7DFD2] bg-white p-5 shadow-sm">
+                    <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-muted">
                       Use cases
                     </p>
-                    <ul className="space-y-2 text-sm">
-                      {useCaseLinks.map((l) => (
-                        <li key={l.href}>
+                    <ul className="text-sm">
+                      {useCaseLinks.map((l, i) => (
+                        <li key={l.href} className={i > 0 ? "border-t border-[#E7DFD2]" : ""}>
                           <Link
                             href={l.href}
-                            className="text-muted transition-colors hover:text-coral-dark"
+                            className="flex items-start gap-2 py-2.5 text-muted transition-colors hover:text-coral-dark"
                           >
-                            {l.label}
+                            <span aria-hidden="true" className="text-coral">
+                              →
+                            </span>
+                            <span>{l.label}</span>
                           </Link>
                         </li>
                       ))}
@@ -372,18 +359,21 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 )}
 
                 {relatedToolLinks.length > 0 && (
-                  <div className="rounded-2xl border border-charcoal/10 bg-warm p-5">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
+                  <div className="rounded-xl border border-[#E7DFD2] bg-white p-5 shadow-sm">
+                    <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-muted">
                       Related tools
                     </p>
-                    <ul className="space-y-2 text-sm">
-                      {relatedToolLinks.map((l) => (
-                        <li key={l.href}>
+                    <ul className="text-sm">
+                      {relatedToolLinks.map((l, i) => (
+                        <li key={l.href} className={i > 0 ? "border-t border-[#E7DFD2]" : ""}>
                           <Link
                             href={l.href}
-                            className="text-muted transition-colors hover:text-coral-dark"
+                            className="flex items-start gap-2 py-2.5 text-muted transition-colors hover:text-coral-dark"
                           >
-                            {l.label}
+                            <span aria-hidden="true" className="text-coral">
+                              →
+                            </span>
+                            <span>{l.label}</span>
                           </Link>
                         </li>
                       ))}
