@@ -244,18 +244,6 @@ export default function HomePage() {
                   <p className="mt-2 text-sm leading-relaxed text-muted">
                     {step.desc}
                   </p>
-                  {step.num === "02" && (
-                    <div
-                      className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-sage/30 bg-sage-light px-3 py-1 text-xs font-medium"
-                      style={{ color: "#3A6E3E" }}
-                    >
-                      <span
-                        className="h-1.5 w-1.5 rounded-full bg-sage"
-                        aria-hidden="true"
-                      />
-                      nudgehost.com/your-file ready in seconds
-                    </div>
-                  )}
                 </div>
               </Fragment>
             ))}
