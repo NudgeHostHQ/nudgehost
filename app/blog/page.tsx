@@ -5,7 +5,6 @@ import { Footer } from "@/components/footer";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { interactiveCardClass } from "@/components/ui/card";
 import { bodyLinkClass } from "@/components/ui/prose";
-import { getReadTime } from "@/components/blog-post";
 import { blogContentMap } from "@/lib/blog-content";
 import { pageOpenGraph } from "@/lib/og";
 
@@ -35,23 +34,6 @@ const jsonLd = {
 };
 
 const posts = Object.values(blogContentMap);
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-GB", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function initialsOf(name: string): string {
-  return name
-    .split(/\s+/)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
 
 export default function BlogHub() {
   return (
@@ -96,7 +78,7 @@ export default function BlogHub() {
             <li key={post.slug}>
               <Link
                 href={`/blog/${post.slug}`}
-                className={`group flex h-full flex-col p-6 ${interactiveCardClass}`}
+                className={`group block h-full p-6 ${interactiveCardClass}`}
               >
                 <div className="mb-3">
                   <Eyebrow>{pillarLabel[post.pillar] ?? "Guide"}</Eyebrow>
@@ -107,21 +89,6 @@ export default function BlogHub() {
                 <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
                   {post.metaDescription}
                 </p>
-                <div className="mt-auto flex flex-wrap items-center gap-x-2 gap-y-1 pt-5 text-sm text-muted">
-                  <span
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-coral to-coral-dark text-[11px] font-bold text-white"
-                    aria-hidden="true"
-                  >
-                    {initialsOf(post.author)}
-                  </span>
-                  <span className="font-medium text-charcoal">{post.author}</span>
-                  <span aria-hidden="true">·</span>
-                  <time dateTime={post.publishedDate}>
-                    {formatDate(post.publishedDate)}
-                  </time>
-                  <span aria-hidden="true">·</span>
-                  <span>{getReadTime(post)}</span>
-                </div>
               </Link>
             </li>
           ))}
