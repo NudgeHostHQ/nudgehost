@@ -7,7 +7,7 @@ import { users } from "@/lib/db/schema";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PlanButton } from "@/components/plan-button";
-import { cardClass } from "@/components/ui/card";
+import { PlanCard } from "@/components/ui/plan-card";
 import { FaqAccordions } from "@/components/ui/faq";
 import { CtaSection } from "@/components/ui/cta-section";
 import { pageOpenGraph } from "@/lib/og";
@@ -196,41 +196,17 @@ export default async function PricingPage() {
           <h2 id="tiers-heading" className="sr-only">
             Pricing tiers
           </h2>
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid items-stretch gap-5 md:grid-cols-3">
             {tiers.map((tier) => (
-              <article
+              <PlanCard
                 key={tier.name}
-                className={
-                  tier.featured
-                    ? "relative rounded-xl border border-coral bg-white p-7 shadow-md"
-                    : `relative p-7 ${cardClass}`
-                }
+                name={tier.name}
+                price={tier.price}
+                period={tier.period}
+                description={tier.pitch}
+                features={tier.features}
+                featured={tier.featured}
               >
-                {tier.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-coral px-3 py-1 text-xs font-medium text-white">
-                    Most popular
-                  </div>
-                )}
-                <h3 className="mb-1 font-display text-lg font-semibold">
-                  {tier.name}
-                </h3>
-                <p className="mb-1 font-display text-4xl font-semibold tracking-tight">
-                  {tier.price}
-                  <span className="text-base font-normal text-muted">
-                    {" "}/ {tier.period}
-                  </span>
-                </p>
-                <p className="mb-5 text-sm text-muted">{tier.pitch}</p>
-                <ul className="mb-6 space-y-2 text-sm text-muted">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <span className="text-coral" aria-hidden="true">
-                        ✓
-                      </span>{" "}
-                      {f}
-                    </li>
-                  ))}
-                </ul>
                 <PlanButton
                   plan={tier.plan}
                   label={tier.ctaLabel}
@@ -245,7 +221,7 @@ export default async function PricingPage() {
                   signedIn={signedIn}
                   currentPlan={currentPlan}
                 />
-              </article>
+              </PlanCard>
             ))}
           </div>
         </section>

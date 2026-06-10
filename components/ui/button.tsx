@@ -11,7 +11,8 @@ export const btnPrimary =
 export const btnOnGradient =
   "inline-flex items-center justify-center rounded-full bg-white font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-cream";
 
-// Quieter outline action: white fill, line border, coral.dark text, coral.light
-// on hover. Used for the non-emphasized plan cards alongside btnPrimary.
+// Quieter outline action: white fill, inset line ring, coral.dark text, with a
+// coral.light fill and coral ring on hover. Used for the non-emphasized plan
+// cards alongside btnPrimary.
 export const btnOutline =
-  "inline-flex items-center justify-center rounded-full border border-line bg-white font-semibold text-coral-dark transition-all hover:-translate-y-0.5 hover:bg-coral-light";
+  "inline-flex items-center justify-center rounded-full bg-white font-semibold text-coral-dark ring-1 ring-inset ring-line transition-all hover:-translate-y-0.5 hover:bg-coral-light hover:ring-coral";

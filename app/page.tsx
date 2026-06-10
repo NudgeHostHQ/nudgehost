@@ -1,21 +1,66 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Link from "next/link";
-import {
-  BarChart3,
-  Globe,
-  Infinity as InfinityIcon,
-  Link2,
-  ShieldCheck,
-  Zap,
-} from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { UploadWidget } from "@/components/upload-widget";
-import { Eyebrow } from "@/components/ui/eyebrow";
 import { CtaSection } from "@/components/ui/cta-section";
-import { cardClass, interactiveCardClass } from "@/components/ui/card";
+import { PlanCard } from "@/components/ui/plan-card";
 import { btnPrimary, btnOutline } from "@/components/ui/button";
 import { pageOpenGraph } from "@/lib/og";
+
+// Section overline: a short coral rule followed by an uppercase label, replacing
+// the pill badge below the hero. `onDark` brightens the label to plain coral so
+// it stays legible on the charcoal Features band.
+function Overline({
+  children,
+  onDark = false,
+}: {
+  children: React.ReactNode;
+  onDark?: boolean;
+}) {
+  return (
+    <div className="mb-5 flex items-center gap-3">
+      <span aria-hidden="true" className="h-0.5 w-[34px] bg-coral" />
+      <span
+        className={`text-[12px] font-bold uppercase tracking-widest ${
+          onDark ? "text-coral" : "text-coral-dark"
+        }`}
+      >
+        {children}
+      </span>
+    </div>
+  );
+}
+
+// Dashed coral connector arrow drawn between the "how it works" steps on wide
+// screens. Hidden below 980px, where the steps stack vertically.
+function StepArrow() {
+  return (
+    <div className="hidden self-start pt-2 min-[980px]:flex" aria-hidden="true">
+      <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
+        <line
+          x1="1"
+          y1="8"
+          x2="39"
+          y2="8"
+          stroke="#E8704A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="5 6"
+        />
+        <path
+          d="M39 3l7 5-7 5"
+          stroke="#E8704A"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
 
 export const metadata: Metadata = {
   title: { absolute: "Share any file as a link in seconds | NudgeHost" },
@@ -135,13 +180,22 @@ export default function HomePage() {
             <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-muted">
               Trusted by people sharing files for
             </p>
-            <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm font-medium text-muted">
-              <li>Job applications</li>
-              <li>Client deliverables</li>
-              <li>AI-generated outputs</li>
-              <li>Internal team docs</li>
-              <li>Design portfolios</li>
-              <li>Research papers</li>
+            <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+              {[
+                "Job applications",
+                "Client deliverables",
+                "AI-generated outputs",
+                "Internal team docs",
+                "Design portfolios",
+                "Research papers",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="inline-flex items-center font-display text-[17.5px] italic text-charcoal [&:not(:first-child)]:before:mr-5 [&:not(:first-child)]:before:h-[5px] [&:not(:first-child)]:before:w-[5px] [&:not(:first-child)]:before:rounded-full [&:not(:first-child)]:before:bg-coral [&:not(:first-child)]:before:content-['']"
+                >
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         </section>
@@ -152,9 +206,7 @@ export default function HomePage() {
           className="mx-auto max-w-5xl px-6 py-20"
           aria-labelledby="how-heading"
         >
-          <div className="mb-4">
-            <Eyebrow>How it works</Eyebrow>
-          </div>
+          <Overline>How it works</Overline>
           <h2
             id="how-heading"
             className="mb-12 max-w-lg font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-5xl"
@@ -162,7 +214,7 @@ export default function HomePage() {
             Three steps, then you&apos;re done.
           </h2>
 
-          <ol className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-x-4 gap-y-12 min-[980px]:grid-cols-[1fr_auto_1fr_auto_1fr] min-[980px]:items-start">
             {[
               {
                 num: "01",
@@ -179,23 +231,35 @@ export default function HomePage() {
                 title: "Give the nudge",
                 desc: "Send the link to whoever needs it. They click and see your file straight away. Done.",
               },
-            ].map((step) => (
-              <li key={step.num} className={`p-7 ${cardClass}`}>
-                <div className="flex items-start gap-3">
-                  <span
-                    className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full bg-coral text-sm font-semibold text-white"
-                    aria-hidden="true"
-                  >
+            ].map((step, i) => (
+              <Fragment key={step.num}>
+                {i > 0 && <StepArrow />}
+                <div>
+                  <div className="font-display text-[34px] font-semibold italic leading-none text-coral">
                     {step.num}
-                  </span>
-                  <h3 className="font-display text-lg font-semibold">
+                  </div>
+                  <h3 className="mt-3 font-display text-lg font-semibold">
                     {step.title}
                   </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    {step.desc}
+                  </p>
+                  {step.num === "02" && (
+                    <div
+                      className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-sage/30 bg-sage-light px-3 py-1 text-xs font-medium"
+                      style={{ color: "#3A6E3E" }}
+                    >
+                      <span
+                        className="h-1.5 w-1.5 rounded-full bg-sage"
+                        aria-hidden="true"
+                      />
+                      nudgehost.com/your-file ready in seconds
+                    </div>
+                  )}
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{step.desc}</p>
-              </li>
+              </Fragment>
             ))}
-          </ol>
+          </div>
         </section>
 
         {/* FEATURES */}
@@ -203,82 +267,86 @@ export default function HomePage() {
           className="bg-charcoal px-6 py-20 text-white"
           aria-labelledby="features-heading"
         >
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-4">
-              <Eyebrow>Features</Eyebrow>
+          <div className="mx-auto grid max-w-5xl gap-x-12 gap-y-10 min-[980px]:grid-cols-[380px_1fr]">
+            <div className="min-[980px]:sticky min-[980px]:top-28 min-[980px]:self-start">
+              <Overline onDark>Features</Overline>
+              <h2
+                id="features-heading"
+                className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] text-white md:text-5xl"
+              >
+                Everything you need,
+                <br />
+                nothing you don&apos;t.
+              </h2>
             </div>
-            <h2
-              id="features-heading"
-              className="mb-12 max-w-lg font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] text-white md:text-5xl"
-            >
-              Everything you need,
-              <br />
-              nothing you don&apos;t.
-            </h2>
-            <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div>
               {[
                 {
-                  Icon: Zap,
                   title: "Instant publishing",
                   desc: "Files go live the moment you drop them. No waiting, no processing queues.",
                 },
                 {
-                  Icon: ShieldCheck,
                   title: "Password protection",
                   desc: "Keep sensitive files private with optional password locks on any link.",
                 },
                 {
-                  Icon: BarChart3,
                   title: "Link analytics",
                   desc: "See who's clicking your links and when. Know your nudge landed.",
                 },
                 {
-                  Icon: Globe,
                   title: "Custom domains",
                   desc: "Use your own domain for a professional touch on every link you share.",
                 },
                 {
-                  Icon: Link2,
                   title: "Branded links that look like yours",
                   desc: "Pick a slug that makes sense, not a random string. nudgehost.com/your-portfolio reads better than a hash.",
                 },
                 {
-                  Icon: InfinityIcon,
                   title: "Links that don't expire. Ever.",
                   desc: "Tiiny.host kills your free links after 30 days of inactivity. Ours stay live for as long as you need them.",
                 },
-              ].map(({ Icon, title, desc }) => (
-                <li
-                  key={title}
-                  className="rounded-xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-coral/40"
-                >
-                  <div className="mb-4 text-coral" aria-hidden="true">
-                    <Icon size={24} strokeWidth={2} />
+              ].map(({ title, desc }) => {
+                const special = title === "Links that don't expire. Ever.";
+                return (
+                  <div
+                    key={title}
+                    className={
+                      special
+                        ? "grid grid-cols-1 gap-1 rounded-2xl bg-[linear-gradient(135deg,rgba(232,112,74,0.13),transparent_75%)] px-5 py-7 min-[640px]:grid-cols-[280px_1fr] min-[640px]:gap-6"
+                        : "grid grid-cols-1 gap-1 border-t border-cream/[0.12] py-6 min-[640px]:grid-cols-[280px_1fr] min-[640px]:gap-6"
+                    }
+                  >
+                    <h3
+                      className={`font-display text-[20px] font-semibold ${
+                        special ? "text-coral" : "text-cream"
+                      }`}
+                    >
+                      {title}
+                    </h3>
+                    <p
+                      className={`text-sm leading-relaxed ${
+                        special ? "text-cream/70" : "text-cream/60"
+                      }`}
+                    >
+                      {desc}
+                    </p>
                   </div>
-                  <h3 className="mb-1.5 font-display text-base font-semibold text-white">
-                    {title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-white/60">
-                    {desc}
-                  </p>
-                </li>
-              ))}
-            </ul>
+                );
+              })}
+            </div>
           </div>
         </section>
 
         {/* USE CASE LINKS — internal linking to JTBD pages */}
         <section className="mx-auto max-w-5xl px-6 py-20">
-          <div className="mb-4">
-            <Eyebrow>Use cases</Eyebrow>
-          </div>
+          <Overline>Use cases</Overline>
           <h2 className="mb-3 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-4xl">
             For every kind of share.
           </h2>
           <p className="mb-10 max-w-xl text-base text-muted">
             Whatever you&apos;re sending, we&apos;ve probably got a page for that.
           </p>
-          <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mx-auto flex max-w-[880px] flex-wrap justify-center gap-3.5">
             {[
               { title: "Share a resume as a link", href: "/use-cases/share-resume-as-link" },
               { title: "Send a portfolio to a recruiter", href: "/use-cases/send-portfolio-to-recruiter" },
@@ -293,10 +361,15 @@ export default function HomePage() {
               <li key={uc.href}>
                 <Link
                   href={uc.href}
-                  className={`flex items-center justify-between px-5 py-4 text-sm font-medium text-charcoal ${interactiveCardClass}`}
+                  className="group inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3.5 text-sm font-medium text-charcoal shadow-sm transition-all hover:-translate-y-0.5 hover:border-coral hover:shadow-md"
                 >
                   {uc.title}
-                  <span className="text-coral" aria-hidden="true">→</span>
+                  <span
+                    className="text-coral transition-transform group-hover:translate-x-[3px]"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
                 </Link>
               </li>
             ))}
@@ -309,9 +382,7 @@ export default function HomePage() {
           className="mx-auto max-w-5xl px-6 py-20"
           aria-labelledby="pricing-heading"
         >
-          <div className="mb-4">
-            <Eyebrow>Pricing</Eyebrow>
-          </div>
+          <Overline>Pricing</Overline>
           <h2
             id="pricing-heading"
             className="mb-3 max-w-lg font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-5xl"
@@ -324,108 +395,70 @@ export default function HomePage() {
             A free plan that&apos;s actually free. Upgrade when you outgrow it.
           </p>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            <article className={`p-7 ${cardClass}`}>
-              <h3 className="mb-1 font-display text-lg font-semibold">Free</h3>
-              <p className="mb-1 font-display text-4xl font-semibold tracking-tight">
-                $0 <span className="text-base font-normal text-muted">/ forever</span>
-              </p>
-              <p className="mb-5 text-sm text-muted">
-                Perfect for personal projects and trying things out.
-              </p>
-              <ul className="mb-6 space-y-2 text-sm text-muted">
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> 10 active links
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> 25MB per file
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Basic analytics
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> QR code on every link
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> nudgehost.com subdomain
-                </li>
-              </ul>
+          <div className="grid items-stretch gap-5 md:grid-cols-3">
+            <PlanCard
+              name="Free"
+              price="$0"
+              period="forever"
+              description="Perfect for personal projects and trying things out."
+              featured={false}
+              features={[
+                "10 active links",
+                "25MB per file",
+                "Basic analytics",
+                "QR code on every link",
+                "nudgehost.com subdomain",
+              ]}
+            >
               <Link href="/sign-up" className={`w-full ${btnOutline} px-5 py-2.5 text-sm`}>
                 Get started free
               </Link>
-            </article>
+            </PlanCard>
 
-            <article className={`relative rounded-xl border border-coral bg-white p-7 shadow-md`}>
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-coral px-3 py-1 text-xs font-medium text-white">
-                Most popular
-              </div>
-              <h3 className="mb-1 font-display text-lg font-semibold">Pro</h3>
-              <p className="mb-1 font-display text-4xl font-semibold tracking-tight">
-                $8 <span className="text-base font-normal text-muted">/ month</span>
-              </p>
-              <p className="mb-5 text-sm text-muted">
-                For freelancers and teams who share files every day.
-              </p>
-              <ul className="mb-6 space-y-2 text-sm text-muted">
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Unlimited links
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> 250MB per file
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Full analytics + exports
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Password protection
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Custom domain support
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> No NudgeHost branding
-                </li>
-              </ul>
+            <PlanCard
+              name="Pro"
+              price="$8"
+              period="month"
+              description="For freelancers and teams who share files every day."
+              featured
+              features={[
+                "Unlimited links",
+                "250MB per file",
+                "Full analytics + exports",
+                "Password protection",
+                "Custom domain support",
+                "No NudgeHost branding",
+              ]}
+            >
               <Link
                 href="/sign-up?plan=pro"
                 className={`w-full ${btnPrimary} px-5 py-2.5 text-sm`}
               >
                 Upgrade to Pro
               </Link>
-            </article>
+            </PlanCard>
 
-            <article className={`p-7 ${cardClass}`}>
-              <h3 className="mb-1 font-display text-lg font-semibold">Team</h3>
-              <p className="mb-1 font-display text-4xl font-semibold tracking-tight">
-                $24 <span className="text-base font-normal text-muted">/ month</span>
-              </p>
-              <p className="mb-5 text-sm text-muted">
-                For agencies and small teams sharing on behalf of clients.
-              </p>
-              <ul className="mb-6 space-y-2 text-sm text-muted">
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Everything in Pro
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> 1GB per file
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> 5 team seats
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> API access
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-coral" aria-hidden="true">✓</span> Priority support
-                </li>
-              </ul>
+            <PlanCard
+              name="Team"
+              price="$24"
+              period="month"
+              description="For agencies and small teams sharing on behalf of clients."
+              featured={false}
+              features={[
+                "Everything in Pro",
+                "1GB per file",
+                "5 team seats",
+                "API access",
+                "Priority support",
+              ]}
+            >
               <Link
                 href="/sign-up?plan=team"
                 className={`w-full ${btnOutline} px-5 py-2.5 text-sm`}
               >
                 Upgrade to Team
               </Link>
-            </article>
+            </PlanCard>
           </div>
         </section>
 
