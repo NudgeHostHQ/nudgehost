@@ -305,34 +305,17 @@ export default function HomePage() {
                   title: "Links that don't expire. Ever.",
                   desc: "Tiiny.host kills your free links after 30 days of inactivity. Ours stay live for as long as you need them.",
                 },
-              ].map(({ title, desc }) => {
-                const special = title === "Links that don't expire. Ever.";
-                return (
-                  <div
-                    key={title}
-                    className={
-                      special
-                        ? "grid grid-cols-1 gap-1 rounded-2xl bg-[linear-gradient(135deg,rgba(232,112,74,0.13),transparent_75%)] px-5 py-7 min-[640px]:grid-cols-[280px_1fr] min-[640px]:gap-6"
-                        : "grid grid-cols-1 gap-1 border-t border-cream/[0.12] py-6 min-[640px]:grid-cols-[280px_1fr] min-[640px]:gap-6"
-                    }
-                  >
-                    <h3
-                      className={`font-display text-[20px] font-semibold ${
-                        special ? "text-coral" : "text-cream"
-                      }`}
-                    >
-                      {title}
-                    </h3>
-                    <p
-                      className={`text-sm leading-relaxed ${
-                        special ? "text-cream/70" : "text-cream/60"
-                      }`}
-                    >
-                      {desc}
-                    </p>
-                  </div>
-                );
-              })}
+              ].map(({ title, desc }) => (
+                <div
+                  key={title}
+                  className="grid grid-cols-1 gap-1 border-t border-cream/[0.12] py-6 min-[640px]:grid-cols-[280px_1fr] min-[640px]:gap-6"
+                >
+                  <h3 className="font-display text-[20px] font-semibold text-cream">
+                    {title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-cream/60">{desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
