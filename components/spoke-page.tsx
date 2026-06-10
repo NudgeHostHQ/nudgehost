@@ -208,8 +208,14 @@ export function SpokePage({
           </section>
         )}
 
-        {/* INLINE CTA — subtle nudge inside the article flow, not an ad block */}
-        <section className="mx-auto max-w-3xl px-6 pt-8">
+        {/* BODY COPY — {{token}} markers become in-prose contextual links */}
+        <section className="mx-auto max-w-3xl px-6 pt-12">
+          <BodyProse paragraphs={content.body} salt={content.slug} />
+        </section>
+
+        {/* INLINE CTA — a deliberate break in the reading flow, sitting between
+            the body copy and the FAQs. my-16 gives it room top and bottom. */}
+        <section className="mx-auto max-w-3xl px-6 my-16">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-2xl bg-[linear-gradient(120deg,#E8704A,#C4522E)] px-8 py-7 text-white shadow-[0_14px_36px_rgba(196,82,46,0.25)]">
             <p className="text-base text-white">
               Drop a file here and get a shareable link in seconds.
@@ -220,13 +226,8 @@ export function SpokePage({
           </div>
         </section>
 
-        {/* BODY COPY — {{token}} markers become in-prose contextual links */}
-        <section className="mx-auto max-w-3xl px-6 py-12">
-          <BodyProse paragraphs={content.body} salt={content.slug} />
-        </section>
-
         {/* FAQs */}
-        <section className="mx-auto max-w-3xl px-6 py-12">
+        <section className="mx-auto max-w-3xl px-6 pb-12">
           <h2 className="mb-8 font-display text-3xl font-semibold tracking-tight">
             Frequently asked questions
           </h2>
