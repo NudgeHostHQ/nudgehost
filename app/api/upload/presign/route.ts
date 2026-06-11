@@ -233,7 +233,8 @@ export async function POST(request: Request) {
     if (activeFiles >= ANON_MAX_ACTIVE_FILES) {
       return NextResponse.json(
         {
-          error: `You have reached ${ANON_MAX_ACTIVE_FILES} active files without an account. Sign in to keep uploading.`,
+          error:
+            "You have reached 3 active files without an account. Create a free account to keep these links live forever and get 10 slots.",
           anonLimit: true,
         },
         { status: 403 },

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Fragment } from "react";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { UploadWidget } from "@/components/upload-widget";
+import { AdoptAnonymousFiles } from "@/components/adopt-anonymous-files";
+import { ANON_COOKIE_NAME } from "@/lib/anon-upload";
 import { CtaSection } from "@/components/ui/cta-section";
 import { PlanCard } from "@/components/ui/plan-card";
 import { Overline } from "@/components/ui/overline";
@@ -88,13 +91,18 @@ const homepageJsonLd = {
   ],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  // A leftover anonymous-upload cookie means this visitor may have files to
+  // move into their account; the client effect runs only when signed in.
+  const hasAnonCookie = (await cookies()).has(ANON_COOKIE_NAME);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}
       />
+      {hasAnonCookie && <AdoptAnonymousFiles />}
       <Navbar />
 
       <main>

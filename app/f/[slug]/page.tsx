@@ -277,6 +277,25 @@ export default async function FileViewerPage({ params }: { params: Params }) {
             sandbox="allow-scripts allow-popups allow-forms"
             className="h-[88vh] w-full rounded-none border-0 bg-white sm:rounded-2xl sm:border sm:border-charcoal/10"
           />
+          {/* Attribution bar on anonymous HTML pages, gone once the file is
+              adopted into an account. The hosted page renders inside the
+              sandboxed iframe above, so this bar lives in the viewer document
+              and can't disturb that page's own layout. pointer-events stay
+              off everywhere except the wordmark link, so clicks on the rest
+              of the bar fall through to the page underneath. */}
+          {file.anonToken && (
+            <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50">
+              <div className="flex items-center justify-center gap-2.5 border-t border-line bg-cream px-4 py-2 text-[13px] text-charcoal">
+                <Link
+                  href="/"
+                  className="pointer-events-auto font-display text-[15px] font-bold tracking-tight"
+                >
+                  nudge<span className="text-coral">host</span>
+                </Link>
+                <span className="text-muted">Hosted free on NudgeHost</span>
+              </div>
+            </div>
+          )}
         </main>
       )}
 

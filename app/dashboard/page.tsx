@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
-import { desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, gt, isNull, or } from "drizzle-orm";
 import QRCode from "qrcode";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { UploadWidget } from "@/components/upload-widget";
 import { FileActions } from "@/components/file-actions";
 import { ManageBillingButton } from "@/components/manage-billing-button";
+import { AdoptAnonymousFiles } from "@/components/adopt-anonymous-files";
 import { db } from "@/lib/db";
 import { files as filesTable, users } from "@/lib/db/schema";
+import { ANON_COOKIE_NAME, isValidAnonToken } from "@/lib/anon-upload";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -116,8 +119,33 @@ export default async function DashboardPage() {
     ? Math.min(100, Math.round((usedCount / fileLimit) * 100))
     : 0;
 
+  // Anonymous files the adoption pass left behind because the plan was at its
+  // ceiling. Counted only when the account is actually full, so the notice
+  // never flashes for files the mounted adoption effect is about to sweep in.
+  const cookieStore = await cookies();
+  const anonCookie = cookieStore.get(ANON_COOKIE_NAME)?.value ?? "";
+  const hasAnonCookie = isValidAnonToken(anonCookie);
+  let leftBehind = 0;
+  if (hasAnonCookie && fileLimit && usedCount >= fileLimit) {
+    const [{ value }] = await db
+      .select({ value: count() })
+      .from(filesTable)
+      .where(
+        and(
+          eq(filesTable.anonToken, anonCookie),
+          eq(filesTable.isDeleted, false),
+          or(
+            isNull(filesTable.expiresAt),
+            gt(filesTable.expiresAt, new Date()),
+          ),
+        ),
+      );
+    leftBehind = value;
+  }
+
   return (
     <>
+      {hasAnonCookie && <AdoptAnonymousFiles />}
       <Navbar />
       <main className="mx-auto max-w-5xl px-6 py-12">
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
@@ -214,6 +242,18 @@ export default async function DashboardPage() {
           <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
             Your files
           </h2>
+
+          {leftBehind > 0 && (
+            <div className="mb-4 rounded-2xl border border-coral/40 bg-coral-light px-4 py-3 text-sm text-charcoal">
+              {leftBehind === 1
+                ? "1 upload from before you signed in is"
+                : `${leftBehind} uploads from before you signed in are`}{" "}
+              not in this account because it is at its {fileLimit}-link limit.
+              {leftBehind === 1 ? " It keeps" : " They keep"} the 7-day expiry
+              from anonymous uploads. Delete a file and reload this page to
+              bring {leftBehind === 1 ? "it" : "them"} in.
+            </div>
+          )}
 
           {userFiles.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-charcoal/15 bg-warm px-6 py-14 text-center">
