@@ -48,6 +48,8 @@ export const compareContentMap: Record<string, CompareContent> = {
     rows: [
       { feature: "Free plan file size", nudgehost: "25MB", competitor: "3MB", nudgehostWins: true },
       { feature: "Free active links/projects", nudgehost: "10 links", competitor: "1 project", nudgehostWins: true },
+      { feature: "Upload without an account", nudgehost: "Yes, 25MB", competitor: "Yes, 3MB", nudgehostWins: true },
+      { feature: "Banner on registered free plan", nudgehost: "No banner", competitor: "Banner", nudgehostWins: true },
       { feature: "Number of paid tiers", nudgehost: "3 (simple)", competitor: "5 (fragmented)", nudgehostWins: true },
       { feature: "Entry paid price", nudgehost: "$8/mo", competitor: "$5/mo annual" },
       { feature: "Visitor caps on plans", nudgehost: "None", competitor: "10k–100k caps", nudgehostWins: true },
@@ -59,7 +61,7 @@ export const compareContentMap: Record<string, CompareContent> = {
     ],
     verdict: [
       "Pick Tiiny.host if longevity is your priority and you want a tool with a long track record, particularly for developer-oriented static hosting. That maturity is real and worth something.",
-      "Pick NudgeHost if the free plan matters to you, if five pricing tiers feel like more decision than you want to make, or if you are sharing AI-generated outputs and want pages built for that. The 25MB free limit alone is the difference between a plan you can actually use and a plan that is really a demo.",
+      "Pick NudgeHost if the free plan matters to you, if five pricing tiers feel like more decision than you want to make, or if you are sharing AI-generated outputs and want pages built for that. The 25MB free limit alone is the difference between a plan you can actually use and a plan that is really a demo. Both tools take uploads without an account, at 25MB on NudgeHost against 3MB on Tiiny.host.",
       "Tiiny.host is the safe established choice, and NudgeHost is the more generous and simpler one. If you want to test that claim, {{host-pdf}} or {{host-html}} on the free plan and see how far it gets you. You can also compare {{compare-linkyhost}} for the third option, or read {{compare-tiiny-vs-linkyhost}} for a neutral take that does not feature NudgeHost in either column.",
     ],
     faqs: [
@@ -98,13 +100,14 @@ export const compareContentMap: Record<string, CompareContent> = {
       { feature: "Top paid tier price", nudgehost: "$24/mo", competitor: "$16.58/mo" },
       { feature: "QR code on free plan", nudgehost: "Yes", competitor: "No", nudgehostWins: true },
       { feature: "AI-output hosting pages", nudgehost: "Dedicated", competitor: "One use-case page", nudgehostWins: true },
-      { feature: "Anonymous publishing", nudgehost: "Planned", competitor: "Account required" },
+      { feature: "Upload without an account", nudgehost: "Yes, 25MB", competitor: "No", nudgehostWins: true },
+      { feature: "Banner on registered free plan", nudgehost: "No banner", competitor: "Banner", nudgehostWins: true },
       { feature: "Product breadth", nudgehost: "Host, view, convert, dev tools", competitor: "Similar" },
       { feature: "Brand personality", nudgehost: "Warm, distinct", competitor: "Utility-style", nudgehostWins: true },
     ],
     verdict: [
       "Pick Linkyhost if the lowest entry price is the deciding factor ($5 beats $8), and you are happy to upgrade immediately, since the one-upload free plan is not something you can run on.",
-      "Pick NudgeHost if you want a free plan you can genuinely use, QR codes without paying, dedicated support for AI-generated outputs, and a product that does not feel like a faceless utility.",
+      "Pick NudgeHost if you want a free plan you can genuinely use, QR codes without paying, dedicated support for AI-generated outputs, and a product that does not feel like a faceless utility. NudgeHost also takes uploads without an account, up to three 25MB files, where Linkyhost requires one before your first upload.",
       "Honestly, these two are close, and Linkyhost's lower price is a real point in its favour. NudgeHost's case is the much more usable free tier and the broader toolset. If you want to test that, {{host-pdf}} on the free plan, or see how NudgeHost stacks up against {{compare-tiiny}}.",
     ],
     faqs: [

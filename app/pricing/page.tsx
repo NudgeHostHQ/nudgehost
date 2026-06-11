@@ -117,6 +117,10 @@ const comparison: ComparisonRow[] = [
 
 const faqs = [
   {
+    q: "Do I need an account to use NudgeHost?",
+    a: "No. You can upload up to 3 files of 25MB each without an account, and those links stay live for 7 days. Create a free account to keep links live forever and get 10 slots.",
+  },
+  {
     q: "Is the free plan really free, with no time limit?",
     a: "Yes. The free plan stays free for as long as you want. 10 active links, 25MB per file, no expiry on your links unless you set one. No credit card required at signup.",
   },
@@ -196,6 +200,10 @@ export default async function PricingPage() {
           <h2 id="tiers-heading" className="sr-only">
             Pricing tiers
           </h2>
+          <p className="mb-6 text-sm text-muted">
+            No account needed to try it. Anonymous links stay live for 7 days,
+            free accounts keep links live forever.
+          </p>
           <div className="grid items-stretch gap-5 md:grid-cols-3">
             {tiers.map((tier) => (
               <PlanCard

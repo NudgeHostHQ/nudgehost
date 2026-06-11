@@ -149,6 +149,13 @@ export default async function HomePage() {
             nudgehost.com/your-file ready in seconds
           </div>
 
+          <p
+            className="relative z-10 mt-3 animate-fade-up text-sm text-muted"
+            style={{ animationDelay: "0.38s" }}
+          >
+            No account needed. Your first links are free in seconds.
+          </p>
+
           {/* Quiet secondary link — does not compete with the uploader */}
           <Link
             href="#how-it-works"
@@ -347,8 +354,12 @@ export default async function HomePage() {
             <br />
             no traps.
           </h2>
-          <p className="mb-10 max-w-xl text-base text-muted">
+          <p className="mb-3 max-w-xl text-base text-muted">
             A free plan that&apos;s actually free. Upgrade when you outgrow it.
+          </p>
+          <p className="mb-10 max-w-xl text-sm text-muted">
+            No account needed to try it. Anonymous links stay live for 7 days,
+            free accounts keep links live forever.
           </p>
 
           <div className="grid items-stretch gap-5 md:grid-cols-3">
