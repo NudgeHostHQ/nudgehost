@@ -168,6 +168,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     ],
     relatedToolSlugs: ["host-html", "host-zip", "host-pdf"],
     filePillExamples: ["Paste HTML", "ZIP", "Up to 25MB free", "Live in seconds"],
+    widgetDefaultTab: "paste",
   },
 
   resume: {
@@ -750,6 +751,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     ],
     relatedToolSlugs: ["host-claude-artifact", "host-html", "host-lovable-export", "host-zip"],
     filePillExamples: ["Paste HTML", "From ChatGPT", "Up to 25MB free", "Live in seconds"],
+    widgetDefaultTab: "paste",
   },
 
   "lovable-export": {

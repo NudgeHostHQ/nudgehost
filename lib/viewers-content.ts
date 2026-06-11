@@ -7,6 +7,9 @@ export const viewersSilo: SiloConfig = {
   hubLabel: "Viewers",
   schemaType: "WebApplication",
   heroVariant: "upload",
+  // A viewer page takes a file to view; a Paste HTML tab makes no sense here,
+  // so the widget shows the file mode only (same reasoning as converters).
+  uploadTabs: "file",
   ctaVerb: "view your file online",
 };
 

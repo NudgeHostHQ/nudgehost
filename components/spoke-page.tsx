@@ -172,6 +172,7 @@ export function SpokePage({
               <UploadWidget
                 pills={content.filePillExamples}
                 tabs={silo.uploadTabs}
+                defaultTab={content.widgetDefaultTab}
               />
             ) : (
               <Link href="/sign-up" className={`${btnPrimary} px-7 py-3.5 text-base`}>

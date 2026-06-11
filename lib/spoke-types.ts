@@ -38,6 +38,11 @@ export type SpokeContent = {
   // hero variant). E.g. ["PDF", "Encrypted PDF", "Up to 25MB free"].
   filePillExamples?: string[];
 
+  // Which widget tab is selected on load (only used on "upload" hero
+  // variant). Paste-first pages like /features/paste-html set "paste"; both
+  // tabs stay visible. Unset means the file tab, the default.
+  widgetDefaultTab?: "file" | "paste";
+
   // Optional authoring metadata. When set, the page emits Article schema and
   // shows a small byline. Use on pages most likely to be cited by AI Overviews
   // (use cases, blog posts, comparisons). Pure tool pages can leave these

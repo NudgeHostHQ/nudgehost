@@ -70,6 +70,7 @@ export function UploadWidget({
   pills,
   className = "",
   tabs = "both",
+  defaultTab = "file",
 }: {
   // Optional file-type hint pills (e.g. ["PDF"] on /host/pdf). The uploader
   // still accepts any file; these are purely visual cues.
@@ -81,8 +82,13 @@ export function UploadWidget({
   className?: string;
   // Which publish modes the embedding page offers. "file" hides the tab bar
   // and the Paste HTML panel for pages where pasting markup makes no sense
-  // (e.g. converter spokes). Default keeps both, the original behavior.
+  // (e.g. converter and viewer spokes). Default keeps both, the original
+  // behavior.
   tabs?: "both" | "file";
+  // Which tab is selected on load. Paste-first pages (e.g. /features/paste-html
+  // or the Claude artifact spoke) open on the paste panel; both tabs stay
+  // visible. Ignored when tabs is "file".
+  defaultTab?: "file" | "paste";
 } = {}) {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
@@ -90,7 +96,11 @@ export function UploadWidget({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [status, setStatus] = useState<Status>("idle");
-  const [mode, setMode] = useState<"file" | "paste">("file");
+  // Paste-only is not a supported combination; a file-only widget always
+  // opens (and stays) on the file panel regardless of defaultTab.
+  const [mode, setMode] = useState<"file" | "paste">(
+    tabs === "file" ? "file" : defaultTab,
+  );
   const [dragActive, setDragActive] = useState(false);
   const [progress, setProgress] = useState(0);
   const [activeName, setActiveName] = useState("");

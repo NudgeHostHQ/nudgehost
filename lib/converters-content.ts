@@ -12,158 +12,161 @@ export const convertersSilo: SiloConfig = {
   ctaVerb: "convert your file",
 };
 
+// HONESTY NOTE: NudgeHost hosts files; it does not convert them. Every page
+// in this silo is a how-to for making the conversion with tools the visitor
+// already has, followed by hosting the result here. Do not write copy that
+// claims NudgeHost performs the conversion.
+
 export const convertersContentMap: Record<string, SpokeContent> = {
   "pdf-to-jpg": {
     slug: "pdf-to-jpg",
     name: "PDF to JPG",
-    title: "PDF to JPG Converter: turn PDF pages into images, free",
+    title: "PDF to JPG: convert the pages, then share them as a link",
     description:
-      "Convert a PDF into JPG images, one per page. Free, no signup, no watermark. Works in your browser on any device.",
-    h1: "Convert a PDF to JPG.",
-    lead: "Drop a PDF and get back a JPG for every page. Each one is ready to drop into a slide, a post, or a message.",
+      "How to turn PDF pages into JPG images with software you already have, then host the JPGs on NudgeHost and share them as a link. Free up to 25MB per file.",
+    h1: "Convert a PDF to JPG and share it as a link.",
+    lead: "Export your PDF pages as images with the reader you already have, then drop the JPGs here. The uploader hosts your converted file and hands back a link.",
     keyPoints: [
-      "Drop a PDF and get one JPG per page, ready to drop into slides, posts, or messages.",
-      "High-resolution output with no watermark, even on the free plan.",
-      "Each page is numbered in order so a multi-page PDF stays sequenced.",
-      "Runs in your browser with no signup.",
+      "Most PDF readers export a page as an image from the file menu, and the preview apps built into Mac and Windows do it too.",
+      "NudgeHost hosts the exported JPGs. Each upload becomes a link that opens in any browser.",
+      "Uploads are free up to 25MB per file. Your first three links need no account and stay live for 7 days.",
+      "A free account keeps 10 links live with no expiry.",
     ],
     body: [
-      "A PDF is a great document and an awkward image. When you need a page as a picture, converting to JPG is the fix. That covers slide decks, places that don't accept PDFs, and most social platforms. Drop your PDF here and each page comes back as a separate image.",
-      "Once you have the images, you often want them online. You can {{host-hub}} from your dashboard and share a link, or if you'd rather keep the original document intact, {{host-pdf}} and send that instead. Many people do both. The PDF goes to people who want the real document, the JPGs go everywhere a PDF won't.",
-      "If you only wanted to read the PDF rather than convert it, you can {{viewer-pdf}} with nothing to install. And if your images need to be smaller for the web, you can {{converter-png-to-webp}} to shrink them further.",
-      "This converter is free with no watermark. Higher limits and sharing features are on {{pricing}}.",
+      "A PDF is a great document and an awkward image. Slides, social posts, and chat apps often want a picture instead. The conversion is closer than most people think. Desktop PDF readers export a page as a JPG or PNG from the file menu, the preview apps built into Mac and Windows save pages as images, and for a single page a screenshot does the job in seconds.",
+      "This page handles the second half of the job, which is getting the converted images in front of someone. Drop a JPG above and you get a hosted link in seconds. If you would rather keep the original document in play, you can also {{host-pdf}} and send both. The PDF goes to people who want the real document, the JPGs go everywhere a PDF won't.",
+      "If you only need to read the document rather than turn it into images, you can {{viewer-pdf}} with nothing to install. For images headed to the web, the next step when file size matters is to {{converter-png-to-webp}}. And since NudgeHost will {{host-hub}}, the JPGs, the source PDF, and anything else can sit in the same dashboard.",
+      "Hosting is free for files up to 25MB. Passwords and custom domains are on {{pricing}}.",
     ],
     faqs: [
       {
-        q: "Does each PDF page become a separate JPG?",
-        a: "Yes. A 10-page PDF returns 10 JPG images, numbered in order.",
+        q: "Does NudgeHost convert the PDF for me?",
+        a: "No. NudgeHost hosts files. Export the pages as images with your PDF reader first, then upload the JPGs here to get a shareable link.",
       },
       {
-        q: "Is there a watermark on the output?",
-        a: "No. The converted images are clean, even on the free plan.",
+        q: "What happens when I upload a JPG here?",
+        a: "It gets a link on nudgehost.com. The image opens full screen in any browser, and nobody needs an account to view it.",
       },
       {
-        q: "What resolution are the images?",
-        a: "Images are exported at a high resolution suitable for slides and print. You can choose a smaller size if you need lighter files.",
+        q: "Is there a file size limit?",
+        a: "Uploads are free up to 25MB per file. Without an account you can keep 3 links live at once and they last 7 days. A free account raises that to 10 links with no expiry.",
       },
     ],
     relatedToolSlugs: ["host-pdf", "viewer-pdf", "converter-png-to-webp", "converter-docx-to-pdf"],
-    filePillExamples: ["PDF", "Multi-page", "High-res JPG", "Up to 25MB free"],
+    filePillExamples: ["PDF", "JPG", "Up to 25MB free", "Share as a link"],
   },
 
   "docx-to-pdf": {
     slug: "docx-to-pdf",
     name: "DOCX to PDF",
-    title: "DOCX to PDF Converter: Word to PDF online, free",
+    title: "DOCX to PDF: export from Word or Docs, then share the PDF as a link",
     description:
-      "Convert a Word document to PDF in seconds. Fonts, tables, and layout survive intact; PDF locks the formatting so it can't shift on the recipient's device.",
-    h1: "Convert a Word document to PDF.",
-    lead: "Drop a DOCX file and get a clean PDF back. PDF is the format that looks the same on every device.",
+      "Word and Google Docs export straight to PDF. Save the PDF there, then host it on NudgeHost and send a link instead of an attachment. Free up to 25MB.",
+    h1: "Convert a Word document to PDF and share it as a link.",
+    lead: "Your word processor already exports to PDF. Save the PDF there, then drop it here to host your converted file and send a link instead of an attachment.",
     keyPoints: [
-      "Drop a Word document and get a faithful PDF back with fonts, tables, and layout preserved.",
-      "PDF travels better than DOCX because it doesn't depend on the recipient's software.",
-      "Free with no watermark and no signup.",
-      "Batch-convert several DOCX files at once if you have a stack to process.",
+      "Word, Google Docs, and most word processors export to PDF from the file menu. No extra software needed.",
+      "Upload the exported PDF here and it becomes a link that looks the same on every device.",
+      "Free up to 25MB per file. Three links without an account (live for 7 days), or 10 with a free account and no expiry.",
+      "Recipients read the PDF in their browser. No download, no account.",
     ],
     body: [
-      "Word documents shift around depending on the reader's software, fonts, and version. PDF doesn't; it looks identical everywhere. That's why converting to PDF is the right move before you send anything that matters: a resume, a contract, a proposal. Drop your DOCX here and a faithful PDF comes back.",
-      "With the PDF in hand, the natural next step is to {{host-pdf}} instead of attaching it. The link is cleaner than a 4MB email attachment, it's trackable, and the recipient opens it in one click. If the document is specifically a CV, there's a tailored flow to {{use-case-resume-link}} that adds open-tracking so you know when it's been read.",
-      "If you want to check the original Word file first, you can {{viewer-docx}} in your browser. And once converted, you can always {{converter-pdf-to-jpg}} if you need image versions of the pages too.",
-      "Free, no watermark. Custom domains and passwords are on {{pricing}}.",
+      "Word documents shift around depending on the reader's software, fonts, and version. PDF looks identical everywhere, which is why converting is the right move before you send anything that matters. The conversion is built into the tools you already use. Word has Save As PDF and Export, Google Docs has Download as PDF, and the print-to-PDF option on Mac and Windows works from any program.",
+      "Once you have the PDF, you can {{host-pdf}} right here and send a link instead of an attachment. A link is lighter than a 4MB file in someone's inbox, and the recipient opens it in one click. If the document is a CV, it helps to {{use-case-resume-link}} so it arrives as a clean URL rather than an attachment a filter might catch.",
+      "If you want to check the original Word file before exporting, you can {{viewer-docx}} in seconds. And when a page from the finished PDF needs to be an image, the guidance on how to {{converter-pdf-to-jpg}} picks up where this page ends.",
+      "Hosting is free for files up to 25MB. Password protection and custom domains arrive when you {{pricing}}.",
     ],
     faqs: [
       {
-        q: "Will my formatting survive the conversion?",
-        a: "Yes. Fonts, images, tables, and layout are preserved. PDF then locks that formatting so it can't shift.",
+        q: "Does NudgeHost convert the DOCX for me?",
+        a: "No. Export the PDF from Word, Google Docs, or your word processor's print menu first. NudgeHost hosts the PDF and gives you the link.",
       },
       {
-        q: "Can I convert several documents at once?",
-        a: "Yes. Upload multiple DOCX files and each comes back as its own PDF.",
+        q: "Why send a link instead of attaching the PDF?",
+        a: "A link is smaller than an attachment, never gets clipped by a mail server, and opens in the recipient's browser with nothing to install.",
       },
       {
         q: "Is there a file size limit?",
-        a: "The free plan handles documents up to 25MB, which covers all but the most image-heavy files.",
+        a: "25MB per file, free. Anonymous uploads allow 3 active links for 7 days. A free account allows 10 links with no expiry.",
       },
     ],
     relatedToolSlugs: ["host-pdf", "viewer-docx", "use-case-resume-link", "converter-pdf-to-jpg"],
-    filePillExamples: ["DOCX", "DOC", "Batch convert", "Up to 25MB free"],
+    filePillExamples: ["DOCX", "PDF", "Up to 25MB free", "Share as a link"],
   },
 
   "png-to-webp": {
     slug: "png-to-webp",
     name: "PNG to WebP",
-    title: "PNG to WebP Converter: shrink images online, free",
+    title: "PNG to WebP: convert with your image tools, then host the result",
     description:
-      "Convert PNG to WebP and cut file size by half or more with no visible quality loss. Transparency is preserved; lossless mode keeps exact pixels. Free.",
-    h1: "Convert PNG to WebP.",
-    lead: "Drop a PNG and get a WebP back. The WebP is usually a fraction of the size, with no visible difference.",
+      "How to convert PNG to WebP with an image editor or a command-line encoder, then host the lighter file on NudgeHost and share it as a link. Free up to 25MB.",
+    h1: "Convert PNG to WebP and host the result.",
+    lead: "Most image editors and command-line encoders write WebP. Convert there, then drop the file here to host it and share a link.",
     keyPoints: [
-      "Drop a PNG and get a WebP back at usually half the size or less, with no visible quality loss.",
-      "Lossless WebP available if you need pixel-for-pixel preservation at smaller size.",
-      "Transparency is preserved through the conversion.",
-      "Free, runs in your browser, no watermark.",
+      "WebP usually lands at half the size of the same PNG, and every current browser opens it.",
+      "Most modern image editors export WebP from the save dialog. The format's reference encoder is a free command-line tool.",
+      "Upload the converted file here for a shareable link. Free up to 25MB per file.",
+      "No account needed for your first 3 links. A free account keeps 10 live with no expiry.",
     ],
     body: [
-      "WebP is the modern image format every browser now supports, and it compresses far better than PNG. Swapping a PNG for a WebP often cuts the file size by half or more with no visible quality loss, which means faster pages and lighter shares. Drop your PNG here to convert it.",
-      "Smaller images matter most when they're going on the web. If you're publishing a page like a portfolio, a landing page, or an AI-built site, you can {{host-html}} and the lighter WebP assets will load noticeably faster. For photographs straight off an iPhone, {{converter-heic-to-jpg}} is the companion conversion.",
-      "If the images are part of a larger document, you can {{host-hub}} and share the whole thing as a link. Developers optimizing assets will find the rest of NudgeHost's {{dev-tools-hub}} useful alongside this converter.",
-      "Free with no watermark. Account features live on {{pricing}}.",
+      "WebP is the image format every current browser supports, and it compresses far better than PNG. The same image often lands at half the size or less, which means faster pages and lighter shares. Converting is a short job with tools you may already have. Most modern image editors export WebP from the save dialog, and the format's reference encoder is a free command-line tool that processes a whole folder in one line.",
+      "After converting, drop the WebP above to host it. If the image belongs to a site you're publishing, you can {{host-html}} and the lighter assets load noticeably faster. iPhone photographs have their own format problem, and {{converter-heic-to-jpg}} covers that one.",
+      "Anything else in the project can ride along. NudgeHost will {{host-hub}}, so mockups, PDFs, and ZIPs sit in the same dashboard as the images. Developers tidying assets may also get use out of {{dev-tools-hub}} alongside this page.",
+      "Hosting is free up to 25MB per file. Larger limits and custom domains are on {{pricing}}.",
     ],
     faqs: [
       {
-        q: "Will I lose image quality?",
-        a: "WebP's compression is very efficient. At normal settings the difference is invisible. You can also choose lossless WebP to keep the PNG's exact pixels at a smaller size.",
+        q: "Does NudgeHost convert the PNG for me?",
+        a: "No. Convert with your image editor or a command-line encoder first. NudgeHost hosts the WebP and gives you a link to share.",
       },
       {
-        q: "Does WebP work everywhere?",
-        a: "Yes. Every current browser supports WebP. For very old software, keep a JPG or PNG fallback.",
+        q: "Will browsers open a WebP link?",
+        a: "Yes. Every current browser renders WebP, and a hosted image link opens full screen with no download.",
       },
       {
-        q: "Can I convert transparent PNGs?",
-        a: "Yes. WebP supports transparency, so transparent PNGs convert cleanly.",
+        q: "Is there a file size limit?",
+        a: "25MB per file, free. Without an account you can hold 3 active links for 7 days. A free account gives 10 links with no expiry.",
       },
     ],
     relatedToolSlugs: ["converter-heic-to-jpg", "host-html", "host-pdf", "dev-json-formatter"],
-    filePillExamples: ["PNG", "Transparent", "Lossless option", "Up to 25MB free"],
+    filePillExamples: ["PNG", "WebP", "Up to 25MB free", "Share as a link"],
   },
 
   "heic-to-jpg": {
     slug: "heic-to-jpg",
     name: "HEIC to JPG",
-    title: "HEIC to JPG Converter: iPhone photos to JPG, free",
+    title: "HEIC to JPG: convert iPhone photos, then share them as a link",
     description:
-      "Convert HEIC photos from your iPhone into universal JPG. HEIC won't open on non-Apple devices or older software; JPG works everywhere. Free, no watermark.",
-    h1: "Convert HEIC to JPG.",
-    lead: "Drop a HEIC photo from your iPhone and get a JPG back that opens anywhere.",
+      "iPhones can export JPG directly. Convert your HEIC photos on the device, then host the JPGs on NudgeHost and share one link. Free up to 25MB per file.",
+    h1: "Convert HEIC to JPG and share the photo as a link.",
+    lead: "Your iPhone can hand you a JPG by itself. Convert on the device, then drop the photo here to host it and send a link.",
     keyPoints: [
-      "Drop a HEIC photo from an iPhone and get a universal JPG back.",
-      "Fixes the common problem of HEIC failing to open on non-Apple devices and older software.",
-      "High-quality output with negligible visible difference from the original.",
-      "Batch-convert several HEIC files at once if you're emptying a roll of photos.",
+      "iPhones export JPG when you copy a photo into the Files app, and the Most Compatible camera setting captures JPG from the start.",
+      "The photo apps built into Mac and Windows export JPG from a HEIC original too.",
+      "Upload the JPG here for a link that opens on any device. Free up to 25MB per file.",
+      "Your first 3 links need no account and stay live for 7 days. A free account holds 10 with no expiry.",
     ],
     body: [
-      "iPhones save photos as HEIC, which is efficient but stubborn. Plenty of websites, older software, and non-Apple devices simply won't open it. Converting to JPG makes the photo universal. Drop your HEIC file here and a JPG comes back, ready to use anywhere.",
-      "Once it's a JPG, you can drop the photo into {{host-hub}} and send a link, which beats sending a heavy attachment that the recipient's phone then refuses to preview. If you're sharing several photos, zip them together and {{host-zip}} for one tidy link.",
-      "If the JPG still needs to be lighter for a website, you can {{converter-png-to-webp}} to compress it further. And if you simply want to look at the photo without converting, the same browser-viewer approach that lets you {{viewer-pdf}} works for images too.",
-      "Free, no watermark. Sharing extras are on {{pricing}}.",
+      "iPhones save photos as HEIC, which is efficient but stubborn. Plenty of websites, older software, and non-Apple devices won't open it. The fix usually lives on the phone itself. Setting the camera to Most Compatible captures JPG from then on, copying a photo into the Files app converts it on the way, and the photo apps built into Mac and Windows export JPG from a HEIC original.",
+      "With a JPG in hand, drop it above to host it and share a link, which beats sending a heavy attachment the recipient's phone refuses to preview. For a set of photos, zip them first and {{host-zip}} so one link carries the whole set.",
+      "Since NudgeHost will {{host-hub}}, the originals can live next to the converted copies if you want both online. If the JPG needs to be lighter still for a website, the next step is to {{converter-png-to-webp}}. The same in-browser rendering behind {{viewer-pdf}} shows hosted images full screen as well.",
+      "Hosting is free up to 25MB per photo. Passwords and custom domains arrive when you {{pricing}}.",
     ],
     faqs: [
+      {
+        q: "Does NudgeHost convert the HEIC for me?",
+        a: "No. Convert on your iPhone or with your computer's photo app first, then upload the JPG here for a shareable link.",
+      },
       {
         q: "Why won't my HEIC photo open elsewhere?",
         a: "HEIC is an Apple-favoured format. Many non-Apple devices and older apps don't support it, so JPG is the universal alternative.",
       },
       {
-        q: "Will the photo lose quality?",
-        a: "JPG conversion is near-lossless at high quality settings. The visible difference is negligible.",
-      },
-      {
-        q: "Can I convert several photos at once?",
-        a: "Yes. Upload multiple HEIC files and each comes back as a JPG.",
+        q: "Is there a file size limit?",
+        a: "25MB per file, free. You can publish 3 links without an account (live for 7 days) or 10 with a free account and no expiry.",
       },
     ],
     relatedToolSlugs: ["converter-png-to-webp", "host-zip", "host-pdf", "viewer-pdf"],
-    filePillExamples: ["HEIC", "iPhone photo", "Batch convert", "Up to 25MB free"],
+    filePillExamples: ["HEIC", "JPG", "Up to 25MB free", "Share as a link"],
   },
 };
-
-

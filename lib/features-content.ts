@@ -157,6 +157,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     ],
     relatedToolSlugs: ["host-claude-artifact", "host-chatgpt-html", "features-html-rendering", "features-link-updating", "host-html"],
     filePillExamples: ["Paste HTML", "AI output", "Claude artifact", "No file needed", "Live in seconds"],
+    widgetDefaultTab: "paste",
   },
 
   "password-protection": {
@@ -201,7 +202,9 @@ export const featuresContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["features-custom-domains", "host-pdf", "use-case-deck", "features-link-previews", "use-case-recruiter"],
-    filePillExamples: ["Password gate", "PDF", "NDA", "Client deliverable", "Pro plan"],
+    // Pro-feature chips removed: the widget runs the free/anonymous upload
+    // flow, so chips only name what that flow delivers.
+    filePillExamples: ["PDF", "NDA", "Client deliverable"],
   },
 
   "custom-domains": {
@@ -246,7 +249,9 @@ export const featuresContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["features-link-previews", "features-shareable-links", "host-portfolio", "use-case-recruiter", "host-html"],
-    filePillExamples: ["Custom domain", "CNAME", "Free SSL", "Branded link", "Pro plan"],
+    // No custom chips: every candidate here named a Pro feature the free
+    // upload flow doesn't deliver, so the widget falls back to the generic
+    // file-type defaults.
   },
 
   "full-screen-viewer": {
