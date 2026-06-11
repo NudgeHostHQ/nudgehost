@@ -1,12 +1,18 @@
 "use client";
 
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { Check, Copy, FileUp, Link2, RotateCcw, X } from "lucide-react";
 import { sanitizeDesiredSlug, isClaimableSlug } from "@/lib/slug";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 
 type Status = "idle" | "uploading" | "success" | "error";
+
+// Inlined at build time. When the key is absent, anonymous uploads are off and
+// signed-out visitors get the pre-Turnstile behavior (redirect to sign-up).
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 // Reads the ?claim= param from the 404 "claim this link" flow and reports the
 // sanitized, claimable slug (or "") up to the widget. Isolated in its own
@@ -100,6 +106,43 @@ export function UploadWidget({
     claimRef.current = effectiveClaim;
   }, [effectiveClaim]);
 
+  // Anonymous-upload support. anonEnabled means the Turnstile site key was
+  // present at build time; without it, signed-out visitors keep the original
+  // redirect-to-sign-up behavior. The latest Turnstile token sits in a ref
+  // (tokens arrive via callback, not on demand); uploads that start before the
+  // first token arrives wait on it via tokenWaitersRef. anonLimit marks a
+  // server rejection that signing up would lift, so the error card can offer
+  // that path.
+  const anonEnabled = TURNSTILE_SITE_KEY.length > 0;
+  const turnstileTokenRef = useRef<string | null>(null);
+  const tokenWaitersRef = useRef<((token: string | null) => void)[]>([]);
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [anonLimit, setAnonLimit] = useState(false);
+
+  const handleTurnstileToken = useCallback((token: string | null) => {
+    turnstileTokenRef.current = token;
+    if (token) {
+      const waiters = tokenWaitersRef.current;
+      tokenWaitersRef.current = [];
+      waiters.forEach((resolve) => resolve(token));
+    }
+  }, []);
+
+  // Resolves with the current token, or the next one to arrive, or null after
+  // 20s so a stuck challenge fails with a message instead of hanging.
+  const waitForTurnstileToken = useCallback((): Promise<string | null> => {
+    if (turnstileTokenRef.current) {
+      return Promise.resolve(turnstileTokenRef.current);
+    }
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(null), 20000);
+      tokenWaitersRef.current.push((token) => {
+        clearTimeout(timer);
+        resolve(token);
+      });
+    });
+  }, []);
+
   const reset = useCallback(() => {
     setStatus("idle");
     setProgress(0);
@@ -107,71 +150,105 @@ export function UploadWidget({
     setActiveSize(0);
     setShareUrl("");
     setErrorMessage("");
+    setAnonLimit(false);
     setCopied(false);
     setPasteValue("");
     setShowHtmlWarning(false);
     if (inputRef.current) inputRef.current.value = "";
   }, []);
 
-  const upload = useCallback(async (file: File) => {
-    const contentType = file.type || "application/octet-stream";
-    setStatus("uploading");
-    setProgress(0);
-    setActiveName(file.name);
-    setActiveSize(file.size);
-    setErrorMessage("");
+  const upload = useCallback(
+    async (file: File) => {
+      const contentType = file.type || "application/octet-stream";
+      setStatus("uploading");
+      setProgress(0);
+      setActiveName(file.name);
+      setActiveSize(file.size);
+      setErrorMessage("");
+      setAnonLimit(false);
 
-    try {
-      const presignRes = await fetch("/api/upload/presign", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          filename: file.name,
+      try {
+        // Signed-out uploads carry a Turnstile token; the server rejects
+        // without one. Tokens are single-use, so it is cleared (and the widget
+        // reset) right after the presign call, whatever the outcome.
+        let turnstileToken: string | undefined;
+        if (!isSignedIn) {
+          const token = await waitForTurnstileToken();
+          if (!token) {
+            setErrorMessage(
+              "The security check did not finish. Please try again.",
+            );
+            setStatus("error");
+            return;
+          }
+          turnstileToken = token;
+        }
+
+        const presignRes = await fetch("/api/upload/presign", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            filename: file.name,
+            contentType,
+            fileSize: file.size,
+            // Read from a ref so a changing claim never re-creates upload(). When
+            // the server can't honor it, it falls back to a random slug and the
+            // confirm step returns whatever slug the file actually landed on.
+            desiredSlug: claimRef.current || undefined,
+            turnstileToken,
+          }),
+        });
+
+        if (!isSignedIn) {
+          turnstileTokenRef.current = null;
+          setTurnstileResetKey((key) => key + 1);
+        }
+
+        const presignData = await presignRes.json().catch(() => ({}));
+        if (!presignRes.ok) {
+          setErrorMessage(
+            presignData.error ||
+              "We could not start that upload. Please try again.",
+          );
+          setAnonLimit(Boolean(presignData.anonLimit));
+          setStatus("error");
+          return;
+        }
+
+        await putToR2(
+          presignData.presignedUrl,
+          file,
           contentType,
-          fileSize: file.size,
-          // Read from a ref so a changing claim never re-creates upload(). When
-          // the server can't honor it, it falls back to a random slug and the
-          // confirm step returns whatever slug the file actually landed on.
-          desiredSlug: claimRef.current || undefined,
-        }),
-      });
-
-      const presignData = await presignRes.json().catch(() => ({}));
-      if (!presignRes.ok) {
-        setErrorMessage(
-          presignData.error || "We could not start that upload. Please try again.",
+          setProgress,
         );
+
+        const confirmRes = await fetch("/api/upload/confirm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileId: presignData.fileId }),
+        });
+
+        const confirmData = await confirmRes.json().catch(() => ({}));
+        if (!confirmRes.ok || !confirmData.success) {
+          setErrorMessage(
+            confirmData.error || "That upload did not finish. Please try again.",
+          );
+          setStatus("error");
+          return;
+        }
+
+        setShareUrl(confirmData.url);
+        // The claim, if any, is now spent. Drop the pill so "Upload another file"
+        // is a clean random-slug upload instead of re-attempting the taken slug.
+        setClaimDismissed(true);
+        setStatus("success");
+      } catch {
+        setErrorMessage("Something interrupted the upload. Please try again.");
         setStatus("error");
-        return;
       }
-
-      await putToR2(presignData.presignedUrl, file, contentType, setProgress);
-
-      const confirmRes = await fetch("/api/upload/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileId: presignData.fileId }),
-      });
-
-      const confirmData = await confirmRes.json().catch(() => ({}));
-      if (!confirmRes.ok || !confirmData.success) {
-        setErrorMessage(
-          confirmData.error || "That upload did not finish. Please try again.",
-        );
-        setStatus("error");
-        return;
-      }
-
-      setShareUrl(confirmData.url);
-      // The claim, if any, is now spent. Drop the pill so "Upload another file"
-      // is a clean random-slug upload instead of re-attempting the taken slug.
-      setClaimDismissed(true);
-      setStatus("success");
-    } catch {
-      setErrorMessage("Something interrupted the upload. Please try again.");
-      setStatus("error");
-    }
-  }, []);
+    },
+    [isSignedIn, waitForTurnstileToken],
+  );
 
   // Paste path: wrap the textarea content in a Blob, mint a File from it, and
   // hand that File to the same upload() pipeline a picked file uses. Nothing
@@ -181,7 +258,7 @@ export function UploadWidget({
   const publishPaste = useCallback(
     (html: string) => {
       if (!isLoaded) return;
-      if (!isSignedIn) {
+      if (!isSignedIn && !anonEnabled) {
         router.push("/sign-up");
         return;
       }
@@ -192,7 +269,7 @@ export function UploadWidget({
       });
       void upload(file);
     },
-    [isLoaded, isSignedIn, router, upload],
+    [isLoaded, isSignedIn, anonEnabled, router, upload],
   );
 
   const handlePublishClick = useCallback(() => {
@@ -207,27 +284,28 @@ export function UploadWidget({
     publishPaste(pasteValue);
   }, [pasteValue, publishPaste]);
 
-  // A click or tap on the drop zone. Send guests to sign-up first.
+  // A click or tap on the drop zone. Guests go to sign-up only when anonymous
+  // uploads are off (no Turnstile site key in the build).
   const handleActivate = useCallback(() => {
     if (!isLoaded) return;
-    if (!isSignedIn) {
+    if (!isSignedIn && !anonEnabled) {
       router.push("/sign-up");
       return;
     }
     inputRef.current?.click();
-  }, [isLoaded, isSignedIn, router]);
+  }, [isLoaded, isSignedIn, anonEnabled, router]);
 
   const handleFiles = useCallback(
     (fileList: FileList | null) => {
       const file = fileList?.[0];
       if (!file) return;
-      if (!isSignedIn) {
+      if (!isSignedIn && !anonEnabled) {
         router.push("/sign-up");
         return;
       }
       void upload(file);
     },
-    [isSignedIn, router, upload],
+    [isSignedIn, anonEnabled, router, upload],
   );
 
   const handleDrop = useCallback(
@@ -235,13 +313,13 @@ export function UploadWidget({
       event.preventDefault();
       setDragActive(false);
       if (!isLoaded) return;
-      if (!isSignedIn) {
+      if (!isSignedIn && !anonEnabled) {
         router.push("/sign-up");
         return;
       }
       handleFiles(event.dataTransfer.files);
     },
-    [handleFiles, isLoaded, isSignedIn, router],
+    [handleFiles, isLoaded, isSignedIn, anonEnabled, router],
   );
 
   const copyLink = useCallback(async () => {
@@ -266,6 +344,17 @@ export function UploadWidget({
       <Suspense fallback={null}>
         <ClaimParamReader onClaim={setClaimSlug} />
       </Suspense>
+
+      {/* Invisible unless Cloudflare decides to show a challenge. Mounted
+          outside the status blocks so an issued token survives the idle →
+          uploading transition. */}
+      {isLoaded && !isSignedIn && anonEnabled && (
+        <TurnstileWidget
+          siteKey={TURNSTILE_SITE_KEY}
+          onToken={handleTurnstileToken}
+          resetKey={turnstileResetKey}
+        />
+      )}
 
       {/* IDLE — a tab bar, then either the dashed drop zone or the paste panel */}
       {status === "idle" && (
@@ -548,14 +637,30 @@ export function UploadWidget({
           <p className="mx-auto mt-2 max-w-sm text-sm text-coral-dark">
             {errorMessage}
           </p>
-          <button
-            type="button"
-            onClick={reset}
-            className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-coral px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-          >
-            <RotateCcw size={15} strokeWidth={2} aria-hidden="true" />
-            Try again
-          </button>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+            {/* Offered only when the rejection was an anonymous limit an
+                account would lift; reuses the existing sign-up route. */}
+            {anonLimit && (
+              <Link
+                href="/sign-up"
+                className="inline-flex items-center rounded-full bg-coral px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+              >
+                Sign up to continue
+              </Link>
+            )}
+            <button
+              type="button"
+              onClick={reset}
+              className={
+                anonLimit
+                  ? "inline-flex items-center gap-1.5 rounded-full border border-charcoal/15 bg-white px-6 py-2.5 text-sm font-medium text-charcoal transition-colors hover:border-charcoal/30"
+                  : "inline-flex items-center gap-1.5 rounded-full bg-coral px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+              }
+            >
+              <RotateCcw size={15} strokeWidth={2} aria-hidden="true" />
+              Try again
+            </button>
+          </div>
         </div>
       )}
     </div>

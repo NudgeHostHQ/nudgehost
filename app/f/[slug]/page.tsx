@@ -31,6 +31,19 @@ const getFileBySlug = cache(async (slug: string) => {
   return file ?? null;
 });
 
+// Expired anonymous files vanish entirely (the visitor was told the link
+// lasts 7 days; afterwards it reads as never claimed). Expired owner files
+// keep the explanatory "link has expired" screen below, since expiry there is
+// a setting the owner chose and can clear from the dashboard.
+function isExpiredAnonFile(file: {
+  anonToken: string | null;
+  expiresAt: Date | null;
+}): boolean {
+  return Boolean(
+    file.anonToken && file.expiresAt && file.expiresAt.getTime() < Date.now(),
+  );
+}
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
@@ -63,7 +76,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const file = await getFileBySlug(slug);
 
-  if (!file || file.isDeleted) {
+  if (!file || file.isDeleted || isExpiredAnonFile(file)) {
     return {
       title: "File not found",
       robots: { index: false, follow: false },
@@ -141,7 +154,7 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   const { slug } = await params;
   const file = await getFileBySlug(slug);
 
-  if (!file || file.isDeleted) {
+  if (!file || file.isDeleted || isExpiredAnonFile(file)) {
     notFound();
   }
 

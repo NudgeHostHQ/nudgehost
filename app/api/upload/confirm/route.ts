@@ -1,4 +1,5 @@
 import { NextResponse, after } from "next/server";
+import { cookies } from "next/headers";
 import { auth } from "@clerk/nextjs/server";
 import { HeadObjectCommand } from "@aws-sdk/client-s3";
 import { and, eq } from "drizzle-orm";
@@ -6,17 +7,28 @@ import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { fetchAndStoreThumbnail } from "@/lib/thumbnail-store";
+import { ANON_COOKIE_NAME, isValidAnonToken } from "@/lib/anon-upload";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
 
 export async function POST(request: Request) {
   const { userId } = await auth();
+
+  // Anonymous confirms identify the visitor by the anon cookie set during
+  // presign; the row lookup below is scoped to that token, mirroring how
+  // signed-in confirms are scoped to the user.
+  let anonToken: string | null = null;
   if (!userId) {
-    return NextResponse.json(
-      { error: "Please sign in to finish your upload." },
-      { status: 401 },
-    );
+    const cookieStore = await cookies();
+    const cookieToken = cookieStore.get(ANON_COOKIE_NAME)?.value ?? "";
+    if (!isValidAnonToken(cookieToken)) {
+      return NextResponse.json(
+        { error: "Please sign in to finish your upload." },
+        { status: 401 },
+      );
+    }
+    anonToken = cookieToken;
   }
 
   let body: { fileId?: unknown };
@@ -37,11 +49,15 @@ export async function POST(request: Request) {
     );
   }
 
-  // Only ever touch a row that belongs to the signed-in user.
+  // Only ever touch a row that belongs to the caller: the signed-in user, or
+  // the anonymous visitor whose token stamped the row.
+  const ownerMatch = userId
+    ? eq(files.userId, userId)
+    : eq(files.anonToken, anonToken!);
   const [file] = await db
     .select()
     .from(files)
-    .where(and(eq(files.id, fileId), eq(files.userId, userId)))
+    .where(and(eq(files.id, fileId), ownerMatch))
     .limit(1);
 
   if (!file) {

@@ -1,13 +1,26 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { nanoid, customAlphabet } from "nanoid";
-import { and, eq, count } from "drizzle-orm";
+import { and, eq, count, gt, isNull, or } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users, files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { sanitizeDesiredSlug, isClaimableSlug } from "@/lib/slug";
+import {
+  ANON_COOKIE_MAX_AGE,
+  ANON_COOKIE_NAME,
+  ANON_EXPIRY_MS,
+  ANON_MAX_ACTIVE_FILES,
+  ANON_MAX_FILE_BYTES,
+  clientIp,
+  generateAnonToken,
+  isValidAnonToken,
+} from "@/lib/anon-upload";
+import { turnstileConfigured, verifyTurnstileToken } from "@/lib/turnstile";
+import { consumeAnonPresignLimit } from "@/lib/rate-limit";
 
 // Per-plan upload ceilings, enforced from the user's plan in the database.
 const PLAN_MAX_FILE_BYTES: Record<string, number> = {
@@ -52,7 +65,10 @@ function isUniqueViolation(err: unknown): boolean {
 
 export async function POST(request: Request) {
   const { userId } = await auth();
-  if (!userId) {
+
+  // Signed-out uploads are allowed only when Turnstile is configured; with no
+  // way to verify the visitor, fall back to the original sign-in requirement.
+  if (!userId && !turnstileConfigured()) {
     return NextResponse.json(
       { error: "Please sign in to upload a file." },
       { status: 401 },
@@ -64,6 +80,7 @@ export async function POST(request: Request) {
     contentType?: unknown;
     fileSize?: unknown;
     desiredSlug?: unknown;
+    turnstileToken?: unknown;
   };
   try {
     body = await request.json();
@@ -101,56 +118,134 @@ export async function POST(request: Request) {
     );
   }
 
-  // Resolve the plan to pick the right ceiling. A user who hasn't uploaded yet
-  // has no row, which counts as the free tier.
-  const [existing] = await db
-    .select({ plan: users.plan })
-    .from(users)
-    .where(eq(users.id, userId))
-    .limit(1);
-  const plan = existing?.plan ?? "free";
-  const maxBytes = PLAN_MAX_FILE_BYTES[plan] ?? PLAN_MAX_FILE_BYTES.free;
+  // Set on the anonymous path only. Exactly one of userId / anonToken ends up
+  // on the file row; anonymous rows also carry a 7-day expiry.
+  let anonToken: string | null = null;
+  let anonExpiresAt: Date | null = null;
 
-  if (fileSize > maxBytes) {
-    return NextResponse.json(
-      {
-        error: `That file is over the ${formatLimit(maxBytes)} limit on your plan. Try a smaller file or upgrade for more room.`,
-      },
-      { status: 413 },
-    );
-  }
+  if (userId) {
+    // SIGNED-IN PATH: unchanged from before anonymous uploads existed.
+    // Resolve the plan to pick the right ceiling. A user who hasn't uploaded
+    // yet has no row, which counts as the free tier.
+    const [existing] = await db
+      .select({ plan: users.plan })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    const plan = existing?.plan ?? "free";
+    const maxBytes = PLAN_MAX_FILE_BYTES[plan] ?? PLAN_MAX_FILE_BYTES.free;
 
-  // The free plan caps active (non-deleted) files; paid plans are uncapped.
-  if (plan === "free") {
-    const [{ value: activeFiles }] = await db
-      .select({ value: count() })
-      .from(files)
-      .where(and(eq(files.userId, userId), eq(files.isDeleted, false)));
+    if (fileSize > maxBytes) {
+      return NextResponse.json(
+        {
+          error: `That file is over the ${formatLimit(maxBytes)} limit on your plan. Try a smaller file or upgrade for more room.`,
+        },
+        { status: 413 },
+      );
+    }
 
-    if (activeFiles >= FREE_MAX_ACTIVE_FILES) {
+    // The free plan caps active (non-deleted) files; paid plans are uncapped.
+    if (plan === "free") {
+      const [{ value: activeFiles }] = await db
+        .select({ value: count() })
+        .from(files)
+        .where(and(eq(files.userId, userId), eq(files.isDeleted, false)));
+
+      if (activeFiles >= FREE_MAX_ACTIVE_FILES) {
+        return NextResponse.json(
+          {
+            error:
+              "You have reached 10 active files on the free plan. Delete one or upgrade to add more.",
+          },
+          { status: 403 },
+        );
+      }
+    }
+
+    const email =
+      (await currentUser())?.primaryEmailAddress?.emailAddress ?? "";
+
+    // Make sure an account row exists before we reference it from files.
+    await db
+      .insert(users)
+      .values({ id: userId, email })
+      .onConflictDoUpdate({
+        target: users.id,
+        set: { email, updatedAt: new Date() },
+      });
+  } else {
+    // ANONYMOUS PATH. Cheap checks first: the IP rate limit costs two DB
+    // queries, the Turnstile check a network round trip to Cloudflare.
+    const ip = clientIp(request);
+
+    if (!(await consumeAnonPresignLimit(ip))) {
       return NextResponse.json(
         {
           error:
-            "You have reached 10 active files on the free plan. Delete one or upgrade to add more.",
+            "Too many uploads from your network right now. Please wait an hour and try again, or sign in to keep going.",
+          anonLimit: true,
+        },
+        { status: 429 },
+      );
+    }
+
+    const turnstileToken =
+      typeof body.turnstileToken === "string" ? body.turnstileToken : "";
+    if (!(await verifyTurnstileToken(turnstileToken, ip))) {
+      return NextResponse.json(
+        {
+          error:
+            "We could not verify your browser. Please refresh the page and try again.",
         },
         { status: 403 },
       );
     }
+
+    if (fileSize > ANON_MAX_FILE_BYTES) {
+      return NextResponse.json(
+        {
+          error: `That file is over the ${formatLimit(ANON_MAX_FILE_BYTES)} limit for uploads without an account. Sign up free for more room.`,
+        },
+        { status: 413 },
+      );
+    }
+
+    // Reuse the visitor's cookie token when it looks like one of ours;
+    // otherwise mint a fresh one. The cookie is (re)set on the response.
+    const cookieStore = await cookies();
+    const cookieToken = cookieStore.get(ANON_COOKIE_NAME)?.value ?? "";
+    anonToken = isValidAnonToken(cookieToken)
+      ? cookieToken
+      : generateAnonToken();
+
+    // The anonymous cap counts active files: not deleted and not yet expired.
+    const [{ value: activeFiles }] = await db
+      .select({ value: count() })
+      .from(files)
+      .where(
+        and(
+          eq(files.anonToken, anonToken),
+          eq(files.isDeleted, false),
+          or(isNull(files.expiresAt), gt(files.expiresAt, new Date())),
+        ),
+      );
+
+    if (activeFiles >= ANON_MAX_ACTIVE_FILES) {
+      return NextResponse.json(
+        {
+          error: `You have reached ${ANON_MAX_ACTIVE_FILES} active files without an account. Sign in to keep uploading.`,
+          anonLimit: true,
+        },
+        { status: 403 },
+      );
+    }
+
+    anonExpiresAt = new Date(Date.now() + ANON_EXPIRY_MS);
   }
 
-  const email =
-    (await currentUser())?.primaryEmailAddress?.emailAddress ?? "";
-
-  // Make sure an account row exists before we reference it from files.
-  await db
-    .insert(users)
-    .values({ id: userId, email })
-    .onConflictDoUpdate({
-      target: users.id,
-      set: { email, updatedAt: new Date() },
-    });
-
-  const fileKey = `${userId}/${nanoid(12)}/${safeKeyName(filename)}`;
+  // Anonymous objects are keyed under anon/<token> instead of a user ID.
+  const keyOwner = userId ?? `anon/${anonToken}`;
+  const fileKey = `${keyOwner}/${nanoid(12)}/${safeKeyName(filename)}`;
 
   let presignedUrl: string;
   try {
@@ -178,8 +273,13 @@ export async function POST(request: Request) {
       ? sanitizeDesiredSlug(body.desiredSlug)
       : "";
 
+  // Exactly one of userId / anonToken is non-null here (the branch above set
+  // anonToken only when there is no session). Application-level invariant;
+  // there is no DB constraint backing it.
   const baseValues = {
-    userId,
+    userId: userId ?? null,
+    anonToken,
+    expiresAt: anonExpiresAt,
     filename,
     fileKey,
     fileSize,
@@ -220,10 +320,24 @@ export async function POST(request: Request) {
     fileId = created.id;
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     presignedUrl,
     slug,
     fileId,
     claimedSlug,
   });
+
+  // Persist (or refresh) the anonymous identity so the confirm step and
+  // future uploads can find this visitor's files.
+  if (anonToken) {
+    response.cookies.set(ANON_COOKIE_NAME, anonToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: ANON_COOKIE_MAX_AGE,
+    });
+  }
+
+  return response;
 }

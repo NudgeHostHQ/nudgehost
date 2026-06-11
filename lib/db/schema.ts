@@ -22,13 +22,16 @@ export const users = pgTable("users", {
 
 // One row per uploaded file. fileKey is the R2 object key, slug is the short
 // public URL segment, is_deleted is a soft-delete flag.
+//
+// Ownership is exactly one of userId (signed-in upload) or anonToken
+// (anonymous upload, matched against the visitor's httpOnly cookie). The
+// either-or rule is enforced in the presign route, not by a DB constraint.
 export const files = pgTable(
   "files",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id),
+    userId: text("user_id").references(() => users.id),
+    anonToken: text("anon_token"),
     filename: text("filename").notNull(),
     fileKey: text("file_key").notNull(),
     fileSize: integer("file_size").notNull(),
@@ -48,6 +51,22 @@ export const files = pgTable(
   (table) => [
     index("files_user_id_idx").on(table.userId),
     index("files_slug_idx").on(table.slug),
+    index("files_anon_token_idx").on(table.anonToken),
+  ],
+);
+
+// One row per anonymous presign attempt, used for the per-IP rate limit on
+// anonymous uploads. ipHash is sha256(ip) so raw addresses are never stored.
+// Rows older than the rate window are cleared opportunistically on each check.
+export const uploadRateEvents = pgTable(
+  "upload_rate_events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    ipHash: text("ip_hash").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("upload_rate_events_ip_hash_idx").on(table.ipHash, table.createdAt),
   ],
 );
 
