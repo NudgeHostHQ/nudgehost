@@ -7,6 +7,7 @@ import { and, eq, count } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users, files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
+import { sanitizeDesiredSlug, isClaimableSlug } from "@/lib/slug";
 
 // Per-plan upload ceilings, enforced from the user's plan in the database.
 const PLAN_MAX_FILE_BYTES: Record<string, number> = {
@@ -36,6 +37,19 @@ function safeKeyName(filename: string): string {
   return cleaned.length > 0 ? cleaned : "file";
 }
 
+// Postgres unique_violation is SQLSTATE 23505. The Neon HTTP driver surfaces it
+// as err.code; guard the nested cause too in case a wrapper re-throws it.
+function isUniqueViolation(err: unknown): boolean {
+  if (typeof err !== "object" || err === null) return false;
+  if ((err as { code?: unknown }).code === "23505") return true;
+  const cause = (err as { cause?: unknown }).cause;
+  return (
+    typeof cause === "object" &&
+    cause !== null &&
+    (cause as { code?: unknown }).code === "23505"
+  );
+}
+
 export async function POST(request: Request) {
   const { userId } = await auth();
   if (!userId) {
@@ -45,7 +59,12 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { filename?: unknown; contentType?: unknown; fileSize?: unknown };
+  let body: {
+    filename?: unknown;
+    contentType?: unknown;
+    fileSize?: unknown;
+    desiredSlug?: unknown;
+  };
   try {
     body = await request.json();
   } catch {
@@ -132,7 +151,6 @@ export async function POST(request: Request) {
     });
 
   const fileKey = `${userId}/${nanoid(12)}/${safeKeyName(filename)}`;
-  const slug = makeSlug();
 
   let presignedUrl: string;
   try {
@@ -153,23 +171,59 @@ export async function POST(request: Request) {
     );
   }
 
-  const [created] = await db
-    .insert(files)
-    .values({
-      userId,
-      filename,
-      fileKey,
-      fileSize,
-      mimeType: contentType,
-      slug,
-      viewCount: 0,
-      isDeleted: false,
-    })
-    .returning({ id: files.id });
+  // An optional claimed slug from the 404 flow. Sanitized and reserved-checked
+  // server-side regardless of what the client sent; the param is never trusted.
+  const desiredSlug =
+    typeof body.desiredSlug === "string"
+      ? sanitizeDesiredSlug(body.desiredSlug)
+      : "";
+
+  const baseValues = {
+    userId,
+    filename,
+    fileKey,
+    fileSize,
+    mimeType: contentType,
+    viewCount: 0,
+    isDeleted: false,
+  };
+
+  // Try the claimed slug first when it's usable. claimedSlug echoes the outcome
+  // to the client: the slug on success, or null when we fell back to a random
+  // one (slug taken, reserved, or empty after sanitizing). A fallback is never
+  // an error; the upload still succeeds at the random slug.
+  let slug = makeSlug();
+  let claimedSlug: string | null = null;
+  let fileId = "";
+
+  if (isClaimableSlug(desiredSlug)) {
+    try {
+      const [created] = await db
+        .insert(files)
+        .values({ ...baseValues, slug: desiredSlug })
+        .returning({ id: files.id });
+      fileId = created.id;
+      slug = desiredSlug;
+      claimedSlug = desiredSlug;
+    } catch (err) {
+      // The slug was taken between the check and the insert. Fall through to a
+      // random slug. Anything that isn't a unique violation is a real error.
+      if (!isUniqueViolation(err)) throw err;
+    }
+  }
+
+  if (!fileId) {
+    const [created] = await db
+      .insert(files)
+      .values({ ...baseValues, slug })
+      .returning({ id: files.id });
+    fileId = created.id;
+  }
 
   return NextResponse.json({
     presignedUrl,
     slug,
-    fileId: created.id,
+    fileId,
+    claimedSlug,
   });
 }

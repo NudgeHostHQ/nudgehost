@@ -1,11 +1,28 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
-import { Check, Copy, FileUp, RotateCcw } from "lucide-react";
+import { Check, Copy, FileUp, Link2, RotateCcw, X } from "lucide-react";
+import { sanitizeDesiredSlug, isClaimableSlug } from "@/lib/slug";
 
 type Status = "idle" | "uploading" | "success" | "error";
+
+// Reads the ?claim= param from the 404 "claim this link" flow and reports the
+// sanitized, claimable slug (or "") up to the widget. Isolated in its own
+// component so the useSearchParams Suspense boundary wraps only this leaf: the
+// widget itself stays statically rendered, and the boundary's null fallback
+// keeps it out of the prerendered HTML.
+function ClaimParamReader({ onClaim }: { onClaim: (slug: string) => void }) {
+  const searchParams = useSearchParams();
+  const raw = searchParams.get("claim") ?? "";
+  const slug = sanitizeDesiredSlug(raw);
+  const claimable = isClaimableSlug(slug) ? slug : "";
+  useEffect(() => {
+    onClaim(claimable);
+  }, [claimable, onClaim]);
+  return null;
+}
 
 const FILE_TYPES = ["PDF", "HTML", "ZIP", "Image", "Any file"];
 
@@ -71,6 +88,18 @@ export function UploadWidget({
   const [pasteValue, setPasteValue] = useState("");
   const [showHtmlWarning, setShowHtmlWarning] = useState(false);
 
+  // The slug the visitor arrived to claim (sanitized + reserved-checked by
+  // ClaimParamReader), and whether they dismissed the pill. Dismissing reverts
+  // to a normal upload. The effective value is mirrored into a ref so upload()
+  // can read it without being recreated on every claim change.
+  const [claimSlug, setClaimSlug] = useState("");
+  const [claimDismissed, setClaimDismissed] = useState(false);
+  const effectiveClaim = claimSlug && !claimDismissed ? claimSlug : "";
+  const claimRef = useRef("");
+  useEffect(() => {
+    claimRef.current = effectiveClaim;
+  }, [effectiveClaim]);
+
   const reset = useCallback(() => {
     setStatus("idle");
     setProgress(0);
@@ -100,6 +129,10 @@ export function UploadWidget({
           filename: file.name,
           contentType,
           fileSize: file.size,
+          // Read from a ref so a changing claim never re-creates upload(). When
+          // the server can't honor it, it falls back to a random slug and the
+          // confirm step returns whatever slug the file actually landed on.
+          desiredSlug: claimRef.current || undefined,
         }),
       });
 
@@ -130,6 +163,9 @@ export function UploadWidget({
       }
 
       setShareUrl(confirmData.url);
+      // The claim, if any, is now spent. Drop the pill so "Upload another file"
+      // is a clean random-slug upload instead of re-attempting the taken slug.
+      setClaimDismissed(true);
       setStatus("success");
     } catch {
       setErrorMessage("Something interrupted the upload. Please try again.");
@@ -227,9 +263,36 @@ export function UploadWidget({
         onChange={(event) => handleFiles(event.target.files)}
       />
 
+      <Suspense fallback={null}>
+        <ClaimParamReader onClaim={setClaimSlug} />
+      </Suspense>
+
       {/* IDLE — a tab bar, then either the dashed drop zone or the paste panel */}
       {status === "idle" && (
         <div>
+          {effectiveClaim && (
+            <div className="mb-4 flex items-center gap-2 rounded-full border border-line bg-cream px-4 py-2 text-sm">
+              <Link2
+                size={14}
+                className="shrink-0 text-muted"
+                aria-hidden="true"
+              />
+              <span className="min-w-0 flex-1 truncate">
+                <span className="text-charcoal">nudgehost.com/</span>
+                <span className="font-semibold text-coral-dark">
+                  {effectiveClaim}
+                </span>
+              </span>
+              <button
+                type="button"
+                onClick={() => setClaimDismissed(true)}
+                aria-label="Dismiss claimed link"
+                className="shrink-0 text-muted transition-colors hover:text-charcoal"
+              >
+                <X size={14} strokeWidth={2} aria-hidden="true" />
+              </button>
+            </div>
+          )}
           <div
             role="tablist"
             aria-label="Choose how to publish"
