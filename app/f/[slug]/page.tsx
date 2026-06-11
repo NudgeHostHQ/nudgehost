@@ -76,7 +76,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const file = await getFileBySlug(slug);
 
-  if (!file || file.isDeleted || isExpiredAnonFile(file)) {
+  if (!file || file.isDeleted || file.banned || isExpiredAnonFile(file)) {
     return {
       title: "File not found",
       robots: { index: false, follow: false },
@@ -114,11 +114,18 @@ function ViewerShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+// mailto link for flagging a file; no form or report page yet.
+function reportHref(slug: string): string {
+  return `mailto:support@nudgehost.com?subject=${encodeURIComponent(`Report abuse: ${slug}`)}`;
+}
+
 function ViewerHeader({
   filename,
+  slug,
   downloadUrl,
 }: {
   filename: string;
+  slug: string;
   downloadUrl?: string;
 }) {
   return (
@@ -137,15 +144,23 @@ function ViewerHeader({
           {filename}
         </span>
       </div>
-      {downloadUrl && (
+      <div className="flex shrink-0 items-center gap-4">
         <a
-          href={downloadUrl}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-coral px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+          href={reportHref(slug)}
+          className="text-sm text-muted transition-colors hover:text-charcoal"
         >
-          <Download size={15} strokeWidth={2} aria-hidden="true" />
-          Download
+          Report
         </a>
-      )}
+        {downloadUrl && (
+          <a
+            href={downloadUrl}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-coral px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+          >
+            <Download size={15} strokeWidth={2} aria-hidden="true" />
+            Download
+          </a>
+        )}
+      </div>
     </header>
   );
 }
@@ -154,7 +169,9 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   const { slug } = await params;
   const file = await getFileBySlug(slug);
 
-  if (!file || file.isDeleted || isExpiredAnonFile(file)) {
+  // Banned files 404 like deleted ones; the R2 object stays for 30 days as
+  // evidence and the cleanup cron removes it after that.
+  if (!file || file.isDeleted || file.banned || isExpiredAnonFile(file)) {
     notFound();
   }
 
@@ -162,7 +179,7 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   if (file.expiresAt && file.expiresAt.getTime() < Date.now()) {
     return (
       <ViewerShell>
-        <ViewerHeader filename={file.filename} />
+        <ViewerHeader filename={file.filename} slug={file.slug} />
         <main className="flex flex-1 flex-col items-center justify-center px-6 py-20 text-center">
           <div
             className="mb-5 flex items-center justify-center rounded-2xl bg-coral-light text-coral-dark"
@@ -197,7 +214,7 @@ export default async function FileViewerPage({ params }: { params: Params }) {
     if (token !== unlockToken(file.id, file.passwordHash)) {
       return (
         <ViewerShell>
-          <ViewerHeader filename={file.filename} />
+          <ViewerHeader filename={file.filename} slug={file.slug} />
           <main className="flex flex-1 flex-col items-center justify-center px-6 py-20">
             <PasswordPrompt fileId={file.id} filename={file.filename} />
           </main>
@@ -233,7 +250,7 @@ export default async function FileViewerPage({ params }: { params: Params }) {
 
   return (
     <ViewerShell>
-      <ViewerHeader filename={file.filename} downloadUrl={downloadUrl} />
+      <ViewerHeader filename={file.filename} slug={file.slug} downloadUrl={downloadUrl} />
 
       {isImage && viewUrl && (
         <main className="flex flex-1 items-center justify-center p-4 sm:p-8">
@@ -293,6 +310,15 @@ export default async function FileViewerPage({ params }: { params: Params }) {
                   nudge<span className="text-coral">host</span>
                 </Link>
                 <span className="text-muted">Hosted free on NudgeHost</span>
+                <span className="text-muted" aria-hidden="true">
+                  ·
+                </span>
+                <a
+                  href={reportHref(file.slug)}
+                  className="pointer-events-auto text-muted underline-offset-2 transition-colors hover:text-charcoal hover:underline"
+                >
+                  Report
+                </a>
               </div>
             </div>
           )}

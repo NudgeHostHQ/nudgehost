@@ -45,6 +45,11 @@ export const files = pgTable(
     expiresAt: timestamp("expires_at", { withTimezone: true }),
     viewCount: integer("view_count").notNull().default(0),
     isDeleted: boolean("is_deleted").notNull().default(false),
+    // Abuse takedown, operated via POST /api/admin/ban. A banned file 404s
+    // everywhere but its R2 object is kept for 30 days as evidence; the
+    // cleanup cron hard-deletes it after that.
+    banned: boolean("banned").notNull().default(false),
+    bannedAt: timestamp("banned_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
