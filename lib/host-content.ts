@@ -983,13 +983,13 @@ export const hostContentMap: Record<string, SpokeContent> = {
     name: "MP4",
     title: "Host an MP4 online: share a video file as a link",
     description:
-      "Drop an MP4 video and get a shareable link in seconds. The recipient downloads the clip from a clean page and plays it locally. Free up to 25MB.",
+      "Drop an MP4 video and get a shareable link in seconds. It plays right on the link page with native browser controls. Free up to 25MB.",
     h1: "Host an MP4 video as a link.",
-    lead: "Drop your MP4 and get a clean URL. The recipient downloads the clip and plays it on their device. No YouTube account, no upload queue.",
+    lead: "Drop your MP4 and get a clean URL. The video plays on the link page with the browser's own controls. No YouTube account, no upload queue.",
     keyPoints: [
-      "Upload an .mp4 file, get a public link in seconds, share it. The recipient downloads the clip in one click.",
-      "H.264 with AAC audio plays on every device the file lands on.",
-      "No platform in the way: no ads, no related videos, no public profile, just your file at your link.",
+      "Upload an .mp4 file, get a public link in seconds, share it. The video plays right on the link page.",
+      "Native browser controls: play, pause, scrub, volume, fullscreen. No player library, no platform chrome.",
+      "H.264 with AAC audio plays everywhere; a codec the browser can't decode falls back to a clean download.",
       "Free plan handles video files up to 25MB. Short screen recordings and demos fit comfortably.",
     ],
     author: "NudgeHost Team",
@@ -997,18 +997,18 @@ export const hostContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Putting a video online used to mean YouTube, with all the friction that implied: ads, autoplay of unrelated content, an upload queue, a public profile, copyright algorithms. For a short demo video, a screen recording, or a clip from a meeting, none of that is what you want. You want a URL. You drop the file, you get the URL, you send it.",
-      "The link lands the recipient on a clean page with the filename, the size, and a download button. There's no player on the page itself; they save the clip and it plays in whatever their device uses for video, which for an H.264 MP4 is everything made in the last decade. For a clip that should play the moment a page opens, the honest route is a video platform; for handing someone the actual file without a platform in the way, this is the lighter path.",
+      "The link lands the recipient on a clean page where the video plays inline with the browser's native controls: play, pause, scrub, volume, fullscreen. The player loads metadata first, so opening the page doesn't pull the whole file before anyone presses play. If the recipient's browser can't decode the codec inside the container, the page swaps to a download card instead of a broken player, and the download button in the header is always there for keeping a copy.",
       "Compression matters more for video than for any other format, because every play spends {{glossary-bandwidth}} on the full file again. A 30-second screen recording from QuickTime can easily be 80MB at H.264 with default settings; the same recording exported with HandBrake's Web preset is usually under 5MB and looks identical at typical viewing sizes. If your file is over 25MB and you're on the free plan, re-encoding before upload is almost always the right move. For short looped animations where you don't need scrubbable controls, you can {{host-gif}} instead and the file stays lighter.",
       "Hosted free with no watermark; {{pricing}} adds the Pro tier. Larger videos and longer clips fit on Pro. A product demo video usually travels with a sales conversation, so you can {{use-case-deck}} and drop the video link alongside the deck. The dashboard handles {{host-hub}} next to the video: a {{host-pdf}} for the script, somewhere to {{host-image}} for stills, and a place to {{host-mp3}} when you're shipping the audio track separately.",
     ],
     faqs: [
       {
         q: "Does the video play on the link page?",
-        a: "No. The page offers the file as a download with the filename and size shown; playback happens in the recipient's own player once they save it.",
+        a: "Yes. It plays inline with the browser's native controls. If the browser can't decode the codec, the page falls back to a download card instead.",
       },
       {
         q: "What does the recipient need to play it?",
-        a: "Nothing special. An H.264 MP4 plays in the default player on every modern phone, laptop, and tablet.",
+        a: "Nothing. Every modern browser plays H.264 MP4 on the page itself; there's no app or player to install.",
       },
       {
         q: "What codec should the MP4 use?",
@@ -1028,12 +1028,12 @@ export const hostContentMap: Record<string, SpokeContent> = {
     name: "MP3",
     title: "Host an MP3 online: share an audio file as a link",
     description:
-      "Drop an MP3 and get a shareable link. The recipient downloads the clip from a clean page; the free 25MB ceiling fits about 25 minutes at 128kbps.",
+      "Drop an MP3 and get a shareable link. It plays right on the link page with native audio controls; the free 25MB ceiling fits about 25 minutes at 128kbps.",
     h1: "Host an MP3 audio file as a link.",
-    lead: "Drop your MP3 and get a clean URL. The recipient downloads the clip and plays it anywhere, with no embed code and no podcast platform.",
+    lead: "Drop your MP3 and get a clean URL. The audio plays on the link page with the browser's own controls, no embed code, no podcast platform.",
     keyPoints: [
       "Upload an .mp3 file and get a public link in seconds, no signup.",
-      "The recipient downloads the clip from a clean page in one click; MP3 plays on everything.",
+      "Plays right on the link page with native play, pause, and scrub controls.",
       "Works for podcast pilots, voiceovers, meeting recordings, and music demos without needing a platform.",
       "Free plan handles audio files up to 25MB, which is roughly 25 minutes at 128kbps.",
     ],
@@ -1041,7 +1041,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-22",
     dateModified: "2026-05-22",
     body: [
-      "Hosting an audio file as a link is the unglamorous middle path between 'send the file as an email attachment' and 'set up a SoundCloud account.' Voiceover demos, podcast pilots, meeting recordings, music sketches, language practice clips, any of it can sit at a NudgeHost URL with a single click of upload. The recipient gets a tidy page with the filename and a download button; one click later the clip is playing in whatever their device uses for audio. No account, no app.",
+      "Hosting an audio file as a link is the unglamorous middle path between 'send the file as an email attachment' and 'set up a SoundCloud account.' Voiceover demos, podcast pilots, meeting recordings, music sketches, language practice clips, any of it can sit at a NudgeHost URL with a single click of upload. The recipient gets a tidy page where the clip plays with the browser's built-in controls, plus a download button if they want to keep a copy. No account, no app.",
       "There's a sizing detail that comes up. MP3 at 128kbps is around 1MB per minute; at 192kbps it's about 1.4MB per minute. The 25MB free-plan ceiling covers roughly 25 minutes at 128kbps, or 15 minutes at 192kbps. For a single demo or a short voiceover that's plenty. For a full podcast episode, either downsample before upload (most audio editors export at 96kbps for spoken-word content without any noticeable quality drop) or use Pro's higher ceiling.",
       "MP3 is also the format with the broadest decoder support of any audio format. Every browser, every operating system, every car stereo from the last twenty years. If you're sending an audio clip to someone whose device is unknown, MP3 is the safe bet. For higher-quality music sharing where every kilobyte matters less, FLAC is a better master format, though NudgeHost serves both interchangeably.",
       "Free with no signup; {{pricing}} adds higher ceilings. The hosted page includes a download button so the recipient can grab the file if they want to keep a copy. Audio for a marketing video pairs naturally with the video itself, which you can {{host-mp4}} from the same dashboard. A voiceover or a recorded narration that backs a pitch also fits the flow to {{use-case-deck}}, so the sound and the slides live together. NudgeHost will {{host-hub}} alongside the audio, covering every other format you'd ship in the same project.",
@@ -1049,15 +1049,15 @@ export const hostContentMap: Record<string, SpokeContent> = {
     faqs: [
       {
         q: "Does the recipient need a media player installed?",
-        a: "Every phone and computer plays MP3 out of the box. The link hands them the file; their device does the rest.",
+        a: "No. The clip plays on the link page using the browser's built-in audio controls. Every modern browser plays MP3.",
       },
       {
         q: "Can I host other audio formats?",
-        a: "Yes. WAV, FLAC, OGG, AAC, and M4A all work. MP3 is the most universally compatible format for sharing.",
+        a: "Yes. WAV, OGG, and M4A also play on the link page; a format the browser can't decode falls back to a download. FLAC and the rest host fine as downloads.",
       },
       {
         q: "Does the audio play on the link page?",
-        a: "No. The page offers the file as a download; playback starts once the recipient opens it locally.",
+        a: "Yes, with native play, pause, and scrub controls. There's also a download button for keeping a copy.",
       },
       {
         q: "How long an audio clip can I host on the free plan?",

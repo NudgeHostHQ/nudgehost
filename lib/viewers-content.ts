@@ -101,13 +101,13 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     h1: "View a CSV file online.",
     lead: "Drop a CSV and see it as a tidy, scrollable table. No spreadsheet software needed.",
     keyPoints: [
-      "Drop a CSV and see it parsed into a clean, scrollable table. No Excel or Google Sheets needed.",
-      "Automatically detects comma, semicolon, and tab delimiters.",
-      "Handles files up to the free plan's 25MB limit, which is a very large spreadsheet.",
-      "The same upload can be shared as a public link in the same flow.",
+      "Drop a CSV and open its link to see the data parsed into a clean, scrollable table. No Excel or Google Sheets needed.",
+      "Comma, semicolon, and tab delimiters are detected, and quoted fields with embedded commas parse correctly.",
+      "The first 500 rows render straight away; the download button covers the rest.",
+      "Files up to 10MB open as a table in the browser; larger CSVs are offered as a download.",
     ],
     body: [
-      "A CSV is just text, which means opening one in a plain text editor gives you an unreadable wall of commas. A proper viewer parses it into rows and columns so you can actually read it. Drop the file here and it becomes a clean table in seconds.",
+      "A CSV is just text, which means opening one in a plain text editor gives you an unreadable wall of commas. A proper viewer parses it into rows and columns so you can actually read it. Drop the file here, open its link, and the data renders as a clean table.",
       "If the data is something you need to hand to someone else, the same dashboard that powers {{host-hub}} handles the CSV; you send a link instead of a file and the recipient opens it in this same table view, no Excel required. For native Excel files with multiple sheets or formulas, you can {{host-xlsx}} to keep the workbook structure intact. For structured data that's more nested than a flat table, you can {{viewer-json}} the same way.",
       "Developers working with CSV data often need to reshape it; when you need to inspect or tidy the JSON equivalent, {{dev-json-formatter}} pairs naturally with this viewer. And if you just need the file online fast, {{home}}.",
       "Free and unlimited. Sharing extras are on {{pricing}}.",
@@ -115,15 +115,15 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     faqs: [
       {
         q: "How big a CSV can I open?",
-        a: "The viewer comfortably handles files up to the free plan's 25MB limit, which is a very large spreadsheet.",
+        a: "Files up to 10MB render as a table in the browser, with the first 500 rows shown straight away. Bigger CSVs still host fine; the link offers them as a download instead.",
       },
       {
         q: "Does it handle different delimiters?",
-        a: "Yes. Comma, semicolon, and tab-separated files are all detected automatically.",
+        a: "Yes. Comma, semicolon, and tab-separated files are all detected, and quoted fields with embedded commas parse correctly.",
       },
       {
         q: "Can I share the table with someone?",
-        a: "Yes. Host the CSV as a link and the recipient sees the same table view in their browser.",
+        a: "Yes. Host the CSV as a link and the recipient sees the same table view in their browser, no account needed.",
       },
     ],
     relatedToolSlugs: ["viewer-json", "dev-json-formatter", "host-zip", "host-pdf"],
@@ -140,12 +140,12 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     lead: "Drop a JSON file and explore it as a collapsible tree instead of a wall of brackets.",
     keyPoints: [
       "Drop a JSON file and explore it as a collapsible tree instead of a wall of brackets.",
-      "Lazy-loads large structures so multi-megabyte files stay responsive.",
-      "Invalid JSON is caught immediately with a pointer to where the syntax breaks.",
-      "Pairs naturally with the JSON formatter for tidying messy input first.",
+      "Branches render only when you expand them, so large structures stay responsive.",
+      "Invalid JSON falls back to the raw text with the parse error shown, never an error page.",
+      "A copy button puts the raw JSON on your clipboard; files up to 10MB open in the browser.",
     ],
     body: [
-      "Raw JSON is readable in theory and painful in practice. A large API response or config file is hundreds of lines of nested braces. A tree viewer lets you collapse what you don't care about and drill into what you do. Drop a file here and it becomes browsable immediately.",
+      "Raw JSON is readable in theory and painful in practice. A large API response or config file is hundreds of lines of nested braces. A tree viewer lets you collapse what you don't care about and drill into what you do. Drop a file here, open its link, and the structure becomes browsable.",
       "If the JSON is messy (minified, or inconsistently indented), run it through {{dev-json-formatter}} first; it tidies the structure so the tree view is even easier to scan. For tabular data that arrived as JSON but would read better as rows and columns, {{viewer-csv}} is the companion tool.",
       "When you need to share the file, {{host-hub}} and send a link. That's how you hand a teammate an API response without pasting 500 lines into Slack. Developers will also find that NudgeHost's {{dev-tools-hub}} sit naturally alongside this viewer.",
       "The viewer is free with no limits. For account-level features, {{pricing}} on the Pro tier.",
@@ -153,11 +153,11 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     faqs: [
       {
         q: "Will it tell me if my JSON is invalid?",
-        a: "Yes. If the file can't be parsed, the viewer points you to where the syntax breaks.",
+        a: "Yes. If the file can't be parsed, the viewer shows the parse error and falls back to the raw text, so you still see the content.",
       },
       {
         q: "Can it handle large JSON files?",
-        a: "Yes, up to the 25MB free-plan limit. The tree loads lazily so big files stay responsive.",
+        a: "Files up to 10MB open as a tree, and branches render as you expand them so deep structures stay responsive. Bigger files are offered as a download.",
       },
       {
         q: "Is this the same as a JSON formatter?",

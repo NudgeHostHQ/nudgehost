@@ -11,7 +11,17 @@ import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { unlockCookieName, unlockToken } from "@/lib/file-access";
+import {
+  isAudioFile,
+  isCsvFile,
+  isJsonFile,
+  isVideoFile,
+  TEXT_VIEW_MAX_BYTES,
+} from "@/lib/file-kind";
 import { PasswordPrompt } from "@/components/password-prompt";
+import { MediaPlayer } from "@/components/viewer/media-player";
+import { CsvViewer } from "@/components/viewer/csv-viewer";
+import { JsonViewer } from "@/components/viewer/json-viewer";
 
 // These are live user files, not marketing pages. Keep them out of the index.
 export const dynamic = "force-dynamic";
@@ -237,7 +247,24 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   const isPdf = mime === "application/pdf";
   const isImage = mime.startsWith("image/");
   const isHtml = mime === "text/html";
-  const canEmbed = isPdf || isImage || isHtml;
+  // New media and text modes only apply when none of the original types
+  // claimed the file, so detection for existing types is unchanged.
+  const isOriginalType = isPdf || isImage || isHtml;
+  const isVideo = !isOriginalType && isVideoFile(mime);
+  const isAudio = !isOriginalType && isAudioFile(mime);
+  const isTextViewKind =
+    !isOriginalType &&
+    !isVideo &&
+    !isAudio &&
+    (isCsvFile(mime, file.filename) || isJsonFile(mime, file.filename));
+  // The text viewers load the whole file into the browser, so oversized
+  // CSV/JSON keeps the download card (with a note) instead.
+  const fitsTextView = file.fileSize <= TEXT_VIEW_MAX_BYTES;
+  const isCsv = isTextViewKind && fitsTextView && isCsvFile(mime, file.filename);
+  const isJson = isTextViewKind && fitsTextView && !isCsv;
+  const tooBigForTextView = isTextViewKind && !fitsTextView;
+  const canEmbed = isOriginalType || isVideo || isAudio;
+  const showDownloadCard = !canEmbed && !isCsv && !isJson;
 
   const downloadUrl = await signedReadUrl(
     file.fileKey,
@@ -247,6 +274,9 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   const viewUrl = canEmbed
     ? await signedReadUrl(file.fileKey, file.filename, "inline")
     : null;
+  // CSV/JSON content is read through the same-origin raw route (the browser
+  // can't fetch the presigned R2 URL without bucket CORS).
+  const rawUrl = `/api/files/${file.id}/raw`;
 
   return (
     <ViewerShell>
@@ -325,7 +355,41 @@ export default async function FileViewerPage({ params }: { params: Params }) {
         </main>
       )}
 
-      {!canEmbed && (
+      {isVideo && viewUrl && (
+        <main className="flex flex-1 items-center justify-center p-4 sm:p-8">
+          <MediaPlayer
+            kind="video"
+            src={viewUrl}
+            filename={file.filename}
+            downloadUrl={downloadUrl}
+          />
+        </main>
+      )}
+
+      {isAudio && viewUrl && (
+        <main className="flex flex-1 items-center justify-center p-4 sm:p-8">
+          <MediaPlayer
+            kind="audio"
+            src={viewUrl}
+            filename={file.filename}
+            downloadUrl={downloadUrl}
+          />
+        </main>
+      )}
+
+      {isCsv && (
+        <main className="flex-1 p-4 sm:p-8">
+          <CsvViewer src={rawUrl} />
+        </main>
+      )}
+
+      {isJson && (
+        <main className="mx-auto w-full max-w-4xl flex-1 p-4 sm:p-8">
+          <JsonViewer src={rawUrl} />
+        </main>
+      )}
+
+      {showDownloadCard && (
         <main className="flex flex-1 flex-col items-center justify-center px-6 py-20 text-center">
           <div
             className="mb-5 flex items-center justify-center rounded-2xl bg-coral-light text-2xl"
@@ -337,7 +401,17 @@ export default async function FileViewerPage({ params }: { params: Params }) {
           <h1 className="mb-2 max-w-lg break-words font-display text-2xl font-semibold tracking-tight">
             {file.filename}
           </h1>
-          <p className="mb-8 text-sm text-muted">{formatBytes(file.fileSize)}</p>
+          <p
+            className={`${tooBigForTextView ? "mb-3" : "mb-8"} text-sm text-muted`}
+          >
+            {formatBytes(file.fileSize)}
+          </p>
+          {tooBigForTextView && (
+            <p className="mb-5 max-w-sm text-xs text-muted">
+              This file is over the 10MB in-browser viewing limit, so it
+              downloads instead.
+            </p>
+          )}
           <a
             href={downloadUrl}
             className="inline-flex items-center gap-2 rounded-full bg-coral px-7 py-3.5 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-coral-dark"
