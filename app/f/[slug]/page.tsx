@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cache } from "react";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Download, Clock } from "lucide-react";
 import { eq, sql } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
@@ -241,6 +241,15 @@ export default async function FileViewerPage({ params }: { params: Params }) {
       .where(eq(files.id, file.id));
   } catch {
     // non-fatal
+  }
+
+  // Site uploads land on the served site itself, not a viewer card. The
+  // serving route (/f/[slug]/[...path]) re-checks the same gates above on
+  // every request and stamps the anonymous banner into served HTML. Views
+  // are counted here only, so one site visit is one view regardless of how
+  // many assets it loads.
+  if (file.kind === "site" && file.entryPath) {
+    redirect(`/f/${file.slug}/${file.entryPath}`);
   }
 
   const mime = file.mimeType.toLowerCase();

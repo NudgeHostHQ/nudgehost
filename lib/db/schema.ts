@@ -41,6 +41,14 @@ export const files = pgTable(
     // sitewide og-image.png). See lib/generate-thumbnail.ts.
     thumbnailKey: text("thumbnail_key"),
     slug: text("slug").notNull().unique(),
+    // "file" serves the single object at fileKey; "site" serves the unpacked
+    // ZIP contents stored under sites/{id}/ in R2 (see lib/site-store.ts).
+    // For site rows fileKey points at where the original archive landed, but
+    // the archive itself is deleted after a successful unpack.
+    kind: text("kind").notNull().default("file"),
+    // Site rows only: path of the index.html to serve at the bare /f/[slug]
+    // URL, relative to the sites/{id}/ prefix (e.g. "index.html").
+    entryPath: text("entry_path"),
     passwordHash: text("password_hash"),
     expiresAt: timestamp("expires_at", { withTimezone: true }),
     viewCount: integer("view_count").notNull().default(0),

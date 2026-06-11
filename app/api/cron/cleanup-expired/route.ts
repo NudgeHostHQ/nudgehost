@@ -4,6 +4,7 @@ import { and, eq, inArray, isNotNull, lt, notInArray, type SQL } from "drizzle-o
 import { db } from "@/lib/db";
 import { files, uploadRateEvents } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
+import { deleteSiteObjects } from "@/lib/site-store";
 
 export const runtime = "nodejs";
 // Room for a few hundred R2 round trips on a busy day.
@@ -37,6 +38,7 @@ async function purgeFiles(
         id: files.id,
         fileKey: files.fileKey,
         thumbnailKey: files.thumbnailKey,
+        kind: files.kind,
       })
       .from(files)
       .where(
@@ -52,6 +54,12 @@ async function purgeFiles(
     const removableIds: string[] = [];
     for (const file of targets) {
       try {
+        // Site uploads spread across many objects under sites/{id}/; all of
+        // them go, batched, before the row does. For site rows fileKey is a
+        // dangling pointer to the deleted archive, and deleting it is a no-op.
+        if (file.kind === "site") {
+          await deleteSiteObjects(file.id);
+        }
         await r2.send(
           new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
         );

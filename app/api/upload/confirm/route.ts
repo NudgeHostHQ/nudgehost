@@ -1,16 +1,43 @@
 import { NextResponse, after } from "next/server";
 import { cookies } from "next/headers";
 import { auth } from "@clerk/nextjs/server";
-import { HeadObjectCommand } from "@aws-sdk/client-s3";
+import {
+  HeadObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { files } from "@/lib/db/schema";
+import { users, files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { fetchAndStoreThumbnail } from "@/lib/thumbnail-store";
-import { ANON_COOKIE_NAME, isValidAnonToken } from "@/lib/anon-upload";
+import {
+  ANON_COOKIE_NAME,
+  ANON_MAX_FILE_BYTES,
+  isValidAnonToken,
+} from "@/lib/anon-upload";
+import {
+  deleteSiteObjects,
+  hasZipMagic,
+  isZipUpload,
+  unpackZipToSite,
+} from "@/lib/site-store";
+
+export const runtime = "nodejs";
+// Room to download and unpack a large archive into per-file R2 objects.
+export const maxDuration = 300;
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
+
+// Per-plan upload ceilings, kept in step with app/api/upload/presign/route.ts.
+// For ZIPs this caps the total UNCOMPRESSED size of the unpacked site, so an
+// archive can't smuggle in more bytes than a plain upload could.
+const PLAN_MAX_FILE_BYTES: Record<string, number> = {
+  free: 25 * 1024 * 1024, // 25MB
+  pro: 250 * 1024 * 1024, // 250MB
+  team: 1073741824, // 1GB
+};
 
 export async function POST(request: Request) {
   const { userId } = await auth();
@@ -84,9 +111,93 @@ export async function POST(request: Request) {
     );
   }
 
+  // ZIP uploads become served sites: the archive is unpacked into one R2
+  // object per file under sites/{fileId}/ and /f/[slug] serves the entry
+  // index.html. Extension or MIME is only the hint; the magic bytes decide,
+  // so a renamed .docx (also a ZIP container) stays a plain download.
+  if (isZipUpload(file.filename, file.mimeType)) {
+    let zipBuffer: Buffer | null = null;
+    try {
+      const object = await r2.send(
+        new GetObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
+      );
+      if (object.Body) {
+        zipBuffer = Buffer.from(await object.Body.transformToByteArray());
+      }
+    } catch {
+      zipBuffer = null;
+    }
+
+    if (zipBuffer && hasZipMagic(zipBuffer)) {
+      // The cap applies to the total uncompressed size, on the same per-plan
+      // ceiling a plain upload gets.
+      let maxBytes = ANON_MAX_FILE_BYTES;
+      if (userId) {
+        const [account] = await db
+          .select({ plan: users.plan })
+          .from(users)
+          .where(eq(users.id, userId))
+          .limit(1);
+        const plan = account?.plan ?? "free";
+        maxBytes = PLAN_MAX_FILE_BYTES[plan] ?? PLAN_MAX_FILE_BYTES.free;
+      }
+
+      const result = await unpackZipToSite({
+        fileId: file.id,
+        zipBuffer,
+        maxTotalBytes: maxBytes,
+      });
+
+      if (!result.ok) {
+        // Fail closed: a rejected archive never holds a link or a quota slot.
+        // Partial unpack output, the archive, and the row all go.
+        try {
+          await deleteSiteObjects(file.id);
+        } catch {
+          // Orphaned site objects; the daily cron can't see them but they're
+          // unreachable (the row is gone) and a retry overwrites the prefix.
+        }
+        try {
+          await r2.send(
+            new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
+          );
+        } catch {
+          // Orphaned archive object; harmless.
+        }
+        await db.delete(files).where(eq(files.id, file.id));
+        return NextResponse.json({ error: result.error }, { status: 422 });
+      }
+
+      await db
+        .update(files)
+        .set({
+          kind: "site",
+          entryPath: result.entryPath,
+          updatedAt: new Date(),
+        })
+        .where(eq(files.id, file.id));
+
+      // Delete the original archive now that the unpacked objects are live.
+      // Documented choice (see lib/site-store.ts): nothing ever reads the
+      // archive again, so keeping it would double the stored bytes for every
+      // site. fileKey stays on the row as a dangling pointer; deletes against
+      // it are no-ops.
+      try {
+        await r2.send(
+          new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
+        );
+      } catch {
+        // Orphaned archive object; harmless.
+      }
+    }
+    // No ZIP magic: fall through and treat it as a regular file.
+  }
+
   // Generate the og:image thumbnail after the response flushes, so the
   // "link ready" reply is never held up by image work. Best-effort: a failure
   // leaves the file without a thumbnail and the viewer uses the sitewide card.
+  // For ZIPs the generator builds its card from the filename alone, so the
+  // already-deleted archive object is never fetched.
   after(async () => {
     await fetchAndStoreThumbnail({
       fileId: file.id,

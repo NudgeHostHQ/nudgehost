@@ -305,6 +305,11 @@ export default async function DashboardPage() {
                         title={file.filename}
                       >
                         {file.filename}
+                        {file.kind === "site" && (
+                          <span className="ml-2 inline-block rounded-full bg-sage-light px-2 py-0.5 align-middle text-[11px] font-medium text-[#3A6E3E]">
+                            Site
+                          </span>
+                        )}
                       </th>
                       <td className="px-4 py-3">
                         {status === "deleted" ? (

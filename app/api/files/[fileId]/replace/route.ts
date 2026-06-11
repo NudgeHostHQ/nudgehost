@@ -11,8 +11,17 @@ import { db } from "@/lib/db";
 import { users, files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { storeThumbnail } from "@/lib/thumbnail-store";
+import {
+  deleteSiteObjects,
+  hasZipMagic,
+  isZipUpload,
+  planSiteUnpack,
+  unpackZipToSite,
+} from "@/lib/site-store";
 
 export const runtime = "nodejs";
+// Room to unpack a large replacement archive into per-file R2 objects.
+export const maxDuration = 300;
 
 // Per-plan upload ceilings, kept in step with app/api/upload/presign/route.ts.
 const PLAN_MAX_FILE_BYTES: Record<string, number> = {
@@ -46,6 +55,13 @@ function safeKeyName(filename: string): string {
 // all left untouched, so /f/[slug] keeps working and analytics carry over.
 // Only the content, filename, content type, size, and updated_at change. The
 // old object is removed from R2 once the new one is confirmed in place.
+//
+// ZIPs cross over in both directions. A ZIP replacement is validated first,
+// then the old unpacked objects (if any) are cleared and the new archive is
+// unpacked to the same sites/{fileId}/ prefix, so the URL stays stable; a
+// brief gap during the swap is accepted rather than building an atomic swap.
+// A non-ZIP replacing a site clears the unpacked objects and the row goes
+// back to plain-file serving.
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ fileId: string }> },
@@ -126,11 +142,8 @@ export async function POST(
 
   const contentType = upload.type || "application/octet-stream";
   const oldKey = file.fileKey;
-  const newKey = `${userId}/${nanoid(12)}/${safeKeyName(upload.name)}`;
+  const wasSite = file.kind === "site";
 
-  // Push the new bytes to R2 under a fresh key, then confirm they landed before
-  // we repoint the row. Writing to a new key means a failure here never harms
-  // the file that's currently live.
   let buffer: Buffer;
   try {
     buffer = Buffer.from(await upload.arrayBuffer());
@@ -141,49 +154,139 @@ export async function POST(
     );
   }
 
-  try {
-    await r2.send(
-      new PutObjectCommand({
-        Bucket: R2_BUCKET,
-        Key: newKey,
-        Body: buffer,
-        ContentType: contentType,
-        ContentLength: upload.size,
-      }),
-    );
-    await r2.send(
-      new HeadObjectCommand({ Bucket: R2_BUCKET, Key: newKey }),
-    );
-  } catch {
-    return NextResponse.json(
-      { error: "That upload did not finish. Please try again." },
-      { status: 502 },
-    );
-  }
+  const newIsZip = isZipUpload(upload.name, contentType) && hasZipMagic(buffer);
 
-  // Repoint the row. slug, viewCount, createdAt, passwordHash, and expiresAt are
-  // deliberately left out of the update so they survive the swap.
-  const [updated] = await db
-    .update(files)
-    .set({
-      fileKey: newKey,
-      filename: upload.name,
-      mimeType: contentType,
-      fileSize: upload.size,
-      updatedAt: new Date(),
-    })
-    .where(and(eq(files.id, fileId), eq(files.userId, userId)))
-    .returning();
+  let updated: typeof file;
 
-  // New file is live and the row points at it. Clean up the old object. A
-  // failure here only leaves an orphan blob, so it must not fail the request.
-  if (oldKey && oldKey !== newKey) {
+  if (newIsZip) {
+    // Validate the archive before tearing anything down, so a bad ZIP leaves
+    // whatever is currently live untouched.
+    const planCheck = await planSiteUnpack(buffer, maxBytes);
+    if (!planCheck.ok) {
+      return NextResponse.json({ error: planCheck.error }, { status: 422 });
+    }
+
+    if (wasSite) {
+      // Clear the old unpacked objects first so files dropped from the new
+      // build don't linger under the prefix. The link serves a brief gap
+      // while the new objects land; an atomic swap is deliberately not built.
+      try {
+        await deleteSiteObjects(file.id);
+      } catch {
+        return NextResponse.json(
+          { error: "We could not clear out the old site. Please try again." },
+          { status: 502 },
+        );
+      }
+    }
+
+    const result = await unpackZipToSite({
+      fileId: file.id,
+      zipBuffer: buffer,
+      maxTotalBytes: maxBytes,
+    });
+    if (!result.ok) {
+      // Partial output under the prefix would shadow a retry; clear it.
+      try {
+        await deleteSiteObjects(file.id);
+      } catch {
+        // Orphaned partial objects; the next successful unpack or the
+        // purge paths overwrite or remove them.
+      }
+      return NextResponse.json({ error: result.error }, { status: 422 });
+    }
+
+    // The archive itself is never stored on a replacement (the unpacked
+    // objects are the only copy anything serves, matching the confirm flow,
+    // which deletes the archive after unpacking). fileKey keeps its old value
+    // as a dangling pointer; site rows never read it and deletes against it
+    // are no-ops.
+    [updated] = await db
+      .update(files)
+      .set({
+        kind: "site",
+        entryPath: result.entryPath,
+        filename: upload.name,
+        mimeType: contentType,
+        fileSize: upload.size,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(files.id, fileId), eq(files.userId, userId)))
+      .returning();
+
+    // If the row used to be a plain file, its single object is now stale.
+    if (!wasSite && oldKey) {
+      try {
+        await r2.send(
+          new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: oldKey }),
+        );
+      } catch {
+        // Orphaned old object; the swap already succeeded for the user.
+      }
+    }
+  } else {
+    const newKey = `${userId}/${nanoid(12)}/${safeKeyName(upload.name)}`;
+
+    // Push the new bytes to R2 under a fresh key, then confirm they landed
+    // before we repoint the row. Writing to a new key means a failure here
+    // never harms the file that's currently live.
     try {
       await r2.send(
-        new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: oldKey }),
+        new PutObjectCommand({
+          Bucket: R2_BUCKET,
+          Key: newKey,
+          Body: buffer,
+          ContentType: contentType,
+          ContentLength: upload.size,
+        }),
+      );
+      await r2.send(
+        new HeadObjectCommand({ Bucket: R2_BUCKET, Key: newKey }),
       );
     } catch {
-      // Orphaned old object; the swap already succeeded for the user.
+      return NextResponse.json(
+        { error: "That upload did not finish. Please try again." },
+        { status: 502 },
+      );
+    }
+
+    // Repoint the row. slug, viewCount, createdAt, passwordHash, and expiresAt
+    // are deliberately left out of the update so they survive the swap. A row
+    // that was a site goes back to plain-file serving.
+    [updated] = await db
+      .update(files)
+      .set({
+        kind: "file",
+        entryPath: null,
+        fileKey: newKey,
+        filename: upload.name,
+        mimeType: contentType,
+        fileSize: upload.size,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(files.id, fileId), eq(files.userId, userId)))
+      .returning();
+
+    // New file is live and the row points at it. Clean up the old object. A
+    // failure here only leaves an orphan blob, so it must not fail the request.
+    if (oldKey && oldKey !== newKey) {
+      try {
+        await r2.send(
+          new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: oldKey }),
+        );
+      } catch {
+        // Orphaned old object; the swap already succeeded for the user.
+      }
+    }
+
+    // A site replaced by a plain file leaves its unpacked objects behind;
+    // clear them now that the row no longer serves from the prefix.
+    if (wasSite) {
+      try {
+        await deleteSiteObjects(file.id);
+      } catch {
+        // Orphaned site objects; unreachable since the row is kind "file".
+      }
     }
   }
 
