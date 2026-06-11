@@ -169,7 +169,7 @@ export function SpokePage({
             )}
 
             {heroVariant === "upload" ? (
-              <UploadWidget pills={content.filePillExamples} className="w-full" />
+              <UploadWidget pills={content.filePillExamples} />
             ) : (
               <Link href="/sign-up" className={`${btnPrimary} px-7 py-3.5 text-base`}>
                 Get started free

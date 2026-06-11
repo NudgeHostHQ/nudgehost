@@ -138,7 +138,7 @@ export default async function HomePage() {
           </p>
 
           {/* Upload widget — the visual hero */}
-          <UploadWidget className="relative z-10 w-full max-w-xl animate-fade-up" />
+          <UploadWidget className="relative z-10 animate-fade-up" />
 
           {/* Live link preview */}
           <div

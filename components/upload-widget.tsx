@@ -68,13 +68,15 @@ function putToR2(
 
 export function UploadWidget({
   pills,
-  className = "relative z-10 mt-14 w-full max-w-xl animate-fade-up",
+  className = "",
 }: {
   // Optional file-type hint pills (e.g. ["PDF"] on /host/pdf). The uploader
   // still accepts any file; these are purely visual cues.
   pills?: string[];
-  // Lets callers control the outer wrapper so the widget can sit full-width
-  // inside a spoke hero or capped on the homepage.
+  // Positioning/animation extras from the embedding page (z-index, fade-up,
+  // margins). Width is owned by the widget itself (w-full max-w-xl mx-auto,
+  // the homepage hero dimensions) so every embed renders at the same size;
+  // don't pass width classes here.
   className?: string;
 } = {}) {
   const router = useRouter();
@@ -333,7 +335,11 @@ export function UploadWidget({
   }, [shareUrl]);
 
   return (
-    <div id="upload-widget" className={className} style={{ animationDelay: "0.2s" }}>
+    <div
+      id="upload-widget"
+      className={`mx-auto w-full max-w-xl ${className}`.trim()}
+      style={{ animationDelay: "0.2s" }}
+    >
       <input
         ref={inputRef}
         type="file"

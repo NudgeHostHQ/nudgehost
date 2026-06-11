@@ -196,7 +196,7 @@ export default async function DashboardPage() {
 
         {/* UPLOAD */}
         <section className="mb-8" aria-label="Upload a file">
-          <UploadWidget className="w-full" />
+          <UploadWidget />
         </section>
 
         {/* USAGE STATS */}
