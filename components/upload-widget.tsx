@@ -69,6 +69,7 @@ function putToR2(
 export function UploadWidget({
   pills,
   className = "",
+  tabs = "both",
 }: {
   // Optional file-type hint pills (e.g. ["PDF"] on /host/pdf). The uploader
   // still accepts any file; these are purely visual cues.
@@ -78,6 +79,10 @@ export function UploadWidget({
   // the homepage hero dimensions) so every embed renders at the same size;
   // don't pass width classes here.
   className?: string;
+  // Which publish modes the embedding page offers. "file" hides the tab bar
+  // and the Paste HTML panel for pages where pasting markup makes no sense
+  // (e.g. converter spokes). Default keeps both, the original behavior.
+  tabs?: "both" | "file";
 } = {}) {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
@@ -388,6 +393,7 @@ export function UploadWidget({
               </button>
             </div>
           )}
+          {tabs === "both" && (
           <div
             role="tablist"
             aria-label="Choose how to publish"
@@ -423,6 +429,7 @@ export function UploadWidget({
               Paste HTML
             </button>
           </div>
+          )}
 
           {mode === "file" ? (
             <div

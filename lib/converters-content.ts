@@ -6,6 +6,9 @@ export const convertersSilo: SiloConfig = {
   hubLabel: "Converters",
   schemaType: "WebApplication",
   heroVariant: "upload",
+  // A converter page takes a file; a Paste HTML tab makes no sense here, so
+  // the widget shows the file mode only.
+  uploadTabs: "file",
   ctaVerb: "convert your file",
 };
 

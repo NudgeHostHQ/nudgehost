@@ -169,7 +169,10 @@ export function SpokePage({
             )}
 
             {heroVariant === "upload" ? (
-              <UploadWidget pills={content.filePillExamples} />
+              <UploadWidget
+                pills={content.filePillExamples}
+                tabs={silo.uploadTabs}
+              />
             ) : (
               <Link href="/sign-up" className={`${btnPrimary} px-7 py-3.5 text-base`}>
                 Get started free

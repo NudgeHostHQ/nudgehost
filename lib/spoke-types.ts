@@ -56,6 +56,10 @@ export type SiloConfig = {
   schemaType: "SoftwareApplication" | "WebApplication";
   // Hero call-to-action style: an upload widget, or a simple CTA button.
   heroVariant: "upload" | "cta";
+  // Which publish modes the upload-variant widget offers in this silo.
+  // "file" hides the Paste HTML tab (used by converters, where pasting markup
+  // makes no sense). Unset means both tabs, the default widget behavior.
+  uploadTabs?: "both" | "file";
   // Verb used in CTA copy, e.g. "share", "view", "convert".
   ctaVerb: string;
   // Whether spoke pages in this silo render a visible "By {author} · {date}"
