@@ -104,6 +104,10 @@ export function isHtmlPath(path: string): boolean {
   return ext === "html" || ext === "htm";
 }
 
+export function isCssPath(path: string): boolean {
+  return pathExtension(path) === "css";
+}
+
 // Build-tool output like index-BX7k9aQ2.js or main.8a3b5c9d.chunk.css embeds
 // a content hash in the filename, so the bytes behind a given name never
 // change and the asset can be cached hard. Heuristic: a dot- or dash-set-off
@@ -481,4 +485,97 @@ export function injectAnonBanner(html: string, slug: string): string {
   const bodyClose = lower.lastIndexOf("</body");
   if (bodyClose === -1) return html + banner;
   return html.slice(0, bodyClose) + banner + html.slice(bodyClose);
+}
+
+// Base-path rewriting for served sites. Exported builds (Vite, CRA, Lovable,
+// Bolt) reference assets root-absolutely (src="/assets/index-C7xK2mQp.js"),
+// which the browser resolves against the domain root instead of the site's
+// /f/{slug} prefix. These passes rewrite single-leading-slash URLs at
+// response time, string passes only, in the same spirit as the banner stamp:
+// the stored objects are never modified.
+//
+// Known limitation: JavaScript that builds absolute paths at runtime
+// (fetch("/api/data"), history-router base assumptions) is not rewritten and
+// will 404. Acceptable for static exports; the real fix is serving sites
+// from their own subdomain, planned for later.
+
+// Rewrite a single URL value when it is root-absolute. Left untouched:
+// protocol-relative (//), explicit schemes (http:, https:, data:, blob:,
+// mailto:, tel:, javascript:), fragments (#), relative paths, and anything
+// already under /f/ so a second pass can never double-prefix.
+function rewriteRootUrl(url: string, basePath: string): string {
+  if (!url.startsWith("/")) return url;
+  if (url.startsWith("//")) return url;
+  if (url === "/f" || url.startsWith("/f/")) return url;
+  return `${basePath}${url}`;
+}
+
+// url(/x), url('/x'), url("/x") in CSS, plus the quoted @import "/x" form
+// (the @import url(...) form is covered by the url() pass).
+export function rewriteCssUrls(css: string, basePath: string): string {
+  let out = css.replace(
+    /url\(\s*(['"]?)([^'")]+)\1\s*\)/gi,
+    (_match, quote: string, url: string) =>
+      `url(${quote}${rewriteRootUrl(url.trim(), basePath)}${quote})`,
+  );
+  out = out.replace(
+    /(@import\s+)(['"])([^'"]+)\2/gi,
+    (_match, prefix: string, quote: string, url: string) =>
+      `${prefix}${quote}${rewriteRootUrl(url.trim(), basePath)}${quote}`,
+  );
+  return out;
+}
+
+// Each srcset candidate is a URL optionally followed by a descriptor
+// ("/img/a.png 1x, /img/b.png 2x"); rewrite each URL, keep each descriptor.
+function rewriteSrcsetValue(value: string, basePath: string): string {
+  return value
+    .split(",")
+    .map((candidate) => {
+      const trimmed = candidate.trim();
+      if (!trimmed) return trimmed;
+      const split = trimmed.search(/\s/);
+      const url = split === -1 ? trimmed : trimmed.slice(0, split);
+      const descriptor = split === -1 ? "" : trimmed.slice(split);
+      return rewriteRootUrl(url, basePath) + descriptor;
+    })
+    .join(", ");
+}
+
+const URL_ATTR_RE =
+  /(\s(?:href|src|poster|action|data-src)\s*=\s*)(?:"([^"]*)"|'([^']*)')/gi;
+const SRCSET_ATTR_RE = /(\ssrcset\s*=\s*)(?:"([^"]*)"|'([^']*)')/gi;
+const STYLE_ATTR_RE = /(\sstyle\s*=\s*)(?:"([^"]*)"|'([^']*)')/gi;
+const STYLE_BLOCK_RE = /(<style\b[^>]*>)([\s\S]*?)(<\/style\s*>)/gi;
+
+// Rewrite root-absolute URLs throughout an HTML document: URL-carrying
+// attributes, srcset candidates, url(...) in style="" attributes and inline
+// <style> blocks. Callers stamp the banner AFTER this pass; its URLs are
+// absolute https/mailto and would survive it anyway.
+export function rewriteSiteHtml(html: string, basePath: string): string {
+  const requote = (
+    prefix: string,
+    dq: string | undefined,
+    sq: string | undefined,
+    rewrite: (value: string) => string,
+  ) => {
+    const quote = dq != null ? '"' : "'";
+    return `${prefix}${quote}${rewrite(dq ?? sq ?? "")}${quote}`;
+  };
+
+  let out = html.replace(URL_ATTR_RE, (_m, prefix, dq, sq) =>
+    requote(prefix, dq, sq, (value) => rewriteRootUrl(value, basePath)),
+  );
+  out = out.replace(SRCSET_ATTR_RE, (_m, prefix, dq, sq) =>
+    requote(prefix, dq, sq, (value) => rewriteSrcsetValue(value, basePath)),
+  );
+  out = out.replace(STYLE_ATTR_RE, (_m, prefix, dq, sq) =>
+    requote(prefix, dq, sq, (value) => rewriteCssUrls(value, basePath)),
+  );
+  out = out.replace(
+    STYLE_BLOCK_RE,
+    (_m, open: string, css: string, close: string) =>
+      `${open}${rewriteCssUrls(css, basePath)}${close}`,
+  );
+  return out;
 }

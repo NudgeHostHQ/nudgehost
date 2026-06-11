@@ -9,8 +9,11 @@ import { unlockCookieName, unlockToken } from "@/lib/file-access";
 import {
   contentTypeForPath,
   injectAnonBanner,
+  isCssPath,
   isHashedAssetPath,
   isHtmlPath,
+  rewriteCssUrls,
+  rewriteSiteHtml,
   siteObjectPrefix,
 } from "@/lib/site-store";
 
@@ -53,12 +56,17 @@ async function fetchSiteObject(fileId: string, path: string) {
   }
 }
 
-// HTML is always read into memory so the anonymous banner can be stamped in
+// HTML is always read into memory so root-absolute asset URLs can be
+// rewritten onto the /f/{slug} base path and the anonymous banner stamped in
 // at response time; the stored object is never modified and adopted files
-// (anonToken cleared) serve the same bytes clean. HTML is never cached so a
-// replacement or adoption shows up immediately.
+// (anonToken cleared) serve the same bytes clean of the banner. The banner
+// goes in after the rewrite so its own URLs are never touched. HTML is never
+// cached so a replacement or adoption shows up immediately.
 function htmlResponse(html: string, file: File): NextResponse {
-  const body = file.anonToken ? injectAnonBanner(html, file.slug) : html;
+  const rewritten = rewriteSiteHtml(html, `/f/${file.slug}`);
+  const body = file.anonToken
+    ? injectAnonBanner(rewritten, file.slug)
+    : rewritten;
   return new NextResponse(body, {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
@@ -151,6 +159,21 @@ export async function GET(
     if (isHtmlPath(relPath)) {
       const html = await object.Body!.transformToString("utf-8");
       return htmlResponse(html, file);
+    }
+    // CSS gets the same root-absolute url(...) rewrite as HTML. Caching the
+    // result per URL is safe across slugs: the rewrite depends only on this
+    // file's slug, and the URL being cached already embeds that slug
+    // (/f/{slug}/...), so one slug's rewritten CSS can never answer for
+    // another. No Content-Length here; the rewrite changes the byte count.
+    if (isCssPath(relPath)) {
+      const css = await object.Body!.transformToString("utf-8");
+      return new NextResponse(rewriteCssUrls(css, `/f/${file.slug}`), {
+        headers: {
+          "Content-Type": contentTypeForPath(relPath),
+          "X-Content-Type-Options": "nosniff",
+          "Cache-Control": assetCacheControl(relPath, file),
+        },
+      });
     }
     return new NextResponse(object.Body!.transformToWebStream(), {
       headers: {
