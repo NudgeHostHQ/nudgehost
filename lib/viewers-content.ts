@@ -43,7 +43,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Is my PDF uploaded to a server?",
-        a: "To render and optionally share it, yes. The file is processed by NudgeHost. If you only want to view privately, your browser handles rendering locally.",
+        a: "Yes. Viewing works by uploading the file and opening its link, so the PDF is stored on NudgeHost until you delete it. Don't upload documents you can't store with a third party.",
       },
       {
         q: "Can other people view the same PDF?",
