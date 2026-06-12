@@ -135,19 +135,19 @@ const claudeArtifactFaqs: BlogFaqItem[] = [
   },
   {
     q: "Will external libraries (React, Tailwind) still work?",
-    a: "Yes. If the artifact loads libraries from an {{glossary-cdn|external library host}}, those requests fire normally from the hosted page. The artifact behaves online exactly as it did inside Claude.",
+    a: "Yes. If the artifact loads libraries from an external library host, those requests fire normally from the hosted page. The artifact behaves online exactly as it did inside Claude.",
   },
   {
     q: "What if Claude gives me multiple files?",
-    a: "Ask Claude to inline everything into a single HTML file (it does this reliably). Or {{features-zip-upload|zip the files and upload}} the archive. NudgeHost unpacks it and serves the whole project as a live site at its own link, with index.html as the entry point.",
+    a: "Ask Claude to inline everything into a single HTML file (it does this reliably). Or zip the files and upload the archive. NudgeHost unpacks it and serves the whole project as a live site at its own link, with index.html as the entry point.",
   },
   {
     q: "Can I password-protect an artifact link?",
-    a: "Yes. You can {{features-password-protection|lock the link with a password}} on the {{pricing|Pro plan}}. The recipient enters a password before seeing the artifact.",
+    a: "Yes. You can lock the link with a password on the Pro plan. The recipient enters a password before seeing the artifact.",
   },
   {
     q: "Can I use a custom domain for my artifact?",
-    a: "Yes. You can {{features-custom-domains|use your own domain}} to serve the artifact from yourname.com instead of nudgehost.com. Available on Pro and Team plans.",
+    a: "Yes. You can use your own domain to serve the artifact from yourname.com instead of nudgehost.com. Available on Pro and Team plans.",
   },
   {
     q: "What other file types does NudgeHost support?",
