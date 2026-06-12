@@ -110,7 +110,7 @@ export const viewersContentMap: Record<string, SpokeContent> = {
       "A CSV is just text, which means opening one in a plain text editor gives you an unreadable wall of commas. A proper viewer parses it into rows and columns so you can actually read it. Drop the file here, open its link, and the data renders as a clean table.",
       "If the data is something you need to hand to someone else, the same dashboard that lets you {{host-hub}} handles the CSV; you send a link instead of a file and the recipient opens it in this same table view, no Excel required. For native Excel files with multiple sheets or formulas, you can {{host-xlsx}} to keep the workbook structure intact. For structured data that's more nested than a flat table, you can {{viewer-json}} the same way. A Word document opens the same way too; you can {{viewer-docx}} with nothing installed.",
       "Developers working with CSV data often need to reshape it; when you need to inspect or tidy the JSON equivalent, you can {{dev-json-formatter}} alongside this viewer. And if you just need the file online fast, {{home}}.",
-      "Free and unlimited. Sharing extras are on {{pricing|a paid plan}}.",
+      "Free and unlimited. Sharing extras like {{features-password-protection|a password on the link}} live on the paid plans.",
     ],
     faqs: [
       {
