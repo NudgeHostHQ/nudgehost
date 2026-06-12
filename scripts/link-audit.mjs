@@ -138,10 +138,12 @@ if (danglingTokens.length === 0) console.log("  ✓  none");
 else danglingTokens.forEach((d) => err(`${d.file} [${d.slug}] → {{${d.token}}}`));
 
 // 3. Overused
-console.log("\nOveruse check (linked from > 60% of pages):");
+// pricing gets a higher bar: most NudgeHost pages legitimately end on a plan note, the count was deliberately reduced to the maximum the money-link rule allows in June 2026, and 85% exists to catch genuine regression (creep back toward 100%) rather than the accepted baseline.
+console.log("\nOveruse check (> 60% of pages; pricing > 85%):");
 const overuseThreshold = Math.ceil(pages.length * 0.6);
+const pricingThreshold = Math.ceil(pages.length * 0.85);
 const overused = [...linkedTargets.entries()].filter(
-  ([, n]) => n > overuseThreshold
+  ([k, n]) => n > (k === "pricing" ? pricingThreshold : overuseThreshold)
 );
 if (overused.length === 0) console.log("  ✓  none");
 else
