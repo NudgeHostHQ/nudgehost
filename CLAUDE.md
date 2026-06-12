@@ -113,7 +113,20 @@ Sitemap and footer pick the new page up automatically.
 - **Dangling** `{{tokens}}` referencing a key not in the registry
 - **Thin pages** with fewer than 3 contextual links
 
-It also prints warnings (non-blocking) for orphan destinations, overused destinations (>60% of pages), and pages with no money-page link. Run it before committing content changes; it's intended as a CI gate.
+It also prints warnings (non-blocking) for orphan destinations, overused destinations (>60% of pages; pricing has a deliberate 85% threshold, rationale in the script), and pages with no money-page link. Run it before committing content changes; it's intended as a CI gate.
+
+# Contextual linking rules
+
+Established during the June 2026 linking audit (commits `18aabb2`..`32a5330`). These bind every content change:
+
+- **One link per destination per page**, with dedupe precedence In Short (tldr) box first, body prose second, FAQ blocks last. When a destination appears twice, the lower-precedence occurrence becomes plain text.
+- **Key Points boxes stay unlinked.** No `{{key}}` tokens in `keyPoints`.
+- **Every sentence carrying a bare `{{key}}` token must read naturally under ALL of that key's anchor variants.** If rotation cannot be made safe, pin with the explicit form `{{key|anchor text}}`.
+- **Pricing pins must match the factual plan claim.** A sentence asserting a plan fact (free limits, Pro features, ceilings) pins its anchor to the matching plan (`{{pricing|the free plan}}`, `{{pricing|the Pro plan}}`). Bare `{{pricing}}` is allowed only where all seven variants read naturally.
+- **New registry keys need 3 to 4 natural anchor variants sharing one grammatical shape** (all verb phrases or all noun phrases, never mixed). Before changing an existing key's variants, enumerate every bare usage and verify or fix each one in the same change.
+- **New inbound links are woven into existing prose**, never bolted-on "see also" sentences. Skip a placement rather than force it.
+- **Retarget cap:** when moving links between destinations, no single destination gains more than 5 inbound links per batch.
+- **After any content change**, run `npm run link-audit` and `node scripts/render-link-sentences.mjs` and review the rendered sentences before committing.
 
 # Performance / SSR posture
 
