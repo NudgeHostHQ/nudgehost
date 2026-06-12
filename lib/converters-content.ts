@@ -73,7 +73,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     body: [
       "Word documents shift around depending on the reader's software, fonts, and version. PDF looks identical everywhere, which is why converting is the right move before you send anything that matters. The conversion is built into the tools you already use. Word has Save As PDF and Export, Google Docs has Download as PDF, and the print-to-PDF option on Mac and Windows works from any program.",
       "Once you have the PDF, you can {{host-pdf}} right here and send a link instead of an attachment. A link is lighter than a 4MB file in someone's inbox, and the recipient opens it in one click. If the document is a CV, it helps to {{use-case-resume-link}} so it arrives as a clean URL rather than an attachment a filter might catch.",
-      "If you want to check the original Word file before exporting, you can {{viewer-docx}} in seconds. And when a page from the finished PDF needs to be an image, the guidance on how to {{converter-pdf-to-jpg}} picks up where this page ends.",
+      "If you want to check the original Word file before exporting, you can {{viewer-docx}} in seconds, and if the recipient needs the editable file itself, you can {{host-docx}} and skip the conversion. And when a page from the finished PDF needs to be an image, the guidance on how to {{converter-pdf-to-jpg}} picks up where this page ends.",
       "Hosting is free for files up to 25MB. Password protection and custom domains arrive when you {{pricing|upgrade to Pro}}.",
     ],
     faqs: [

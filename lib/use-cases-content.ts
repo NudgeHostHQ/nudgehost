@@ -30,7 +30,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "The email attachment is the default way to send a resume, and it's quietly the worst. It can trip spam filters, it shows the recruiter a download prompt instead of your CV, and it tells you nothing about whether anyone actually opened it. A link fixes all three problems at once.",
-      "Here's how it works. You {{host-resume}}, and we hand back a clean URL. Open-tracking is on by default. Put the link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs; if yours is a Word file, {{converter-docx-to-pdf}} first so the formatting holds on every device.",
+      "Here's how it works. You {{host-resume}}, and we hand back a clean URL. Open-tracking is on by default. Put the link in your application email, your LinkedIn, your email signature. When a recruiter opens it, you see it. Most resumes are PDFs; if yours is a Word file, {{converter-docx-to-pdf}} first so the formatting holds on every device, or {{host-docx}} if the recruiter asked for an editable copy.",
       "If you're applying for design, product, or front-end roles, a resume alone undersells you. The stronger move is to {{use-case-recruiter}} as one combined link. When you update the CV, the link stays the same. Swap the file and everyone who already has the link sees the new version.",
       "All of this works on {{pricing|the free plan}}. Once you start applying widely, you can {{features-custom-domains}} and remove NudgeHost branding from the link, both worth it at that scale. For the full walkthrough, read {{blog-how-to-share-a-resume-as-a-link}}.",
     ],
@@ -70,7 +70,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-05-22",
     body: [
       "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in. A giant attachment clogs their inbox or gets stripped. A personal site is great but takes time to build. A NudgeHost link is the fast path. Your work, one URL, opening instantly.",
-      "If your portfolio is a PDF, you can {{host-pdf}} and you're done. If it's a built site or an interactive piece, you can {{host-html}} the same way, and a multi-file project zips up so you can {{host-zip}} as one link. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
+      "If your portfolio is a PDF, you can {{host-pdf}} and you're done. If it's a built site or an interactive piece, you can {{host-html}} the same way, and a multi-file project zips up so you can {{host-zip}} as one link. An app from an AI builder counts too; {{host-lovable-export}} and the live link goes in the application. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
       "A portfolio usually travels with a CV, so pair this with the flow to {{use-case-resume-link}} and send both as trackable links. The tracking matters here. You'll see whether the recruiter actually opened your work before a call, which is genuinely useful intelligence.",
       "All free to start. {{pricing|The free plan}} covers the basics, and on the Pro tier you can {{features-custom-domains}}, a nice touch when recruiters see the URL.",
     ],

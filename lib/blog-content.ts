@@ -553,7 +553,7 @@ Hosting a Lovable export is free to start, and most exports compress to a few me
       },
       {
         type: "prose",
-        text: `The numbers are generous. The free plan handles files up to 25MB, which covers most reports and scanned documents. When you genuinely need more, {{pricing}} raises the ceiling to 250MB on Pro, enough for a high-resolution print file or a long scanned dossier. There are no visitor caps, so a link opened by a whole hiring committee keeps working rather than cutting off.
+        text: `The numbers are generous. The free plan handles files up to 25MB, which covers most reports and scanned documents. When you genuinely need more, {{pricing|the Pro plan}} raises the ceiling to 250MB, enough for a high-resolution print file or a long scanned dossier. There are no visitor caps, so a link opened by a whole hiring committee keeps working rather than cutting off.
 
 That no-cap detail matters more than it sounds. Some hosts impose {{glossary-bandwidth|data transfer limits}} and stop serving once a file gets popular, which is the opposite of what you want when a document is doing its job. NudgeHost keeps the link live because the file is served through a fast network rather than a single machine.`,
       },
@@ -630,7 +630,7 @@ Drop the file, copy the URL, and paste it into your email. The recipient gets th
       },
       {
         type: "prose",
-        text: `Most resumes are PDFs, because PDF holds its layout on every screen, and that is the right choice here. You {{host-pdf}} by dropping the file onto NudgeHost, and a clean link comes back with open-tracking switched on. Put that link in your application email, your LinkedIn, and your email signature. One link, everywhere, instead of attaching the same file over and over.`,
+        text: `Most resumes are PDFs, because PDF holds its layout on every screen, and that is the right choice here; if yours lives in Word, you can {{host-docx}} too, though PDF stays the safer send. You {{host-pdf}} by dropping the file onto NudgeHost, and a clean link comes back with open-tracking switched on. Put that link in your application email, your LinkedIn, and your email signature. One link, everywhere, instead of attaching the same file over and over.`,
       },
       {
         type: "h2",
@@ -668,7 +668,7 @@ Drop the file, copy the URL, and paste it into your email. The recipient gets th
         type: "prose",
         text: `A resume rarely travels alone for design, product, or engineering roles. The stronger move is to send the CV alongside your work, so you can {{host-portfolio}} and share both as trackable links. The dedicated walkthrough for the CV case lives in the guide to {{use-case-resume-link}}, and the companion flow to {{use-case-recruiter}} covers sending a portfolio to a hiring manager. Together they cover most of what a job application needs to carry.
 
-Hosting one resume is free, and a CV sits far under the 25MB limit. {{pricing}} adds a custom domain and removes NudgeHost branding from the link, both worth it once you are applying widely and want the URL to look like your own. For a single application the free plan is all you need.
+Hosting one resume is free, and a CV sits far under the 25MB limit. {{pricing|The Pro plan}} adds a custom domain and removes NudgeHost branding from the link, both worth it once you are applying widely and want the URL to look like your own. For a single application the free plan is all you need.
 
 Drop your resume, copy the link, and put it everywhere you would have attached the file. You will know when it is read, you will never send a stale version, and the recruiter opens your CV in the time it takes an attachment to start downloading.`,
       },
@@ -761,7 +761,7 @@ Drop your resume, copy the link, and put it everywhere you would have attached t
         type: "prose",
         text: `A v0 build is often the centrepiece of a pitch, an internal demo, or a design review. You can {{use-case-deck}} and hand over the live link as the working demo rather than a screenshot in slides. A stakeholder clicking a real interface understands it faster than any description, and the link works on their phone as well as their laptop.
 
-Re-export from v0 whenever the design changes, upload to the same link, and the URL stays the same so nobody needs a new one. Hosting is free to start, and most v0 exports are small enough to sit well under the free-plan limit. {{pricing}} adds custom domains and password protection for when the link goes to a client. The deploy step you were about to set up turns out to be a drag-and-drop.`,
+Re-export from v0 whenever the design changes, upload to the same link, and the URL stays the same so nobody needs a new one. Hosting is free to start, and most v0 exports are small enough to sit well under the free-plan limit. {{pricing|The Pro plan}} adds custom domains and password protection for when the link goes to a client. The deploy step you were about to set up turns out to be a drag-and-drop.`,
       },
     ],
     faqs: [
