@@ -69,7 +69,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-22",
     dateModified: "2026-05-22",
     body: [
-      "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in. A giant attachment clogs their inbox or gets stripped. A personal site is great but takes time to build. A NudgeHost link is the fast path. Your work, one URL, opening instantly.",
+      "Recruiters look at a lot of portfolios, and every point of friction costs you. A Dropbox link makes them sign in, and a giant attachment clogs their inbox or gets stripped. A personal site solves it properly but takes time to build, where a NudgeHost link is the fast path. Your work, one URL, opening instantly.",
       "If your portfolio is a PDF, you can {{host-pdf}} and you're done. If it's a built site or an interactive piece, you can {{host-html}} the same way, and a multi-file project zips up so you can {{host-zip}} as one link. An app from an AI builder counts too; {{host-lovable-export}} and the live link goes in the application. Whatever the format, the recruiter clicks once and sees your work. No account, no download.",
       "A portfolio usually travels with a CV, so pair this with the flow to {{use-case-resume-link}} and send both as trackable links. The tracking matters here. You'll see whether the recruiter actually opened your work before a call, which is genuinely useful intelligence.",
       "All free to start. {{pricing|The free plan}} covers the basics, and on the Pro tier you can {{features-custom-domains}}, a nice touch when recruiters see the URL.",
@@ -96,7 +96,7 @@ export const useCasesContentMap: Record<string, SpokeContent> = {
     name: "Send a large PDF without email",
     title: "How to send a large PDF without email size limits",
     description:
-      "Email bounces big PDFs. Share a large PDF as a link instead. No size limit, no compression, no attachment.",
+      "Email bounces big PDFs. Share a large PDF as a link instead, with no compression, no attachment, and no sign-in for the recipient.",
     h1: "Send a large PDF without email.",
     lead: "Email caps attachments at around 25MB. A link has no such limit, and it's tidier anyway.",
     keyPoints: [
