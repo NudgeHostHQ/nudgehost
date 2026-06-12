@@ -40,7 +40,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     description:
       "Upload a PDF, get a clean shareable link in seconds. Free, no signup needed. Optional password protection and view analytics on every link.",
     h1: "Share a PDF as a link.",
-    lead: "Drop a PDF here and get a clean, shareable link in seconds. No sign-up required, no expiry, no upload limits on the file you're holding right now.",
+    lead: "Drop a PDF here and get a clean, shareable link in seconds. No sign-up required, no expiry, and no account for anyone who opens it.",
     keyPoints: [
       "Drop a PDF, get a clean nudgehost.com link in seconds. No signup required.",
       "Free plan covers up to 10 active PDFs at 25MB each, with no link expiry by default.",
