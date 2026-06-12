@@ -6,7 +6,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { Check, Copy, FileUp, Link2, RotateCcw, X } from "lucide-react";
 import { sanitizeDesiredSlug, isClaimableSlug } from "@/lib/slug";
-import { TurnstileWidget } from "@/components/turnstile-widget";
+import {
+  TurnstileWidget,
+  type TurnstileHandle,
+} from "@/components/turnstile-widget";
 
 type Status = "idle" | "uploading" | "success" | "error";
 
@@ -125,38 +128,59 @@ export function UploadWidget({
 
   // Anonymous-upload support. anonEnabled means the Turnstile site key was
   // present at build time; without it, signed-out visitors keep the original
-  // redirect-to-sign-up behavior. The latest Turnstile token sits in a ref
-  // (tokens arrive via callback, not on demand); uploads that start before the
-  // first token arrives wait on it via tokenWaitersRef. anonLimit marks a
-  // server rejection that signing up would lift, so the error card can offer
-  // that path.
+  // redirect-to-sign-up behavior. The widget mounts dormant and nothing shows
+  // at page load: the challenge executes when an anonymous upload starts, so
+  // the token is minted right before it is spent (they are single-use and
+  // short-lived). The latest token sits in a ref (tokens arrive via callback,
+  // not on demand) and uploads wait on it via tokenWaitersRef. anonLimit marks
+  // a server rejection that signing up would lift, so the error card can offer
+  // that path. challengeVisible tracks the rare case where Cloudflare wants
+  // real interaction, so the challenge gets a card-styled frame in the flow.
   const anonEnabled = TURNSTILE_SITE_KEY.length > 0;
+  const turnstileRef = useRef<TurnstileHandle>(null);
   const turnstileTokenRef = useRef<string | null>(null);
   const tokenWaitersRef = useRef<((token: string | null) => void)[]>([]);
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [anonLimit, setAnonLimit] = useState(false);
+  const challengeVisibleRef = useRef(false);
+  const [challengeVisible, setChallengeVisible] = useState(false);
 
-  const handleTurnstileToken = useCallback((token: string | null) => {
-    turnstileTokenRef.current = token;
-    if (token) {
-      const waiters = tokenWaitersRef.current;
-      tokenWaitersRef.current = [];
-      waiters.forEach((resolve) => resolve(token));
-    }
+  const handleInteractiveChange = useCallback((visible: boolean) => {
+    challengeVisibleRef.current = visible;
+    setChallengeVisible(visible);
   }, []);
 
-  // Resolves with the current token, or the next one to arrive, or null after
-  // 20s so a stuck challenge fails with a message instead of hanging.
+  // Flush waiters on every outcome: a token resolves the upload, an error or
+  // expiry resolves null so the upload fails closed with a message instead of
+  // hanging out the full timeout.
+  const handleTurnstileToken = useCallback((token: string | null) => {
+    turnstileTokenRef.current = token;
+    const waiters = tokenWaitersRef.current;
+    tokenWaitersRef.current = [];
+    waiters.forEach((resolve) => resolve(token));
+  }, []);
+
+  // Resolves with the current token or the next one to arrive. A silent hang
+  // (script blocked, network down) gives up after 20s; while a challenge is
+  // visibly waiting on the user, they get two minutes to finish it.
   const waitForTurnstileToken = useCallback((): Promise<string | null> => {
     if (turnstileTokenRef.current) {
       return Promise.resolve(turnstileTokenRef.current);
     }
     return new Promise((resolve) => {
-      const timer = setTimeout(() => resolve(null), 20000);
-      tokenWaitersRef.current.push((token) => {
-        clearTimeout(timer);
+      let settled = false;
+      const started = Date.now();
+      const finish = (token: string | null) => {
+        if (settled) return;
+        settled = true;
+        clearInterval(poll);
         resolve(token);
-      });
+      };
+      const poll = setInterval(() => {
+        const limit = challengeVisibleRef.current ? 120000 : 20000;
+        if (Date.now() - started >= limit) finish(null);
+      }, 1000);
+      tokenWaitersRef.current.push(finish);
     });
   }, []);
 
@@ -186,10 +210,15 @@ export function UploadWidget({
 
       try {
         // Signed-out uploads carry a Turnstile token; the server rejects
-        // without one. Tokens are single-use, so it is cleared (and the widget
-        // reset) right after the presign call, whatever the outcome.
+        // without one. The challenge runs now, at upload start, so the token
+        // is fresh when the presign call spends it. Tokens are single-use, so
+        // it is cleared (and the widget reset) right after the presign call,
+        // whatever the outcome.
         let turnstileToken: string | undefined;
         if (!isSignedIn) {
+          if (!turnstileTokenRef.current) {
+            turnstileRef.current?.execute();
+          }
           const token = await waitForTurnstileToken();
           if (!token) {
             setErrorMessage(
@@ -219,6 +248,8 @@ export function UploadWidget({
         if (!isSignedIn) {
           turnstileTokenRef.current = null;
           setTurnstileResetKey((key) => key + 1);
+          // The reset hides any challenge UI; drop the frame with it.
+          handleInteractiveChange(false);
         }
 
         const presignData = await presignRes.json().catch(() => ({}));
@@ -264,7 +295,7 @@ export function UploadWidget({
         setStatus("error");
       }
     },
-    [isSignedIn, waitForTurnstileToken],
+    [isSignedIn, waitForTurnstileToken, handleInteractiveChange],
   );
 
   // Paste path: wrap the textarea content in a Blob, mint a File from it, and
@@ -365,17 +396,6 @@ export function UploadWidget({
       <Suspense fallback={null}>
         <ClaimParamReader onClaim={setClaimSlug} />
       </Suspense>
-
-      {/* Invisible unless Cloudflare decides to show a challenge. Mounted
-          outside the status blocks so an issued token survives the idle →
-          uploading transition. */}
-      {isLoaded && !isSignedIn && anonEnabled && (
-        <TurnstileWidget
-          siteKey={TURNSTILE_SITE_KEY}
-          onToken={handleTurnstileToken}
-          resetKey={turnstileResetKey}
-        />
-      )}
 
       {/* IDLE — a tab bar, then either the dashed drop zone or the paste panel */}
       {status === "idle" && (
@@ -684,6 +704,30 @@ export function UploadWidget({
               Try again
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Turnstile mount. Kept outside the status blocks so an in-flight
+          challenge survives the idle → uploading transition, and placed after
+          them so on the rare occasion Cloudflare wants interaction, the
+          challenge expands here, below the active card and inside the widget
+          column, framed to match the cards. Dormant and zero-size otherwise:
+          nothing renders at page load, and execution happens at upload start. */}
+      {isLoaded && !isSignedIn && anonEnabled && (
+        <div
+          className={
+            challengeVisible
+              ? "mt-4 flex justify-center rounded-3xl border-[1.5px] border-coral/40 bg-warm px-6 py-5"
+              : ""
+          }
+        >
+          <TurnstileWidget
+            ref={turnstileRef}
+            siteKey={TURNSTILE_SITE_KEY}
+            onToken={handleTurnstileToken}
+            onInteractiveChange={handleInteractiveChange}
+            resetKey={turnstileResetKey}
+          />
         </div>
       )}
     </div>
