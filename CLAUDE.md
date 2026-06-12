@@ -10,7 +10,7 @@ These rules apply to every piece of user-facing copy in this repo: titles, descr
 
 Never use any of these words or phrases:
 
-delve, crucial, robust, leverage, unlock, navigate, realm, tapestry, intricate, nuanced, multifaceted, paradigm, ecosystem (as metaphor), foster, empower, seamless, holistic, journey (as metaphor), dive into, deep dive, at the end of the day, that said, ultimately, furthermore, moreover, additionally (as paragraph opener), it's worth noting, it's important to note, it's worth mentioning, in today's world, in an era of.
+delve, crucial, robust, leverage, unlock, navigate, realm, tapestry, intricate, nuanced, multifaceted, paradigm, ecosystem (as metaphor), foster, empower, seamless, holistic, journey (as metaphor), dive into, deep dive, at the end of the day, that said, ultimately, furthermore, moreover, additionally (as paragraph opener), it's worth noting, it's important to note, it's worth mentioning, in today's world, in an era of, streamline, elevate, supercharge, effortless, effortlessly, hassle-free, game-changer, game-changing, unleash, harness, myriad, plethora, boasts, look no further, in the world of, when it comes to.
 
 If a banned word fits, rewrite the sentence to remove the need for it. Don't substitute a near-synonym from the same register (replacing "delve" with "explore in depth" is the same tell with a different costume). After writing, run a literal text search for each banned term and fix every hit before treating the work as done.
 
@@ -18,9 +18,9 @@ If a banned word fits, rewrite the sentence to remove the need for it. Don't sub
 
 1. **Zero em-dashes in user-facing copy.** No exceptions. Not as list-introducers, not as paired parentheticals, not as single dashes mid-sentence. Replace every em-dash with a comma, period, semicolon, parentheses, or a full sentence restructure. Do not replace with a colon, see rule 8. Em-dashes in `//` and `{/* */}` code comments are fine because they never reach the rendered output.
 
-2. **Contrast formulas** like `"It's not just X, it's Y"` or `"X isn't about Y. It's about Z."` Replace with a direct statement of what the thing is.
+2. **Contrast formulas** like `"It's not just X, it's Y"` or `"X isn't about Y. It's about Z."` The same shape without "about" counts too (`"The hard part isn't generating it. The hard part is sharing it."`). Replace with a direct statement of what the thing is.
 
-3. **Tricolon openers** used as section leads, like `"Fast. Cheap. Reliable."` Three short fragments stacked for emphasis read as AI rhetoric. This includes parallel-sentence triplets like `"You don't need a server. You don't need Vercel. You need a URL."`
+3. **Three or more consecutive short fragments or imperatives, anywhere.** Not as openers (`"Fast. Cheap. Reliable."`), not as closers, not mid-body. This includes parallel-sentence stacks with anaphora like `"You don't need a server. You don't need Vercel. You need a URL."` or `"A Dropbox link makes them sign in. A giant attachment gets stripped. A NudgeHost link is the fast path."` Vary sentence shape and length; keep the facts.
 
 4. **"Whether you're A or B" sentence openers.**
 
@@ -30,11 +30,12 @@ If a banned word fits, rewrite the sentence to remove the need for it. Don't sub
 
 7. **Closing summaries that restate the content.** End on a concrete point, not a recap.
 
-8. **Colons as em-dash substitutes.** When you'd want to pause for emphasis or introduce a quick explanation, use a period instead. Colons are fine for true list-intros with three or more items (`"a PDF brief, a Word agenda, a CSV"`), quote intros, technical notation (`16:9`, `3:14am`), and SEO `title: subtitle` patterns. Anywhere else, the colon is acting as a banned em-dash in disguise. Break the sentence with a period or restructure. Specific patterns to rewrite: `"X is Y: Z explains Y"`, `"The catch: ..."`, `"Here's the thing: ..."`, `"It's simple: ..."`.
+8. **Colons as em-dash substitutes.** When you'd want to pause for emphasis or introduce a quick explanation, use a period instead. Colons only introduce lists (three or more items, `"a PDF brief, a Word agenda, a CSV"`), examples, or definitions, plus quote intros, technical notation (`16:9`, `3:14am`), and SEO `title: subtitle` patterns. Anywhere else, the colon is acting as a banned em-dash in disguise. Break the sentence with a period or restructure. Specific patterns to rewrite: `"X is Y: Z explains Y"`, `"The catch: ..."`, `"Here's the thing: ..."`, `"It's simple: ..."`.
 
 ## Style rules
 
 - Specific over general. Numbers, names, dates, places, not "many users".
+- Never invent a specific. If the real number, name, date, or quote does not exist, write the sentence without one. No invented statistics, testimonials, or placeholder ratings.
 - Active voice as the default. Passive only when the actor genuinely doesn't matter.
 - One idea per sentence. Compound sentences with three clauses joined by semicolons and dashes are a tell.
 - No hedging stacks (`"may potentially possibly suggest"`). Pick one.
