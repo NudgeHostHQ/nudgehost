@@ -6,6 +6,7 @@ import { ContextualProse, renderTokens } from "@/components/contextual-prose";
 import { BlogBlocks, BlogFaqList, BottomCta, bodyLinkClass } from "@/components/blog-blocks";
 import { ReadingProgress } from "@/components/reading-progress";
 import { ScrollspyToc } from "@/components/scrollspy-toc";
+import { MobileToc } from "@/components/mobile-toc";
 import type {
   BlogPost as BlogPostContent,
   ContentBlock,
@@ -288,6 +289,16 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
                 )}
               </div>
 
+              {/* Compact TOC accordion, narrow screens only. The full sidebar
+                  (with the scrollspy TOC) stacks below the article in the
+                  single-column layout, so this is the one navigation block
+                  that stays above the body, closed by default. */}
+              {toc.length > 0 && (
+                <div className="mb-8 min-[900px]:hidden">
+                  <MobileToc items={toc} />
+                </div>
+              )}
+
               {/* TL;DR */}
               <div className="relative overflow-hidden rounded-xl border border-[#E7DFD2] bg-white p-7 shadow-sm">
                 <span
@@ -326,7 +337,14 @@ export function BlogPostPage({ post }: { post: BlogPostContent }) {
             {/* SIDEBAR COLUMN */}
             <aside className="min-[900px]:self-start">
               <div className="space-y-5 min-[900px]:sticky min-[900px]:top-20">
-                {toc.length > 0 && <ScrollspyToc items={toc} />}
+                {/* Desktop only: on narrow screens the MobileToc accordion at
+                    the top of the article covers this, so the stacked sidebar
+                    doesn't repeat it. */}
+                {toc.length > 0 && (
+                  <div className="hidden min-[900px]:block">
+                    <ScrollspyToc items={toc} />
+                  </div>
+                )}
 
                 <div className="rounded-xl bg-gradient-to-br from-coral to-coral-dark p-6 text-white shadow-[0_14px_36px_rgba(196,82,46,0.25)]">
                   <p className="text-base font-bold">Host any file for free</p>
