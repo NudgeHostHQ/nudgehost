@@ -32,9 +32,9 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "There are still moments where you have a PDF and no good way to open it: a locked-down work laptop with no PDF reader, a phone that wants to download the file before showing it, a shared computer where you'd rather not install anything. A browser-based viewer sidesteps all of that. Drop the file here and it renders immediately.",
-      "Viewing is only half the story, though. If the document is something you want other people to be able to open as easily as you just did, the natural next step is the {{host-pdf}}. You get a permanent link, and anyone who clicks it lands on this same viewer with your document already loaded.",
-      "If you need the PDF as images rather than a document, say for a slide, a thumbnail, or a social post, send it through {{converter-pdf-to-jpg}} instead. The same in-browser approach works for other formats too. You can {{viewer-docx}} or any of the other file types NudgeHost handles.",
-      "The viewer is free and unlimited. If you find yourself sharing documents regularly and want custom domains, branded links, or password protection, those live on {{pricing}}.",
+      "Viewing is only half the story, though. If the document is something you want other people to be able to open as easily as you just did, the natural next step is the {{host-pdf|PDF link generator}}. You get a permanent link, and anyone who clicks it lands on this same viewer with your document already loaded.",
+      "If you need the PDF as images rather than a document, say for a slide, a thumbnail, or a social post, you can {{converter-pdf-to-jpg}} instead. The same in-browser approach works for other formats too. You can {{viewer-docx}} or any of the other file types NudgeHost handles.",
+      "The viewer is free and unlimited. If you find yourself sharing documents regularly and want custom domains, branded links, or password protection, those live on {{pricing|the Pro plan}}.",
     ],
     faqs: [
       {
@@ -71,8 +71,8 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     body: [
       "Word documents are everywhere, but Microsoft Word is not. You can't count on it being installed on every phone, on every Chromebook, or on a machine you've borrowed for ten minutes. Opening a DOCX online removes that dependency entirely. The document renders readable in your browser, with headings, lists, tables, and images in place, and the original file one click away. The in-browser rendering is for .docx specifically; a legacy .doc hosts fine but is offered as a download instead.",
       "Anyone you share the link with gets the same reading view. You {{host-docx}} once, send the URL, and the recipient reads the document in their browser with no Word, no Google account, and no download step, then grabs the original if they want to edit.",
-      "When the layout itself is the point, a print-ready contract or a designed one-pager, convert first. Run it through {{converter-docx-to-pdf}} so every device shows identical pages, then {{host-pdf}} from there. For other document types, you can {{viewer-pdf}} the same way.",
-      "This viewer is free with no limits. For custom domains, branded links, and password protection, {{pricing}}.",
+      "When the layout itself is the point, a print-ready contract or a designed one-pager, {{converter-docx-to-pdf}} first so every device shows identical pages, then {{host-pdf}} from there. For other document types, you can {{viewer-pdf}} the same way.",
+      "This viewer is free with no limits. For custom domains, branded links, and password protection, {{pricing|upgrade to Pro}}.",
     ],
     faqs: [
       {
@@ -108,9 +108,9 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "A CSV is just text, which means opening one in a plain text editor gives you an unreadable wall of commas. A proper viewer parses it into rows and columns so you can actually read it. Drop the file here, open its link, and the data renders as a clean table.",
-      "If the data is something you need to hand to someone else, the same dashboard that powers {{host-hub}} handles the CSV; you send a link instead of a file and the recipient opens it in this same table view, no Excel required. For native Excel files with multiple sheets or formulas, you can {{host-xlsx}} to keep the workbook structure intact. For structured data that's more nested than a flat table, you can {{viewer-json}} the same way.",
-      "Developers working with CSV data often need to reshape it; when you need to inspect or tidy the JSON equivalent, {{dev-json-formatter}} pairs naturally with this viewer. And if you just need the file online fast, {{home}}.",
-      "Free and unlimited. Sharing extras are on {{pricing}}.",
+      "If the data is something you need to hand to someone else, the same dashboard that lets you {{host-hub}} handles the CSV; you send a link instead of a file and the recipient opens it in this same table view, no Excel required. For native Excel files with multiple sheets or formulas, you can {{host-xlsx}} to keep the workbook structure intact. For structured data that's more nested than a flat table, you can {{viewer-json}} the same way.",
+      "Developers working with CSV data often need to reshape it; when you need to inspect or tidy the JSON equivalent, you can {{dev-json-formatter}} alongside this viewer. And if you just need the file online fast, {{home}}.",
+      "Free and unlimited. Sharing extras are on {{pricing|a paid plan}}.",
     ],
     faqs: [
       {
@@ -146,9 +146,9 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "Raw JSON is readable in theory and painful in practice. A large API response or config file is hundreds of lines of nested braces. A tree viewer lets you collapse what you don't care about and drill into what you do. Drop a file here, open its link, and the structure becomes browsable.",
-      "If the JSON is messy (minified, or inconsistently indented), run it through {{dev-json-formatter}} first; it tidies the structure so the tree view is even easier to scan. For tabular data that arrived as JSON but would read better as rows and columns, {{viewer-csv}} is the companion tool.",
+      "If the JSON is messy (minified, or inconsistently indented), {{dev-json-formatter}} first; it tidies the structure so the tree view is even easier to scan. For tabular data that arrived as JSON but would read better as rows and columns, you can {{viewer-csv}} instead.",
       "When you need to share the file, {{host-hub}} and send a link. That's how you hand a teammate an API response without pasting 500 lines into Slack. Developers will also find that NudgeHost's {{dev-tools-hub}} sit naturally alongside this viewer.",
-      "The viewer is free with no limits. For account-level features, {{pricing}} on the Pro tier.",
+      "The viewer is free with no limits. Account-level features like custom domains live on {{pricing|the Pro tier}}.",
     ],
     faqs: [
       {

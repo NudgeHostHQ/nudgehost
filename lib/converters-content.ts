@@ -35,8 +35,8 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     body: [
       "A PDF is a great document and an awkward image. Slides, social posts, and chat apps often want a picture instead. The conversion is closer than most people think. Desktop PDF readers export a page as a JPG or PNG from the file menu, the preview apps built into Mac and Windows save pages as images, and for a single page a screenshot does the job in seconds.",
       "This page handles the second half of the job, which is getting the converted images in front of someone. Drop your exported JPGs above and you get a hosted link in seconds. If you would rather keep the original document in play, you can also {{host-pdf}} and send both. The PDF goes to people who want the real document, the JPGs go everywhere a PDF won't.",
-      "If you only need to read the document rather than turn it into images, you can {{viewer-pdf}} with nothing to install. For images headed to the web, the next step when file size matters is to {{converter-png-to-webp}}. And since NudgeHost will {{host-hub}}, the JPGs, the source PDF, and anything else can sit in the same dashboard.",
-      "Hosting is free for files up to 25MB. Passwords and custom domains are on {{pricing}}.",
+      "If you only need to read the document rather than turn it into images, you can {{viewer-pdf}} instead. For images headed to the web, the next step when file size matters is to {{converter-png-to-webp}}. And since NudgeHost will {{host-hub}}, the JPGs, the source PDF, and anything else can sit in the same dashboard.",
+      "Hosting is free for files up to 25MB. Passwords and custom domains are on {{pricing|the Pro plan}}.",
     ],
     faqs: [
       {
@@ -74,7 +74,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
       "Word documents shift around depending on the reader's software, fonts, and version. PDF looks identical everywhere, which is why converting is the right move before you send anything that matters. The conversion is built into the tools you already use. Word has Save As PDF and Export, Google Docs has Download as PDF, and the print-to-PDF option on Mac and Windows works from any program.",
       "Once you have the PDF, you can {{host-pdf}} right here and send a link instead of an attachment. A link is lighter than a 4MB file in someone's inbox, and the recipient opens it in one click. If the document is a CV, it helps to {{use-case-resume-link}} so it arrives as a clean URL rather than an attachment a filter might catch.",
       "If you want to check the original Word file before exporting, you can {{viewer-docx}} in seconds. And when a page from the finished PDF needs to be an image, the guidance on how to {{converter-pdf-to-jpg}} picks up where this page ends.",
-      "Hosting is free for files up to 25MB. Password protection and custom domains arrive when you {{pricing}}.",
+      "Hosting is free for files up to 25MB. Password protection and custom domains arrive when you {{pricing|upgrade to Pro}}.",
     ],
     faqs: [
       {
@@ -110,9 +110,9 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "WebP is the image format every current browser supports, and it compresses far better than PNG. The same image often lands at half the size or less, which means faster pages and lighter shares. Converting is a short job with tools you may already have. Most modern image editors export WebP from the save dialog, and the format's reference encoder is a free command-line tool that processes a whole folder in one line.",
-      "After converting, drop the WebP above to host it. If the image belongs to a site you're publishing, you can {{host-html}} and the lighter assets load noticeably faster. iPhone photographs have their own format problem, and {{converter-heic-to-jpg}} covers that one.",
+      "After converting, drop the WebP above to host it. If the image belongs to a site you're publishing, you can {{host-html}} and the lighter assets load noticeably faster. iPhone photographs have their own format problem; you can {{converter-heic-to-jpg}} to solve that one.",
       "Anything else in the project can ride along. NudgeHost will {{host-hub}}, so mockups, PDFs, and ZIPs sit in the same dashboard as the images. Developers tidying assets may also get use out of {{dev-tools-hub}} alongside this page.",
-      "Hosting is free up to 25MB per file. Larger limits and custom domains are on {{pricing}}.",
+      "Hosting is free up to 25MB per file. Larger limits and custom domains are on {{pricing|the paid tier}}.",
     ],
     faqs: [
       {
@@ -149,8 +149,8 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     body: [
       "iPhones save photos as HEIC, which is efficient but stubborn. Plenty of websites, older software, and non-Apple devices won't open it. The fix usually lives on the phone itself. Setting the camera to Most Compatible captures JPG from then on, copying a photo into the Files app converts it on the way, and the photo apps built into Mac and Windows export JPG from a HEIC original.",
       "With a JPG in hand, drop it above to host it and share a link, which beats sending a heavy attachment the recipient's phone refuses to preview. For a set of photos, zip them first and {{host-zip}} so one link carries the whole set.",
-      "Since NudgeHost will {{host-hub}}, the originals can live next to the converted copies if you want both online. If the JPG needs to be lighter still for a website, the next step is to {{converter-png-to-webp}}. The same in-browser rendering behind {{viewer-pdf}} shows hosted images full screen as well.",
-      "Hosting is free up to 25MB per photo. Passwords and custom domains arrive when you {{pricing}}.",
+      "Since NudgeHost will {{host-hub}}, the originals can live next to the converted copies if you want both online. If the JPG needs to be lighter still for a website, the next step is to {{converter-png-to-webp}}. The same in-browser rendering behind {{viewer-pdf|the online PDF viewer}} shows hosted images full screen as well.",
+      "Hosting is free up to 25MB per photo. Passwords and custom domains arrive when you {{pricing|move up to Pro}}.",
     ],
     faqs: [
       {

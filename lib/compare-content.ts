@@ -141,8 +141,8 @@ export const compareContentMap: Record<string, CompareContent> = {
     lead: "Both tools turn files into shareable links, but they take different approaches. Tiiny.host leans toward static site hosting with developer-friendly features. Linkyhost focuses on PDF and document sharing. Here is how they compare on the things that actually matter.",
     intro: [
       "Tiiny.host is the older of the two products and built its reputation around static site hosting. It can deploy React builds, Gatsby exports, and PHP projects, so if you need to {{host-html}} for a real web project it has the most depth here. Linkyhost is newer and aimed at people who want to turn a PDF into a shareable URL without thinking about configuration.",
-      "Both products overlap in the basics. Each offers a {{host-pdf}}, each offers custom domains on paid plans, and each builds programmatic SEO content around what it hosts. Where they diverge is the free tier and the shape of the pricing ladder above it. Tiiny.host has five paid plans and applies visitor caps below the top tier. Linkyhost has three paid plans without visitor caps but a tighter file size ceiling.",
-      "The table below covers the side-by-side detail. The free tier row is where to look first if cost is the deciding factor; {{pricing}} for NudgeHost sits in the same comparison set and gives a more usable starting plan than either of these.",
+      "Both products overlap in the basics. Each offers a PDF link generator, each offers custom domains on paid plans, and each builds programmatic SEO content around what it hosts. Where they diverge is the free tier and the shape of the pricing ladder above it. Tiiny.host has five paid plans and applies visitor caps below the top tier. Linkyhost has three paid plans without visitor caps but a tighter file size ceiling.",
+      "The table below covers the side-by-side detail. The free tier row is where to look first if cost is the deciding factor; {{pricing|the free plan}} for NudgeHost sits in the same comparison set and gives a more usable starting plan than either of these.",
     ],
     rows: [
       { feature: "Free tier", nudgehost: "1 project, 3MB, 100 visitors/mo", competitor: "1 upload, 10MB" },
@@ -162,7 +162,7 @@ export const compareContentMap: Record<string, CompareContent> = {
     verdict: [
       "Tiiny.host is the stronger pick if you are hosting static sites or React builds and you are comfortable with a developer-oriented tool. It has been around longer and the static hosting is more mature. Linkyhost is simpler if you just need to {{host-pdf}} without thinking about configuration.",
       "Both free tiers are punishing in different ways. Tiiny caps you at 3MB per file with a 100 monthly visitor limit, and Linkyhost limits you to a single upload before you need to pay. If cost matters, neither plan is going to keep you for long.",
-      "By contrast, {{pricing}} on NudgeHost gives you 10 active links at 25MB each with no visitor caps and no monthly login requirement, which is worth a look before committing to either of these. For the direct head-to-heads, see {{compare-tiiny}} or {{compare-linkyhost}}.",
+      "By contrast, the free plan on NudgeHost gives you 10 active links at 25MB each with no visitor caps and no monthly login requirement, which is worth a look before committing to either of these. For the direct head-to-heads, see {{compare-tiiny}} or {{compare-linkyhost}}.",
     ],
     faqs: [
       {

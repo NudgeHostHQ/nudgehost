@@ -43,11 +43,11 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Host silo -------------------------------------------------------------
   "host-hub": {
     href: "/host",
-    anchors: ["host any file type", "all of NudgeHost's hosting tools", "host a file"],
+    anchors: ["host any file type", "put any file online", "host a file"],
   },
   "host-pdf": {
     href: "/host/pdf",
-    anchors: ["host a PDF", "share a PDF as a link", "PDF link generator", "put a PDF online"],
+    anchors: ["host a PDF", "share a PDF as a link", "turn a PDF into a link", "put a PDF online"],
   },
   "host-html": {
     href: "/host/html",
@@ -149,63 +149,63 @@ export const internalLinks: Record<string, LinkTarget> = {
   },
   "viewer-pdf": {
     href: "/viewers/pdf",
-    anchors: ["view a PDF in your browser", "open a PDF online", "the online PDF viewer"],
+    anchors: ["view a PDF in your browser", "open a PDF online", "read a PDF without Acrobat"],
   },
   "viewer-docx": {
     href: "/viewers/docx",
-    anchors: ["open a Word document online", "the DOCX viewer", "read a Word file in your browser"],
+    anchors: ["open a Word document online", "preview a DOCX online", "read a Word file in your browser"],
   },
   "viewer-csv": {
     href: "/viewers/csv",
-    anchors: ["view a CSV online", "open a spreadsheet in your browser", "the CSV viewer"],
+    anchors: ["view a CSV online", "open a spreadsheet in your browser", "load a CSV as a table"],
   },
   "viewer-json": {
     href: "/viewers/json",
-    anchors: ["view JSON in your browser", "inspect a JSON file online", "the JSON viewer"],
+    anchors: ["view JSON in your browser", "inspect a JSON file online", "browse JSON as a tree"],
   },
 
   // --- Converters silo -------------------------------------------------------
   "converters-hub": {
     href: "/converters",
-    anchors: ["convert a file", "all of NudgeHost's free converters", "the free file converters"],
+    anchors: ["the conversion tools", "all of NudgeHost's free converters", "the free file converters"],
   },
   "converter-pdf-to-jpg": {
     href: "/converters/pdf-to-jpg",
-    anchors: ["convert a PDF to JPG", "turn a PDF into images", "the PDF to JPG converter"],
+    anchors: ["convert a PDF to JPG", "turn a PDF into images", "export PDF pages as JPGs"],
   },
   "converter-docx-to-pdf": {
     href: "/converters/docx-to-pdf",
-    anchors: ["convert a Word document to PDF", "the DOCX to PDF converter", "turn a Word doc into a PDF"],
+    anchors: ["convert a Word document to PDF", "export the DOCX as a PDF", "turn a Word doc into a PDF"],
   },
   "converter-png-to-webp": {
     href: "/converters/png-to-webp",
-    anchors: ["convert PNG to WebP", "shrink an image with WebP", "the PNG to WebP converter"],
+    anchors: ["convert PNG to WebP", "shrink an image with WebP", "compress a PNG to WebP"],
   },
   "converter-heic-to-jpg": {
     href: "/converters/heic-to-jpg",
-    anchors: ["convert HEIC to JPG", "turn an iPhone photo into a JPG", "the HEIC to JPG converter"],
+    anchors: ["convert HEIC to JPG", "turn an iPhone photo into a JPG", "swap HEIC for JPG"],
   },
 
   // --- Dev tools silo --------------------------------------------------------
   "dev-tools-hub": {
     href: "/dev-tools",
-    anchors: ["free developer tools", "all of NudgeHost's dev tools", "the dev tools"],
+    anchors: ["free developer tools", "browser-based dev tools", "small dev utilities"],
   },
   "dev-json-formatter": {
     href: "/dev-tools/json-formatter",
-    anchors: ["format your JSON", "tidy up a JSON file", "the JSON formatter"],
+    anchors: ["format your JSON", "tidy up a JSON file", "clean up minified JSON"],
   },
   "dev-base64": {
     href: "/dev-tools/base64",
-    anchors: ["encode or decode Base64", "the Base64 encoder", "convert text to Base64"],
+    anchors: ["encode or decode Base64", "decode Base64 in the browser", "convert text to Base64"],
   },
   "dev-url-encoder": {
     href: "/dev-tools/url-encoder",
-    anchors: ["encode a URL", "the URL encoder", "encode a query string"],
+    anchors: ["encode a URL", "URL-encode a string", "encode a query string"],
   },
   "dev-jwt-decoder": {
     href: "/dev-tools/jwt-decoder",
-    anchors: ["decode a JWT", "inspect a JSON web token", "the JWT decoder"],
+    anchors: ["decode a JWT", "inspect a JSON web token", "peek inside a JWT"],
   },
 
   // --- Use cases silo --------------------------------------------------------
