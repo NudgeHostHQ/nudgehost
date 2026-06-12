@@ -59,37 +59,37 @@ export const viewersContentMap: Record<string, SpokeContent> = {
     name: "DOCX",
     title: "DOCX Viewer: open Word documents online, free",
     description:
-      "Open a Word document in your browser without Microsoft Word. Free online DOCX viewer with no install and no Office licence, works anywhere.",
+      "Open a Word document in your browser without Microsoft Word. Free online DOCX viewer with no install and no Office licence, readable on any device.",
     h1: "Open a Word document online.",
     lead: "Drop a DOCX file and read it in your browser. No copy of Microsoft Word required.",
     keyPoints: [
       "Drop a DOCX file and read it in your browser without Microsoft Word installed.",
-      "Renders the document with its formatting intact on any modern device.",
+      "Headings, lists, tables, and embedded images render readably on any modern device.",
       "Designed for reading and sharing. Editing still happens in your usual word processor.",
-      "Convert to PDF first if you need pixel-identical results before sending the file on.",
+      "The download button always serves the original .docx, byte for byte.",
     ],
     body: [
-      "Word documents are everywhere, but Microsoft Word is not. You can't count on it being installed on every phone, on every Chromebook, or on a machine you've borrowed for ten minutes. Opening a DOCX online removes that dependency entirely. The document renders in your browser with its formatting intact.",
-      "If you want to send the document to someone else, the cleaner path is usually to convert it first. Run it through {{converter-docx-to-pdf}} so the recipient sees identical formatting on every device, then {{host-pdf}} from there so they open it with a single click. PDF travels better than DOCX precisely because it doesn't depend on the reader's software.",
-      "You can also keep the file as a Word doc and {{host-docx}} in its original format. The recipient lands on a viewer like this one. For other document types, you can {{viewer-pdf}} the same way.",
+      "Word documents are everywhere, but Microsoft Word is not. You can't count on it being installed on every phone, on every Chromebook, or on a machine you've borrowed for ten minutes. Opening a DOCX online removes that dependency entirely. The document renders readable in your browser, with headings, lists, tables, and images in place, and the original file one click away. The in-browser rendering is for .docx specifically; a legacy .doc hosts fine but is offered as a download instead.",
+      "Anyone you share the link with gets the same reading view. You {{host-docx}} once, send the URL, and the recipient reads the document in their browser with no Word, no Google account, and no download step, then grabs the original if they want to edit.",
+      "When the layout itself is the point, a print-ready contract or a designed one-pager, convert first. Run it through {{converter-docx-to-pdf}} so every device shows identical pages, then {{host-pdf}} from there. For other document types, you can {{viewer-pdf}} the same way.",
       "This viewer is free with no limits. For custom domains, branded links, and password protection, {{pricing}}.",
     ],
     faqs: [
       {
         q: "Will the formatting look exactly like Word?",
-        a: "Very close. Complex layouts can shift slightly. For pixel-identical results, convert the document to PDF first.",
+        a: "The view is built for reading. Headings, lists, tables, and images come through; elaborate page layouts simplify. For pixel-identical results, convert the document to PDF first. The download always serves your original file.",
       },
       {
         q: "Can I edit the document here?",
-        a: "No. This is a viewer, not an editor. It's for reading and sharing, not authoring.",
+        a: "No. This is a viewer, not an editor. It's for reading and sharing, not authoring. Download the original .docx to edit in your usual word processor.",
       },
       {
         q: "Does this work on a phone?",
-        a: "Yes. The viewer is browser-based, so any phone with a modern browser can open a DOCX.",
+        a: "Yes. The viewer is browser-based, so any phone with a modern browser can read a DOCX.",
       },
     ],
     relatedToolSlugs: ["converter-docx-to-pdf", "host-pdf", "viewer-pdf", "host-html"],
-    filePillExamples: ["DOCX", "DOC", "No Word needed", "Up to 25MB free"],
+    filePillExamples: ["DOCX", "No Word needed", "Readable view", "Up to 25MB free"],
   },
 
   csv: {

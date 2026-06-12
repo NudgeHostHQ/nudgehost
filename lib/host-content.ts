@@ -89,20 +89,20 @@ export const hostContentMap: Record<string, SpokeContent> = {
     lead: "Paste your HTML or drop a file, and NudgeHost gives you a live URL. Perfect for single-page sites, AI-generated pages, and HTML prototypes.",
     keyPoints: [
       "Drop an HTML file or paste source directly to get a live nudgehost.com URL within seconds.",
-      "Works for single-file pages and AI-generated outputs; everything the page needs lives in the one file.",
+      "Works for single-file pages and AI-generated outputs; a folder of files zips up and serves as a full site instead.",
       "Client-side JavaScript runs as expected, which makes this a good fit for prototypes, demos, and AI artifacts.",
       "Free with no signup; custom domains, password protection, and unbranded links are on a paid plan.",
     ],
     body: [
       "Sometimes you just need to put an HTML file on the internet. Maybe it's a prototype you want to show a client, a single-page landing page for a side project, or an HTML output you just generated from an AI tool and want to share with a friend. You don't need a server or a Vercel deployment for any of that. You just need a URL. A page like this is a {{glossary-static-site}}, served exactly as it is with nothing building it on each visit.",
-      "NudgeHost takes a single HTML file and puts it on the open web at a clean URL within seconds. Scripts and styles run on the hosted page, since NudgeHost {{features-html-rendering}}. Keep everything in the one file: inline your CSS and JavaScript, load libraries from CDNs, and reference images by absolute URL, because relative paths to sibling files won't resolve on the hosted page. If you're publishing something a model built for you, there's a purpose-built flow to {{host-claude-artifact}} that handles the copy-paste case directly. For personal use cases like a one-page event site, the guide on how to {{use-case-wedding}} walks through that flow start to finish.",
+      "NudgeHost takes a single HTML file and puts it on the open web at a clean URL within seconds. Scripts and styles run on the hosted page, since NudgeHost {{features-html-rendering}}. For a single-file upload, keep everything in the one file: inline your CSS and JavaScript, load libraries from CDNs, and reference images by absolute URL, because relative paths to sibling files won't resolve on a single hosted page. If the page has grown into a folder of assets, you can {{host-zip}} instead and the whole project serves as a live site at its own nudgehost.site link, relative paths intact. If you're publishing something a model built for you, there's a purpose-built flow to {{host-claude-artifact}} that handles the copy-paste case directly. For personal use cases like a one-page event site, the guide on how to {{use-case-wedding}} walks through that flow start to finish.",
       "Set a password on the link if you want the prototype private. Custom domains and unbranded links come with {{pricing}}. And the page is already running on a real CDN, so testing load behaviour before publishing isn't a separate step. A public page also benefits from {{glossary-seo}} once you want search engines to find it.",
       "HTML isn't the only thing you can put online this way. The same uploader will {{host-hub}}, and a finished PDF export of your page can just as easily {{host-pdf}} for people who'd rather read than browse. If you only need to look at a file rather than publish it, {{viewers-hub}} cover that side.",
     ],
     faqs: [
       {
         q: "What about CSS, JS, or images that sit alongside my HTML?",
-        a: "Inline them. Relative references to sibling files don't resolve on the hosted page, so put the CSS and JavaScript inside the HTML itself, and load images from absolute URLs or data URIs. Libraries loaded from CDNs work normally.",
+        a: "Either inline them or zip the folder. A single-file upload needs everything inside the one file, since relative references to sibling files don't resolve there. A ZIP of the folder serves as a live site at its own subdomain with relative paths working as built.",
       },
       {
         q: "Can I paste HTML instead of uploading a file?",
@@ -141,7 +141,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     body: [
       "Claude's artifacts feature is one of the most useful additions to chat AI in years. You can ask Claude for a dashboard, a calculator, a landing page, or a small game and get a working HTML/JS thing right there in the conversation. There's a catch. Those artifacts live inside Claude. You can't easily send one to a friend, drop one into a Slack channel, or share one on Twitter without screenshotting it.",
       "NudgeHost fixes that gap. Open your artifact in Claude, copy the source HTML, paste it into NudgeHost, and you get a clean public URL that loads the artifact for anyone who clicks. No Anthropic account needed on their end. No screenshot. It uses {{features-paste-html}}, so the artifact moves from the chat to a live page without a file ever touching your disk. Under the hood it's the same flow you'd use to {{host-html}}, since an artifact is just HTML. Anything you learn here applies to ordinary web pages too. For the full step-by-step version, read {{blog-how-to-host-a-claude-artifact}}.",
-      "If your artifact is split across several files, ask Claude to inline everything into one HTML file; it does this reliably, and the live page needs everything in the one file. A multi-file bundle can still travel as one download when you {{host-zip}}. And if you want to hand someone a static, non-interactive version, say a printable summary of a dashboard, you can always export it and {{host-pdf}} alongside the live one.",
+      "If your artifact is split across several files, ask Claude to inline everything into one HTML file; it does this reliably, and the live page needs everything in the one file. A multi-file bundle serves as a live site at its own link when you {{host-zip}}, with the index.html as the entry point. And if you want to hand someone a static, non-interactive version, say a printable summary of a dashboard, you can always export it and {{host-pdf}} alongside the live one.",
       "Under {{pricing}}, your artifact stays live with no expiry. You can {{features-link-updating}} whenever Claude builds a v2, so the address stays the same while the content changes, or set an expiry if you only want the link to live for a week. The same approach works for any single-file HTML output: ChatGPT-generated HTML, v0 exports, Lovable exports, Bolt exports. For more grounded examples of what people do with shared links, like how to {{use-case-deck}}, you can {{use-cases-hub}} step by step.",
     ],
     faqs: [
@@ -221,24 +221,24 @@ export const hostContentMap: Record<string, SpokeContent> = {
     h1: "Share your portfolio as a link.",
     lead: "One link to your work, opening in the browser the moment a recruiter or client clicks, with no login wall, no heavy attachment, and no annual site builder fee.",
     keyPoints: [
-      "Upload a portfolio PDF, a single-file HTML page, or a hero image, and get a clean shareable link in seconds.",
+      "Upload a portfolio PDF, an HTML page, a hero image, or a zipped site export, and get a clean shareable link in seconds.",
       "Recruiters, clients, and agencies open your work in the browser with no account, no download, and no login wall.",
       "A view counter shows whether your portfolio has been opened, which helps before an interview or a pitch call.",
       "Update the file later and the link stays the same, so everyone who has it sees your latest work.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-25",
-    dateModified: "2026-05-25",
+    dateModified: "2026-06-12",
     body: [
       "A portfolio only earns you anything if the person you sent it to actually opens it. Behance and Dribbble wrap your work in their own navigation, ads, and a 'suggested creators' rail that pulls attention toward other people. A Google Drive folder makes a recruiter sign in before they see a single piece. A 40MB PDF attachment gets stripped by a corporate mail server, or it sits unopened because nobody downloads files from someone they have not met. A plain link sidesteps all of it. Your work opens directly, on any device, with nothing in front of it.",
-      "Most portfolios are one of three things, and each becomes a link the same way. A designed PDF is the simplest case, and the {{host-pdf}} flow turns it into a URL in seconds. If your portfolio is a hand-coded or exported page that fits in one self-contained HTML file, you {{host-html}} and it goes live at a clean address with the layout intact. Photographers who want to send a single hero shot or a contact sheet can {{host-image}} instead, and the picture renders full size in the browser rather than forcing a download. A multi-page case study travels best flattened into a single PDF, since a folder of pages and assets can't be served as a browsable site from one upload.",
+      "Most portfolios are one of three things, and each becomes a link the same way. A designed PDF is the simplest case, and the {{host-pdf}} flow turns it into a URL in seconds. If your portfolio is a hand-coded or exported page that fits in one self-contained HTML file, you {{host-html}} and it goes live at a clean address with the layout intact. Photographers who want to send a single hero shot or a contact sheet can {{host-image}} instead, and the picture renders full size in the browser rather than forcing a download. A multi-page portfolio site, exported from a builder or hand-coded, zips up so you can {{host-zip}}, and it serves as a real browsable site at its own nudgehost.site link, navigation and all.",
       "The single most common thing people do with a portfolio link is {{use-case-recruiter}}, usually attached to a job application. The recruiter clicks once and sees your work in the browser, with no account to create and no download to approve. Agencies and prospective clients get the same friction-free open, which matters when you are one of forty links in someone's inbox that week. Because the link reports opens, you also learn whether your portfolio was reviewed before an interview or whether the application is still unread. That tells you when a follow-up is worth sending and when you are waiting on a decision nobody has made yet.",
       "Work changes, and the link keeps up. Swap the file in your dashboard and the URL stays the same, so every studio and recruiter who already has it sees your latest pieces on the next refresh, with no need to resend anything. Hosting one portfolio costs nothing, and you can look at {{pricing}} when you want a custom domain on the link or the NudgeHost branding removed, both of which matter once you are sending it to dozens of studios. The same dashboard handles {{host-hub}}, so your portfolio, your CV, and a short cover note all sit under one tidy set of links instead of scattered across email threads.",
     ],
     faqs: [
       {
         q: "What format should my portfolio be in?",
-        a: "A designed PDF, a single-file HTML page, or a hero image. Each becomes a link the same way; a ZIP of everything travels as one download rather than a browsable site.",
+        a: "A designed PDF, a single-file HTML page, a hero image, or a zipped site export. The documents and images open in the viewer; a zipped site serves as a browsable site at its own subdomain.",
       },
       {
         q: "Will a recruiter need an account to open it?",
@@ -262,44 +262,44 @@ export const hostContentMap: Record<string, SpokeContent> = {
     name: "DOCX",
     title: "Host a DOCX file online: share a Word document as a link",
     description:
-      "Drop a Word document and get a shareable link in seconds. The recipient downloads it from a clean page. Convert to PDF first for in-browser reading. Free.",
+      "Drop a Word document and get a shareable link. The recipient reads the .docx in the browser, no Word needed, and can download the original. Free.",
     h1: "Host a Word document as a link.",
-    lead: "Drop your .docx and we'll hand back a URL anyone can click. The recipient gets a clean download page. For one-click reading in the browser, send a PDF instead.",
+    lead: "Drop your .docx and we'll hand back a URL anyone can click. The document opens readable in the browser, and the original file is one click away.",
     keyPoints: [
-      "Upload a Word document, get a public link, share the link. The recipient downloads the file from a clean page.",
-      "The file arrives exactly as you saved it, with comments and tracked changes intact.",
+      "Upload a Word document, get a public link, share it. The recipient reads the .docx in the browser, no Word required.",
+      "Headings, lists, tables, and embedded images come through in the rendered view.",
+      "The download button serves your original file byte for byte, with comments and tracked changes intact.",
       "Update the .docx in your dashboard and the URL stays the same, useful when you're iterating on a contract.",
-      "Free for 10 active links at 25MB per file. Most Word docs land well under 1MB.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
-      "Word documents travel badly over email. Attachments get buried in threads, clipped by mail servers, and resent in four versions nobody can tell apart. A link fixes the delivery half of the problem. Drop your DOCX here, send the URL, and the recipient lands on a tidy page with the filename and a download button. They save the file and open it in Word, Google Docs, LibreOffice, or whatever they already use.",
-      "If you want the document to open in the browser with one click and no download at all, PDF is the format that does that here. Export the PDF from Word first (the page on how to {{converter-docx-to-pdf}} covers the menus), then {{host-pdf}} and the link opens the document straight away. DOCX is the right pick when the recipient needs to edit the file in their own software, or when you want to keep iterating without re-sending the link.",
+      "Word documents travel badly over email. Attachments get buried in threads, clipped by mail servers, and resent in four versions nobody can tell apart. A link fixes both halves of the problem now. Drop your .docx here, send the URL, and the recipient lands on the document itself, rendered readable in the browser with no copy of Word, no Google account, and no download step. The original file sits behind the download button for anyone who wants to open it in Word, Google Docs, or LibreOffice. Legacy .doc files host fine but stay download-only; the in-browser reading view is for .docx.",
+      "The browser view is built for reading, not for print fidelity. If the recipient needs your exact page layout, fonts, and pagination, PDF is still the format that locks rendering. Export it from Word (the page on how to {{converter-docx-to-pdf}} covers the menus), then {{host-pdf}}. DOCX is the right pick when the file needs to stay editable in the recipient's own software, or when you want to keep iterating without re-sending the link.",
       "The link stays current as you update. Swap the .docx file in your dashboard and the URL doesn't change. Anyone who already has the link sees the new version on their next refresh. Handy when a contract is bouncing back and forth between you and a lawyer three times a day.",
       "Free with no signup; {{pricing}} adds the higher ceilings. The 25MB free-plan limit covers basically every Word document anyone writes; the only docs that exceed it tend to have embedded images that would be better off compressed first. Your DOCX lives in the same dashboard as {{host-hub}} for every other format, so a project's documents stay under a tidy set of links rather than scattered across email threads.",
     ],
     faqs: [
       {
         q: "Does the recipient need Microsoft Word?",
-        a: "They need something that opens .docx files: Word, Google Docs, LibreOffice, and Pages all do. If they should read it with no software step at all, convert to PDF first and the link opens in their browser.",
+        a: "No. The link opens the document readable in the browser on any device. Word, Google Docs, or LibreOffice only enter the picture if they download the original to edit it.",
       },
       {
         q: "Will comments and track changes show up?",
-        a: "Yes. The file downloads exactly as you saved it, so revision marks are still there when the recipient opens it. For a clean copy, accept all changes before uploading.",
+        a: "In the downloaded file, yes; it's your original, byte for byte. The reading view in the browser doesn't display revision marks, so accept changes before uploading if reviewers should see them resolved.",
       },
       {
         q: "Can I password-protect the link?",
-        a: "Yes, on Pro. Anyone clicking the link will need the password before they can get the document.",
+        a: "Yes, on Pro. Anyone clicking the link will need the password before they can read or download the document.",
       },
       {
         q: "Will the recipient see my exact formatting?",
-        a: "They download your original file, so the rendering depends on their software and fonts. PDF is the format that looks identical everywhere; convert first if that matters.",
+        a: "The browser view is readable rather than pixel-exact. Headings, lists, tables, and images come through; elaborate page layouts simplify. The download is your original file, and PDF remains the format that looks identical everywhere.",
       },
     ],
     relatedToolSlugs: ["host-pdf", "viewer-docx", "converter-docx-to-pdf", "host-resume"],
-    filePillExamples: ["DOCX", "DOC", "Up to 25MB free", "Share as a link"],
+    filePillExamples: ["DOCX", "Readable in the browser", "Up to 25MB free", "Share as a link"],
   },
 
   pptx: {
@@ -475,7 +475,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Can I host a multi-file Markdown site (like a docs folder)?",
-        a: "Bundle it as a ZIP and the folder travels as one download. Serving it as a browsable site isn't supported.",
+        a: "Render it to HTML first. Most docs generators emit a static site; zip that output and it serves as a browsable site at its own subdomain. A ZIP of raw .md files has no index.html, so build the HTML version before zipping.",
       },
     ],
     relatedToolSlugs: ["host-html", "host-pdf", "host-txt", "host-zip"],
@@ -485,46 +485,46 @@ export const hostContentMap: Record<string, SpokeContent> = {
   zip: {
     slug: "zip",
     name: "ZIP",
-    title: "Host a ZIP file online: share an archive as a link",
+    title: "Host a ZIP file online: upload a site, get a live URL",
     description:
-      "Drop a ZIP archive and get a shareable link in seconds. One URL carries the whole bundle, and the recipient downloads the archive intact. Free, no signup.",
-    h1: "Host a ZIP file as a link.",
-    lead: "Drop your .zip and get a URL. One link carries the whole bundle, and the recipient downloads the archive intact in a single click.",
+      "Upload a ZIP of a static site or app build and it serves as a live site at its own nudgehost.site link. Assets load, routing works. Free, no signup.",
+    h1: "Host a ZIP file as a live site.",
+    lead: "Drop a .zip of your site or build folder and it goes live at its own link on nudgehost.site, served from the root so everything loads the way you built it.",
     keyPoints: [
-      "Upload a .zip, get a public link in seconds, share it. The recipient downloads the archive in one click.",
-      "One URL replaces a folder of attachments: assets, exports, and document bundles all travel together.",
-      "The archive arrives byte-for-byte as you built it, including its folder structure.",
-      "Free with no signup; 25MB per file covers most project bundles.",
+      "Upload a ZIP of a static site or SPA build and it serves at its own subdomain, like your-name.nudgehost.site.",
+      "Stylesheets, scripts, images, and fonts load from the root exactly as the build references them.",
+      "Client-side routing works; a direct visit to a route serves your index.html and the router takes over.",
+      "Up to 200 files per archive, with the unpacked size counted against your plan's file limit. No signup needed.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
-      "A ZIP file is the universal way to send something that's more than one file, and it is also {{glossary-file-compression}} in action, packing everything smaller for the trip. The assets for a design project, a bundle of PDFs for a client, an export from a tool that won't give you a single download. The annoying part of sending one is the delivery: too big for email, awkward in chat, expiring from a transfer service. NudgeHost cuts that to one click. Drop the .zip, get a URL, the recipient downloads the archive intact.",
-      "The archive travels as a single download; NudgeHost doesn't unpack it or serve the contents as a browsable site. If the goal is a live page rather than a delivered bundle, a single self-contained file is the path. You can {{host-html}} with everything inlined and the page goes live in seconds, and the same flow lets you {{host-claude-artifact}} once you've asked the AI to put its output in one file.",
-      "Because the archive arrives exactly as you built it, build it cleanly. ZIPs made on macOS by right-clicking Compress tend to include a __MACOSX metadata folder and stray .DS_Store files, which travel along to your recipient; zipping from the terminal or tidying first avoids that. Encrypted ZIPs work fine as downloads, since the recipient unpacks locally with the password, or you can leave the archive open and password-protect the NudgeHost link instead.",
-      "Ten active links at 25MB per archive, free; {{pricing}} adds the higher ceilings. Project bundles that exceed 25MB are usually packing source code that should be in Git instead, or media that would be lighter as a {{converter-png-to-webp}} pass before zipping. Hosting plans, larger uploads, and custom domains are all on Pro.",
+      "A finished site is rarely one file. There's an index page, a stylesheet, a folder of images, a few scripts, and all of it has to travel together with its relative paths intact. Zipping the folder solves the travel (a refresher on {{glossary-file-compression}} explains why the archive is smaller than the folder), and NudgeHost takes the archive the rest of the way. Drop the .zip and the contents are unpacked and served as a live site at its own subdomain on nudgehost.site. Your project gets its own address, not a path on someone else's page.",
+      "Serving at the root of that subdomain is what makes exported builds work untouched. A bundle that references /assets/index-Ab12Cd34.js finds the file where it expects it, and a client-side router that owns its URLs keeps working because a direct visit to any route serves your index.html. This is the same pipeline behind the page to {{host-react-app}}, and it covers Vue, Svelte, and plain hand-written multi-page sites equally.",
+      "There are two limits to know. An archive can hold up to 200 files, and the unpacked size counts against the file ceiling on your plan, 25MB on the free tier. The entry point is the shallowest index.html in the archive, and a single wrapper folder like dist or my-app is stripped automatically, so zipping the folder rather than its contents is fine. macOS junk like __MACOSX and .DS_Store is filtered on unpack and never reaches the served site. Password-protected archives are the one thing to avoid, since the unpacker cannot read them; leave the archive open and put a password on the link itself instead.",
+      "An archive needs an index.html to serve. If you're sharing a single page rather than a project, it's quicker to {{host-html}} directly or {{host-claude-artifact}} from a paste. Once the site is live, you can {{features-link-updating}}, so a client who bookmarked the link always sees the newest build. Ten active links are free with no signup, and {{pricing}} lifts the size ceiling when a production bundle runs heavy.",
     ],
     faqs: [
       {
         q: "Does NudgeHost unpack the ZIP?",
-        a: "No. The archive is stored and served as one file, and the recipient unzips it locally. For a live page, host a single self-contained HTML file instead.",
+        a: "Yes. The archive is unpacked and served as a live site at its own nudgehost.site subdomain, with your index.html as the entry point.",
       },
       {
-        q: "Can the recipient browse files inside the ZIP without downloading?",
-        a: "No. The link page offers the archive as a single download; browsing happens after they unzip it on their machine.",
+        q: "Will client-side routes work?",
+        a: "Yes. A direct visit to a route that isn't a file in the archive serves your index.html, so React Router, Vue Router, and friends handle it from there. Missing assets still return a real 404.",
+      },
+      {
+        q: "What if my ZIP has no index.html?",
+        a: "The upload is declined with a clear message rather than serving something broken. Name your entry page index.html; it can sit at the root or inside the single folder you zipped, since a wrapper folder is stripped automatically.",
       },
       {
         q: "What about encrypted ZIPs?",
-        a: "They work normally. The recipient downloads the .zip and unpacks it locally with the password. Use NudgeHost's own link password if you want gating on the link itself instead.",
-      },
-      {
-        q: "Will Mac-specific files end up in the archive?",
-        a: "The archive arrives exactly as you built it, so __MACOSX folders and .DS_Store files travel along if macOS's Compress added them. Zip from the terminal or clean the folder first.",
+        a: "The unpacker can't read password-protected archives, so they're declined at upload. Leave the archive itself open and put a password on the NudgeHost link instead.",
       },
     ],
     relatedToolSlugs: ["host-html", "host-claude-artifact", "host-pdf", "host-react-app"],
-    filePillExamples: ["ZIP", "Project bundle", "Up to 25MB free", "Share as a link"],
+    filePillExamples: ["ZIP", "Site build", "SPA", "Live site", "Up to 25MB free"],
   },
 
   "react-app": {
@@ -534,19 +534,19 @@ export const hostContentMap: Record<string, SpokeContent> = {
     description:
       "Drop your React app's build folder as a ZIP and get a live URL in seconds. Works for Vite, Create React App, and any framework that emits a static build.",
     h1: "Host a React app as a live URL.",
-    lead: "Zip up your `dist` or `build` folder, drop it here, and your React app goes live at a clean URL. No deploy config, no environment setup.",
+    lead: "Zip up your `dist` or `build` folder, drop it here, and your React app goes live at its own link on nudgehost.site. No deploy config, no environment setup.",
     keyPoints: [
-      "Zip the output folder from `vite build` or `npm run build` and upload; the app goes live at a public URL.",
+      "Zip the output folder from `vite build` or `npm run build` and upload; the app goes live at its own subdomain, like your-name.nudgehost.site.",
       "Client-side routing works via a built-in SPA fallback that rewrites unknown paths to index.html.",
-      "Static assets in the bundle (images, fonts, CSS) load from their hashed filenames as the build emits them.",
-      "Free with no signup; 25MB compressed handles most prototype builds and small production apps.",
+      "The app serves at the root of its link, so hashed asset paths (images, fonts, CSS) load exactly as the build emits them.",
+      "Free with no signup; 25MB unpacked handles most prototype builds and small production apps.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
-      "React apps built with Vite or Create React App produce a static `dist` or `build` folder once the build step finishes. That folder is the whole app. An index.html, a bundle of JavaScript, a stylesheet, the assets. Any static host can serve it. NudgeHost serves it from a URL after you zip the folder and upload the ZIP. That's the whole deploy step.",
-      "Client-side routing is the one detail that catches people out. A React app using React Router or TanStack Router handles its own URLs in JavaScript, which means a direct request to `/about` would normally 404 on a static host because there's no `/about/index.html`. NudgeHost handles this with an SPA fallback. Any path that doesn't match a file in the bundle gets rewritten to `/index.html`, and the router takes it from there. If you'd rather opt out, the fallback is a per-link setting. When the app calls an external API, that request answers to {{glossary-cors}}, the browser rule the API itself has to allow.",
+      "React apps built with Vite or Create React App produce a static `dist` or `build` folder once the build step finishes. That folder is the whole app. An index.html, a bundle of JavaScript, a stylesheet, the assets. Any static host can serve it. NudgeHost serves it from its own subdomain on nudgehost.site after you zip the folder and upload the ZIP. The app sits at the root of that link, so root-absolute asset paths resolve exactly as the build wrote them. That's the whole deploy step.",
+      "Client-side routing is the one detail that catches people out. A React app using React Router or TanStack Router handles its own URLs in JavaScript, which means a direct request to `/about` would normally 404 on a static host because there's no `/about/index.html`. NudgeHost handles this with an SPA fallback. Any path that doesn't match a file in the bundle gets rewritten to `/index.html`, and the router takes it from there; requests for actual files that are missing still 404. When the app calls an external API, that request answers to {{glossary-cors}}, the browser rule the API itself has to allow.",
       "If your build is more than 25MB compressed, the usual culprit is unminified source maps or unused public-folder images shipped with the bundle. Strip source maps from the production build and audit the public folder before zipping; oversized hero images are a frequent offender, and you can {{converter-png-to-webp}} to shave them down first. For multi-page projects without a framework, you can {{host-zip}} and the bundle serves as a small static site, the same way you'd {{host-claude-artifact}} or {{host-v0-export}}. If you're working in Vue rather than React, you can {{host-vue-app}} from the sibling page that covers Vite and Nuxt static builds.",
       "Ten active builds on {{pricing}}, no signup needed. Build sizes for typical prototypes are well under the 25MB ceiling; production apps that ship hundreds of vendored libraries are where the Pro plan's higher limit pays off. Custom domains and password protection live on Pro too, which matter when the URL is going to a client rather than a friend.",
     ],
@@ -557,7 +557,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Will client-side routes like /about work?",
-        a: "Yes. The SPA fallback rewrites unmatched paths to index.html so your router can pick them up. Switch it off in link settings if you'd rather get a real 404.",
+        a: "Yes. The SPA fallback rewrites unmatched paths to index.html so your router can pick them up. Requests for files that don't exist in the bundle still return a real 404.",
       },
       {
         q: "Can I use environment variables?",
@@ -579,18 +579,18 @@ export const hostContentMap: Record<string, SpokeContent> = {
     description:
       "Drop your Vue app's build folder as a ZIP and get a live URL in seconds. Works for Vite, Nuxt static, and any Vue setup that emits a static bundle.",
     h1: "Host a Vue app as a live URL.",
-    lead: "Zip up your `dist` folder, drop it here, and your Vue app goes live at a clean URL. No CLI, no deploy hooks, no config file.",
+    lead: "Zip up your `dist` folder, drop it here, and your Vue app goes live at its own link on nudgehost.site. No CLI, no deploy hooks, no config file.",
     keyPoints: [
-      "Zip the `dist` folder from `vite build` (or `nuxt generate` for Nuxt static) and upload; the app goes live at a public URL.",
+      "Zip the `dist` folder from `vite build` (or `nuxt generate` for Nuxt static) and upload; the app goes live at its own subdomain on nudgehost.site.",
       "Vue Router in history mode works via the built-in SPA fallback that rewrites unknown paths to index.html.",
       "Pinia, composables, and any client-side state work normally since the runtime is just static files.",
-      "Free with no signup; 25MB compressed covers most Vite prototypes and small Nuxt static builds.",
+      "Free with no signup; 25MB unpacked covers most Vite prototypes and small Nuxt static builds.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
-      "Vue 3 with Vite or Nuxt 3 in static mode produces a `dist` folder that's already the complete app. Drop it in a ZIP, hand the ZIP to NudgeHost, and the app is live at a URL within seconds. There's nothing for you to configure, no deploy command to learn, no Git integration to set up first. The build artifact is the deploy.",
+      "Vue 3 with Vite or Nuxt 3 in static mode produces a `dist` folder that's already the complete app. Drop it in a ZIP, hand the ZIP to NudgeHost, and the app is live at its own subdomain on nudgehost.site within seconds, served from the root so the build's asset paths resolve untouched. There's nothing for you to configure, no deploy command to learn, no Git integration to set up first. The build artifact is the deploy.",
       "Vue Router's history mode is the one thing to be careful about. A direct visit to `/products/42` would 404 on a plain static host because no such file exists in the bundle. NudgeHost's SPA fallback rewrites those requests to `/index.html` so the router handles them, exactly the way it works when you {{host-react-app}}. Hash mode works without the fallback, since the path is always the index.",
       "If your project uses Nuxt with full SSR or any server-side feature, the static `nuxt generate` path is what works on NudgeHost. Server routes, API handlers, and `useFetch` against same-origin endpoints aren't available without a Node server backing them. For a fully-rendered Nuxt setup you'd want a host that runs Node; for a prototype, demo, or marketing page, the static build covers it. If your prototype is small enough to live in a single file, you can {{host-html}} and skip the build step entirely.",
       "Ten active links at 25MB each, free; {{pricing}} adds more headroom. Most Vue prototype bundles fit easily. Production builds that vendor a UI library, three icon packs, and a chart library will sometimes push the limit; tree-shaking the unused parts is usually the cheaper fix, and running any heavy bundle images through the step to {{converter-png-to-webp}} helps too. The same {{host-hub}} flow handles plain static sites, ZIPs, and AI builder exports if you're shipping a mixed bag.",
@@ -622,12 +622,12 @@ export const hostContentMap: Record<string, SpokeContent> = {
     name: "JSON",
     title: "Host a JSON file online: share a JSON file as a link",
     description:
-      "Drop a JSON file and get a shareable link. The recipient downloads the file from a clean page instead of scrolling a chat paste. Free, no signup.",
+      "Drop a JSON file and get a shareable link. The recipient explores it as a collapsible tree in the browser instead of scrolling a chat paste. Free, no signup.",
     h1: "Host a JSON file as a link.",
-    lead: "Drop your .json and get a clean URL. The recipient grabs the file in one click instead of scrolling a 500-line chat paste.",
+    lead: "Drop your .json and get a clean URL. The link opens as a collapsible tree in the browser, and the raw file is one click away.",
     keyPoints: [
       "Upload a .json file and get a public link in seconds, no signup.",
-      "The recipient downloads the file exactly as you saved it, ready for their editor or tooling.",
+      "The link renders the data as a collapsible tree in the browser; the download serves the file exactly as you saved it.",
       "Tidy messy JSON in the free formatter first, so what you share is readable.",
       "Free with no signup; 25MB per file is enough for a long API response or a sizeable config dump.",
     ],
@@ -635,15 +635,15 @@ export const hostContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-22",
     dateModified: "2026-05-22",
     body: [
-      "JSON is the data format every developer hands to every other developer. API responses, config exports, structured logs, anything that wants to be machine-readable and human-skimmable. The annoying part of sharing it is that pasting 800 lines of JSON into Slack turns the channel into static, and emailing it as an attachment makes a small thing feel heavy. A NudgeHost link gives the recipient a clean URL where they grab the file in one click.",
+      "JSON is the data format every developer hands to every other developer. API responses, config exports, structured logs, anything that wants to be machine-readable and human-skimmable. The annoying part of sharing it is that pasting 800 lines of JSON into Slack turns the channel into static, and emailing it as an attachment makes a small thing feel heavy. A NudgeHost link opens the data as a collapsible tree in the recipient's browser, with a download button for grabbing the raw file.",
       "The file is stored exactly as you upload it, so the kindness happens before the upload. If the JSON is messy (minified, inconsistently indented, or assembled from multiple sources), run it through {{dev-json-formatter}} first; what lands in your teammate's editor is then something a human can actually scan.",
-      "Files past the 25MB free-plan ceiling are usually log dumps that would compress to a fraction of the size; gzip them and {{host-zip}} instead, and the archive travels as one download. JSON that's really tabular data may be friendlier to non-developers as a CSV export from your tooling.",
+      "Files past the 25MB free-plan ceiling are usually log dumps that would compress to a fraction of the size; gzip them before uploading and the file travels as one download. And when the JSON is part of a site build you're shipping whole, you can {{host-zip}} and the file ships inside the served site at its own path. JSON that's really tabular data may be friendlier to non-developers as a CSV export from your tooling.",
       "Ten active files free with no signup; {{pricing}} for higher limits. If the JSON is something you want to keep editable, swapping the source file in your dashboard updates the link without changing the URL, which is convenient for sharing a dev API mock that keeps evolving.",
     ],
     faqs: [
       {
         q: "What does the recipient get when they click?",
-        a: "A clean page with the filename, the size, and a download button. The file arrives exactly as you saved it.",
+        a: "The JSON rendered as a collapsible tree in the browser, for files up to 10MB, plus a download button. The raw file arrives exactly as you saved it.",
       },
       {
         q: "Does NudgeHost validate my JSON?",
@@ -727,7 +727,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     body: [
       "ChatGPT will happily build you a working webpage. A landing page, a small dashboard, a quiz, a colour picker, a meeting cost calculator. The output is usually a single block of HTML with CSS and JavaScript inlined, which ChatGPT shows in a code block in the conversation. The hard part isn't generating it. The hard part is sharing the result with someone who isn't sitting next to you.",
       "NudgeHost is the missing step. Copy the HTML block out of ChatGPT (the Copy button on the code block does it cleanly), paste it into NudgeHost, and you get a public URL within seconds. Anyone who clicks the link sees the page. They don't need a ChatGPT account, they don't see your conversation, they just see the working page ChatGPT built. The same paste-and-share flow works when you {{host-claude-artifact}}, and equally well when you {{host-html}} from any other AI builder.",
-      "If ChatGPT gave you something split across multiple files (`index.html`, `styles.css`, `script.js`), ask it to inline everything into one HTML file. ChatGPT does this reliably, and the live page needs everything in the one file. If you'd rather keep the structure, zip the files together and {{host-zip}}; the archive then travels as a single download rather than a live site.",
+      "If ChatGPT gave you something split across multiple files (`index.html`, `styles.css`, `script.js`), ask it to inline everything into one HTML file. ChatGPT does this reliably, and the live page needs everything in the one file. If you'd rather keep the structure, zip the files together and {{host-zip}}; the project then serves as a live site at its own nudgehost.site link, with index.html as the entry point.",
       "Free with no signup, and {{pricing}} sets the path up to higher tiers. The 25MB free plan ceiling is so far above the size of any ChatGPT HTML response that it's effectively unlimited for this use case. If you're iterating with ChatGPT on the page, updating the source in your dashboard refreshes the live link without changing the URL, which means you can share the link once and keep improving the page behind it. If ChatGPT built you a pitch page or a microsite, you can {{use-case-deck}} so anyone you are pitching opens it in one click.",
     ],
     faqs: [
@@ -745,7 +745,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "What if ChatGPT gave me multiple files?",
-        a: "Ask ChatGPT to inline them into one HTML file; it does this reliably. A ZIP of the files uploads as a single downloadable archive, not a live site.",
+        a: "Ask ChatGPT to inline them into one HTML file; it does this reliably. Or zip the files and the archive serves as a live site at its own subdomain, with index.html as the entry point.",
       },
     ],
     relatedToolSlugs: ["host-claude-artifact", "host-html", "host-lovable-export", "host-zip"],
@@ -760,19 +760,19 @@ export const hostContentMap: Record<string, SpokeContent> = {
     description:
       "Export from Lovable, drop the ZIP into NudgeHost, get a public URL. The simplest path to share what you built. Free.",
     h1: "Host a Lovable export as a live URL.",
-    lead: "Export your Lovable app, drop the ZIP here, get a clean public URL. Skip the Lovable deploy step entirely.",
+    lead: "Export your Lovable app, drop the ZIP here, and it goes live at its own link on nudgehost.site. Skip the Lovable deploy step entirely.",
     keyPoints: [
-      "Export your Lovable.dev project as a ZIP and upload it to get a public URL in seconds.",
+      "Export your Lovable.dev project as a ZIP and upload it; the app goes live at its own subdomain in seconds.",
       "Multi-file projects are unpacked automatically, with the React Router fallback in place for client-side routes.",
       "No Lovable account needed for the people you share the link with.",
-      "Free plan handles exports up to 25MB compressed, which covers most prototype builds.",
+      "Free plan handles exports up to 25MB unpacked, which covers most prototype builds.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
       "Lovable.dev is one of the cleanest AI-builder experiences right now. You describe what you want, Lovable generates the React app, you iterate in the chat. The catch is the share step. Lovable has its own deploy path, but if you want to put the result on your own domain, or skip the Lovable URL entirely, or just hand someone a link without onboarding them onto another tool, exporting the app and hosting it elsewhere is the cleaner route. For the full walkthrough, read {{blog-how-to-share-a-lovable-site}}.",
-      "The export from Lovable is a ZIP of the built React app. Drop the ZIP here and NudgeHost unpacks it, serves the index.html, and rewrites unknown paths to that index so React Router works on direct URL visits. It's the same pipeline you'd use to {{host-react-app}} directly; the only difference is that the source happened to be an AI builder rather than a hand-built Vite project. The result is the same. A clean URL anyone can open.",
+      "The export from Lovable is a ZIP of the built React app. Drop the ZIP here and NudgeHost unpacks it and serves it at its own subdomain, with assets loading from the root as the build references them and unknown paths rewritten to your index so React Router works on direct URL visits. It's the same pipeline you'd use to {{host-react-app}} directly; the only difference is that the source happened to be an AI builder rather than a hand-built Vite project. The result is the same. A link of the project's own that anyone can open.",
       "If Lovable's export gives you the source rather than the build, run `npm install && npm run build` locally first and zip the `dist` folder. Lovable's own export panel has a checkbox to include the built output, which avoids the local build step entirely. The same approach covers other AI builders: {{host-v0-export}} for v0.dev outputs and {{host-bolt-export}} for Bolt.new.",
       "Free for ten active links; {{pricing}} adds the higher ceilings. Most Lovable exports compress to well under the 25MB free-plan limit. Custom domains, password protection, and the removal of NudgeHost branding live on Pro, all of which matter when you're sharing the link with a client rather than testing internally. Builders who are job-hunting often show a working Lovable app, so you can {{use-case-recruiter}} with the live URL in your application. The same dashboard covers {{host-hub}} alongside the app, so static HTML, ZIPs, and any other artifact ship from the same place.",
     ],
@@ -809,22 +809,22 @@ export const hostContentMap: Record<string, SpokeContent> = {
     keyPoints: [
       "Paste v0.dev's generated HTML and get a public link in seconds.",
       "Self-contained components ship as a single HTML file via the paste-HTML route.",
-      "Multi-file exports travel as a ZIP download; the live-URL route needs a single self-contained file.",
+      "Multi-file apps work too; build the project, zip the dist folder, and it serves as a live site with routing intact.",
       "Free plan handles exports up to 25MB, comfortably above any v0 output.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
       "v0.dev is Vercel's design-and-code generator. You describe a UI, v0 generates React + Tailwind code, you iterate. The default path forward is to deploy it on Vercel, which is reasonable if you're already in Vercel-land but heavier than necessary if you just want to share what v0 made. For the full walkthrough, read {{blog-how-to-host-a-v0-export}}.",
-      "NudgeHost is the lightweight alternative. For a single self-contained component, copy v0's HTML output into the paste box and you get a URL in seconds. The same flow works when you {{host-claude-artifact}} or {{host-chatgpt-html}}, since the underlying problem is identical. AI builder gave you HTML, you want it on the open web. A multi-file v0 app doesn't become a live site here; bundle it as a ZIP and it travels as a single download instead.",
-      "There's one practical detail. v0's exports often reference Tailwind via CDN and shadcn/ui components inlined into the code. Both work out of the box when hosted. Tailwind loads from its CDN, and the inlined components ship with the HTML. If v0 split your output across many files (`page.tsx`, `components/*.tsx`), paste the preview HTML for a static UI demo; a built multi-file app needs a host that serves unpacked bundles, which NudgeHost doesn't do.",
+      "NudgeHost is the lightweight alternative. For a single self-contained component, copy v0's HTML output into the paste box and you get a URL in seconds. The same flow works when you {{host-claude-artifact}} or {{host-chatgpt-html}}, since the underlying problem is identical. AI builder gave you HTML, you want it on the open web. A multi-file v0 app works too. Build it, zip the dist folder, and the ZIP serves as a live site at its own nudgehost.site link.",
+      "There's one practical detail. v0's exports often reference Tailwind via CDN and shadcn/ui components inlined into the code. Both work out of the box when hosted. Tailwind loads from its CDN, and the inlined components ship with the HTML. If v0 split your output across many files (`page.tsx`, `components/*.tsx`), paste the preview HTML for a quick static demo, or run the build locally and zip the output folder; the built app then serves at its own subdomain with client-side routing working.",
       "All of this works on {{pricing}}. Pro adds custom domains, which you connect with {{glossary-dns}}, and password protection, both worth it when the URL goes to a client. When a v0 build is the centrepiece of a pitch, you can {{use-case-deck}} and hand it over as the working demo. The dashboard handles {{host-hub}} alongside the v0 demo. Project bundles work directly too. Just {{host-zip}} and the archive sits at its own link.",
     ],
     faqs: [
       {
         q: "Should I paste the code or upload a ZIP?",
-        a: "Paste the code for a single-file HTML demo; that's the live-URL route. A ZIP uploads as a downloadable archive rather than a running app.",
+        a: "Paste the code for a single-file HTML demo. For a multi-file app, build it locally and upload the dist folder as a ZIP; it serves as a running site at its own subdomain.",
       },
       {
         q: "Will Tailwind classes work on the hosted page?",
@@ -850,19 +850,19 @@ export const hostContentMap: Record<string, SpokeContent> = {
     description:
       "Export from Bolt.new, drop the ZIP into NudgeHost, get a public URL. Skip the StackBlitz preview and share a real link. Free.",
     h1: "Host a Bolt.new export as a live URL.",
-    lead: "Bolt built you an app inside StackBlitz. Download the project as a ZIP, drop it here, get a public URL anyone can open.",
+    lead: "Bolt built you an app inside StackBlitz. Download the project as a ZIP, drop it here, and it goes live at its own link on nudgehost.site.",
     keyPoints: [
-      "Export from Bolt.new (Download via the StackBlitz menu) and upload the ZIP to get a public URL in seconds.",
+      "Export from Bolt.new (Download via the StackBlitz menu) and upload the ZIP; the app goes live at its own subdomain in seconds.",
       "Static builds run as-is; for source-only exports, run `npm install && npm run build` locally before zipping the dist folder.",
       "The recipient sees a normal URL and never sees Bolt or StackBlitz.",
-      "Free plan handles exports up to 25MB compressed, well above the size of most prototypes.",
+      "Free plan handles exports up to 25MB unpacked, well above the size of most prototypes.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
-    dateModified: "2026-05-22",
+    dateModified: "2026-06-12",
     body: [
       "Bolt.new from StackBlitz is the AI builder that runs the whole development environment in your browser. You describe what you want, Bolt builds the project inside an in-browser Node container, and you can preview the result without leaving the tab. The challenge starts when you want to share the result outside StackBlitz. The default options are 'send the StackBlitz preview link', which exposes the project structure, or 'deploy via StackBlitz', which has its own friction.",
-      "Exporting and hosting on NudgeHost is the cleanest middle ground. Bolt lets you download the project as a ZIP through the StackBlitz UI; that ZIP either contains a `dist` folder ready to host, or contains source you'll need to build locally. Either path ends with a folder of static files. You can {{host-react-app}} directly, or you can {{host-zip}} and NudgeHost serves the archive as a small site. The recipient gets a clean URL on nudgehost.com (or your own domain on Pro), with no StackBlitz chrome anywhere in sight.",
+      "Exporting and hosting on NudgeHost is the cleanest middle ground. Bolt lets you download the project as a ZIP through the StackBlitz UI; that ZIP either contains a `dist` folder ready to host, or contains source you'll need to build locally. Either path ends with a folder of static files. You can {{host-react-app}} directly, or you can {{host-zip}} and NudgeHost serves the archive as a site at its own subdomain, with client-side routes working on direct visits. The recipient gets a clean link of the project's own on nudgehost.site (or your own domain on Pro), with no StackBlitz chrome anywhere in sight.",
       "If you're staying inside the Bolt loop and iterating, the deploy-to-NudgeHost step takes about twenty seconds. Download the new ZIP, drag-and-drop, and the link refreshes. The URL itself doesn't change between uploads, so anyone with the link gets the latest version automatically. That's particularly useful when you're showing progress to a client and want to keep iterating without re-pasting links.",
       "Free for ten active links; {{pricing}} adds the higher ceilings. Bolt outputs vary in size depending on what was generated, but most prototypes compress to a few MB. A working Bolt prototype is strong proof of skill in a job hunt, so you can {{use-case-recruiter}} with the live link. The dashboard handles {{host-hub}} alongside the Bolt app if you want to share supporting assets, and the same approach lets you {{host-lovable-export}} or {{host-v0-export}} for the other AI builders that work the same way.",
     ],
@@ -909,7 +909,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       "Hosting an image as a link sounds trivial until you actually try to do it. Imgur compresses photos. Twitter and Reddit auto-crop the preview. iCloud Photo Sharing wants the recipient signed in. Google Photos albums expire when you forget about them. NudgeHost is the boring, reliable middle. Drop the file, get a URL, and the URL still works two years later.",
       "There's a small privacy detail that often gets missed. JPGs from a phone carry EXIF metadata including the camera model, the exact date and time, and (if your location services were on) the GPS coordinates of where the photo was taken. NudgeHost stores the file exactly as you upload it and does not strip this, so check before sharing a photo publicly. Every major phone and desktop OS can remove location data on export; do that first if the metadata shouldn't travel.",
       "For images that will live on the web, especially in pages you build yourself, file size matters. A 4MB iPhone photo can usually become a 400KB WebP without any visible quality loss; {{converter-png-to-webp}} handles the equivalent for screenshots. Photographs in HEIC (the format iPhones save in by default) won't open on non-Apple devices, so {{converter-heic-to-jpg}} before hosting and the photo opens anywhere. If the image is really a vector logo or icon, you can {{host-svg}} for the cleaner long-term result.",
-      "No watermark, no signup, on {{pricing}}. The 25MB free-plan limit covers every photograph anyone produces without a medium-format camera. For a whole gallery, zip the images and {{host-zip}} for a single shareable link, or stick them inside an HTML layout and {{host-html}} instead. Custom domains and link expiry are on Pro.",
+      "No watermark, no signup, on {{pricing}}. The 25MB free-plan limit covers every photograph anyone produces without a medium-format camera. For a whole gallery, build a simple HTML page around the images, zip the folder, and you can {{host-zip}}; the gallery serves as a browsable site at one link. Or inline a few images into a single page and {{host-html}} instead. Custom domains and link expiry are on Pro.",
     ],
     faqs: [
       {

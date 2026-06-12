@@ -263,7 +263,7 @@ export const glossaryContentMap: Record<string, GlossaryContent> = {
     ],
     body: [
       "FTP dates to the early internet and still lingers in traditional web hosting. To use it you install an FTP client, enter a server address, a username, and a password, then drag files into the correct directory on the remote machine. It works, but it is a workflow built for administering a server, not for the simple act of sharing a single document with one person. Every step is a chance to put the file in the wrong folder or fumble a credential.",
-      "Most people reaching for FTP only want a file to be openable at a URL. That does not need a protocol from 1971. NudgeHost replaces the entire dance with {{glossary-drag-and-drop}}. You {{home}} by dropping the file onto the page, and a link comes back. There is no host string to remember and no directory to navigate. If your project is several files, you zip it and the bundle serves as a small site, which is the case FTP was traditionally used for.",
+      "Most people reaching for FTP only want a file to be openable at a URL. That does not need a protocol from 1971. NudgeHost replaces the entire dance with {{glossary-drag-and-drop}}. You {{home}} by dropping the file onto the page, and a link comes back. There is no host string to remember and no directory tree to click through. If your project is several files, you zip it and the bundle serves as a small site, which is the case FTP was traditionally used for.",
       "The practical difference is time. FTP is minutes of setup per server; dropping a file is seconds, and the result is a clean shareable link rather than a path buried on a server you now have to maintain. Hosting is free to start and {{pricing}} raises the limits. FTP still has a place in old-school server administration, but for getting a file in front of someone it is the long way round.",
     ],
     faqs: [
@@ -453,14 +453,14 @@ export const glossaryContentMap: Record<string, GlossaryContent> = {
     ],
     body: [
       "Compression rewrites a file so the same content takes fewer bytes. Lossless methods, like a ZIP archive or the gzip a server applies on the fly, pack the data so it can be restored exactly. Lossy methods, like JPEG for photos or H.264 for video, throw away detail the eye barely notices in exchange for a dramatic size cut. The right kind depends on the file. Text and code must stay lossless, while a photo can usually lose a little and look identical.",
-      "For sharing, smaller is almost always better. A bundle of files you {{host-zip}} uploads as one compact archive and serves as a small site. A screenshot that is needlessly large shrinks hard when you {{converter-png-to-webp}}, often to a fraction of the original with no visible change, which means the page loads faster for everyone who opens it. The free plan covers files up to 25MB, so compressing first is sometimes the difference between fitting and not.",
+      "For sharing, smaller is almost always better. Zipping a site folder packs it into one compact upload, and you can {{host-zip}} so it comes back out as a live site. A screenshot that is needlessly large shrinks hard when you {{converter-png-to-webp}}, often to a fraction of the original with no visible change, which means the page loads faster for everyone who opens it. The free plan covers files up to 25MB, so compressing first is sometimes the difference between fitting and not.",
       "Servers add another layer for free. Text-based files are typically gzip-compressed in transit, so an HTML page or a JSON file arrives smaller than it sits on disk without you doing anything. Where you have a say is the source file. Pick an efficient format, and the upload and every download afterwards is quicker. Hosting is free to start, and {{pricing}} raises the ceiling when your files are genuinely large.",
     ],
     faqs: [
       {
         question: "Should I zip a file before uploading it?",
         answer:
-          "Zip when you have several files to keep together, or to shrink something large. A single PDF or image usually does not need it.",
+          "Zip a site folder so the whole project uploads in one go and serves as a live site. A single PDF or image does not need it, and gzip suits a large single file better than a ZIP.",
       },
       {
         question: "Will compressing an image ruin its quality?",

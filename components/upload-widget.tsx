@@ -655,7 +655,7 @@ export function UploadWidget({
       {status === "error" && (
         <div className="rounded-3xl border-[1.5px] border-coral/50 bg-coral-light px-8 py-9 text-center">
           <strong className="block text-lg font-medium text-charcoal">
-            That did not work
+            {anonLimit ? "You're out of free slots" : "That did not work"}
           </strong>
           <p className="mx-auto mt-2 max-w-sm text-sm text-coral-dark">
             {errorMessage}

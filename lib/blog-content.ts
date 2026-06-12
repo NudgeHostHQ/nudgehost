@@ -139,7 +139,7 @@ const claudeArtifactFaqs: BlogFaqItem[] = [
   },
   {
     q: "What if Claude gives me multiple files?",
-    a: "Ask Claude to inline everything into a single HTML file (it does this reliably). Or {{features-zip-upload|zip the files and upload}} the archive. NudgeHost unpacks it and serves index.html.",
+    a: "Ask Claude to inline everything into a single HTML file (it does this reliably). Or {{features-zip-upload|zip the files and upload}} the archive. NudgeHost unpacks it and serves the whole project as a live site at its own link, with index.html as the entry point.",
   },
   {
     q: "Can I password-protect an artifact link?",
@@ -167,7 +167,7 @@ export const blogContentMap: Record<string, BlogPost> = {
     authorBio:
       "Builder of NudgeHost. Shares files, PDFs, and AI-generated HTML for a living. Previously built CheckoutReceipt and PeptideFile.",
     publishedDate: "2026-05-25",
-    modifiedDate: "2026-05-25",
+    modifiedDate: "2026-06-12",
     readTime: "7 min read",
     showUpdatedBadge: true,
     pillar: "ai-publishing",
@@ -232,7 +232,7 @@ This is the part screenshots and one-off uploads get wrong. Every change means a
       },
       {
         type: "prose",
-        text: `Most artifacts are a single HTML file. Occasionally Claude splits things across several files, or you have built something larger around it. In that case, {{features-zip-upload|zip the files together and upload the archive}}. NudgeHost unpacks it and serves the index.html as the entry point.
+        text: `Most artifacts are a single HTML file. Occasionally Claude splits things across several files, or you have built something larger around it. In that case, {{features-zip-upload|zip the files together and upload the archive}}. NudgeHost unpacks it and serves the whole project as a real site at its own link on nudgehost.site, with index.html as the entry point. Stylesheets, scripts, and images load from the root exactly as you wrote them, and if the project uses a client-side router, direct visits to its routes work too.
 
 If Claude loaded a library like React or Tailwind from a {{glossary-cdn|content delivery network}}, those requests fire as normal from the hosted page. The artifact behaves online exactly as it did in the conversation. The same approach that lets you {{host-html|publish any HTML page}} handles multi-file projects.`,
       },

@@ -55,6 +55,7 @@ export const compareContentMap: Record<string, CompareContent> = {
       { feature: "Visitor caps on plans", nudgehost: "None", competitor: "10k–100k caps", nudgehostWins: true },
       { feature: "QR code on free plan", nudgehost: "Yes", competitor: "Paid only", nudgehostWins: true },
       { feature: "AI-output hosting pages", nudgehost: "Dedicated", competitor: "Not specifically", nudgehostWins: true },
+      { feature: "ZIP upload serves as a live site", nudgehost: "Yes, own subdomain", competitor: "Yes" },
       { feature: "Static site / framework hosting", nudgehost: "Yes", competitor: "Yes, mature" },
       { feature: "Custom domains", nudgehost: "Paid", competitor: "Paid" },
       { feature: "Years in market", nudgehost: "New", competitor: "Established", nudgehostWins: false },
@@ -71,7 +72,7 @@ export const compareContentMap: Record<string, CompareContent> = {
       },
       {
         q: "Can NudgeHost host static sites like Tiiny.host?",
-        a: "Yes. Zip your site and host it, or upload a single HTML file. Tiiny.host's developer hosting is more mature, but NudgeHost covers the common cases.",
+        a: "Yes. Zip your site or SPA build and it serves at its own subdomain with client-side routing working, or upload a single HTML file. Tiiny.host's developer hosting is more mature, but NudgeHost covers the common cases.",
       },
       {
         q: "Which is better for sharing a Claude or AI-generated output?",
@@ -100,6 +101,7 @@ export const compareContentMap: Record<string, CompareContent> = {
       { feature: "Top paid tier price", nudgehost: "$24/mo", competitor: "$16.58/mo" },
       { feature: "QR code on free plan", nudgehost: "Yes", competitor: "No", nudgehostWins: true },
       { feature: "AI-output hosting pages", nudgehost: "Dedicated", competitor: "One use-case page", nudgehostWins: true },
+      { feature: "ZIP upload serves as a live site", nudgehost: "Yes, own subdomain", competitor: "No", nudgehostWins: true },
       { feature: "Upload without an account", nudgehost: "Yes, 25MB", competitor: "No", nudgehostWins: true },
       { feature: "Banner on registered free plan", nudgehost: "No banner", competitor: "Banner", nudgehostWins: true },
       { feature: "Product breadth", nudgehost: "Host, view, convert, dev tools", competitor: "Similar" },
