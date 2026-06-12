@@ -65,7 +65,7 @@ export const devToolsContentMap: Record<string, SpokeContent> = {
       "Base64 turns up everywhere in development, from data URIs and API tokens to email attachments and config values. Encoding and decoding it by hand is error-prone, so a quick tool that does it instantly saves a surprising amount of friction. Paste your input here and convert in either direction.",
       "Base64 is often a step inside a bigger task. If you're decoding a token, it's quicker to {{dev-jwt-decoder}} with the purpose-built tool. If you're working with encoded JSON, you can {{dev-json-formatter}} so the result is readable.",
       "When you need to share the output rather than just read it (say, a decoded file or a config dump), you can {{host-hub}} and send a link. The rest of NudgeHost's {{dev-tools-hub}} live alongside this one.",
-      "Free, browser-only, nothing logged. The hosting side lives separately under {{pricing|our pricing}}.",
+      "Free, browser-only, nothing logged. The hosting side has {{pricing|its own pricing}}.",
     ],
     faqs: [
       {

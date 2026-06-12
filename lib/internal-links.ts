@@ -406,7 +406,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   "features-password-protection": {
     href: "/features/password-protection",
     anchors: [
-      "password protection",
+      "put a password on the link",
       "lock the link with a password",
       "add a password to your shared link",
     ],
@@ -414,7 +414,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   "features-custom-domains": {
     href: "/features/custom-domains",
     anchors: [
-      "custom domains",
+      "serve links from your own domain",
       "use your own domain",
       "brand your link with a custom domain",
     ],

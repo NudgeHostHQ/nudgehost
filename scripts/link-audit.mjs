@@ -69,6 +69,22 @@ for (const file of contentFiles) {
   const slugRe = /slug:\s*["']([a-z0-9-]+)["']/g;
   const slugMatches = [...src.matchAll(slugRe)];
 
+  // Shared constants declared above the first slug (e.g. FAQ blocks reused by
+  // a post) render on whichever page references them, so collect their tokens
+  // and attribute them to every chunk that mentions the constant by name.
+  const preamble = slugMatches.length > 0 ? src.slice(0, slugMatches[0].index) : "";
+  const sharedConsts = [];
+  {
+    const constRe = /const\s+([A-Za-z_$][\w$]*)\s*(?::[^=]*)?=\s*\[([\s\S]*?)\n\];/g;
+    let cm;
+    while ((cm = constRe.exec(preamble)) !== null) {
+      const constTokens = [...cm[2].matchAll(tokenRe)].map((t) => t[1]);
+      if (constTokens.length > 0) {
+        sharedConsts.push({ name: cm[1], ref: new RegExp("\\b" + cm[1] + "\\b"), tokens: constTokens });
+      }
+    }
+  }
+
   for (let i = 0; i < slugMatches.length; i++) {
     const slug = slugMatches[i][1];
     const start = slugMatches[i].index;
@@ -76,6 +92,9 @@ for (const file of contentFiles) {
     const chunk = src.slice(start, end);
 
     const tokens = [...chunk.matchAll(tokenRe)].map((t) => t[1]);
+    for (const c of sharedConsts) {
+      if (c.ref.test(chunk)) tokens.push(...c.tokens);
+    }
     pages.push({ file, slug, tokens });
 
     const seenOnThisPage = new Set();
