@@ -177,6 +177,66 @@ const lovableFaqs: BlogFaqItem[] = [
   },
 ];
 
+// --- Large-PDF, resume, and v0 post FAQs -------------------------------------
+// Same arrangement as the Lovable post: one plain-text source shared between
+// the in-body faq block and the FAQPage JSON-LD.
+const largePdfFaqs: BlogFaqItem[] = [
+  {
+    q: "What is the actual attachment limit for Gmail and Outlook?",
+    a: "Gmail rejects attachments over 25MB and Outlook over 20MB. Many corporate mail servers strip anything over 10MB before delivery.",
+  },
+  {
+    q: "How large a PDF can I host on the free plan?",
+    a: "Up to 25MB free, and up to 250MB on Pro. The recipient never downloads it unless they choose to.",
+  },
+  {
+    q: "Does the recipient need an account to open the link?",
+    a: "No. The PDF opens in their browser from the link. There is no sign-in and no download step unless they want a copy.",
+  },
+  {
+    q: "Can I stop people opening the file later?",
+    a: "Yes. Set an expiry date or delete the link at any time, which revokes access immediately. You can also add a password.",
+  },
+];
+
+const resumeLinkFaqs: BlogFaqItem[] = [
+  {
+    q: "Will the recruiter know I am tracking the link?",
+    a: "No. It looks like an ordinary link. The open data is visible only to you, in your dashboard.",
+  },
+  {
+    q: "What format should my resume be?",
+    a: "PDF. It holds its layout on every device. Convert a Word file to PDF first if needed.",
+  },
+  {
+    q: "Can I tell which company opened my resume?",
+    a: "If you create a separate link per application, yes. Each link reports its own opens.",
+  },
+  {
+    q: "Can I update my resume without changing the link?",
+    a: "Yes. Replace the file in your dashboard and the URL stays the same, so everyone who has the link sees the new version.",
+  },
+];
+
+const v0ExportFaqs: BlogFaqItem[] = [
+  {
+    q: "Should I paste the code or upload a ZIP?",
+    a: "Paste the HTML for a single-file static demo. Upload a ZIP for a multi-file app where you want the whole thing to run.",
+  },
+  {
+    q: "Will Tailwind and shadcn components work once hosted?",
+    a: "Yes. v0 typically loads Tailwind from a CDN and inlines shadcn components, and both work from the hosted page as they did in the preview.",
+  },
+  {
+    q: "Do I need a Vercel account to host a v0 export?",
+    a: "No. Hosting on NudgeHost is independent of Vercel. You export from v0 and host the result without deploying anywhere else.",
+  },
+  {
+    q: "Will client-side routes work?",
+    a: "Yes. NudgeHost rewrites unknown paths to the index so the router handles them, which keeps direct visits to sub-paths working.",
+  },
+];
+
 export const blogContentMap: Record<string, BlogPost> = {
   "how-to-host-a-claude-artifact": {
     slug: "how-to-host-a-claude-artifact",
@@ -250,7 +310,7 @@ This is the part screenshots and one-off uploads get wrong. Every change means a
       },
       {
         type: "prose",
-        text: `Most artifacts are a single HTML file. Occasionally Claude splits things across several files, or you have built something larger around it. In that case, {{features-zip-upload|zip the files together and upload the archive}}. NudgeHost unpacks it and serves the whole project as a real site at its own link on nudgehost.site, with index.html as the entry point. Stylesheets, scripts, and images load from the root exactly as you wrote them, and if the project uses a client-side router, direct visits to its routes work too.
+        text: `Most artifacts are a single HTML file. Occasionally Claude splits things across several files, or you have built something larger around it. In that case, {{features-zip-upload|zip the files together and upload the archive}}. NudgeHost unpacks it and serves the whole project as a real site at {{features-subdomain-sites}}, with index.html as the entry point. Stylesheets, scripts, and images load from the root exactly as you wrote them, and if the project uses a client-side router, direct visits to its routes work too.
 
 If Claude loaded a library like React or Tailwind from a {{glossary-cdn|content delivery network}}, those requests fire as normal from the hosted page. The artifact behaves online exactly as it did in the conversation. The same approach that lets you {{host-html|publish any HTML page}} handles multi-file projects.`,
       },
@@ -431,7 +491,7 @@ The {{pricing|NudgeHost Pro plan}} adds {{features-password-protection|password 
         type: "prose",
         text: `Start by exporting the project from Lovable. The export is a ZIP of the built React app, and Lovable's export panel has an option to include the built output rather than only the source, which saves you a local build step. If you only have the source, run an install and a build locally first, then zip the output folder. Either way you end up with one archive that holds the whole app.
 
-Drop that archive in and you {{host-zip}} in one step. NudgeHost unpacks it and serves it as a real site at its own subdomain on nudgehost.site, with the index as the entry point and unknown paths rewritten back to it so client-side routing works on a direct visit. This is the same pipeline you use when you {{host-html}}, scaled up to a folder, so a Lovable export and a hand-built site host the same way. The result is a link like your-name.nudgehost.site that loads the app exactly as it ran in Lovable.`,
+Drop that archive in and you {{host-zip}} in one step. NudgeHost unpacks it and serves it as a real site at {{features-subdomain-sites}}, with the index as the entry point and unknown paths rewritten back to it so client-side routing works on a direct visit. This is the same pipeline you use when you {{host-html}}, scaled up to a folder, so a Lovable export and a hand-built site host the same way. The result is a link like your-name.nudgehost.site that loads the app exactly as it ran in Lovable.`,
       },
       {
         type: "h2",
@@ -520,9 +580,9 @@ Hosting a Lovable export is free to start, and most exports compress to a few me
     authorBio:
       "Mark Boreland is the founder of NudgeHost. He writes about publishing what AI tools build and getting files to people without the usual friction.",
     publishedDate: "2026-05-25",
-    modifiedDate: "2026-05-25",
+    modifiedDate: "2026-06-12",
     pillar: "sharing-files",
-    tldr: "Gmail rejects attachments over 25MB and Outlook over 20MB, so a detailed report or a scanned document bounces. The usual workarounds make the recipient sign into Dropbox or Google Drive. Hosting the PDF as a link sidesteps the limit, and the recipient opens it in the browser with nothing to download.",
+    tldr: "Gmail rejects attachments over 25MB and Outlook over 20MB, so a detailed report or a scanned document bounces. The usual workarounds make the recipient sign into Dropbox or Google Drive. {{host-pdf|Hosting the PDF as a link}} sidesteps the limit, and the recipient {{viewer-pdf|opens it in the browser}} with nothing to download.",
     body: [
       {
         type: "prose",
@@ -544,7 +604,7 @@ Hosting a Lovable export is free to start, and most exports compress to a few me
       },
       {
         type: "prose",
-        text: `Hosting the file as a link removes the size limit from the equation. You {{host-pdf}} by dropping it onto NudgeHost, and a clean URL comes back. You send the URL instead of the file, and the recipient clicks and reads the document in their browser at full quality, with nothing to download and no account to create. The email that carries a link is light, so it never bounces, no matter how large the underlying PDF is.`,
+        text: `Hosting the file as a link removes the size limit from the equation. You host the PDF by dropping it onto NudgeHost, and a clean URL comes back. You send the URL instead of the file, and the recipient clicks and reads the document in their browser at full quality, with nothing to download and no account to create. The email that carries a link is light, so it never bounces, no matter how large the underlying PDF is.`,
       },
       {
         type: "h2",
@@ -564,7 +624,7 @@ That no-cap detail matters more than it sounds. Some hosts impose {{glossary-ban
       },
       {
         type: "prose",
-        text: `If your PDF is needlessly large, the cause is usually uncompressed images inside it, and a round of {{glossary-file-compression}} before uploading can halve the size with no visible loss. That is optional, though. The point of the link is that you do not have to shrink a file just to send it. When the recipient opens the link, they read it through an in-browser view, the same one you see when you {{viewer-pdf|open a PDF online}}, so there is no reader app to install.
+        text: `If your PDF is needlessly large, the cause is usually uncompressed images inside it, and a round of {{glossary-file-compression}} before uploading can halve the size with no visible loss. That is optional, though. The point of the link is that you do not have to shrink a file just to send it. When the recipient opens the link, they read it through an in-browser view, the same one you see when you open a PDF online, so there is no reader app to install.
 
 Sometimes a large PDF travels with companions, a cover letter, an appendix, a spreadsheet of figures. Rather than sending three links, zip them together and you {{host-zip}} as a single archive the recipient browses from one URL. It keeps a related set of documents under one link instead of scattered across an email thread.`,
       },
@@ -579,29 +639,42 @@ Sometimes a large PDF travels with companions, a cover letter, an appendix, a sp
 
 Drop the file, copy the URL, and paste it into your email. The recipient gets the document at full quality in their browser, you get a record of when they opened it, and your message lands in the inbox instead of bouncing off a size limit.`,
       },
+      {
+        type: "related",
+        items: [
+          {
+            title: "How to share a resume as a link",
+            href: "/blog/how-to-share-a-resume-as-a-link",
+            desc: "The same link-over-attachment move for the file recruiters open most; {{host-resume|host your resume}} and see when it is read.",
+            icon: "📄",
+          },
+          {
+            title: "Password protection",
+            href: "/features/password-protection",
+            desc: "A sensitive PDF can sit behind a password the recipient enters before reading.",
+            icon: "🔒",
+          },
+          {
+            title: "Update a link in place",
+            href: "/features/link-updating",
+            desc: "Send one URL and replace the file behind it when the document changes.",
+            icon: "🔁",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        items: largePdfFaqs,
+      },
+      {
+        type: "bottom-cta",
+        title: "Send the file that would not send",
+        text: "Drop the PDF, copy the link, and your email weighs a few kilobytes no matter how big the document is. Free, no account needed to start.",
+        link: "/sign-up",
+        label: "Get started free",
+      },
     ],
-    faqs: [
-      {
-        question: "What is the actual attachment limit for Gmail and Outlook?",
-        answer:
-          "Gmail rejects attachments over 25MB and Outlook over 20MB. Many corporate mail servers strip anything over 10MB before delivery.",
-      },
-      {
-        question: "How large a PDF can I host on the free plan?",
-        answer:
-          "Up to 25MB free, and up to 250MB on Pro. The recipient never downloads it unless they choose to.",
-      },
-      {
-        question: "Does the recipient need an account to open the link?",
-        answer:
-          "No. The PDF opens in their browser from the link. There is no sign-in and no download step unless they want a copy.",
-      },
-      {
-        question: "Can I stop people opening the file later?",
-        answer:
-          "Yes. Set an expiry date or delete the link at any time, which revokes access immediately. You can also add a password.",
-      },
-    ],
+    faqs: largePdfFaqs.map((f) => ({ question: f.q, answer: plain(f.a) })),
     relatedToolSlugs: ["host-pdf", "use-case-large-pdf", "viewer-pdf", "host-zip"],
   },
 
@@ -615,9 +688,9 @@ Drop the file, copy the URL, and paste it into your email. The recipient gets th
     authorBio:
       "Mark Boreland is the founder of NudgeHost. He writes about publishing what AI tools build and getting files to people without the usual friction.",
     publishedDate: "2026-05-25",
-    modifiedDate: "2026-05-25",
+    modifiedDate: "2026-06-12",
     pillar: "sharing-files",
-    tldr: "Recruiters open dozens of CVs a day, and an attachment adds friction with a download, a reader, and a file that may be out of date. A link opens in the browser, tracks when it was viewed, and always shows the latest version. Here is how to turn your resume into a link that does all three.",
+    tldr: "Recruiters open dozens of CVs a day, and an attachment adds friction with a download, a reader, and a file that may be out of date. A link opens in the browser, tracks when it was viewed, and {{features-link-updating|always shows the latest version}}. Here is how to {{host-resume|turn your resume into a link}} that does all three.",
     body: [
       {
         type: "prose",
@@ -672,29 +745,42 @@ Hosting one resume is free, and a CV sits far under the 25MB limit. {{pricing|Th
 
 Drop your resume, copy the link, and put it everywhere you would have attached the file. You will know when it is read, you will never send a stale version, and the recruiter opens your CV in the time it takes an attachment to start downloading.`,
       },
+      {
+        type: "related",
+        items: [
+          {
+            title: "How to send a large PDF without email",
+            href: "/blog/how-to-send-a-large-pdf-without-email",
+            desc: "When the attachment is the problem rather than the format, the same link move beats the size cap.",
+            icon: "📨",
+          },
+          {
+            title: "Custom domains",
+            href: "/features/custom-domains",
+            desc: "Serve the resume from yourname.com once you are applying widely.",
+            icon: "🌐",
+          },
+          {
+            title: "Link previews",
+            href: "/features/link-previews",
+            desc: "The card that unfurls when your link lands in LinkedIn or an email.",
+            icon: "🖼️",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        items: resumeLinkFaqs,
+      },
+      {
+        type: "bottom-cta",
+        title: "Put your resume one click away",
+        text: "Drop the file, copy the link, and every application carries the latest version. Free, with open-tracking from your dashboard.",
+        link: "/sign-up",
+        label: "Get started free",
+      },
     ],
-    faqs: [
-      {
-        question: "Will the recruiter know I am tracking the link?",
-        answer:
-          "No. It looks like an ordinary link. The open data is visible only to you, in your dashboard.",
-      },
-      {
-        question: "What format should my resume be?",
-        answer:
-          "PDF. It holds its layout on every device. Convert a Word file to PDF first if needed.",
-      },
-      {
-        question: "Can I tell which company opened my resume?",
-        answer:
-          "If you create a separate link per application, yes. Each link reports its own opens.",
-      },
-      {
-        question: "Can I update my resume without changing the link?",
-        answer:
-          "Yes. Replace the file in your dashboard and the URL stays the same, so everyone who has the link sees the new version.",
-      },
-    ],
+    faqs: resumeLinkFaqs.map((f) => ({ question: f.q, answer: plain(f.a) })),
     relatedToolSlugs: ["host-pdf", "host-portfolio", "use-case-resume-link", "use-case-recruiter"],
   },
 
@@ -708,9 +794,9 @@ Drop your resume, copy the link, and put it everywhere you would have attached t
     authorBio:
       "Mark Boreland is the founder of NudgeHost. He writes about publishing what AI tools build and getting files to people without the usual friction.",
     publishedDate: "2026-05-25",
-    modifiedDate: "2026-05-25",
+    modifiedDate: "2026-06-12",
     pillar: "ai-publishing",
-    tldr: "v0 is Vercel's AI UI builder. It generates React and Tailwind code you preview in the chat, but sharing it usually means deploying to Vercel. If you would rather host it yourself, export the code or the build, drop it into NudgeHost, and get a live link. A single component or a full app both work.",
+    tldr: "v0 is Vercel's AI UI builder. It generates React and Tailwind code you preview in the chat, but sharing it usually means deploying to Vercel. If you would rather host it yourself, {{host-v0-export|export the code or the build and drop it into NudgeHost}} for a live link. A single component {{features-paste-html|pastes straight in}}; a full app uploads as a ZIP.",
     body: [
       {
         type: "prose",
@@ -732,7 +818,7 @@ Drop your resume, copy the link, and put it everywhere you would have attached t
       },
       {
         type: "prose",
-        text: `For a multi-file app, export the project and you {{host-v0-export}} by uploading the ZIP. NudgeHost unpacks it and serves the index as the entry point, with unknown paths rewritten back to it so client-side routing works. Under the hood this is the same pipeline you hit when you {{host-react-app}} directly, because a v0 app is a React build once it leaves the chat. If the export is source rather than a build, run an install and a build locally first, then zip the output folder.`,
+        text: `For a multi-file app, export the project and upload the ZIP. NudgeHost unpacks it and serves the index as the entry point, with unknown paths rewritten back to it so client-side routing works. Under the hood this is the same pipeline you hit when you {{host-react-app}} directly, because a v0 app is a React build once it leaves the chat. If the export is source rather than a build, run an install and a build locally first, then zip the output folder.`,
       },
       {
         type: "h2",
@@ -763,29 +849,42 @@ Drop your resume, copy the link, and put it everywhere you would have attached t
 
 Re-export from v0 whenever the design changes, upload to the same link, and the URL stays the same so nobody needs a new one. Hosting is free to start, and most v0 exports are small enough to sit well under the free-plan limit. {{pricing|The Pro plan}} adds custom domains and password protection for when the link goes to a client. The deploy step you were about to set up turns out to be a drag-and-drop.`,
       },
+      {
+        type: "related",
+        items: [
+          {
+            title: "How to share a Lovable site",
+            href: "/blog/how-to-share-a-lovable-site",
+            desc: "The same flow for a full app; {{host-lovable-export|a Lovable export}} lands on its own subdomain.",
+            icon: "🚀",
+          },
+          {
+            title: "Host a Bolt.new export",
+            href: "/host/bolt-export",
+            desc: "Bolt projects download as a ZIP and host the same way.",
+            icon: "⚙️",
+          },
+          {
+            title: "ZIP upload",
+            href: "/features/zip-upload",
+            desc: "How an archive becomes a live site with routing intact.",
+            icon: "🗂️",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        items: v0ExportFaqs,
+      },
+      {
+        type: "bottom-cta",
+        title: "Show what v0 built",
+        text: "Paste the component or drop the ZIP, and the design is live at a link you can put in front of anyone. Free, no Vercel account required.",
+        link: "/sign-up",
+        label: "Get started free",
+      },
     ],
-    faqs: [
-      {
-        question: "Should I paste the code or upload a ZIP?",
-        answer:
-          "Paste the HTML for a single-file static demo. Upload a ZIP for a multi-file app where you want the whole thing to run.",
-      },
-      {
-        question: "Will Tailwind and shadcn components work once hosted?",
-        answer:
-          "Yes. v0 typically loads Tailwind from a CDN and inlines shadcn components, and both work from the hosted page as they did in the preview.",
-      },
-      {
-        question: "Do I need a Vercel account to host a v0 export?",
-        answer:
-          "No. Hosting on NudgeHost is independent of Vercel. You export from v0 and host the result without deploying anywhere else.",
-      },
-      {
-        question: "Will client-side routes work?",
-        answer:
-          "Yes. NudgeHost rewrites unknown paths to the index so the router handles them, which keeps direct visits to sub-paths working.",
-      },
-    ],
+    faqs: v0ExportFaqs.map((f) => ({ question: f.q, answer: plain(f.a) })),
     relatedToolSlugs: ["host-v0-export", "host-react-app", "host-html", "host-claude-artifact"],
   },
 };

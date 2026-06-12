@@ -27,6 +27,7 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
       { label: "Paste HTML", href: "/features/paste-html" },
       { label: "Password protection", href: "/features/password-protection" },
       { label: "Custom domains", href: "/features/custom-domains" },
+      { label: "Subdomain sites", href: "/features/subdomain-sites" },
       { label: "Link previews", href: "/features/link-previews" },
       { label: "Public links", href: "/features/public-links" },
       { label: "All features →", href: "/features" },

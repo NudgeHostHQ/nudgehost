@@ -459,6 +459,14 @@ export const internalLinks: Record<string, LinkTarget> = {
       "permanent short link",
     ],
   },
+  "features-subdomain-sites": {
+    href: "/features/subdomain-sites",
+    anchors: [
+      "its own nudgehost.site subdomain",
+      "a subdomain of its own",
+      "the site's own subdomain",
+    ],
+  },
 
   // --- Blog ------------------------------------------------------------------
   "blog-how-to-host-a-claude-artifact": {

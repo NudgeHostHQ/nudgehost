@@ -87,7 +87,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-26",
     dateModified: "2026-06-12",
     body: [
-      "A single HTML file is easy to share. A project that spans an index page, a stylesheet, a folder of images, and a few scripts is the awkward case, because all those files have to travel together and keep their relative paths intact. Zipping them solves that, and NudgeHost takes the archive the rest of the way. When you upload a .zip, it extracts the contents, finds your index.html (a single wrapper folder like dist is stripped automatically), and serves the unpacked files as a live site at its own subdomain. A request for /styles.css or /img/logo.png resolves against the archive root exactly as it did on your machine.",
+      "A single HTML file is easy to share. A project that spans an index page, a stylesheet, a folder of images, and a few scripts is the awkward case, because all those files have to travel together and keep their relative paths intact. Zipping them solves that, and NudgeHost takes the archive the rest of the way. When you upload a .zip, it extracts the contents, finds your index.html (a single wrapper folder like dist is stripped automatically), and serves the unpacked files as a live site at {{features-subdomain-sites}}. A request for /styles.css or /img/logo.png resolves against the archive root exactly as it did on your machine.",
       "The choice between zipping and pasting comes down to how many files you have. For a self-contained single page, it is quicker to {{features-paste-html}} and skip the archive entirely. For anything with separate assets, the ZIP route is the one that keeps everything wired together. Either way the result is a static site, served as plain files with nothing rebuilding on each visit, which is why it loads fast and never needs a server. The glossary entry on {{glossary-static-site}} covers the model.",
       "Front-end build tools make this routine. Run your production build, zip the output folder, and you have a deployable archive. The flow to {{host-react-app}} is this exact path, and it applies equally to Vue, Svelte, and any framework that emits static files. AI builders emit the same shape of bundle; {{blog-how-to-share-a-lovable-site}} follows one through this exact pipeline. Client-side routing keeps working because unmatched paths fall back to the index, so a direct visit to /about does not break, while requests for files that genuinely do not exist still 404.",
       "A couple of details save you a support ticket. An archive with an index.html somewhere inside it becomes a site; without one, the ZIP shares as a plain one-click download, so a bundle of documents or photos still travels as one link. A served site can hold up to 200 files. ZIPs made on macOS carry a __MACOSX folder and stray .DS_Store files, both filtered out automatically on unpack. You can {{host-zip}} for free up to 25MB unpacked, and {{pricing|the Pro plan}} lifts that ceiling when a production bundle with vendored libraries runs larger.",
@@ -452,7 +452,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-26",
     dateModified: "2026-06-12",
     body: [
-      "A single file you upload comes back as a short link in the form nudgehost.com/f/ followed by a readable slug. It is short enough to paste into a message without wrapping, and the slug is legible rather than a random string of forty characters. A PDF, an HTML page, and an image all share that clean shape. The one exception is a ZIP with a site inside, which serves at its own subdomain like your-name.nudgehost.site, so the project gets a real address of its own.",
+      "A single file you upload comes back as a short link in the form nudgehost.com/f/ followed by a readable slug. It is short enough to paste into a message without wrapping, and the slug is legible rather than a random string of forty characters. A PDF, an HTML page, and an image all share that clean shape. The one exception is a ZIP with a site inside, which serves at {{features-subdomain-sites|its own nudgehost.site subdomain}}, so the project gets a real address of its own.",
       "The link is permanent until you choose to delete it. There is no rule that your link dies if you do not log in each month, which some hosts impose on their free tier and which quietly breaks links people were relying on. {{compare-tiiny}} covers that difference in detail. On NudgeHost a link you made a year ago and forgot about still resolves, unless you set an expiry on it yourself.",
       "Sharing the link takes one of two forms. Copy it to the clipboard from the dashboard, or use the built-in QR code, which is handy for print, a slide, or anything someone scans with a phone instead of typing. {{glossary-qr-code}} covers how the code encodes your URL, and it is free on every plan rather than gated behind an upgrade. Because the links are {{features-public-links}}, whoever you send it to opens the file without an account in the way.",
       "A good link does more than resolve. NudgeHost generates {{features-link-previews}} for it, so the URL unfurls into a proper card with a title and thumbnail when pasted into Slack or a message, rather than a bare string. You can {{home}} and have your first link in a few seconds, on any device, in any browser, with no app to install for you or for the person receiving it.",
@@ -477,5 +477,50 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     ],
     relatedToolSlugs: ["features-public-links", "features-link-previews", "features-link-updating", "compare-tiiny", "host-pdf"],
     filePillExamples: ["Short URL", "Readable slug", "QR code", "Permanent", "Any device"],
+  },
+
+  "subdomain-sites": {
+    slug: "subdomain-sites",
+    name: "Subdomain sites",
+    title: "Subdomain Sites | Every ZIP site gets its own nudgehost.site address | NudgeHost",
+    description:
+      "Upload a ZIP with an index.html and it serves at your-slug.nudgehost.site. Client-side routing works on direct visits, assets load from the root, and the subdomain survives updates.",
+    h1: "Every site gets its own subdomain.",
+    lead: "A ZIP with an index.html inside serves as a real website at https://your-slug.nudgehost.site. Routing works, assets resolve from the root, and the address stays put when you update the build.",
+    keyPoints: [
+      "Upload a ZIP with an index.html and the site serves at https://your-slug.nudgehost.site.",
+      "Unknown paths rewrite to the index, so client-side routers handle direct visits to their own routes.",
+      "Assets load from the root exactly as the build wrote them; nothing is rewritten on the subdomain.",
+      "Replace the ZIP and the subdomain stays the same, so links you already shared keep working.",
+    ],
+    author: "Mark Boreland",
+    datePublished: "2026-06-12",
+    dateModified: "2026-06-12",
+    body: [
+      "A single file shares fine from a path on the main domain. A website wants an address of its own. When you {{host-zip}} and the archive has an index.html inside, NudgeHost unpacks it and serves the result at https://your-slug.nudgehost.site, a subdomain that belongs to that project. Everything sits at the root of that address, so stylesheets, scripts, and images load from exactly the paths the build wrote.",
+      "Serving from the root is also what keeps client-side routing alive. A request for a path that does not match a file in the bundle is rewritten to the index, so a React Router app answers direct visits to its own routes instead of returning a 404, while requests for files that genuinely do not exist still fail correctly. The result behaves like any static site, served as files with nothing rebuilding per visit; the glossary entry on {{glossary-static-site}} covers why that needs no server.",
+      "AI builder exports get the most out of this. A Lovable or v0 project is a built React app the moment it leaves the chat, so you can {{host-lovable-export}} and it lands at its own subdomain with deep links working; {{blog-how-to-share-a-lovable-site}} covers the whole flow on a real project. Replace the ZIP in your dashboard and the subdomain stays the same, so a client who bookmarked the link sees the new build on their next visit.",
+      "The subdomain is also a security boundary. Site JavaScript runs on its own origin, away from the main domain where your account session lives. A password-protected site shows its gate on the main domain first, then hands the visitor to the subdomain with a one-time token, so the lock holds without the site origin ever seeing account cookies. Anonymous uploads get a subdomain too, with a small attribution banner on served HTML pages, and {{pricing|the free plan}} keeps ten links live with no expiry once you sign up.",
+    ],
+    faqs: [
+      {
+        q: "Do I get a subdomain on the free plan?",
+        a: "Yes. Every served site gets its own nudgehost.site subdomain on every plan, including anonymous uploads, which carry a small attribution banner on HTML pages.",
+      },
+      {
+        q: "Why does my site live on nudgehost.site instead of nudgehost.com?",
+        a: "Isolation. Your site's JavaScript runs on its own origin, separate from the main domain where accounts and dashboards live, so untrusted site code never touches a session.",
+      },
+      {
+        q: "Does password protection work on a subdomain site?",
+        a: "Yes. The visitor enters the password on the main domain, then a one-time token hands them off to the subdomain. Changing the password invalidates outstanding tokens.",
+      },
+      {
+        q: "Can I use my own domain instead of the subdomain?",
+        a: "Yes, on the Pro plan. Point a CNAME at NudgeHost and the site serves from your address with the certificate issued automatically.",
+      },
+    ],
+    relatedToolSlugs: ["host-zip", "features-zip-upload", "host-lovable-export", "host-react-app", "features-custom-domains"],
+    filePillExamples: ["ZIP site", "your-slug.nudgehost.site", "SPA routing", "React build"],
   },
 };

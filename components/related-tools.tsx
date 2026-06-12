@@ -324,6 +324,12 @@ export const TOOL_REGISTRY: Record<string, Tool> = {
     description: "Short nudgehost.com URLs for any file.",
     href: "/features/shareable-links",
   },
+  "features-subdomain-sites": {
+    slug: "features-subdomain-sites",
+    name: "Subdomain sites",
+    description: "ZIP sites serve at their own nudgehost.site address.",
+    href: "/features/subdomain-sites",
+  },
 };
 
 export const APPROVED_TOOL_SLUGS = Object.keys(TOOL_REGISTRY) as Array<
