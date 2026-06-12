@@ -155,6 +155,28 @@ const claudeArtifactFaqs: BlogFaqItem[] = [
   },
 ];
 
+// --- Lovable post FAQs -------------------------------------------------------
+// Shared between the in-body faq block and the FAQPage JSON-LD, the same
+// arrangement the Claude artifact post uses. Plain text, no tokens.
+const lovableFaqs: BlogFaqItem[] = [
+  {
+    q: "Do I export source code or the built app?",
+    a: "Export the built app where Lovable offers it. If you only have source, run an install and build locally and zip the output folder before uploading.",
+  },
+  {
+    q: "Will client-side routing work after I host it?",
+    a: "Yes. NudgeHost rewrites unknown paths to the index so React Router can handle them, which keeps deep links working on a direct visit.",
+  },
+  {
+    q: "Can I use my own domain?",
+    a: "Yes, on a paid plan. Add a single DNS record pointing your domain at NudgeHost, and the certificate is issued automatically.",
+  },
+  {
+    q: "Does my Lovable URL stop working if I host elsewhere?",
+    a: "No. The NudgeHost link is a separate destination. Both keep working, and you choose which one to share.",
+  },
+];
+
 export const blogContentMap: Record<string, BlogPost> = {
   "how-to-host-a-claude-artifact": {
     slug: "how-to-host-a-claude-artifact",
@@ -476,29 +498,19 @@ Hosting a Lovable export is free to start, and most exports compress to a few me
           },
         ],
       },
-    ],
-    faqs: [
       {
-        question: "Do I export source code or the built app?",
-        answer:
-          "Export the built app where Lovable offers it. If you only have source, run an install and build locally and zip the output folder before uploading.",
+        type: "faq",
+        items: lovableFaqs,
       },
       {
-        question: "Will client-side routing work after I host it?",
-        answer:
-          "Yes. NudgeHost rewrites unknown paths to the index so React Router can handle them, which keeps deep links working on a direct visit.",
-      },
-      {
-        question: "Can I use my own domain?",
-        answer:
-          "Yes, on a paid plan. Add a single DNS record pointing your domain at NudgeHost, and the certificate is issued automatically.",
-      },
-      {
-        question: "Does my Lovable URL stop working if I host elsewhere?",
-        answer:
-          "No. The NudgeHost link is a separate destination. Both keep working, and you choose which one to share.",
+        type: "bottom-cta",
+        title: "Ready to put your Lovable app live?",
+        text: "Export the build, drop the ZIP into NudgeHost, and get a live link on its own subdomain. Free, no credit card, no account needed to start.",
+        link: "/sign-up",
+        label: "Get started free",
       },
     ],
+    faqs: lovableFaqs.map((f) => ({ question: f.q, answer: plain(f.a) })),
     relatedToolSlugs: ["host-lovable-export", "host-v0-export", "host-react-app", "host-html"],
   },
 
