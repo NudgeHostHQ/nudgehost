@@ -67,13 +67,14 @@ for (const file of files) {
     while ((arrMatch = arrayRe.exec(chunk)) !== null) {
       const arrName = arrMatch[1];
       const arrBody = arrMatch[2];
-      // Extract each quoted string. Each paragraph is one "...", "..." entry.
-      // Find "..." spans (handle escaped quotes).
+      // Extract each quoted string. Each paragraph is one "...", "..." entry,
+      // or a backtick template literal (the v5 blog blocks keep multi-paragraph
+      // prose in `text:` template literals). Handle escapes in both forms.
       const paragraphs = [];
-      const paraRe = /"((?:[^"\\]|\\.)*)"/g;
+      const paraRe = /"((?:[^"\\]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g;
       let pm;
       while ((pm = paraRe.exec(arrBody)) !== null) {
-        paragraphs.push(pm[1]);
+        paragraphs.push(pm[1] !== undefined ? pm[1] : pm[2]);
       }
       // verdict uses salt "${slug}-verdict" per app/compare/[slug]/page.tsx
       const baseSalt = arrName === "verdict" ? `${slug}-verdict` : slug;
