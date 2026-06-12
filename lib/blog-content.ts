@@ -193,7 +193,7 @@ export const blogContentMap: Record<string, BlogPost> = {
     readTime: "7 min read",
     showUpdatedBadge: true,
     pillar: "ai-publishing",
-    tldr: "Claude builds working HTML artifacts inside a conversation, but they stay trapped there. {{host-claude-artifact|Copy the source and paste it into NudgeHost}}, and you get a public link in seconds. No Anthropic account needed for the recipient. Update the source later and the link stays the same.",
+    tldr: "Claude builds working HTML artifacts inside a conversation, but they stay trapped there. {{host-claude-artifact|Copy the source and paste it into NudgeHost}}, and you get a public link in seconds. No Anthropic account needed for the recipient. {{features-link-updating|Update the source later}} and the link stays the same.",
     body: [
       {
         type: "h2",
@@ -239,7 +239,7 @@ The artifact lives inside Claude, behind your account. There is no public URL to
       },
       {
         type: "prose",
-        text: `Artifacts evolve. You ask Claude for a second version, it rebuilds the thing, and you want the same link to show the new output. {{features-link-updating|Swap the source in your dashboard}} and the URL does not change. Everyone who already has the link sees the update on their next visit.
+        text: `Artifacts evolve. You ask Claude for a second version, it rebuilds the thing, and you want the same link to show the new output. Swap the source in your dashboard and the URL does not change. Everyone who already has the link sees the update on their next visit.
 
 This is the part screenshots and one-off uploads get wrong. Every change means a new file and a new link to redistribute. With NudgeHost, one link serves every version. {{compare-nudgehost-vs-tiiny-host|Unlike hosts that expire free links after 30 days}}, NudgeHost keeps your artifact live as long as you want.`,
       },
