@@ -20,6 +20,7 @@ import {
   deleteSiteObjects,
   hasZipMagic,
   isZipUpload,
+  scanZipForSite,
   unpackZipToSite,
 } from "@/lib/site-store";
 import { convertAndStoreDocxHtml, isDocxUpload } from "@/lib/docx-store";
@@ -150,10 +151,14 @@ export async function POST(request: Request) {
       }
     }
   }
-  // ZIP uploads become served sites: the archive is unpacked into one R2
-  // object per file under sites/{fileId}/ and served at the subdomain
-  // ({slug}.nudgehost.site). Extension or MIME is only the hint; the magic
-  // bytes decide, so a renamed non-ZIP stays a plain download.
+  // ZIP uploads with an index.html become served sites: the archive is
+  // unpacked into one R2 object per file under sites/{fileId}/ and served at
+  // the subdomain ({slug}.nudgehost.site). Site detection is a fallback
+  // decision, not a gate: an archive with no index.html stays a plain
+  // downloadable file, and only genuine safety problems (traversal paths,
+  // encrypted entries, nested archives) reject the upload. Extension or MIME
+  // is only the hint; the magic bytes decide, so a renamed non-ZIP stays a
+  // plain download.
   else if (isZipUpload(file.filename, file.mimeType)) {
     let zipBuffer: Buffer | null = null;
     try {
@@ -167,7 +172,31 @@ export async function POST(request: Request) {
       zipBuffer = null;
     }
 
-    if (zipBuffer && hasZipMagic(zipBuffer)) {
+    const scan =
+      zipBuffer && hasZipMagic(zipBuffer)
+        ? await scanZipForSite(zipBuffer)
+        : null;
+
+    if (scan?.kind === "unsafe") {
+      // Fail closed: an unsafe archive never holds a link or a quota slot.
+      // Nothing was unpacked, so only the archive and the row go.
+      try {
+        await r2.send(
+          new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
+        );
+      } catch {
+        // Orphaned archive object; harmless.
+      }
+      await db.delete(files).where(eq(files.id, file.id));
+      return NextResponse.json({ error: scan.error }, { status: 422 });
+    }
+    // "unreadable" and no-index archives fall through here untouched and the
+    // row stays kind "file": the ZIP shares as a one-click download, bounded
+    // by the normal upload size cap like any other file. The entry-count and
+    // uncompressed-size ceilings below exist to bound the unpack, so they
+    // apply on the site path only.
+
+    if (zipBuffer && scan?.kind === "scanned" && scan.hasIndex) {
       // The cap applies to the total uncompressed size, on the same per-plan
       // ceiling a plain upload gets.
       let maxBytes = ANON_MAX_FILE_BYTES;

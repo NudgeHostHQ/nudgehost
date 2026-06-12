@@ -16,6 +16,7 @@ import {
   hasZipMagic,
   isZipUpload,
   planSiteUnpack,
+  scanZipForSite,
   unpackZipToSite,
 } from "@/lib/site-store";
 import {
@@ -61,12 +62,13 @@ function safeKeyName(filename: string): string {
 // Only the content, filename, content type, size, and updated_at change. The
 // old object is removed from R2 once the new one is confirmed in place.
 //
-// ZIPs cross over in both directions. A ZIP replacement is validated first,
-// then the old unpacked objects (if any) are cleared and the new archive is
-// unpacked to the same sites/{fileId}/ prefix, so the URL stays stable; a
-// brief gap during the swap is accepted rather than building an atomic swap.
-// A non-ZIP replacing a site clears the unpacked objects and the row goes
-// back to plain-file serving.
+// ZIPs cross over in both directions. A ZIP with an index.html is validated
+// first, then the old unpacked objects (if any) are cleared and the new
+// archive is unpacked to the same sites/{fileId}/ prefix, so the URL stays
+// stable; a brief gap during the swap is accepted rather than building an
+// atomic swap. A ZIP without an index.html is stored as a plain downloadable
+// file like any other replacement, and a non-site replacing a site clears
+// the unpacked objects so the row goes back to plain-file serving.
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ fileId: string }> },
@@ -164,12 +166,24 @@ export async function POST(
   // reach the site unpacker); it follows the plain-file path below plus a
   // regenerated derived HTML object.
   const newIsDocx = isDocxUpload(upload.name) && hasZipMagic(buffer);
-  const newIsZip =
-    !newIsDocx && isZipUpload(upload.name, contentType) && hasZipMagic(buffer);
+
+  // Site detection is a fallback decision, not a gate: a ZIP with an
+  // index.html replaces as a served site, any other ZIP replaces as a plain
+  // downloadable file, and only genuine safety problems reject the request.
+  // An unreadable archive degrades to a plain download too.
+  let newIsSiteZip = false;
+  if (!newIsDocx && isZipUpload(upload.name, contentType) && hasZipMagic(buffer)) {
+    const scan = await scanZipForSite(buffer);
+    if (scan.kind === "unsafe") {
+      // Nothing has been torn down yet, so whatever is currently live stays.
+      return NextResponse.json({ error: scan.error }, { status: 422 });
+    }
+    newIsSiteZip = scan.kind === "scanned" && scan.hasIndex;
+  }
 
   let updated: typeof file;
 
-  if (newIsZip) {
+  if (newIsSiteZip) {
     // Validate the archive before tearing anything down, so a bad ZIP leaves
     // whatever is currently live untouched.
     const planCheck = await planSiteUnpack(buffer, maxBytes);

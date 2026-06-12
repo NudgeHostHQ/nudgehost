@@ -148,7 +148,7 @@ export const convertersContentMap: Record<string, SpokeContent> = {
     ],
     body: [
       "iPhones save photos as HEIC, which is efficient but stubborn. Plenty of websites, older software, and non-Apple devices won't open it. The fix usually lives on the phone itself. Setting the camera to Most Compatible captures JPG from then on, copying a photo into the Files app converts it on the way, and the photo apps built into Mac and Windows export JPG from a HEIC original.",
-      "With a JPG in hand, drop it above to host it and share a link, which beats sending a heavy attachment the recipient's phone refuses to preview. For a set of photos, host each one and send the handful of links; the dashboard keeps the set tidy.",
+      "With a JPG in hand, drop it above to host it and share a link, which beats sending a heavy attachment the recipient's phone refuses to preview. For a set of photos, zip them first and {{host-zip}} so one link carries the whole set.",
       "Since NudgeHost will {{host-hub}}, the originals can live next to the converted copies if you want both online. If the JPG needs to be lighter still for a website, the next step is to {{converter-png-to-webp}}. The same in-browser rendering behind {{viewer-pdf}} shows hosted images full screen as well.",
       "Hosting is free up to 25MB per photo. Passwords and custom domains arrive when you {{pricing}}.",
     ],

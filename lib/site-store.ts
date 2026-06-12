@@ -7,9 +7,11 @@ import {
 } from "@aws-sdk/client-s3";
 import { r2, R2_BUCKET } from "@/lib/r2";
 
-// Unpack-and-serve for ZIP uploads. A confirmed ZIP is exploded into one R2
-// object per file under sites/{fileId}/, the row is marked kind="site" with
-// an entryPath, and /f/[slug]/[...path] serves the objects directly. The
+// Unpack-and-serve for ZIP uploads. A confirmed ZIP containing an index.html
+// (see scanZipForSite) is exploded into one R2 object per file under
+// sites/{fileId}/, the row is marked kind="site" with an entryPath, and
+// /f/[slug]/[...path] serves the objects directly. A ZIP without an
+// index.html is not a site and stays a plain downloadable file at fileKey. The
 // original archive is deleted after a successful unpack: the unpacked objects
 // are the only copy anything reads, so keeping the archive would store every
 // site twice for no reader. fileKey on a site row is therefore a dangling
@@ -203,6 +205,81 @@ function isJunkEntryPath(path: string): boolean {
 function isSymlinkEntry(entry: yauzl.Entry): boolean {
   // Unix mode lives in the high 16 bits; 0xA000 is S_IFLNK.
   return ((entry.externalFileAttributes >>> 16) & 0xf000) === 0xa000;
+}
+
+export type SiteZipScan =
+  | { kind: "unreadable" }
+  | { kind: "unsafe"; error: string }
+  | { kind: "scanned"; hasIndex: boolean };
+
+// Classify an archive before deciding how to store it. Site detection is a
+// fallback decision, not a gate:
+//
+// - "unsafe": traversal paths, encrypted entries, or nested archives reject
+//   the upload outright, with the same messages the unpack path uses.
+// - "unreadable": the archive cannot be opened or walked at all; callers
+//   store it as a plain downloadable file, matching how a corrupt DOCX
+//   degrades.
+// - "scanned": hasIndex says whether the site path applies (any non-junk
+//   index.html, at any depth, mirroring the entry-point rules in
+//   analyzeSiteZip; wrapper folders only change depth, never presence). No
+//   index means the ZIP stays a plain download.
+//
+// Entry-count and uncompressed-size ceilings are deliberately NOT checked
+// here. They exist to bound the unpack, so they apply on the site path only;
+// a ZIP stored as one plain file is bounded by the normal upload size cap.
+// Symlink entries are likewise an unpack concern and are left to the site
+// path, since a symlink inside a downloaded archive never touches a server.
+export async function scanZipForSite(zipBuffer: Buffer): Promise<SiteZipScan> {
+  let zip: yauzl.ZipFile;
+  let entries: yauzl.Entry[];
+  try {
+    zip = await openZipBuffer(zipBuffer);
+  } catch {
+    return { kind: "unreadable" };
+  }
+  try {
+    entries = await readAllEntries(zip);
+  } catch {
+    zip.close();
+    return { kind: "unreadable" };
+  }
+
+  let hasIndex = false;
+  try {
+    for (const entry of entries) {
+      const rawPath = entry.fileName;
+      if (rawPath.endsWith("/")) continue; // directory marker
+
+      // Same order as analyzeSiteZip: the path check covers every entry,
+      // junk is then skipped before the content checks.
+      assertSafeEntryPath(rawPath);
+      if (isJunkEntryPath(rawPath)) continue;
+
+      if ((entry.generalPurposeBitFlag & 0x1) !== 0) {
+        throw new SiteZipError(
+          "That ZIP is password protected. Please upload an unprotected ZIP.",
+        );
+      }
+      if (rawPath.toLowerCase().endsWith(".zip")) {
+        throw new SiteZipError(
+          "That ZIP contains another ZIP inside it. Please unpack it and zip just the site files.",
+        );
+      }
+
+      const base = rawPath.slice(rawPath.lastIndexOf("/") + 1).toLowerCase();
+      if (base === "index.html") hasIndex = true;
+    }
+  } catch (err) {
+    if (err instanceof SiteZipError) {
+      return { kind: "unsafe", error: err.message };
+    }
+    return { kind: "unreadable" };
+  } finally {
+    zip.close();
+  }
+
+  return { kind: "scanned", hasIndex };
 }
 
 // Validate the archive and decide what to extract. Throws SiteZipError with a

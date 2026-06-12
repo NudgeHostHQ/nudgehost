@@ -453,14 +453,14 @@ export const glossaryContentMap: Record<string, GlossaryContent> = {
     ],
     body: [
       "Compression rewrites a file so the same content takes fewer bytes. Lossless methods, like a ZIP archive or the gzip a server applies on the fly, pack the data so it can be restored exactly. Lossy methods, like JPEG for photos or H.264 for video, throw away detail the eye barely notices in exchange for a dramatic size cut. The right kind depends on the file. Text and code must stay lossless, while a photo can usually lose a little and look identical.",
-      "For sharing, smaller is almost always better. Zipping a site folder packs it into one compact upload, and you can {{host-zip}} so it comes back out as a live site. A screenshot that is needlessly large shrinks hard when you {{converter-png-to-webp}}, often to a fraction of the original with no visible change, which means the page loads faster for everyone who opens it. The free plan covers files up to 25MB, so compressing first is sometimes the difference between fitting and not.",
+      "For sharing, smaller is almost always better. A bundle of files packs into one compact archive that shares as a single download, and you can {{host-zip}} so a zipped site folder comes back out as a live site. A screenshot that is needlessly large shrinks hard when you {{converter-png-to-webp}}, often to a fraction of the original with no visible change, which means the page loads faster for everyone who opens it. The free plan covers files up to 25MB, so compressing first is sometimes the difference between fitting and not.",
       "Servers add another layer for free. Text-based files are typically gzip-compressed in transit, so an HTML page or a JSON file arrives smaller than it sits on disk without you doing anything. Where you have a say is the source file. Pick an efficient format, and the upload and every download afterwards is quicker. Hosting is free to start, and {{pricing}} raises the ceiling when your files are genuinely large.",
     ],
     faqs: [
       {
         question: "Should I zip a file before uploading it?",
         answer:
-          "Zip a site folder so the whole project uploads in one go and serves as a live site. A single PDF or image does not need it, and gzip suits a large single file better than a ZIP.",
+          "Zip when you have several files to keep together, or to shrink something large. A bundle shares as one download, and a site folder serves as a live site. A single PDF or image usually does not need it.",
       },
       {
         question: "Will compressing an image ruin its quality?",

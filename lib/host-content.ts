@@ -141,7 +141,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     body: [
       "Claude's artifacts feature is one of the most useful additions to chat AI in years. You can ask Claude for a dashboard, a calculator, a landing page, or a small game and get a working HTML/JS thing right there in the conversation. There's a catch. Those artifacts live inside Claude. You can't easily send one to a friend, drop one into a Slack channel, or share one on Twitter without screenshotting it.",
       "NudgeHost fixes that gap. Open your artifact in Claude, copy the source HTML, paste it into NudgeHost, and you get a clean public URL that loads the artifact for anyone who clicks. No Anthropic account needed on their end. No screenshot. It uses {{features-paste-html}}, so the artifact moves from the chat to a live page without a file ever touching your disk. Under the hood it's the same flow you'd use to {{host-html}}, since an artifact is just HTML. Anything you learn here applies to ordinary web pages too. For the full step-by-step version, read {{blog-how-to-host-a-claude-artifact}}.",
-      "If your artifact is split across several files, ask Claude to inline everything into one HTML file; it does this reliably, and the live page needs everything in the one file. A multi-file bundle serves as a live site at its own link when you {{host-zip}}, with the index.html as the entry point. And if you want to hand someone a static, non-interactive version, say a printable summary of a dashboard, you can always export it and {{host-pdf}} alongside the live one.",
+      "If your artifact is split across several files, ask Claude to inline everything into one HTML file; it does this reliably, and the live page needs everything in the one file. A multi-file bundle still works when you {{host-zip}}. With an index.html inside it serves as a live site, and without one it travels as one download. And if you want to hand someone a static, non-interactive version, say a printable summary of a dashboard, you can always export it and {{host-pdf}} alongside the live one.",
       "Under {{pricing}}, your artifact stays live with no expiry. You can {{features-link-updating}} whenever Claude builds a v2, so the address stays the same while the content changes, or set an expiry if you only want the link to live for a week. The same approach works for any single-file HTML output: ChatGPT-generated HTML, v0 exports, Lovable exports, Bolt exports. For more grounded examples of what people do with shared links, like how to {{use-case-deck}}, you can {{use-cases-hub}} step by step.",
     ],
     faqs: [
@@ -475,7 +475,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "Can I host a multi-file Markdown site (like a docs folder)?",
-        a: "Render it to HTML first. Most docs generators emit a static site; zip that output and it serves as a browsable site at its own subdomain. A ZIP of raw .md files has no index.html, so build the HTML version before zipping.",
+        a: "For a browsable site, render to HTML first; most docs generators emit a static site, and zipping that output serves it at its own subdomain. A ZIP of the raw .md files uploads too, travelling as one download.",
       },
     ],
     relatedToolSlugs: ["host-html", "host-pdf", "host-txt", "host-zip"],
@@ -487,14 +487,14 @@ export const hostContentMap: Record<string, SpokeContent> = {
     name: "ZIP",
     title: "Host a ZIP file online: upload a site, get a live URL",
     description:
-      "Upload a ZIP of a static site or app build and it serves as a live site at its own nudgehost.site link. Assets load, routing works. Free, no signup.",
+      "Upload a ZIP of a static site or app build and it serves as a live site at its own nudgehost.site link. Any other ZIP shares as a one-click download. Free.",
     h1: "Host a ZIP file as a live site.",
     lead: "Drop a .zip of your site or build folder and it goes live at its own link on nudgehost.site, served from the root so everything loads the way you built it.",
     keyPoints: [
       "Upload a ZIP of a static site or SPA build and it serves at its own subdomain, like your-name.nudgehost.site.",
       "Stylesheets, scripts, images, and fonts load from the root exactly as the build references them.",
       "Client-side routing works; a direct visit to a route serves your index.html and the router takes over.",
-      "Up to 200 files per archive, with the unpacked size counted against your plan's file limit. No signup needed.",
+      "A ZIP without an index.html shares as a one-click download instead, so a bundle of PDFs or photos still travels as one link.",
     ],
     author: "NudgeHost Team",
     datePublished: "2026-05-22",
@@ -502,8 +502,8 @@ export const hostContentMap: Record<string, SpokeContent> = {
     body: [
       "A finished site is rarely one file. There's an index page, a stylesheet, a folder of images, a few scripts, and all of it has to travel together with its relative paths intact. Zipping the folder solves the travel (a refresher on {{glossary-file-compression}} explains why the archive is smaller than the folder), and NudgeHost takes the archive the rest of the way. Drop the .zip and the contents are unpacked and served as a live site at its own subdomain on nudgehost.site. Your project gets its own address, not a path on someone else's page.",
       "Serving at the root of that subdomain is what makes exported builds work untouched. A bundle that references /assets/index-Ab12Cd34.js finds the file where it expects it, and a client-side router that owns its URLs keeps working because a direct visit to any route serves your index.html. This is the same pipeline behind the page to {{host-react-app}}, and it covers Vue, Svelte, and plain hand-written multi-page sites equally.",
-      "There are two limits to know. An archive can hold up to 200 files, and the unpacked size counts against the file ceiling on your plan, 25MB on the free tier. The entry point is the shallowest index.html in the archive, and a single wrapper folder like dist or my-app is stripped automatically, so zipping the folder rather than its contents is fine. macOS junk like __MACOSX and .DS_Store is filtered on unpack and never reaches the served site. Password-protected archives are the one thing to avoid, since the unpacker cannot read them; leave the archive open and put a password on the link itself instead.",
-      "An archive needs an index.html to serve. If you're sharing a single page rather than a project, it's quicker to {{host-html}} directly or {{host-claude-artifact}} from a paste. Once the site is live, you can {{features-link-updating}}, so a client who bookmarked the link always sees the newest build. Ten active links are free with no signup, and {{pricing}} lifts the size ceiling when a production bundle runs heavy.",
+      "Served sites have two limits. An archive can hold up to 200 files, and the unpacked size counts against the file ceiling on your plan, 25MB on the free tier. The entry point is the shallowest index.html in the archive, and a single wrapper folder like dist or my-app is stripped automatically, so zipping the folder rather than its contents is fine. macOS junk like __MACOSX and .DS_Store is filtered on unpack and never reaches the served site. Password-protected archives are the one thing to avoid, since the unpacker cannot read them; leave the archive open and put a password on the link itself instead.",
+      "An archive with an index.html serves as a site; any other ZIP shares as a one-click download at its own link, which covers a bundle of PDFs, a folder of photos, or a project handoff without any ceremony, bounded only by the normal per-file cap. If you're sharing a single page rather than a project, it's quicker to {{host-html}} directly or {{host-claude-artifact}} from a paste. Once the link is live, you can {{features-link-updating}}, so a client who bookmarked it always sees the newest version. Ten active links are free with no signup, and {{pricing}} lifts the size ceiling when a production bundle runs heavy.",
     ],
     faqs: [
       {
@@ -516,7 +516,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "What if my ZIP has no index.html?",
-        a: "The upload is declined with a clear message rather than serving something broken. Name your entry page index.html; it can sit at the root or inside the single folder you zipped, since a wrapper folder is stripped automatically.",
+        a: "It uploads and shares as a plain downloadable file. The recipient gets a clean page with a download button and the archive arrives intact. Add an index.html when you want the contents served as a site; it can sit at the root or inside the single folder you zipped.",
       },
       {
         q: "What about encrypted ZIPs?",
@@ -524,7 +524,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
     ],
     relatedToolSlugs: ["host-html", "host-claude-artifact", "host-pdf", "host-react-app"],
-    filePillExamples: ["ZIP", "Site build", "SPA", "Live site", "Up to 25MB free"],
+    filePillExamples: ["ZIP", "Site build", "SPA", "File bundle", "Up to 25MB free"],
   },
 
   "react-app": {
@@ -637,7 +637,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
     body: [
       "JSON is the data format every developer hands to every other developer. API responses, config exports, structured logs, anything that wants to be machine-readable and human-skimmable. The annoying part of sharing it is that pasting 800 lines of JSON into Slack turns the channel into static, and emailing it as an attachment makes a small thing feel heavy. A NudgeHost link opens the data as a collapsible tree in the recipient's browser, with a download button for grabbing the raw file.",
       "The file is stored exactly as you upload it, so the kindness happens before the upload. If the JSON is messy (minified, inconsistently indented, or assembled from multiple sources), run it through {{dev-json-formatter}} first; what lands in your teammate's editor is then something a human can actually scan.",
-      "Files past the 25MB free-plan ceiling are usually log dumps that would compress to a fraction of the size; gzip them before uploading and the file travels as one download. And when the JSON is part of a site build you're shipping whole, you can {{host-zip}} and the file ships inside the served site at its own path. JSON that's really tabular data may be friendlier to non-developers as a CSV export from your tooling.",
+      "Files past the 25MB free-plan ceiling are usually log dumps that would compress to a fraction of the size; zip or gzip them first and you can {{host-zip}}, with the archive travelling as one download. JSON that's really tabular data may be friendlier to non-developers as a CSV export from your tooling.",
       "Ten active files free with no signup; {{pricing}} for higher limits. If the JSON is something you want to keep editable, swapping the source file in your dashboard updates the link without changing the URL, which is convenient for sharing a dev API mock that keeps evolving.",
     ],
     faqs: [
@@ -651,7 +651,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "How big a JSON file can I host?",
-        a: "25MB on the free plan. Above that, gzip the file and host the archive; it travels as one download.",
+        a: "25MB on the free plan. Above that, zip or gzip the file and host the archive; it travels as one download.",
       },
       {
         q: "Can I share a private JSON file?",
@@ -909,7 +909,7 @@ export const hostContentMap: Record<string, SpokeContent> = {
       "Hosting an image as a link sounds trivial until you actually try to do it. Imgur compresses photos. Twitter and Reddit auto-crop the preview. iCloud Photo Sharing wants the recipient signed in. Google Photos albums expire when you forget about them. NudgeHost is the boring, reliable middle. Drop the file, get a URL, and the URL still works two years later.",
       "There's a small privacy detail that often gets missed. JPGs from a phone carry EXIF metadata including the camera model, the exact date and time, and (if your location services were on) the GPS coordinates of where the photo was taken. NudgeHost stores the file exactly as you upload it and does not strip this, so check before sharing a photo publicly. Every major phone and desktop OS can remove location data on export; do that first if the metadata shouldn't travel.",
       "For images that will live on the web, especially in pages you build yourself, file size matters. A 4MB iPhone photo can usually become a 400KB WebP without any visible quality loss; {{converter-png-to-webp}} handles the equivalent for screenshots. Photographs in HEIC (the format iPhones save in by default) won't open on non-Apple devices, so {{converter-heic-to-jpg}} before hosting and the photo opens anywhere. If the image is really a vector logo or icon, you can {{host-svg}} for the cleaner long-term result.",
-      "No watermark, no signup, on {{pricing}}. The 25MB free-plan limit covers every photograph anyone produces without a medium-format camera. For a whole gallery, build a simple HTML page around the images, zip the folder, and you can {{host-zip}}; the gallery serves as a browsable site at one link. Or inline a few images into a single page and {{host-html}} instead. Custom domains and link expiry are on Pro.",
+      "No watermark, no signup, on {{pricing}}. The 25MB free-plan limit covers every photograph anyone produces without a medium-format camera. For a whole gallery, zip the images and {{host-zip}} for a single shareable link, or stick them inside an HTML layout and {{host-html}} instead. Custom domains and link expiry are on Pro.",
     ],
     faqs: [
       {
