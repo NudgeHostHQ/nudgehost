@@ -6,7 +6,9 @@ import { Lock } from "lucide-react";
 
 // Shown on the public viewer when a file is password protected. A correct
 // submission sets the unlock cookie, then we refresh so the server renders
-// the file.
+// the file. For ZIP sites the endpoint instead returns a redirect to the
+// site's subdomain, carrying a short-lived handoff token that becomes the
+// per-site unlock cookie over there.
 export function PasswordPrompt({
   fileId,
   filename,
@@ -29,10 +31,16 @@ export function PasswordPrompt({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
         setError(data.error || "That password is not right. Please try again.");
         setLoading(false);
+        return;
+      }
+      if (typeof data.redirect === "string") {
+        // ZIP site: continue on its subdomain, where the handoff token in
+        // this URL becomes the per-site unlock cookie.
+        window.location.assign(data.redirect);
         return;
       }
       // Cookie is set; re-render the server component to reveal the file.

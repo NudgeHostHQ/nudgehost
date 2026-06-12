@@ -6,7 +6,12 @@ import { eq, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { files, type File } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
-import { unlockCookieName, unlockToken } from "@/lib/file-access";
+import {
+  UNLOCK_HANDOFF_PARAM,
+  unlockCookieName,
+  unlockToken,
+  verifyUnlockHandoffToken,
+} from "@/lib/file-access";
 import {
   contentTypeForPath,
   injectAnonBanner,
@@ -17,7 +22,7 @@ import {
   rewriteSiteHtml,
   siteObjectPrefix,
 } from "@/lib/site-store";
-import { siteLabelFromHost } from "@/lib/sites-domain";
+import { SITES_DOMAIN, siteLabelFromHost } from "@/lib/sites-domain";
 
 const MAIN_SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.nudgehost.com";
@@ -32,11 +37,12 @@ const MAIN_SITE_URL =
 //   rewritten onto the /f/{slug} base path.
 //
 // Origin isolation is the security purpose of the subdomain: untrusted site
-// JS runs on {slug}.nudgehost.site, where no Clerk context exists, no cookie
-// is ever set by this path, and no app API routes are reachable. Anything
-// auth-shaped stays on the main domain. That is also why password-protected
-// sites serve over the legacy path: the unlock cookie lives on the main
-// domain, and this path will not set one on the subdomain.
+// JS runs on {slug}.nudgehost.site, where no Clerk context exists and no app
+// API routes are reachable. Anything auth-shaped stays on the main domain.
+// This path sets exactly one cookie type: the per-site unlock cookie for
+// password-protected sites, which carries no account or session data and is
+// scoped to that single site's origin. Everything else about the isolation
+// stands (no Clerk, no app APIs, no other cookies).
 //
 // Access rules mirror the /f/[slug] viewer exactly. Deleted, banned, and
 // expired-anonymous files 404; owner-set expiry and the password gate send
@@ -184,11 +190,48 @@ export async function serveSiteRequest(
     return notFoundResponse();
   }
 
-  // Password gate, against the same unlock cookie the viewer sets. On the
-  // subdomain that cookie never exists (it is scoped to the main domain and
-  // this path sets none), so page-like requests go to the viewer's prompt
-  // and the unlocked site serves over the legacy path.
+  // Password gate. The unlock cookie is the same name and value on both
+  // paths but lives on different origins: the verify-password route sets it
+  // on the main domain (covering the viewer and legacy deep links), and the
+  // handoff redemption below sets it on this one subdomain.
   if (file.passwordHash) {
+    // A valid handoff token from the www password prompt becomes the
+    // per-site unlock cookie, set on this subdomain only, then the visitor
+    // bounces to the same URL without the query param so the token never
+    // lingers in the address bar. The token is short-lived and bound to the
+    // current password hash, so an expired, tampered, or post-password-change
+    // token simply falls through to the locked behavior below.
+    if (mode === "subdomain") {
+      const requestUrl = new URL(request.url);
+      const handoff = requestUrl.searchParams.get(UNLOCK_HANDOFF_PARAM);
+      if (
+        handoff &&
+        verifyUnlockHandoffToken(handoff, file.id, file.passwordHash)
+      ) {
+        requestUrl.searchParams.delete(UNLOCK_HANDOFF_PARAM);
+        // request.url carries the middleware-rewritten /sites/{slug} path;
+        // rebuild the visitor-facing URL from the slug and segments.
+        const clean = new URL(
+          segments.length === 0 ? "/" : `/${relPath}`,
+          `https://${slug}.${SITES_DOMAIN}`,
+        );
+        clean.search = requestUrl.search;
+        const response = NextResponse.redirect(clean, 302);
+        response.cookies.set(
+          unlockCookieName(file.id),
+          unlockToken(file.id, file.passwordHash),
+          {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+            maxAge: 60 * 60 * 24, // 24 hours
+          },
+        );
+        return response;
+      }
+    }
+
     const cookieStore = await cookies();
     const token = cookieStore.get(unlockCookieName(file.id))?.value;
     if (token !== unlockToken(file.id, file.passwordHash)) {

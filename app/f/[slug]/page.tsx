@@ -10,7 +10,11 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
-import { unlockCookieName, unlockToken } from "@/lib/file-access";
+import {
+  unlockCookieName,
+  unlockHandoffUrl,
+  unlockToken,
+} from "@/lib/file-access";
 import { isServableSiteLabel, siteUrlForSlug } from "@/lib/sites-domain";
 import {
   isAudioFile,
@@ -247,13 +251,21 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   // Site uploads land on the served site itself, not a viewer card. The
   // canonical home is the subdomain ({slug}.nudgehost.site), where the
   // serving route re-checks the same gates above on every request and stamps
-  // the anonymous banner into served HTML. Two cases stay on the legacy
-  // /f/{slug}/... path: password-protected sites (the unlock cookie this
-  // page just verified lives on this domain, and the subdomain sets no
-  // cookies by design) and slugs that can't serve as a subdomain label.
+  // the anonymous banner into served HTML. Only slugs that can't serve as a
+  // subdomain label stay on the legacy /f/{slug}/... path.
+  //
+  // Passworded sites get a temporary redirect carrying a fresh handoff token
+  // (the gate above already verified this visitor's unlock cookie); the
+  // subdomain trades it for its own per-site unlock cookie. A bare 308 here
+  // would loop: the still-locked subdomain bounces back to this page, whose
+  // valid main-domain cookie redirects again. Temporary because the token in
+  // the URL expires in seconds.
   if (file.kind === "site" && file.entryPath) {
-    if (file.passwordHash || !isServableSiteLabel(file.slug)) {
+    if (!isServableSiteLabel(file.slug)) {
       redirect(`/f/${file.slug}/${file.entryPath}`);
+    }
+    if (file.passwordHash) {
+      redirect(unlockHandoffUrl(file.slug, file.id, file.passwordHash));
     }
     permanentRedirect(siteUrlForSlug(file.slug));
   }

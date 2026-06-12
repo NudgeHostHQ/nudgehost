@@ -4,7 +4,12 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
-import { unlockCookieName, unlockToken } from "@/lib/file-access";
+import {
+  unlockCookieName,
+  unlockHandoffUrl,
+  unlockToken,
+} from "@/lib/file-access";
+import { isServableSiteLabel } from "@/lib/sites-domain";
 
 export const runtime = "nodejs";
 
@@ -43,6 +48,9 @@ export async function POST(
   const [file] = await db
     .select({
       id: files.id,
+      slug: files.slug,
+      kind: files.kind,
+      entryPath: files.entryPath,
       passwordHash: files.passwordHash,
       isDeleted: files.isDeleted,
     })
@@ -78,6 +86,19 @@ export async function POST(
     path: "/",
     maxAge: 60 * 60 * 12, // 12 hours
   });
+
+  // Sites serve on their own subdomain, where the cookie above (scoped to
+  // this domain) is invisible. Hand the unlock across origins with a
+  // short-lived token; the subdomain serving path trades it for a per-site
+  // cookie. The main-domain cookie above still covers legacy /f/{slug}/...
+  // deep links. Slugs that can't be a subdomain label stay on the legacy
+  // path, where that cookie is the whole story.
+  if (file.kind === "site" && file.entryPath && isServableSiteLabel(file.slug)) {
+    return NextResponse.json({
+      success: true,
+      redirect: unlockHandoffUrl(file.slug, file.id, file.passwordHash),
+    });
+  }
 
   return NextResponse.json({ success: true });
 }
