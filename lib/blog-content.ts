@@ -396,9 +396,9 @@ The {{pricing|NudgeHost Pro plan}} adds {{features-password-protection|password 
     authorBio:
       "Mark Boreland is the founder of NudgeHost. He writes about publishing what AI tools build and getting files to people without the usual friction.",
     publishedDate: "2026-05-25",
-    modifiedDate: "2026-05-25",
+    modifiedDate: "2026-06-12",
     pillar: "ai-publishing",
-    tldr: "Lovable builds a full app from a chat, then offers its own deploy path. If you would rather host it yourself, export the project, drop the build into NudgeHost, and get a public link. A custom domain puts it on your own address. Re-export and the link updates in place.",
+    tldr: "Lovable builds a full app from a chat, then offers its own deploy path. If you would rather host it yourself, {{host-lovable-export|export the project and drop the build into NudgeHost}}, and the app goes live at its own link on nudgehost.site. A custom domain puts it on your own address. {{features-link-updating|Re-export and the link updates in place}}.",
     body: [
       {
         type: "prose",
@@ -413,7 +413,7 @@ The {{pricing|NudgeHost Pro plan}} adds {{features-password-protection|password 
         type: "prose",
         text: `Start by exporting the project from Lovable. The export is a ZIP of the built React app, and Lovable's export panel has an option to include the built output rather than only the source, which saves you a local build step. If you only have the source, run an install and a build locally first, then zip the output folder. Either way you end up with one archive that holds the whole app.
 
-Drop that ZIP into NudgeHost and you {{host-lovable-export}} in one step. NudgeHost unpacks the archive, serves the index as the entry point, and rewrites unknown paths back to it so client-side routing works on a direct visit. This is the same pipeline that runs when you {{host-html}} a multi-file site, so a Lovable export and a hand-built site host the same way. The result is a public link that loads the app exactly as it ran in Lovable.`,
+Drop that archive in and you {{host-zip}} in one step. NudgeHost unpacks it and serves it as a real site at its own subdomain on nudgehost.site, with the index as the entry point and unknown paths rewritten back to it so client-side routing works on a direct visit. This is the same pipeline you use when you {{host-html}}, scaled up to a folder, so a Lovable export and a hand-built site host the same way. The result is a link like your-name.nudgehost.site that loads the app exactly as it ran in Lovable.`,
       },
       {
         type: "h2",
@@ -422,7 +422,7 @@ Drop that ZIP into NudgeHost and you {{host-lovable-export}} in one step. NudgeH
       },
       {
         type: "prose",
-        text: `A Lovable build is static once it leaves the chat, a folder of HTML, JavaScript, and assets with no server behind it. The one thing to know is routing. An app using React Router handles its own URLs in the browser, so a direct visit to a sub-path would normally fail on a plain host. NudgeHost's fallback sends unmatched paths to the index so the router takes over, which means deep links into the app keep working.`,
+        text: `A Lovable build is static once it leaves the chat, a folder of HTML, JavaScript, and assets with no server behind it; our glossary entry on {{glossary-static-site}} explains the model. The one thing to know is routing. An app using React Router handles its own URLs in the browser, so a direct visit to a sub-path would normally fail on a plain host. NudgeHost's fallback sends unmatched paths to the index so the router takes over, which means deep links into the app keep working.`,
       },
       {
         type: "h2",
@@ -431,7 +431,7 @@ Drop that ZIP into NudgeHost and you {{host-lovable-export}} in one step. NudgeH
       },
       {
         type: "prose",
-        text: `The default link sits on nudgehost.com, which is fine for sharing with a friend. For anything client-facing, putting the app on your own address reads as more established. Our explainer on {{glossary-custom-domain}} covers the setup, which is a single DNS record with the securing certificate issued for you. Custom domains live on {{pricing}}, alongside password protection and the removal of NudgeHost branding.`,
+        text: `The default link is the project's own subdomain on nudgehost.site, which is fine for sharing with a friend. For anything client-facing, putting the app on your own address reads as more established. Our explainer on {{glossary-custom-domain}} covers the setup, which is a single DNS record with the securing certificate issued for you. Custom domains live on {{pricing|the Pro plan}}, alongside password protection and the removal of NudgeHost branding.`,
       },
       {
         type: "h2",
@@ -440,7 +440,7 @@ Drop that ZIP into NudgeHost and you {{host-lovable-export}} in one step. NudgeH
       },
       {
         type: "prose",
-        text: `Builders who are job-hunting often ship a Lovable app as proof of what they can do, and a working link beats a description every time. You can {{use-case-recruiter}} with the live URL in an application, so a hiring manager clicks once and uses the thing you built. The same link works in a portfolio or a cold email.`,
+        text: `Builders who are job-hunting often ship a Lovable app as proof of what they can do, and a working link beats a description every time. You can {{use-case-recruiter}} by putting the live URL in an application, so a hiring manager clicks once and uses the thing you built. The same link works in a portfolio or a cold email.`,
       },
       {
         type: "h2",
@@ -449,9 +449,32 @@ Drop that ZIP into NudgeHost and you {{host-lovable-export}} in one step. NudgeH
       },
       {
         type: "prose",
-        text: `Re-export from Lovable whenever you change the app, upload the new ZIP to the same link, and the URL stays put. Anyone who already has it sees the new version. The approach is identical for the other AI builders, so once you have done this you can {{host-v0-export}} or a Bolt project the same way. The mental model is simple. Export the build, drop the archive, share the link.
+        text: `Re-export from Lovable whenever you change the app, upload the new ZIP to the same link, and the URL stays put. Anyone who already has it sees the new version. The approach is identical for the other AI builders, so once you have done this you can {{host-v0-export}} or a Bolt project the same way. For single-file outputs the workflow is the same; {{blog-how-to-host-a-claude-artifact}} covers that case end to end. The mental model is simple. Export the build, drop the archive, share the link.
 
-Hosting a Lovable export is free to start, and most exports compress to a few megabytes, well under the free-plan limit. Upgrade when you want a custom domain or are sharing the link widely. There is no deploy config to learn and no server to keep alive.`,
+Hosting a Lovable export is free to start, and most exports compress to a few megabytes, well under the free-plan limit. Size is worth checking before you pick a host; Tiiny.host caps free uploads at 3MB, which a Lovable export routinely exceeds, and {{compare-nudgehost-vs-tiiny-host}} covers that difference in full. Upgrade when you want a custom domain or are sharing the link widely. There is no deploy config to learn and no server to keep alive.`,
+      },
+      {
+        type: "related",
+        items: [
+          {
+            title: "How to host a Claude artifact",
+            href: "/blog/how-to-host-a-claude-artifact",
+            desc: "Copy the HTML out of the chat and {{features-paste-html|paste it straight in}}; no file needed.",
+            icon: "⚡",
+          },
+          {
+            title: "How to host a v0 export",
+            href: "/blog/how-to-host-a-v0-export",
+            desc: "Skip the Vercel deploy; v0 output is a React build, and {{host-react-app|React builds}} host the same way.",
+            icon: "⚙️",
+          },
+          {
+            title: "Send a portfolio to a recruiter",
+            href: "/use-cases/send-portfolio-to-recruiter",
+            desc: "Make the live app part of {{host-portfolio|your portfolio link}} and see when it was opened.",
+            icon: "💼",
+          },
+        ],
       },
     ],
     faqs: [
