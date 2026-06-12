@@ -22,6 +22,7 @@ import {
   isZipUpload,
   unpackZipToSite,
 } from "@/lib/site-store";
+import { convertAndStoreDocxHtml, isDocxUpload } from "@/lib/docx-store";
 import { isServableSiteLabel, siteUrlForSlug } from "@/lib/sites-domain";
 
 export const runtime = "nodejs";
@@ -117,12 +118,43 @@ export async function POST(request: Request) {
   // label keep the legacy link, mirroring the viewer's redirect rules.
   let shareUrl = `${SITE_URL}/f/${file.slug}`;
 
+  // DOCX uploads get a one-time mammoth render: the HTML is sanitized and
+  // stored under derived/{fileId}/ and the viewer serves it sandboxed, while
+  // the original .docx stays at fileKey as the download. Checked before the
+  // ZIP branch because DOCX is itself a ZIP container; a .docx must never
+  // reach the site unpacker (which fails closed and would reject the upload).
+  // Conversion failure of any sort leaves the row a plain downloadable file.
+  if (isDocxUpload(file.filename)) {
+    let docxBuffer: Buffer | null = null;
+    try {
+      const object = await r2.send(
+        new GetObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
+      );
+      if (object.Body) {
+        docxBuffer = Buffer.from(await object.Body.transformToByteArray());
+      }
+    } catch {
+      docxBuffer = null;
+    }
+
+    if (docxBuffer && hasZipMagic(docxBuffer)) {
+      const stored = await convertAndStoreDocxHtml({
+        fileId: file.id,
+        buffer: docxBuffer,
+      });
+      if (stored) {
+        await db
+          .update(files)
+          .set({ kind: "docx", updatedAt: new Date() })
+          .where(eq(files.id, file.id));
+      }
+    }
+  }
   // ZIP uploads become served sites: the archive is unpacked into one R2
   // object per file under sites/{fileId}/ and served at the subdomain
   // ({slug}.nudgehost.site). Extension or MIME is only the hint; the magic
-  // bytes decide, so a renamed .docx (also a ZIP container) stays a plain
-  // download.
-  if (isZipUpload(file.filename, file.mimeType)) {
+  // bytes decide, so a renamed non-ZIP stays a plain download.
+  else if (isZipUpload(file.filename, file.mimeType)) {
     let zipBuffer: Buffer | null = null;
     try {
       const object = await r2.send(

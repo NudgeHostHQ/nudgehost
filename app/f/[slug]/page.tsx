@@ -16,6 +16,7 @@ import {
   unlockToken,
 } from "@/lib/file-access";
 import { isServableSiteLabel, siteUrlForSlug } from "@/lib/sites-domain";
+import { docxHtmlKey } from "@/lib/docx-store";
 import {
   isAudioFile,
   isCsvFile,
@@ -271,6 +272,10 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   }
 
   const mime = file.mimeType.toLowerCase();
+  // kind="docx" means the upload converted cleanly at confirm time and a
+  // derived HTML object exists; a docx whose conversion failed stays kind
+  // "file" and gets the download card. Legacy .doc never converts.
+  const isDocx = file.kind === "docx";
   const isPdf = mime === "application/pdf";
   const isImage = mime.startsWith("image/");
   const isHtml = mime === "text/html";
@@ -291,7 +296,7 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   const isJson = isTextViewKind && fitsTextView && !isCsv;
   const tooBigForTextView = isTextViewKind && !fitsTextView;
   const canEmbed = isOriginalType || isVideo || isAudio;
-  const showDownloadCard = !canEmbed && !isCsv && !isJson;
+  const showDownloadCard = !canEmbed && !isCsv && !isJson && !isDocx;
 
   const downloadUrl = await signedReadUrl(
     file.fileKey,
@@ -301,6 +306,17 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   const viewUrl = canEmbed
     ? await signedReadUrl(file.fileKey, file.filename, "inline")
     : null;
+  // DOCX renders the HTML derived once at upload time, served off R2 like
+  // any other object; the Download button above keeps serving the original
+  // .docx at fileKey. Shares the sandboxed iframe below with user HTML files.
+  const docxViewUrl = isDocx
+    ? await signedReadUrl(
+        docxHtmlKey(file.id),
+        `${file.filename}.html`,
+        "inline",
+      )
+    : null;
+  const sandboxedPageUrl = isHtml ? viewUrl : docxViewUrl;
   // CSV/JSON content is read through the same-origin raw route (the browser
   // can't fetch the presigned R2 URL without bucket CORS).
   const rawUrl = `/api/files/${file.id}/raw`;
@@ -343,18 +359,19 @@ export default async function FileViewerPage({ params }: { params: Params }) {
         </main>
       )}
 
-      {isHtml && viewUrl && (
+      {sandboxedPageUrl && (
         <main className="flex-1 p-0 sm:p-4">
           <iframe
-            src={viewUrl}
+            src={sandboxedPageUrl}
             title={file.filename}
             sandbox="allow-scripts allow-popups allow-forms"
             className="h-[88vh] w-full rounded-none border-0 bg-white sm:rounded-2xl sm:border sm:border-charcoal/10"
           />
-          {/* Attribution bar on anonymous HTML pages, gone once the file is
-              adopted into an account. The hosted page renders inside the
-              sandboxed iframe above, so this bar lives in the viewer document
-              and can't disturb that page's own layout. pointer-events stay
+          {/* Attribution bar on anonymous sandboxed pages (user HTML files
+              and converted DOCX documents), gone once the file is adopted
+              into an account. The hosted page renders inside the sandboxed
+              iframe above, so this bar lives in the viewer document and
+              can't disturb that page's own layout. pointer-events stay
               off everywhere except the wordmark link, so clicks on the rest
               of the bar fall through to the page underneath. */}
           {file.anonToken && (

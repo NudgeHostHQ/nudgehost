@@ -4,6 +4,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { deleteSiteObjects } from "@/lib/site-store";
+import { deleteDerivedObjects } from "@/lib/docx-store";
 
 export const runtime = "nodejs";
 
@@ -53,6 +54,17 @@ export async function DELETE(
     } catch {
       // Orphaned site objects; the row is soft-deleted so they're
       // unreachable, and the link is already dead for visitors.
+    }
+  }
+
+  // A docx row's derived HTML is reclaimed the same way a site's unpacked
+  // objects are. Banned files keep everything for the 30-day evidence
+  // window; the cleanup cron purges them.
+  if (deleted[0].kind === "docx" && !deleted[0].banned) {
+    try {
+      await deleteDerivedObjects(deleted[0].id);
+    } catch {
+      // Orphaned derived object; unreachable since the row is soft-deleted.
     }
   }
 

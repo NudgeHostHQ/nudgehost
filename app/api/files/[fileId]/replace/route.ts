@@ -18,6 +18,11 @@ import {
   planSiteUnpack,
   unpackZipToSite,
 } from "@/lib/site-store";
+import {
+  convertAndStoreDocxHtml,
+  deleteDerivedObjects,
+  isDocxUpload,
+} from "@/lib/docx-store";
 
 export const runtime = "nodejs";
 // Room to unpack a large replacement archive into per-file R2 objects.
@@ -143,6 +148,7 @@ export async function POST(
   const contentType = upload.type || "application/octet-stream";
   const oldKey = file.fileKey;
   const wasSite = file.kind === "site";
+  const wasDocx = file.kind === "docx";
 
   let buffer: Buffer;
   try {
@@ -154,7 +160,12 @@ export async function POST(
     );
   }
 
-  const newIsZip = isZipUpload(upload.name, contentType) && hasZipMagic(buffer);
+  // DOCX wins over ZIP (a .docx is itself a ZIP container and must never
+  // reach the site unpacker); it follows the plain-file path below plus a
+  // regenerated derived HTML object.
+  const newIsDocx = isDocxUpload(upload.name) && hasZipMagic(buffer);
+  const newIsZip =
+    !newIsDocx && isZipUpload(upload.name, contentType) && hasZipMagic(buffer);
 
   let updated: typeof file;
 
@@ -224,6 +235,15 @@ export async function POST(
         // Orphaned old object; the swap already succeeded for the user.
       }
     }
+
+    // A docx replaced by a site leaves its derived HTML behind; clear it.
+    if (wasDocx) {
+      try {
+        await deleteDerivedObjects(file.id);
+      } catch {
+        // Orphaned derived object; unreachable since the row is kind "site".
+      }
+    }
   } else {
     const newKey = `${userId}/${nanoid(12)}/${safeKeyName(upload.name)}`;
 
@@ -250,13 +270,25 @@ export async function POST(
       );
     }
 
+    // A DOCX replacement regenerates the derived HTML now that the original
+    // bytes are safely in place. The store overwrites the same
+    // derived/{fileId}/document.html key, so a docx-to-docx swap needs no
+    // separate delete. A failed conversion keeps the upload as a plain file.
+    let docxStored = false;
+    if (newIsDocx) {
+      docxStored = await convertAndStoreDocxHtml({
+        fileId: file.id,
+        buffer,
+      });
+    }
+
     // Repoint the row. slug, viewCount, createdAt, passwordHash, and expiresAt
     // are deliberately left out of the update so they survive the swap. A row
     // that was a site goes back to plain-file serving.
     [updated] = await db
       .update(files)
       .set({
-        kind: "file",
+        kind: docxStored ? "docx" : "file",
         entryPath: null,
         fileKey: newKey,
         filename: upload.name,
@@ -286,6 +318,17 @@ export async function POST(
         await deleteSiteObjects(file.id);
       } catch {
         // Orphaned site objects; unreachable since the row is kind "file".
+      }
+    }
+
+    // A docx replaced by anything that did not store fresh derived HTML
+    // (a non-docx, or a docx whose conversion failed) leaves the old derived
+    // object stale; clear it so nothing can ever serve it again.
+    if (wasDocx && !docxStored) {
+      try {
+        await deleteDerivedObjects(file.id);
+      } catch {
+        // Orphaned derived object; unreachable since the row is kind "file".
       }
     }
   }

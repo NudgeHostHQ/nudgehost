@@ -44,7 +44,10 @@ export const files = pgTable(
     // "file" serves the single object at fileKey; "site" serves the unpacked
     // ZIP contents stored under sites/{id}/ in R2 (see lib/site-store.ts).
     // For site rows fileKey points at where the original archive landed, but
-    // the archive itself is deleted after a successful unpack.
+    // the archive itself is deleted after a successful unpack. "docx" keeps
+    // the original at fileKey (the download) and the viewer renders the HTML
+    // converted once at confirm time, stored under derived/{id}/ (see
+    // lib/docx-store.ts); a docx whose conversion failed stays kind "file".
     kind: text("kind").notNull().default("file"),
     // Site rows only: path of the index.html to serve at the bare /f/[slug]
     // URL, relative to the sites/{id}/ prefix (e.g. "index.html").

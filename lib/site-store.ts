@@ -429,11 +429,12 @@ export async function unpackZipToSite(opts: {
   return { ok: true, entryPath: plan.entryPath, fileCount: plan.kept.length };
 }
 
-// Remove every unpacked object under sites/{fileId}/, in DeleteObjects
-// batches (R2 takes up to 1000 keys per call). Throws on failure so callers
-// decide whether that's fatal (cron retries next run) or best-effort.
-export async function deleteSiteObjects(fileId: string): Promise<void> {
-  const prefix = siteObjectPrefix(fileId);
+// Remove every object under a key prefix, in DeleteObjects batches (R2 takes
+// up to 1000 keys per call). Throws on failure so callers decide whether
+// that's fatal (cron retries next run) or best-effort. Shared by the
+// sites/{fileId}/ cleanup below and the derived/{fileId}/ cleanup in
+// lib/docx-store.ts.
+export async function deleteObjectsUnderPrefix(prefix: string): Promise<void> {
   let continuationToken: string | undefined;
 
   do {
@@ -460,6 +461,11 @@ export async function deleteSiteObjects(fileId: string): Promise<void> {
       ? listed.NextContinuationToken
       : undefined;
   } while (continuationToken);
+}
+
+// Remove every unpacked object under sites/{fileId}/.
+export async function deleteSiteObjects(fileId: string): Promise<void> {
+  await deleteObjectsUnderPrefix(siteObjectPrefix(fileId));
 }
 
 // The anonymous attribution banner, injected into every served HTML page of

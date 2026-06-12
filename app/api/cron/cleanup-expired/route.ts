@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { files, uploadRateEvents } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { deleteSiteObjects } from "@/lib/site-store";
+import { deleteDerivedObjects } from "@/lib/docx-store";
 
 export const runtime = "nodejs";
 // Room for a few hundred R2 round trips on a busy day.
@@ -59,6 +60,11 @@ async function purgeFiles(
         // dangling pointer to the deleted archive, and deleting it is a no-op.
         if (file.kind === "site") {
           await deleteSiteObjects(file.id);
+        }
+        // Docx rows carry one derived HTML object under derived/{id}/; it
+        // goes the same way, before the row.
+        if (file.kind === "docx") {
+          await deleteDerivedObjects(file.id);
         }
         await r2.send(
           new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: file.fileKey }),
