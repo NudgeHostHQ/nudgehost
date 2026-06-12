@@ -27,9 +27,19 @@ const RESERVED = new Set([
   "privacy",
   "sign-in",
   "sign-up",
+  "sites",
   "terms",
   "use-cases",
   "viewers",
+  "admin",
+  "www",
+  "app",
+  "mail",
+  "docs",
+  "status",
+  "cdn",
+  "assets",
+  "static",
 ]);
 
 const MAX_LEN = 40;

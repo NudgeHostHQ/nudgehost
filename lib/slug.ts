@@ -7,6 +7,12 @@
 // prefix, so a claimed slug can never shadow one. Mirrors the top-level folders
 // in app/ plus the reserved system prefixes. Keep in sync with app/ when the
 // route set changes (see also the RESERVED set in components/not-found-claim).
+//
+// Slugs also double as {slug}.nudgehost.site subdomain labels, so the
+// RESERVED_SITE_LABELS from lib/sites-domain.ts are blocked here for new
+// claims too (existing rows are handled at serve time instead). The sanitize
+// rules below already guarantee a valid DNS label: lowercase letters, digits,
+// inner hyphens only, 60 chars max.
 export const RESERVED_SLUGS = new Set([
   "about",
   "api",
@@ -24,11 +30,20 @@ export const RESERVED_SLUGS = new Set([
   "privacy",
   "sign-in",
   "sign-up",
+  "sites",
   "terms",
   "use-cases",
   "viewers",
   "_next",
   "admin",
+  "www",
+  "app",
+  "mail",
+  "docs",
+  "status",
+  "cdn",
+  "assets",
+  "static",
 ]);
 
 // lowercase, drop anything outside [a-z0-9-], collapse dash runs, trim leading

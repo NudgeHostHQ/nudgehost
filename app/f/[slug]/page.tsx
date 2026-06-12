@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cache } from "react";
 import { cookies } from "next/headers";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { Download, Clock } from "lucide-react";
 import { eq, sql } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
@@ -11,6 +11,7 @@ import { db } from "@/lib/db";
 import { files } from "@/lib/db/schema";
 import { r2, R2_BUCKET } from "@/lib/r2";
 import { unlockCookieName, unlockToken } from "@/lib/file-access";
+import { isServableSiteLabel, siteUrlForSlug } from "@/lib/sites-domain";
 import {
   isAudioFile,
   isCsvFile,
@@ -244,12 +245,17 @@ export default async function FileViewerPage({ params }: { params: Params }) {
   }
 
   // Site uploads land on the served site itself, not a viewer card. The
-  // serving route (/f/[slug]/[...path]) re-checks the same gates above on
-  // every request and stamps the anonymous banner into served HTML. Views
-  // are counted here only, so one site visit is one view regardless of how
-  // many assets it loads.
+  // canonical home is the subdomain ({slug}.nudgehost.site), where the
+  // serving route re-checks the same gates above on every request and stamps
+  // the anonymous banner into served HTML. Two cases stay on the legacy
+  // /f/{slug}/... path: password-protected sites (the unlock cookie this
+  // page just verified lives on this domain, and the subdomain sets no
+  // cookies by design) and slugs that can't serve as a subdomain label.
   if (file.kind === "site" && file.entryPath) {
-    redirect(`/f/${file.slug}/${file.entryPath}`);
+    if (file.passwordHash || !isServableSiteLabel(file.slug)) {
+      redirect(`/f/${file.slug}/${file.entryPath}`);
+    }
+    permanentRedirect(siteUrlForSlug(file.slug));
   }
 
   const mime = file.mimeType.toLowerCase();

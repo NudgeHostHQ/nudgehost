@@ -22,6 +22,7 @@ import {
   isZipUpload,
   unpackZipToSite,
 } from "@/lib/site-store";
+import { isServableSiteLabel, siteUrlForSlug } from "@/lib/sites-domain";
 
 export const runtime = "nodejs";
 // Room to download and unpack a large archive into per-file R2 objects.
@@ -111,10 +112,16 @@ export async function POST(request: Request) {
     );
   }
 
+  // The link handed back below: /f/{slug} for plain files, the subdomain for
+  // sites (set in the ZIP branch). Slugs that can't serve as a subdomain
+  // label keep the legacy link, mirroring the viewer's redirect rules.
+  let shareUrl = `${SITE_URL}/f/${file.slug}`;
+
   // ZIP uploads become served sites: the archive is unpacked into one R2
-  // object per file under sites/{fileId}/ and /f/[slug] serves the entry
-  // index.html. Extension or MIME is only the hint; the magic bytes decide,
-  // so a renamed .docx (also a ZIP container) stays a plain download.
+  // object per file under sites/{fileId}/ and served at the subdomain
+  // ({slug}.nudgehost.site). Extension or MIME is only the hint; the magic
+  // bytes decide, so a renamed .docx (also a ZIP container) stays a plain
+  // download.
   if (isZipUpload(file.filename, file.mimeType)) {
     let zipBuffer: Buffer | null = null;
     try {
@@ -177,6 +184,10 @@ export async function POST(request: Request) {
         })
         .where(eq(files.id, file.id));
 
+      if (isServableSiteLabel(file.slug)) {
+        shareUrl = siteUrlForSlug(file.slug);
+      }
+
       // Delete the original archive now that the unpacked objects are live.
       // Documented choice (see lib/site-store.ts): nothing ever reads the
       // archive again, so keeping it would double the stored bytes for every
@@ -209,6 +220,6 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     success: true,
-    url: `${SITE_URL}/f/${file.slug}`,
+    url: shareUrl,
   });
 }

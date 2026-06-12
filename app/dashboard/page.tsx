@@ -14,6 +14,11 @@ import { AdoptAnonymousFiles } from "@/components/adopt-anonymous-files";
 import { db } from "@/lib/db";
 import { files as filesTable, users } from "@/lib/db/schema";
 import { ANON_COOKIE_NAME, isValidAnonToken } from "@/lib/anon-upload";
+import {
+  SITES_DOMAIN,
+  isServableSiteLabel,
+  siteUrlForSlug,
+} from "@/lib/sites-domain";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -99,14 +104,21 @@ export default async function DashboardPage() {
         : f.expiresAt && f.expiresAt.getTime() < now
           ? "expired"
           : "active";
-      const url = `${SITE_URL}/f/${f.slug}`;
+      // Site files link to their subdomain; everything else keeps /f/{slug}.
+      // Slugs that can't serve as a subdomain label fall back to the legacy
+      // path, mirroring the viewer's redirect rules.
+      const isSiteLink = f.kind === "site" && isServableSiteLabel(f.slug);
+      const url = isSiteLink ? siteUrlForSlug(f.slug) : `${SITE_URL}/f/${f.slug}`;
+      const linkLabel = isSiteLink
+        ? `${f.slug}.${SITES_DOMAIN}`
+        : `/f/${f.slug}`;
       // Generate the QR as a trusted SVG string on the server so we don't ship
       // a QR library to the browser. Skip deleted files (their link is dead).
       const qrSvg =
         status === "deleted"
           ? ""
           : await QRCode.toString(url, { type: "svg", margin: 1, width: 176 });
-      return { file: f, status, url, qrSvg };
+      return { file: f, status, url, linkLabel, qrSvg };
     }),
   );
 
@@ -292,7 +304,7 @@ export default async function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map(({ file, status, url, qrSvg }, i) => (
+                  {rows.map(({ file, status, url, linkLabel, qrSvg }, i) => (
                     <tr
                       key={file.id}
                       className={`${i % 2 === 0 ? "bg-warm" : "bg-cream/40"} ${
@@ -313,7 +325,7 @@ export default async function DashboardPage() {
                       </th>
                       <td className="px-4 py-3">
                         {status === "deleted" ? (
-                          <span className="text-muted">/f/{file.slug}</span>
+                          <span className="text-muted">{linkLabel}</span>
                         ) : (
                           <a
                             href={url}
@@ -321,7 +333,7 @@ export default async function DashboardPage() {
                             rel="noopener noreferrer"
                             className="text-coral-dark underline-offset-2 hover:underline"
                           >
-                            /f/{file.slug}
+                            {linkLabel}
                           </a>
                         )}
                       </td>
