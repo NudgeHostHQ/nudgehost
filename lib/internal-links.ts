@@ -145,7 +145,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   // --- Viewers silo ----------------------------------------------------------
   "viewers-hub": {
     href: "/viewers",
-    anchors: ["view any file online", "all of NudgeHost's file viewers", "open files in your browser"],
+    anchors: ["the file viewers", "all of NudgeHost's file viewers", "the online file viewers"],
   },
   "viewer-pdf": {
     href: "/viewers/pdf",
@@ -446,7 +446,7 @@ export const internalLinks: Record<string, LinkTarget> = {
   "features-html-rendering": {
     href: "/features/html-rendering",
     anchors: [
-      "live HTML rendering",
+      "treats HTML as a page, not text",
       "runs your HTML as a live page",
       "renders HTML instead of showing code",
     ],
@@ -456,7 +456,7 @@ export const internalLinks: Record<string, LinkTarget> = {
     anchors: [
       "shareable link",
       "short, shareable URL",
-      "get a link for any file",
+      "permanent short link",
     ],
   },
 

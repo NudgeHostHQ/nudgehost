@@ -88,7 +88,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     dateModified: "2026-06-12",
     body: [
       "A single HTML file is easy to share. A project that spans an index page, a stylesheet, a folder of images, and a few scripts is the awkward case, because all those files have to travel together and keep their relative paths intact. Zipping them solves that, and NudgeHost takes the archive the rest of the way. When you upload a .zip, it extracts the contents, finds your index.html (a single wrapper folder like dist is stripped automatically), and serves the unpacked files as a live site at its own subdomain. A request for /styles.css or /img/logo.png resolves against the archive root exactly as it did on your machine.",
-      "The choice between zipping and pasting comes down to how many files you have. For a self-contained single page, it is quicker to {{features-paste-html}} and skip the archive entirely. For anything with separate assets, the ZIP route is the one that keeps everything wired together. Either way the result is a {{glossary-static-site}}, served as plain files with nothing rebuilding on each visit, which is why it loads fast and never needs a server.",
+      "The choice between zipping and pasting comes down to how many files you have. For a self-contained single page, it is quicker to {{features-paste-html}} and skip the archive entirely. For anything with separate assets, the ZIP route is the one that keeps everything wired together. Either way the result is a static site, served as plain files with nothing rebuilding on each visit, which is why it loads fast and never needs a server. The glossary entry on {{glossary-static-site}} covers the model.",
       "Front-end build tools make this routine. Run your production build, zip the output folder, and you have a deployable archive. The flow to {{host-react-app}} is this exact path, and it applies equally to Vue, Svelte, and any framework that emits static files. Client-side routing keeps working because unmatched paths fall back to the index, so a direct visit to /about does not break, while requests for files that genuinely do not exist still 404.",
       "A couple of details save you a support ticket. An archive with an index.html somewhere inside it becomes a site; without one, the ZIP shares as a plain one-click download, so a bundle of documents or photos still travels as one link. A served site can hold up to 200 files. ZIPs made on macOS carry a __MACOSX folder and stray .DS_Store files, both filtered out automatically on unpack. You can {{host-zip}} for free up to 25MB unpacked, and {{pricing}} lifts that ceiling when a production bundle with vendored libraries runs larger.",
     ],
@@ -180,7 +180,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     body: [
       "Some links are not meant for whoever finds them. A signed contract, a client deliverable, a design that is not public yet. Password protection puts a gate in front of the file. In the link's settings, switch on the password toggle and type the password you want. From then on, anyone opening the URL has to enter it before the file loads. It works the same whether you {{host-pdf}}, an image, or a full HTML page, because the gate sits in front of the link rather than inside the file.",
       "The recipient experience is deliberately plain. Instead of the grey browser authentication box that looks like a security warning, they see a NudgeHost gate page with a single password field. They type the password, and the file opens in the same tab. Behind the scenes the password is run through bcrypt and stored only as a hash, so even NudgeHost cannot read it back. For the full background on the mechanism, {{glossary-password-protection}} covers how the gate and the hashing fit together.",
-      "The common cases are commercial. An NDA-covered document you send to a single counterparty, a deliverable a client has not paid for yet, or a portfolio you only {{use-case-recruiter}} once a callback is on the table. Pair the lock with {{features-link-previews}} you control, and the unfurl in Slack or email shows a neutral title rather than the file's contents, so the gate is not undercut by a thumbnail that gives it away.",
+      "The common cases are commercial. An NDA-covered document you send to a single counterparty, a deliverable a client has not paid for yet, or work you only {{use-case-recruiter|share with a recruiter}} once a callback is on the table. Pair the lock with {{features-link-previews}} you control, and the unfurl in Slack or email shows a neutral title rather than the file's contents, so the gate is not undercut by a thumbnail that gives it away.",
       "Password protection is part of {{pricing}} on the Pro tier. You can change or remove the password at any time from the dashboard, which immediately changes what visitors need to enter. The honest framing is that this is a practical lock for ordinary sharing, not military-grade security, and for keeping a stray forwarded link from opening the wrong file, it does exactly that.",
     ],
     faqs: [
@@ -272,7 +272,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     datePublished: "2026-05-26",
     dateModified: "2026-05-26",
     body: [
-      "Most tools wrap your file in their own product. Open a document in Google Drive and there is a toolbar, a sign-in nudge, and a sidebar of unrelated files. Open a pen on CodePen and the code editor takes half the screen before the result does. NudgeHost does the opposite. When someone opens a link, the file fills the page. A document you {{host-pdf}} renders in a clean viewer with zoom and a download button, and nothing else competes for the screen.",
+      "Most tools wrap your file in their own product. Open a document in Google Drive and there is a toolbar, a sign-in nudge, and a sidebar of unrelated files. Open a pen on CodePen and the code editor takes half the screen before the result does. NudgeHost does the opposite. When someone opens a link, the file fills the page. When you {{host-pdf|host a PDF}}, the document renders in a clean viewer with zoom and a download button, and nothing else competes for the screen.",
       "Each file type gets the right treatment. When you {{host-html}}, the page renders live and full-bleed, the way it would on its own domain, with no frame around it. When you {{host-image}}, the picture sits centered at full resolution with a download option, not shrunk into a thumbnail grid. PDFs page through with keyboard arrows. The viewer adapts to the file instead of forcing every format into one cramped layout.",
       "The contrast with editor-first tools is the point. CodePen and similar sites are built for the author, so a viewer meets panels, tabs, and an account prompt before they reach the work. A NudgeHost link is built for the person receiving it. Combined with {{features-public-links}}, there is no login wall either, so the recipient lands on the file and nothing else. If you want the side-by-side, {{compare-tiiny}} lays out how the two approaches differ.",
       "The clean view holds up on a phone, where clutter hurts most. The file scales to the screen, the download control stays reachable, and there is no desktop-only chrome to wrestle with. The viewer is part of every link on every plan, so {{pricing}} only changes the limits around it, like custom domains and active link counts, not the viewing experience itself.",
@@ -409,7 +409,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
     body: [
       "There is a real difference between serving an HTML file and rendering it. Some hosts hand the recipient the raw markup or a download prompt, so a GitHub Gist of a page shows you the code, not the result. NudgeHost renders it. When you {{host-html}}, the browser loads the page the way it would load any website, the markup becomes a layout, and the recipient sees the working result rather than a wall of tags.",
       "Anything that runs in a browser runs here. Inline JavaScript executes on load, event handlers fire, and a script that fetches data and updates the page does so live. Libraries pulled from a CDN load the same way, so React or Vue brought in through a script tag works, and a CSS framework like Tailwind applies when it is linked from its CDN. If you are unsure what a CDN is doing in that sentence, {{glossary-cdn}} explains how those external libraries reach the page so quickly.",
-      "This is what makes NudgeHost the right home for AI-generated HTML, which leans heavily on CDN-loaded libraries and inline scripts. When you {{host-claude-artifact}}, the dashboard or game it built runs for your recipient exactly as it ran in the chat. The quickest way in is to {{features-paste-html}} straight from the conversation. What you get is a {{glossary-static-site}}, served as files with no build step, which is why it loads fast and stays cheap to host.",
+      "This is what makes NudgeHost the right home for AI-generated HTML, which leans heavily on CDN-loaded libraries and inline scripts. When you {{host-claude-artifact}}, the dashboard or game it built runs for your recipient exactly as it ran in the chat. The quickest way in is to {{features-paste-html}} straight from the conversation. What you get is a static site, served as files with no build step, which is why it loads fast and stays cheap to host. Our explainer on {{glossary-static-site}} fills in the background.",
       "The boundary is the server side. NudgeHost serves static files, so there is no PHP, no Python, no Node process answering requests behind the page. Anything needing a backend, like a database write or a server-rendered template, has to live elsewhere and be called over HTTPS from the page. Client-side code has no such limit. Rendering is part of every plan, and {{pricing}} only governs file sizes and active link counts, not whether your HTML runs.",
     ],
     faqs: [
@@ -437,22 +437,22 @@ export const featuresContentMap: Record<string, SpokeContent> = {
   "shareable-links": {
     slug: "shareable-links",
     name: "Shareable links",
-    title: "Shareable Links | Short nudgehost.com URLs for any file | NudgeHost",
+    title: "Shareable Links | A clean URL for any file or site | NudgeHost",
     description:
-      "Every uploaded file gets a short nudgehost.com link. The slug is readable, the link is permanent until you delete it, and it works on any device with no app.",
+      "Every upload gets a clean link. Files get a short nudgehost.com URL with a readable slug, ZIP sites get their own nudgehost.site subdomain, and links stay live until you delete them.",
     h1: "Get a short, shareable link for any file.",
-    lead: "Every file you upload gets a short, readable nudgehost.com link. It works on any device, in any browser, with nothing to install on either end.",
+    lead: "Every upload comes back as a clean, readable link. A single file gets a short nudgehost.com URL; a zipped site gets its own nudgehost.site subdomain. Either way it works in any browser, with nothing to install on either end.",
     keyPoints: [
-      "Every uploaded file gets a short nudgehost.com/f/[slug] link with a readable slug.",
+      "A single file gets a short nudgehost.com/f/[slug] link with a readable slug.",
       "Links are permanent until you delete them. There is no monthly check-in rule that expires them.",
       "Copy the link or use the built-in QR code to share it. The QR code is free on every plan.",
-      "The same link format works for a PDF, an HTML page, a ZIP, or any other file.",
+      "A ZIP with a site inside serves at its own subdomain, like your-name.nudgehost.site.",
     ],
     author: "Mark Boreland",
     datePublished: "2026-05-26",
-    dateModified: "2026-05-26",
+    dateModified: "2026-06-12",
     body: [
-      "Every file you upload comes back as a short link in the form nudgehost.com/f/ followed by a readable slug. It is short enough to paste into a message without wrapping, and the slug is legible rather than a random string of forty characters. The same format applies no matter what you uploaded, so a PDF, an HTML page, and a ZIP archive all produce a link of the same clean shape.",
+      "A single file you upload comes back as a short link in the form nudgehost.com/f/ followed by a readable slug. It is short enough to paste into a message without wrapping, and the slug is legible rather than a random string of forty characters. A PDF, an HTML page, and an image all share that clean shape. The one exception is a ZIP with a site inside, which serves at its own subdomain like your-name.nudgehost.site, so the project gets a real address of its own.",
       "The link is permanent until you choose to delete it. There is no rule that your link dies if you do not log in each month, which some hosts impose on their free tier and which quietly breaks links people were relying on. {{compare-tiiny}} covers that difference in detail. On NudgeHost a link you made a year ago and forgot about still resolves, unless you set an expiry on it yourself.",
       "Sharing the link takes one of two forms. Copy it to the clipboard from the dashboard, or use the built-in QR code, which is handy for print, a slide, or anything someone scans with a phone instead of typing. {{glossary-qr-code}} covers how the code encodes your URL, and it is free on every plan rather than gated behind an upgrade. Because the links are {{features-public-links}}, whoever you send it to opens the file without an account in the way.",
       "A good link does more than resolve. NudgeHost generates {{features-link-previews}} for it, so the URL unfurls into a proper card with a title and thumbnail when pasted into Slack or a message, rather than a bare string. You can {{home}} and have your first link in a few seconds, on any device, in any browser, with no app to install for you or for the person receiving it.",
@@ -464,7 +464,7 @@ export const featuresContentMap: Record<string, SpokeContent> = {
       },
       {
         q: "How long are the links?",
-        a: "Short. They follow the nudgehost.com/f/[slug] format, with a slug that stays legible rather than a long random string, so the whole URL fits on one line in a message.",
+        a: "Short. Files follow the nudgehost.com/f/[slug] format with a slug that stays legible rather than a long random string, and a ZIP site gets a your-name.nudgehost.site subdomain. Either way the whole URL fits on one line in a message.",
       },
       {
         q: "Do links ever expire on the free plan?",

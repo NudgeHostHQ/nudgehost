@@ -51,7 +51,7 @@ const tiers: Tier[] = [
       "25MB per file",
       "Basic open analytics",
       "QR code on every link",
-      "nudgehost.com subdomain",
+      "Default nudgehost.com and nudgehost.site links",
       "No visitor caps, ever",
     ],
   },

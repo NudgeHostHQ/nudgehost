@@ -374,7 +374,7 @@ export default async function HomePage() {
                 "25MB per file",
                 "Basic analytics",
                 "QR code on every link",
-                "nudgehost.com subdomain",
+                "Default nudgehost.com and nudgehost.site links",
               ]}
             >
               <Link href="/sign-up" className={`w-full ${btnOutline} px-5 py-2.5 text-sm`}>

@@ -193,7 +193,7 @@ export const blogContentMap: Record<string, BlogPost> = {
     readTime: "7 min read",
     showUpdatedBadge: true,
     pillar: "ai-publishing",
-    tldr: "Claude builds working HTML artifacts inside a conversation, but they stay trapped there. {{host-claude-artifact|Copy the source and paste it into NudgeHost}}, and you get a public link in seconds. No Anthropic account needed for the recipient. {{features-link-updating|Update the source later}} and the link stays the same.",
+    tldr: "Claude builds working HTML artifacts inside a conversation, but they stay trapped there. {{host-claude-artifact|Copy the source and paste it into NudgeHost}}, and you get a public link in seconds. No Anthropic account needed for the recipient. Update the source later and the link stays the same.",
     body: [
       {
         type: "h2",
@@ -224,7 +224,7 @@ The artifact lives inside Claude, behind your account. There is no public URL to
           },
           {
             title: "Paste into NudgeHost",
-            desc: "Go to {{host-claude-artifact|the Claude artifact uploader}} and paste the HTML directly. No need to save a file first. NudgeHost accepts {{features-paste-html|raw HTML paste}}.",
+            desc: "Go to the Claude artifact uploader and paste the HTML directly. No need to save a file first. NudgeHost accepts {{features-paste-html|raw HTML paste}}.",
           },
           {
             title: "Share your public link",
@@ -242,10 +242,6 @@ The artifact lives inside Claude, behind your account. There is no public URL to
         text: `Artifacts evolve. You ask Claude for a second version, it rebuilds the thing, and you want the same link to show the new output. {{features-link-updating|Swap the source in your dashboard}} and the URL does not change. Everyone who already has the link sees the update on their next visit.
 
 This is the part screenshots and one-off uploads get wrong. Every change means a new file and a new link to redistribute. With NudgeHost, one link serves every version. {{compare-nudgehost-vs-tiiny-host|Unlike hosts that expire free links after 30 days}}, NudgeHost keeps your artifact live as long as you want.`,
-      },
-      {
-        type: "testimonial",
-        text: "One freelance designer used this workflow to share 12 Claude prototypes with clients last month. Each link stayed live across revisions, and none of the recipients needed a NudgeHost account to view the work.",
       },
       {
         type: "h2",
@@ -280,43 +276,43 @@ If Claude loaded a library like React or Tailwind from a {{glossary-cdn|content 
               "{{features-html-rendering|Live HTML rendering}}",
               "✗ (raw code only)",
               "✓",
-              "{{features-html-rendering|✓}}",
+              "✓",
             ],
             nhCol: 3,
           },
           {
             cells: [
-              "{{features-public-links|No account to view}}",
+              "No account to view",
               "✓",
               "✗ (cluttered UI)",
-              "{{features-public-links|✓}}",
+              "✓",
             ],
             nhCol: 3,
           },
           {
             cells: [
-              "{{features-full-screen-viewer|Clean, full-screen view}}",
+              "Clean, full-screen view",
               "✗",
               "✗ (split panes)",
-              "{{features-full-screen-viewer|✓}}",
+              "✓",
             ],
             nhCol: 3,
           },
           {
             cells: [
-              "{{features-link-updating|Update without new URL}}",
+              "Update without new URL",
               "✗",
               "✓",
-              "{{features-link-updating|✓}}",
+              "✓",
             ],
             nhCol: 3,
           },
           {
             cells: [
-              "{{features-link-previews|Branded link preview}}",
+              "Branded link preview",
               "✗",
               "✗",
-              "{{features-link-previews|✓}}",
+              "✓",
             ],
             nhCol: 3,
           },
@@ -559,7 +555,7 @@ Hosting a Lovable export is free to start, and most exports compress to a few me
         type: "prose",
         text: `The numbers are generous. The free plan handles files up to 25MB, which covers most reports and scanned documents. When you genuinely need more, {{pricing}} raises the ceiling to 250MB on Pro, enough for a high-resolution print file or a long scanned dossier. There are no visitor caps, so a link opened by a whole hiring committee keeps working rather than cutting off.
 
-That no-cap detail matters more than it sounds. Some hosts limit how much {{glossary-bandwidth}} a link can use and stop serving once a file gets popular, which is the opposite of what you want when a document is doing its job. NudgeHost keeps the link live because the file is served through a fast network rather than a single machine.`,
+That no-cap detail matters more than it sounds. Some hosts impose {{glossary-bandwidth|data transfer limits}} and stop serving once a file gets popular, which is the opposite of what you want when a document is doing its job. NudgeHost keeps the link live because the file is served through a fast network rather than a single machine.`,
       },
       {
         type: "h2",
@@ -568,7 +564,7 @@ That no-cap detail matters more than it sounds. Some hosts limit how much {{glos
       },
       {
         type: "prose",
-        text: `If your PDF is needlessly large, the cause is usually uncompressed images inside it, and a round of {{glossary-file-compression}} before uploading can halve the size with no visible loss. That is optional, though. The point of the link is that you do not have to shrink a file just to send it. When the recipient opens the link, they read it through an in-browser view, the same way they would {{viewer-pdf}} any document, so there is no reader app to install.
+        text: `If your PDF is needlessly large, the cause is usually uncompressed images inside it, and a round of {{glossary-file-compression}} before uploading can halve the size with no visible loss. That is optional, though. The point of the link is that you do not have to shrink a file just to send it. When the recipient opens the link, they read it through an in-browser view, the same one you see when you {{viewer-pdf|open a PDF online}}, so there is no reader app to install.
 
 Sometimes a large PDF travels with companions, a cover letter, an appendix, a spreadsheet of figures. Rather than sending three links, zip them together and you {{host-zip}} as a single archive the recipient browses from one URL. It keeps a related set of documents under one link instead of scattered across an email thread.`,
       },
